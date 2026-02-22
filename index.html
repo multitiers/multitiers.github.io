@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Multi Tiers</title>
+<title>Multi Tiers — MultiCraft Tier System</title>
 <style>
   :root {
     --bg: #0a0c10;
@@ -13,19 +13,20 @@
     --accent: #3c1e70;
     --accent-bright: #7a49d1;
     --gold: #ffd700;
+    --white: #ffffff;
   }
 
   * { box-sizing: border-box; }
-  body { background: var(--bg); color: #ffffff; font-family: 'Courier New', monospace; margin: 0; min-height: 100vh; }
+  body { background: var(--bg); color: var(--white); font-family: 'Courier New', monospace; margin: 0; min-height: 100vh; }
   .container { max-width: 900px; margin: 0 auto; padding: 24px; }
   header { text-align: center; padding: 30px 0; }
-  h1 { letter-spacing: 0.15em; font-size: 2rem; margin-bottom: 25px; }
+  h1 { letter-spacing: 0.15em; font-size: 2rem; margin-bottom: 25 gold; }
 
   .search-container { margin-bottom: 30px; display: flex; justify-content: center; }
   #playerSearch {
     width: 100%; max-width: 450px; padding: 12px;
     background: var(--bg3); border: 1px solid var(--border);
-    border-radius: 6px; color: white; font-family: inherit; outline: none;
+    border-radius: 6px; color: var(--white); font-family: inherit; outline: none;
   }
 
   .kit-selector { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-bottom: 40px; }
@@ -34,27 +35,37 @@
     padding: 10px 18px; border-radius: 4px; cursor: pointer; text-transform: uppercase; 
     font-size: 0.75rem; transition: all 0.2s;
   }
-  .kit-btn.active { background: var(--accent); color: #fff; border-color: var(--accent-bright); box-shadow: 0 0 10px rgba(122, 73, 209, 0.4); }
+  .kit-btn.active { background: var(--accent); color: var(--white); border-color: var(--accent-bright); box-shadow: 0 0 10px rgba(122, 73, 209, 0.4); }
 
   .tier-block { background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; margin-bottom: 20px; overflow: hidden; }
-  .tier-header { padding: 15px 20px; background: rgba(255,255,255,0.03); border-bottom: 1px solid var(--border); font-weight: bold; color: var(--accent-bright); letter-spacing: 2px; }
+  .tier-header { padding: 15px 20px; background: rgba(255,255,255,0.03); border-bottom: 1px solid var(--border); font-weight: bold; color: var(--accent-bright); letter-spacing: 2px; text-transform: uppercase;}
 
-  .player-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 20px; border-bottom: 1px solid var(--border); }
+  .player-row { display: flex; justify-content: space-between; align-items: center; padding: 14px 20px; border-bottom: 1px solid var(--border); }
   .player-row:last-child { border-bottom: none; }
   
+  /* Overall Leaderboard specific styles */
   .rank-num { font-weight: bold; margin-right: 15px; color: #5a6474; width: 35px; display: inline-block; }
-  .rank-1 { color: var(--gold) !important; text-shadow: 0 0 8px rgba(255, 215, 0, 0.4); }
+  .rank-1 { color: var(--gold) !important; text-shadow: 0 0 8px rgba(255, 215, 0, 0.3); }
 
-  .player-name { cursor: pointer; transition: 0.2s; flex: 1; }
+  .player-name { cursor: pointer; transition: 0.2s; flex: 1; color: var(--white); }
   .player-name:hover { color: var(--accent-bright); text-decoration: underline; }
 
-  .sub-tag { font-size: 0.7rem; padding: 3px 8px; border-radius: 4px; background: var(--bg3); color: #888; border: 1px solid var(--border); }
+  /* Point Tag (Yellow) */
+  .pts-tag { font-size: 0.75rem; font-weight: bold; color: var(--gold); }
+  
+  /* Tier Tag (White) */
+  .tier-tag { font-size: 0.75rem; font-weight: bold; color: var(--white); padding: 4px 8px; border-radius: 4px; background: var(--bg3); border: 1px solid var(--border); }
+
+  /* Spacer for Overall groupings */
+  .overall-spacer { height: 1px; background: var(--border); margin: 0 20px; }
 
   .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(5px); }
   .modal-content { background: var(--bg2); margin: 10% auto; border: 1px solid var(--border); border-radius: 12px; width: 90%; max-width: 450px; overflow: hidden; }
   .modal-header { padding: 20px; background: var(--bg3); border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
   .modal-body { padding: 20px; }
-  .stat-item { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--border); }
+  .stat-item { display: flex; justify-content: space-between; padding: 15px 0; border-bottom: 1px solid var(--border); }
+  .stat-item:last-child { border-bottom: none; }
+  
   .status-msg { text-align: center; padding: 50px; color: #5a6474; }
 </style>
 </head>
@@ -64,7 +75,7 @@
   <header>
     <h1>MULTICRAFT TIERS</h1>
     <div class="search-container">
-      <input type="text" id="playerSearch" placeholder="Search for a player...">
+      <input type="text" id="playerSearch" placeholder="Search player...">
     </div>
   </header>
   <div class="kit-selector" id="kitSelector"></div>
@@ -74,8 +85,8 @@
 <div id="playerModal" class="modal">
   <div class="modal-content">
     <div class="modal-header">
-      <h2 id="modalPlayerName">Player</h2>
-      <span onclick="closeModal()" style="cursor:pointer; font-size: 24px;">&times;</span>
+      <h2 id="modalPlayerName" style="margin:0; font-size: 1.5rem;">Player</h2>
+      <span onclick="closeModal()" style="cursor:pointer; font-size: 28px; color: #5a6474;">&times;</span>
     </div>
     <div class="modal-body" id="modalStats"></div>
   </div>
@@ -92,7 +103,7 @@ async function loadData() {
     FULL_DATA = await res.json();
     initButtons();
   } catch (e) {
-    document.getElementById('tierList').innerHTML = `<div class="status-msg">Error loading data.</div>`;
+    document.getElementById('tierList').innerHTML = `<div class="status-msg">Error loading rankings.</div>`;
   }
 }
 
@@ -120,16 +131,17 @@ function renderKit(kitName) {
   list.innerHTML = '';
 
   if (kitName === "Overall") {
-    // SINGLE UNIFIED LEADERBOARD
     const block = document.createElement('div');
     block.className = 'tier-block';
-    let html = `<div class="tier-header">OVERALL LEADERBOARD</div>`;
+    let html = `<div class="tier-header">OVERALL RANKINGS</div>`;
     
-    // Sort Point keys numerically descending
     const pointsKeys = Object.keys(data).sort((a, b) => parseInt(b) - parseInt(a));
     let globalRank = 1;
 
-    pointsKeys.forEach(pts => {
+    pointsKeys.forEach((pts, idx) => {
+      // Add a subtle spacer between different point groups
+      if (idx > 0) html += `<div class="overall-spacer"></div>`;
+      
       data[pts].forEach(name => {
         const rankClass = globalRank === 1 ? 'rank-1' : '';
         html += `
@@ -138,7 +150,7 @@ function renderKit(kitName) {
               <span class="rank-num ${rankClass}">#${globalRank}</span>
               <span class="player-name" onclick="showPlayerStats('${name}')">${name}</span>
             </div>
-            <span class="sub-tag">${pts} PTS</span>
+            <span class="pts-tag">${pts} PTS</span>
           </div>`;
         globalRank++;
       });
@@ -147,7 +159,6 @@ function renderKit(kitName) {
     list.appendChild(block);
 
   } else {
-    // TIER LOGIC FOR KITS
     TIER_ORDER.forEach(tier => {
       const players = [];
       Object.keys(data).forEach(k => {
@@ -163,7 +174,7 @@ function renderKit(kitName) {
           html += `
             <div class="player-row">
               <span class="player-name" onclick="showPlayerStats('${p.name}')">${p.name}</span>
-              <span class="sub-tag">${p.sub}</span>
+              <span class="tier-tag">${p.sub}</span>
             </div>`;
         });
         block.innerHTML = html;
@@ -178,13 +189,17 @@ function showPlayerStats(playerName) {
   document.getElementById('modalPlayerName').textContent = playerName;
   const statsDiv = document.getElementById('modalStats');
   statsDiv.innerHTML = '';
+  
   for (const kit in FULL_DATA) {
     for (const tier in FULL_DATA[kit]) {
       if (FULL_DATA[kit][tier].includes(playerName)) {
+        const isOverall = kit === "Overall";
         statsDiv.innerHTML += `
           <div class="stat-item">
-            <span style="color:#888">${kit}</span>
-            <span style="color:var(--accent-bright); font-weight:bold;">${tier} ${(kit==="Overall"?"PTS":"")}</span>
+            <span style="color:#888; text-transform: uppercase; font-size: 0.8rem;">${kit}</span>
+            <span style="font-weight:bold; color:${isOverall ? 'var(--gold)' : 'var(--white)'}">
+              ${tier} ${isOverall ? 'PTS' : ''}
+            </span>
           </div>`;
       }
     }

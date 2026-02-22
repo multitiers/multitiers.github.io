@@ -3,211 +3,164 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Multi Tiers — MultiCraft Tier System</title>
+<title>Multi Tiers</title>
 
 <style>
-:root {
-  --bg:#0a0c10;
-  --bg2:#0e1117;
-  --bg3:#161b24;
-  --border:#1e2530;
+:root{
+--bg:#0a0c10;
+--bg2:#0e1117;
+--border:#1e2530;
 }
 
 *{box-sizing:border-box;margin:0;padding:0}
 
 body{
-  background:var(--bg);
-  color:#fff;
-  font-family:Courier New, monospace;
-  min-height:100vh;
+background:var(--bg);
+color:#fff;
+font-family:Courier New,monospace;
+min-height:100vh;
 }
 
-.container{max-width:900px;margin:0 auto;padding:0 24px}
-
-header{
-  border-bottom:1px solid var(--border);
-  padding:18px 0;
-  position:sticky;
-  top:0;
-  background:rgba(10,12,16,0.95);
-}
-
-.logo{
-  font-size:1.7rem;
-  letter-spacing:.12em;
-}
+.container{max-width:950px;margin:0 auto;padding:0 24px}
 
 .hero{
-  padding:50px 0 40px;
-  text-align:center;
+padding:60px 0 40px;
+text-align:center;
 }
 
 .hero h1{
-  font-size:clamp(2.4rem,6vw,4.8rem);
-  letter-spacing:.08em;
+font-size:clamp(2.4rem,6vw,4.8rem);
+letter-spacing:.1em;
 }
 
 #tierList{
-  margin:40px 0 60px;
-  display:flex;
-  flex-direction:column;
-  gap:18px;
+display:flex;
+flex-direction:column;
+gap:40px;
+margin-bottom:60px;
+}
+
+.section-title{
+font-size:1.4rem;
+letter-spacing:.12em;
+margin-bottom:14px;
+opacity:.7;
 }
 
 .tier-block{
-  background:var(--bg2);
-  border:1px solid var(--border);
-  border-radius:10px;
-  overflow:hidden;
+background:var(--bg2);
+border:1px solid var(--border);
+border-radius:10px;
+overflow:hidden;
+margin-bottom:16px;
 }
 
-.tier-block-header{
-  padding:10px 14px;
-  border-bottom:1px solid var(--border);
-  background:rgba(255,255,255,.03);
-  font-size:.85rem;
-  letter-spacing:.15em;
-  color:rgba(255,255,255,.5);
+.tier-header{
+padding:10px 14px;
+border-bottom:1px solid var(--border);
+background:rgba(255,255,255,.03);
+letter-spacing:.15em;
+font-size:.85rem;
+opacity:.6;
 }
 
 .player-row{
-  display:flex;
-  align-items:center;
-  gap:14px;
-  padding:11px 14px;
-  border-bottom:1px solid var(--border);
+display:flex;
+align-items:center;
+gap:14px;
+padding:11px 14px;
+border-bottom:1px solid var(--border);
 }
 
 .player-row:last-child{border-bottom:none}
 
 .player-rank{
-  font-size:.75rem;
-  color:rgba(255,255,255,.25);
-  min-width:18px;
-  text-align:right;
+font-size:.75rem;
+opacity:.25;
+min-width:20px;
+text-align:right;
 }
 
-.player-name{
-  flex:1;
-  letter-spacing:.05em;
-}
-
-.player-tier-tag{
-  font-size:.7rem;
-  letter-spacing:.12em;
-  color:rgba(255,255,255,.4);
-  background:rgba(255,255,255,.06);
-  border:1px solid rgba(255,255,255,.1);
-  border-radius:4px;
-  padding:2px 8px;
-}
-
-.highlighted-name{
-  text-shadow:0 0 14px rgba(255,255,255,.8);
-}
+.player-name{flex:1}
 
 .status-msg{
-  text-align:center;
-  padding:60px 20px;
-  color:#5a6474;
+text-align:center;
+padding:60px 20px;
+opacity:.5;
 }
 </style>
 </head>
 <body>
 
-<header>
-  <div class="container">
-    <div class="logo">MULTITIERS</div>
-  </div>
-</header>
-
 <main class="container">
-  <div class="hero">
-    <h1>MULTICRAFT<br>TIER SYSTEM</h1>
-  </div>
-  <div id="tierList">
-    <div class="status-msg">Loading rankings...</div>
-  </div>
+<div class="hero">
+<h1>MULTICRAFT<br>TIER SYSTEM</h1>
+</div>
+
+<div id="tierList">
+<div class="status-msg">Loading...</div>
+</div>
 </main>
 
 <script>
 
-// 🔥 YOUR REAL JSON FILE
 const JSON_URL = 'https://raw.githubusercontent.com/multitiers/multitiers.github.io/main/rankings.json';
 
-let searchIndex = [];
+function render(data){
+const container=document.getElementById('tierList');
+container.innerHTML='';
 
-function render(data) {
-  const tierList = document.getElementById('tierList');
-  tierList.innerHTML = '';
-  searchIndex = [];
-
-  // Group by number only (1–5)
-  const groups = {};
-
-  data.forEach(player => {
-    const number = player.tier.match(/\d+/)?.[0];
-    if (!number) return;
-
-    if (!groups[number]) groups[number] = [];
-    groups[number].push(player);
-  });
-
-  // Sort tiers T1 → T5
-  Object.keys(groups)
-    .sort((a,b)=>Number(a)-Number(b))
-    .forEach(number=>{
-
-      const block = document.createElement('div');
-      block.className='tier-block';
-
-      const header=document.createElement('div');
-      header.className='tier-block-header';
-      header.textContent=`T${number}`;
-      block.appendChild(header);
-
-      // Sort inside tier: HT → T → LT
-      groups[number].sort((a,b)=>{
-        const order={HT:0,T:1,LT:2};
-        const aType=a.tier.replace(/\d+/g,'');
-        const bType=b.tier.replace(/\d+/g,'');
-        return order[aType]-order[bType];
-      });
-
-      groups[number].forEach((player,idx)=>{
-        const row=document.createElement('div');
-        row.className='player-row';
-        row.dataset.player=player.name.toLowerCase();
-
-        row.innerHTML=`
-          <span class="player-rank">${idx+1}</span>
-          <span class="player-name">${player.name}</span>
-          <span class="player-tier-tag">${player.tier}</span>
-        `;
-
-        block.appendChild(row);
-        searchIndex.push({name:player.name,key:player.tier});
-      });
-
-      tierList.appendChild(block);
-    });
-
-  if(!Object.keys(groups).length){
-    tierList.innerHTML='<div class="status-msg">No players ranked yet.</div>';
-  }
+if(!data.sections || !data.sections.length){
+container.innerHTML='<div class="status-msg">No sections found.</div>';
+return;
 }
 
-// Load JSON
+data.sections.forEach(section=>{
+
+const sectionWrap=document.createElement('div');
+
+const title=document.createElement('div');
+title.className='section-title';
+title.textContent=section.name;
+sectionWrap.appendChild(title);
+
+section.tiers.forEach(tier=>{
+
+const block=document.createElement('div');
+block.className='tier-block';
+
+const header=document.createElement('div');
+header.className='tier-header';
+header.textContent=tier.name;
+block.appendChild(header);
+
+tier.players.forEach((player,idx)=>{
+const row=document.createElement('div');
+row.className='player-row';
+row.innerHTML=`
+<span class="player-rank">${idx+1}</span>
+<span class="player-name">${player}</span>
+`;
+block.appendChild(row);
+});
+
+sectionWrap.appendChild(block);
+
+});
+
+container.appendChild(sectionWrap);
+
+});
+
+}
+
 fetch(JSON_URL)
-  .then(r=>{
-    if(!r.ok) throw new Error("Could not load JSON");
-    return r.json();
-  })
-  .then(data=>render(data))
-  .catch(()=>{
-    document.getElementById('tierList').innerHTML=
-      '<div class="status-msg">Error loading rankings.json</div>';
-  });
+.then(r=>r.json())
+.then(data=>render(data))
+.catch(()=>{
+document.getElementById('tierList').innerHTML=
+'<div class="status-msg">Error loading rankings.json</div>';
+});
 
 </script>
 </body>

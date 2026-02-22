@@ -73,7 +73,7 @@
   .player-row:last-child { border-bottom: none; }
   
   .player-name { cursor: pointer; transition: 0.2s; flex: 1; }
-  .player-name:hover { color: var(--accent-bright); }
+  .player-name:hover { color: var(--accent-bright); text-decoration: underline; }
 
   .sub-tag {
     font-size: 0.7rem; padding: 3px 8px; border-radius: 4px;
@@ -118,7 +118,7 @@
     </div>
   </header>
   <div class="kit-selector" id="kitSelector"></div>
-  <div id="tierList"></div>
+  <div id="tierList"><div class="status-msg">Loading rankings...</div></div>
 </div>
 
 <div id="playerModal" class="modal">
@@ -170,37 +170,48 @@ function renderKit(kitName) {
   list.innerHTML = '';
 
   if (kitName === "Overall") {
-    // Points System: Sort High to Low
-    Object.keys(data).sort((a,b) => b - a).forEach(pts => {
-      createBlock(pts + " POINTS", data[pts], pts + " PTS", list);
+    // Sort Point keys numerically (20, 17, 13, etc)
+    const pointsKeys = Object.keys(data).sort((a, b) => parseInt(b) - parseInt(a));
+    
+    pointsKeys.forEach(pts => {
+      const block = document.createElement('div');
+      block.className = 'tier-block';
+      let html = `<div class="tier-header">${pts} POINTS</div>`;
+      data[pts].forEach(name => {
+        html += `
+          <div class="player-row">
+            <span class="player-name" onclick="showPlayerStats('${name}')">${name}</span>
+            <span class="sub-tag">${pts} PTS</span>
+          </div>`;
+      });
+      block.innerHTML = html;
+      list.appendChild(block);
     });
   } else {
-    // Tier System: T1 through T5
+    // Normal Tier System for everything else
     TIER_ORDER.forEach(tier => {
       const players = [];
       Object.keys(data).forEach(k => {
-        if(k.includes(tier)) data[k].forEach(name => players.push({name, sub: k}));
+        if(k.includes(tier)) {
+          data[k].forEach(name => players.push({name, sub: k}));
+        }
       });
-      if(players.length > 0) createBlock(tier, players, null, list);
+      if(players.length > 0) {
+        const block = document.createElement('div');
+        block.className = 'tier-block';
+        let html = `<div class="tier-header">${tier}</div>`;
+        players.forEach(p => {
+          html += `
+            <div class="player-row">
+              <span class="player-name" onclick="showPlayerStats('${p.name}')">${p.name}</span>
+              <span class="sub-tag">${p.sub}</span>
+            </div>`;
+        });
+        block.innerHTML = html;
+        list.appendChild(block);
+      }
     });
   }
-}
-
-function createBlock(title, players, forceTag, container) {
-  const block = document.createElement('div');
-  block.className = 'tier-block';
-  let html = `<div class="tier-header">${title}</div>`;
-  players.forEach(p => {
-    const name = p.name || p;
-    const tag = forceTag || p.sub;
-    html += `
-      <div class="player-row">
-        <span class="player-name" onclick="showPlayerStats('${name}')">${name}</span>
-        <span class="sub-tag">${tag}</span>
-      </div>`;
-  });
-  block.innerHTML = html;
-  container.appendChild(block);
 }
 
 function showPlayerStats(playerName) {
@@ -227,11 +238,23 @@ function showPlayerStats(playerName) {
 function closeModal() { document.getElementById('playerModal').style.display = "none"; }
 window.onclick = (e) => { if(e.target.className === 'modal') closeModal(); };
 
+// FIXED SEARCH: Now looks at current rows and hides empty blocks
 document.getElementById('playerSearch').addEventListener('input', (e) => {
   const term = e.target.value.toLowerCase();
-  document.querySelectorAll('.player-row').forEach(row => {
-    const isVisible = row.querySelector('.player-name').textContent.toLowerCase().includes(term);
-    row.style.display = isVisible ? 'flex' : 'none';
+  
+  document.querySelectorAll('.tier-block').forEach(block => {
+    let hasMatch = false;
+    block.querySelectorAll('.player-row').forEach(row => {
+      const name = row.querySelector('.player-name').textContent.toLowerCase();
+      if (name.includes(term)) {
+        row.style.display = 'flex';
+        hasMatch = true;
+      } else {
+        row.style.display = 'none';
+      }
+    });
+    // Hide the whole block (header + rows) if no players match in it
+    block.style.display = hasMatch ? 'block' : 'none';
   });
 });
 

@@ -58,10 +58,7 @@
   .modal-content { background: var(--bg2); margin: 10% auto; border: 1px solid var(--border); border-radius: 12px; width: 90%; max-width: 450px; overflow: hidden; }
   .modal-header { padding: 25px 20px; background: var(--bg3); display: flex; justify-content: space-between; align-items: center; }
   .modal-body { padding: 0; } 
-
-  /* The Separator Line */
   .modal-spacer { height: 1px; background: var(--border); width: 100%; }
-
   .stat-item { display: flex; justify-content: space-between; padding: 16px 20px; border-bottom: 1px solid var(--border); }
   .stat-item:last-child { border-bottom: none; }
   
@@ -100,14 +97,47 @@
 let FULL_DATA = {};
 const TIER_ORDER = ["T1", "T2", "T3", "T4", "T5"];
 
+// Point Logic: LT5=1, HT5=2 ... LT1=9, HT1=10
+const POINT_MAP = {
+  "HT1": 10, "LT1": 9, "HT2": 8, "LT2": 7, "HT3": 6, 
+  "LT3": 5, "HT4": 4, "LT4": 3, "HT5": 2, "LT5": 1
+};
+
 async function loadData() {
   const url = 'https://raw.githubusercontent.com/multitiers/multitiers.github.io/refs/heads/main/rankings.json';
   try {
     const res = await fetch(url);
     FULL_DATA = await res.json();
+    
+    // Auto-calculate points before showing anything
+    calculateOverall();
+    
     initButtons();
   } catch (e) {
     document.getElementById('tierList').innerHTML = `<div class="status-msg">Error loading rankings.</div>`;
+  }
+}
+
+function calculateOverall() {
+  const totals = {};
+  for (const kit in FULL_DATA) {
+    // Exclude special kits from calculation if necessary
+    if (kit === "Overall" || kit.includes("OA") || kit === "Wand") continue;
+
+    for (const tier in FULL_DATA[kit]) {
+      const pts = POINT_MAP[tier] || 0;
+      FULL_DATA[kit][tier].forEach(player => {
+        totals[player] = (totals[player] || 0) + pts;
+      });
+    }
+  }
+
+  // Rebuild the Overall object based on calculated points
+  FULL_DATA["Overall"] = {};
+  for (const player in totals) {
+    const score = totals[player].toString();
+    if (!FULL_DATA["Overall"][score]) FULL_DATA["Overall"][score] = [];
+    FULL_DATA["Overall"][score].push(player);
   }
 }
 
@@ -139,44 +169,40 @@ function renderKit(kitName) {
     block.className = 'tier-block';
     let html = `<div class="tier-header">OVERALL RANKINGS</div>`;
     
-    const pointsKeys = Object.keys(data).sort((a, b) => parseInt(b) - parseInt(a));
-    let globalRank = 1;
+    const sortedPoints = Object.keys(data).sort((a, b) => parseInt(b) - parseInt(a));
+    let rank = 1;
 
-    pointsKeys.forEach((pts) => {
+    sortedPoints.forEach(pts => {
       data[pts].forEach(name => {
-        const rankClass = globalRank === 1 ? 'rank-1' : '';
+        const rankClass = rank === 1 ? 'rank-1' : '';
         html += `
           <div class="player-row">
             <div>
-              <span class="rank-num ${rankClass}">#${globalRank}</span>
+              <span class="rank-num ${rankClass}">#${rank}</span>
               <span class="player-name" onclick="showPlayerStats('${name}')">${name}</span>
             </div>
             <span class="pts-tag">${pts} PTS</span>
           </div>`;
-        globalRank++;
+        rank++;
       });
     });
     block.innerHTML = html;
     list.appendChild(block);
-
   } else {
     TIER_ORDER.forEach(tier => {
       const players = [];
       Object.keys(data).forEach(k => {
-        if(k.includes(tier)) {
-          data[k].forEach(name => players.push({name, sub: k}));
-        }
+        if(k.includes(tier)) data[k].forEach(name => players.push({name, sub: k}));
       });
       if(players.length > 0) {
         const block = document.createElement('div');
         block.className = 'tier-block';
         let html = `<div class="tier-header">${tier}</div>`;
         players.forEach(p => {
-          html += `
-            <div class="player-row">
-              <span class="player-name" onclick="showPlayerStats('${p.name}')">${p.name}</span>
-              <span class="tier-tag">${p.sub}</span>
-            </div>`;
+          html += `<div class="player-row">
+            <span class="player-name" onclick="showPlayerStats('${p.name}')">${p.name}</span>
+            <span class="tier-tag">${p.sub}</span>
+          </div>`;
         });
         block.innerHTML = html;
         list.appendChild(block);
@@ -199,7 +225,7 @@ function showPlayerStats(playerName) {
           <div class="stat-item">
             <span style="color:var(--muted); text-transform: uppercase; font-size: 0.85rem;">${kit}</span>
             <span style="font-weight:bold; color:${isOverall ? 'var(--gold)' : 'var(--white)'}">
-              ${tier} ${isOverall ? 'PTS' : ''}
+              ${tier}${isOverall ? ' PTS' : ''}
             </span>
           </div>`;
       }
@@ -214,13 +240,13 @@ window.onclick = (e) => { if(e.target.className === 'modal') closeModal(); };
 document.getElementById('playerSearch').addEventListener('input', (e) => {
   const term = e.target.value.toLowerCase();
   document.querySelectorAll('.tier-block').forEach(block => {
-    let hasMatch = false;
+    let match = false;
     block.querySelectorAll('.player-row').forEach(row => {
       const name = row.querySelector('.player-name').textContent.toLowerCase();
-      if (name.includes(term)) { row.style.display = 'flex'; hasMatch = true; }
-      else { row.style.display = 'none'; }
+      if (name.includes(term)) { row.style.display = 'flex'; match = true; }
+      else row.style.display = 'none';
     });
-    block.style.display = hasMatch ? 'block' : 'none';
+    block.style.display = match ? 'block' : 'none';
   });
 });
 

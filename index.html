@@ -1,303 +1,69 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Multi Tiers — MultiCraft Tier System</title>
+<div class="kit-selector" id="kitSelector">
+  </div>
+
 <style>
-  @font-face {
-    font-family: 'MultiCraft';
-    src: url('MultiCraftFont.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-  }
-
-  :root {
-    --bg:     #0a0c10;
-    --bg2:    #0e1117;
-    --bg3:    #161b24;
-    --border: #1e2530;
-  }
-
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  body {
-    background: var(--bg);
-    color: #ffffff;
-    font-family: 'MultiCraft', 'Courier New', monospace;
-    font-size: 16px;
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
-
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-    pointer-events: none;
-    z-index: 0;
-    opacity: 0.4;
-  }
-
-  .container {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 0 24px;
-    position: relative;
-    z-index: 1;
-  }
-
-  header {
-    border-bottom: 1px solid var(--border);
-    padding: 18px 0;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    background: rgba(10,12,16,0.92);
-    backdrop-filter: blur(12px);
-  }
-
-  .header-inner {
+  /* Add these styles to your <style> tag */
+  .kit-selector {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 20px;
-  }
-
-  .logo {
-    font-family: 'MultiCraft', monospace;
-    font-size: 1.7rem;
-    letter-spacing: 0.12em;
-    color: #fff;
-  }
-
-  .search-wrap {
-    position: relative;
-    flex: 1;
-    max-width: 380px;
-  }
-
-  .search-wrap svg {
-    position: absolute;
-    left: 12px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #5a6474;
-    pointer-events: none;
-  }
-
-  #searchInput {
-    width: 100%;
-    background: var(--bg3);
-    border: 1px solid var(--border);
-    border-radius: 7px;
-    padding: 9px 12px 9px 36px;
-    color: #fff;
-    font-family: 'MultiCraft', monospace;
-    font-size: 0.82rem;
-    outline: none;
-    transition: border-color 0.2s, box-shadow 0.2s;
-  }
-
-  #searchInput:focus {
-    border-color: rgba(255,255,255,0.3);
-    box-shadow: 0 0 0 3px rgba(255,255,255,0.05);
-  }
-
-  #searchInput::placeholder { color: #5a6474; }
-
-  #searchResults {
-    position: absolute;
-    top: calc(100% + 6px);
-    left: 0; right: 0;
-    background: var(--bg3);
-    border: 1px solid var(--border);
-    border-radius: 7px;
-    overflow: hidden;
-    display: none;
-    z-index: 200;
-    box-shadow: 0 12px 40px rgba(0,0,0,0.6);
-  }
-
-  .sr-item {
-    display: flex;
-    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
     gap: 10px;
-    padding: 11px 14px;
+    margin-top: 20px;
+  }
+  .kit-btn {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    color: rgba(255,255,255,0.6);
+    padding: 8px 16px;
+    border-radius: 6px;
     cursor: pointer;
-    border-bottom: 1px solid var(--border);
-    transition: background 0.12s;
-  }
-
-  .sr-item:last-child { border-bottom: none; }
-  .sr-item:hover { background: rgba(255,255,255,0.05); }
-
-  .sr-badge {
-    font-size: 0.78rem;
-    color: rgba(255,255,255,0.45);
-    min-width: 38px;
-    letter-spacing: 0.06em;
-  }
-
-  .sr-name { font-size: 0.9rem; color: #fff; }
-
-  .hero {
-    padding: 50px 0 40px;
-    text-align: center;
-  }
-
-  .hero h1 {
     font-family: 'MultiCraft', monospace;
-    font-size: clamp(2.4rem, 6vw, 4.8rem);
-    letter-spacing: 0.08em;
-    line-height: 1.1;
-    color: #fff;
+    font-size: 0.75rem;
+    transition: all 0.2s;
   }
-
-  #tierList {
-    margin-top: 44px;
-    margin-bottom: 60px;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-  }
-
-  .group-gap { height: 16px; }
-
-  .tier-block {
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    overflow: hidden;
-    animation: fadeUp 0.3s ease both;
-  }
-
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(12px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-
-  .tier-block-header {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 7px 14px;
-    border-bottom: 1px solid var(--border);
-    background: rgba(255,255,255,0.02);
-  }
-
-  .tier-block-label {
-    font-size: 0.8rem;
-    letter-spacing: 0.14em;
-    color: rgba(255,255,255,0.4);
-  }
-
-  .tier-block-line {
-    flex: 1;
-    height: 1px;
-    background: var(--border);
-  }
-
-  .player-row {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    padding: 11px 14px;
-    border-bottom: 1px solid var(--border);
-    transition: background 0.12s;
-  }
-
-  .player-row:last-child { border-bottom: none; }
-  .player-row:hover { background: rgba(255,255,255,0.025); }
-
-  .player-rank {
-    font-size: 0.72rem;
-    color: rgba(255,255,255,0.22);
-    min-width: 18px;
-    text-align: right;
-  }
-
-  .player-name {
-    font-size: 0.95rem;
-    color: #ffffff;
-    letter-spacing: 0.04em;
-    flex: 1;
-  }
-
-  .player-tier-tag {
-    font-size: 0.7rem;
-    letter-spacing: 0.12em;
-    color: rgba(255,255,255,0.38);
-    background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(255,255,255,0.09);
-    border-radius: 4px;
-    padding: 2px 8px;
-  }
-
-  .player-name.highlighted-name {
-    text-shadow: 0 0 14px rgba(255,255,255,0.7);
-  }
-
-  .status-msg {
-    text-align: center;
-    padding: 60px 20px;
-    color: #5a6474;
-    font-size: 0.82rem;
-    letter-spacing: 0.06em;
-  }
-
-  .status-msg.error { color: #f85149; }
-
-  footer {
-    border-top: 1px solid var(--border);
-    padding: 24px 0;
-    text-align: center;
-    color: #2a3040;
-    font-size: 0.7rem;
-    letter-spacing: 0.08em;
-  }
-
-  @media (max-width: 600px) {
-    .header-inner { flex-wrap: wrap; }
-    .search-wrap { max-width: 100%; order: 3; width: 100%; }
+  .kit-btn:hover { border-color: rgba(255,255,255,0.3); }
+  .kit-btn.active {
+    background: #fff;
+    color: #000;
+    border-color: #fff;
+    box-shadow: 0 0 15px rgba(255,255,255,0.2);
   }
 </style>
-</head>
-<body>
-
-<header>
-  <div class="container">
-    <div class="header-inner">
-      <div class="logo">MULTITIERS</div>
-      <div class="search-wrap">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-        <input type="text" id="searchInput" placeholder="Search player...">
-        <div id="searchResults"></div>
-      </div>
-    </div>
-  </div>
-</header>
-
-<main class="container">
-  <div class="hero">
-    <h1>MULTICRAFT<br>TIER SYSTEM</h1>
-  </div>
-  <div id="tierList">
-    <div class="status-msg">Loading rankings...</div>
-  </div>
-</main>
-
-<footer>
-  <div class="container">MULTITIERS — MULTICRAFT TIER SYSTEM</div>
-</footer>
 
 <script>
 const TIER_ORDER = ['T1','HT1','LT1','T2','HT2','LT2','T3','HT3','LT3','T4','HT4','LT4','T5','HT5','LT5'];
 const GROUP_TOPS = new Set(['T1','T2','T3','T4','T5']);
+let FULL_DATA = {};
+let currentKit = "";
 let searchIndex = [];
 
-function render(data) {
+function initKits(data) {
+  FULL_DATA = data;
+  const selector = document.getElementById('kitSelector');
+  selector.innerHTML = '';
+  
+  const kits = Object.keys(data);
+  if (kits.length === 0) return;
+
+  kits.forEach((kit, index) => {
+    const btn = document.createElement('button');
+    btn.className = 'kit-btn';
+    btn.textContent = kit.toUpperCase();
+    btn.onclick = () => {
+      document.querySelectorAll('.kit-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      render(kit);
+    };
+    selector.appendChild(btn);
+    if (index === 0) {
+        btn.classList.add('active');
+        render(kit);
+    }
+  });
+}
+
+function render(kitName) {
+  const data = FULL_DATA[kitName];
   const tierList = document.getElementById('tierList');
   tierList.innerHTML = '';
   searchIndex = [];
@@ -305,13 +71,12 @@ function render(data) {
   const populated = TIER_ORDER.filter(key => (data[key] || []).length > 0);
 
   if (!populated.length) {
-    tierList.innerHTML = '<div class="status-msg">No players ranked yet.</div>';
+    tierList.innerHTML = '<div class="status-msg">No players ranked in this kit.</div>';
     return;
   }
 
   populated.forEach((key, i) => {
     const players = data[key];
-
     if (i > 0 && GROUP_TOPS.has(key)) {
       const gap = document.createElement('div');
       gap.className = 'group-gap';
@@ -337,85 +102,51 @@ function render(data) {
         <span class="player-tier-tag">${key}</span>
       `;
       block.appendChild(row);
-      searchIndex.push({ name, key });
+      // Search index includes kit info for better search
+      searchIndex.push({ name, key, kit: kitName });
     });
-
     tierList.appendChild(block);
   });
 }
 
-// SEARCH
-const searchInput   = document.getElementById('searchInput');
+// SEARCH LOGIC (Updated to switch kits when searching)
+const searchInput = document.getElementById('searchInput');
 const searchResults = document.getElementById('searchResults');
 
 searchInput.addEventListener('input', () => {
   const q = searchInput.value.trim().toLowerCase();
-  clearHighlights();
   if (!q) { searchResults.style.display = 'none'; return; }
 
   const matches = searchIndex.filter(p => p.name.toLowerCase().includes(q)).slice(0, 8);
-
-  if (!matches.length) {
-    searchResults.innerHTML = '<div style="padding:12px 14px;color:#5a6474;font-size:0.76rem;">No players found</div>';
-    searchResults.style.display = 'block';
-    return;
-  }
-
-  searchResults.innerHTML = '';
+  searchResults.innerHTML = matches.length ? '' : '<div style="padding:12px 14px;color:#5a6474;font-size:0.76rem;">No players found</div>';
+  
   matches.forEach(p => {
     const el = document.createElement('div');
     el.className = 'sr-item';
-    el.innerHTML = `<span class="sr-badge">${p.key}</span><span class="sr-name">${p.name}</span>`;
-    el.addEventListener('click', () => {
-      scrollToPlayer(p.name);
+    el.innerHTML = `<span class="sr-badge">${p.kit} | ${p.key}</span><span class="sr-name">${p.name}</span>`;
+    el.onclick = () => {
+      // Switch kit if necessary
+      const kitBtns = document.querySelectorAll('.kit-btn');
+      kitBtns.forEach(btn => {
+          if(btn.textContent.toLowerCase() === p.kit.toLowerCase()){
+              btn.click();
+              setTimeout(() => scrollToPlayer(p.name), 100);
+          }
+      });
       searchResults.style.display = 'none';
       searchInput.value = p.name;
-    });
+    };
     searchResults.appendChild(el);
   });
-
   searchResults.style.display = 'block';
-  highlightMatches(q);
 });
 
-document.addEventListener('click', e => {
-  if (!searchInput.contains(e.target) && !searchResults.contains(e.target))
-    searchResults.style.display = 'none';
-});
-
-function scrollToPlayer(name) {
-  clearHighlights();
-  document.querySelectorAll('.player-row').forEach(row => {
-    if (row.dataset.player === name.toLowerCase()) {
-      row.querySelector('.player-name').classList.add('highlighted-name');
-      row.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
-  });
-}
-
-function highlightMatches(q) {
-  clearHighlights();
-  document.querySelectorAll('.player-row').forEach(row => {
-    if (row.dataset.player?.includes(q))
-      row.querySelector('.player-name').classList.add('highlighted-name');
-  });
-}
-
-function clearHighlights() {
-  document.querySelectorAll('.highlighted-name').forEach(el => el.classList.remove('highlighted-name'));
-}
-
-// AUTO-LOAD from rankings.json in the same repo folder
-// Change this URL to match your actual GitHub username and repo name
+// Load the updated JSON structure
 const JSON_URL = 'https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/rankings.json';
-
 fetch(JSON_URL)
-  .then(r => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); })
-  .then(data => render(data))
+  .then(r => r.json())
+  .then(data => initKits(data))
   .catch(e => {
-    document.getElementById('tierList').innerHTML =
-      `<div class="status-msg error">Could not load rankings.json<br><small>${e.message}</small></div>`;
+    document.getElementById('tierList').innerHTML = `<div class="status-msg error">Error: ${e.message}</div>`;
   });
 </script>
-</body>
-</html>

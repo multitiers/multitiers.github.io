@@ -23,6 +23,7 @@
   header { text-align: center; padding: 30px 0; }
   h1 { letter-spacing: 0.15em; font-size: 2rem; margin-bottom: 25px; }
 
+  /* Search UI */
   .search-container { margin-bottom: 30px; display: flex; justify-content: center; }
   #playerSearch {
     width: 100%; max-width: 450px; padding: 12px;
@@ -30,6 +31,7 @@
     border-radius: 6px; color: var(--white); font-family: inherit; outline: none;
   }
 
+  /* Buttons */
   .kit-selector { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-bottom: 40px; }
   .kit-btn {
     background: var(--bg3); border: 1px solid var(--border); color: var(--muted); 
@@ -38,6 +40,7 @@
   }
   .kit-btn.active { background: var(--accent); color: var(--white); border-color: var(--accent-bright); box-shadow: 0 0 10px rgba(122, 73, 209, 0.4); }
 
+  /* Blocks */
   .tier-block { background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; margin-bottom: 20px; overflow: hidden; }
   .tier-header { padding: 15px 20px; background: rgba(255,255,255,0.03); border-bottom: 1px solid var(--border); font-weight: bold; color: var(--accent-bright); letter-spacing: 2px; text-transform: uppercase;}
 
@@ -50,10 +53,11 @@
   .player-name { cursor: pointer; transition: 0.2s; flex: 1; color: var(--white); }
   .player-name:hover { color: var(--accent-bright); text-decoration: underline; }
 
+  /* Tags */
   .pts-tag { font-size: 0.75rem; font-weight: bold; color: var(--gold); }
   .tier-tag { font-size: 0.75rem; font-weight: bold; color: var(--white); padding: 4px 8px; border-radius: 4px; background: var(--bg3); border: 1px solid var(--border); }
 
-  /* Modal Styling */
+  /* Modal (Boxed UI) */
   .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(5px); }
   .modal-content { background: var(--bg2); margin: 10% auto; border: 1px solid var(--border); border-radius: 12px; width: 90%; max-width: 450px; overflow: hidden; }
   .modal-header { padding: 25px 20px; background: var(--bg3); display: flex; justify-content: space-between; align-items: center; }
@@ -85,10 +89,8 @@
       <span onclick="closeModal()" style="cursor:pointer; font-size: 28px; color: var(--muted);">&times;</span>
     </div>
     <div class="modal-body">
-      <div class="modal-spacer"></div>
-      <div id="modalStats"></div>
-      <div class="modal-spacer"></div>
-      <div style="height: 20px;"></div>
+      <div class="modal-spacer"></div> <div id="modalStats"></div>
+      <div class="modal-spacer"></div> <div style="height: 20px;"></div>
     </div>
   </div>
 </div>
@@ -97,7 +99,7 @@
 let FULL_DATA = {};
 const TIER_ORDER = ["T1", "T2", "T3", "T4", "T5"];
 
-// Point Logic: LT5=1, HT5=2 ... LT1=9, HT1=10
+// Points: LT5=1, HT1=10
 const POINT_MAP = {
   "HT1": 10, "LT1": 9, "HT2": 8, "LT2": 7, "HT3": 6, 
   "LT3": 5, "HT4": 4, "LT4": 3, "HT5": 2, "LT5": 1
@@ -108,10 +110,7 @@ async function loadData() {
   try {
     const res = await fetch(url);
     FULL_DATA = await res.json();
-    
-    // Auto-calculate points before showing anything
-    calculateOverall();
-    
+    calculateOverall(); // Calculation includes OA and Wand
     initButtons();
   } catch (e) {
     document.getElementById('tierList').innerHTML = `<div class="status-msg">Error loading rankings.</div>`;
@@ -121,8 +120,7 @@ async function loadData() {
 function calculateOverall() {
   const totals = {};
   for (const kit in FULL_DATA) {
-    // Exclude special kits from calculation if necessary
-    if (kit === "Overall" || kit.includes("OA") || kit === "Wand") continue;
+    if (kit === "Overall") continue; // Process every kit except Overall
 
     for (const tier in FULL_DATA[kit]) {
       const pts = POINT_MAP[tier] || 0;
@@ -131,8 +129,6 @@ function calculateOverall() {
       });
     }
   }
-
-  // Rebuild the Overall object based on calculated points
   FULL_DATA["Overall"] = {};
   for (const player in totals) {
     const score = totals[player].toString();
@@ -168,7 +164,6 @@ function renderKit(kitName) {
     const block = document.createElement('div');
     block.className = 'tier-block';
     let html = `<div class="tier-header">OVERALL RANKINGS</div>`;
-    
     const sortedPoints = Object.keys(data).sort((a, b) => parseInt(b) - parseInt(a));
     let rank = 1;
 
@@ -181,8 +176,7 @@ function renderKit(kitName) {
               <span class="rank-num ${rankClass}">#${rank}</span>
               <span class="player-name" onclick="showPlayerStats('${name}')">${name}</span>
             </div>
-            <span class="pts-tag">${pts} PTS</span>
-          </div>`;
+            <span class="pts-tag">${pts} PTS</span> </div>`;
         rank++;
       });
     });
@@ -201,8 +195,7 @@ function renderKit(kitName) {
         players.forEach(p => {
           html += `<div class="player-row">
             <span class="player-name" onclick="showPlayerStats('${p.name}')">${p.name}</span>
-            <span class="tier-tag">${p.sub}</span>
-          </div>`;
+            <span class="tier-tag">${p.sub}</span> </div>`;
         });
         block.innerHTML = html;
         list.appendChild(block);
@@ -218,14 +211,14 @@ function showPlayerStats(playerName) {
   statsDiv.innerHTML = '';
   
   for (const kit in FULL_DATA) {
-    for (const tier in FULL_DATA[kit]) {
-      if (FULL_DATA[kit][tier].includes(playerName)) {
+    for (const tierLabel in FULL_DATA[kit]) {
+      if (FULL_DATA[kit][tierLabel].includes(playerName)) {
         const isOverall = kit === "Overall";
         statsDiv.innerHTML += `
           <div class="stat-item">
             <span style="color:var(--muted); text-transform: uppercase; font-size: 0.85rem;">${kit}</span>
             <span style="font-weight:bold; color:${isOverall ? 'var(--gold)' : 'var(--white)'}">
-              ${tier}${isOverall ? ' PTS' : ''}
+              ${tierLabel}${isOverall ? ' PTS' : ''}
             </span>
           </div>`;
       }

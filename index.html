@@ -23,14 +23,24 @@
 
   .container { max-width: 900px; margin: 0 auto; padding: 24px; }
 
-  header {
-    text-align: center;
-    padding: 40px 0;
+  header { text-align: center; padding: 30px 0; }
+  h1 { letter-spacing: 0.1em; font-size: 2rem; margin-bottom: 20px; }
+
+  /* Search Bar */
+  .search-container { margin-bottom: 20px; display: flex; justify-content: center; }
+  #playerSearch {
+    width: 100%;
+    max-width: 400px;
+    padding: 10px;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    color: white;
+    font-family: inherit;
+    outline: none;
   }
 
-  h1 { letter-spacing: 0.1em; font-size: 2.5rem; }
-
-  /* KIT BUTTONS */
+  /* Kit Buttons */
   .kit-selector {
     display: flex;
     flex-wrap: wrap;
@@ -46,48 +56,54 @@
     padding: 8px 16px;
     border-radius: 4px;
     cursor: pointer;
-    font-family: inherit;
     text-transform: uppercase;
     font-size: 0.75rem;
     transition: all 0.2s;
   }
 
-  .kit-btn:hover { border-color: #fff; color: #fff; }
   .kit-btn.active {
     background: var(--accent);
     color: #fff;
     border-color: #7a49d1;
-    box-shadow: 0 0 15px rgba(122, 73, 209, 0.4);
+    box-shadow: 0 0 10px rgba(122, 73, 209, 0.4);
   }
 
-  /* TIER LIST STYLES */
+  /* Grouped Tier Blocks */
   .tier-block {
     background: var(--bg2);
     border: 1px solid var(--border);
     border-radius: 8px;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
     overflow: hidden;
   }
 
   .tier-header {
-    padding: 10px 15px;
-    background: rgba(255,255,255,0.03);
+    padding: 12px 15px;
+    background: rgba(255,255,255,0.05);
     border-bottom: 1px solid var(--border);
-    font-size: 0.8rem;
-    color: #5a6474;
+    font-weight: bold;
+    color: #fff;
+    letter-spacing: 2px;
   }
 
   .player-row {
     display: flex;
     justify-content: space-between;
-    padding: 12px 15px;
+    align-items: center;
+    padding: 10px 15px;
     border-bottom: 1px solid var(--border);
   }
 
   .player-row:last-child { border-bottom: none; }
   
-  .player-name { flex: 1; }
-  .tier-tag { color: #5a6474; font-size: 0.75rem; }
+  .sub-tier {
+    font-size: 0.7rem;
+    padding: 2px 6px;
+    border-radius: 3px;
+    background: var(--bg3);
+    color: #888;
+    margin-right: 10px;
+  }
 
   .status-msg { text-align: center; padding: 50px; color: #5a6474; }
 </style>
@@ -97,14 +113,16 @@
 <div class="container">
   <header>
     <h1>MULTICRAFT TIERS</h1>
+    <div class="search-container">
+      <input type="text" id="playerSearch" placeholder="Search for a player...">
+    </div>
   </header>
 
   <div class="kit-selector" id="kitSelector"></div>
-  <div id="tierList"><div class="status-msg">Loading rankings...</div></div>
+  <div id="tierList"></div>
 </div>
 
 <script>
-const TIER_ORDER = ['T1','T2','T3','T4','T5'];
 let FULL_DATA = {};
 
 async function loadData() {
@@ -114,7 +132,7 @@ async function loadData() {
     FULL_DATA = await response.json();
     initButtons();
   } catch (e) {
-    document.getElementById('tierList').innerHTML = `<div class="status-msg">Error loading JSON: ${e.message}</div>`;
+    document.getElementById('tierList').innerHTML = `<div class="status-msg">Error: ${e.message}</div>`;
   }
 }
 
@@ -133,7 +151,7 @@ function initButtons() {
       renderKit(kit);
     };
     selector.appendChild(btn);
-    if(index === 0) btn.click(); // Load first kit by default
+    if(index === 0) btn.click();
   });
 }
 
@@ -142,17 +160,32 @@ function renderKit(kitName) {
   const list = document.getElementById('tierList');
   list.innerHTML = '';
 
-  TIER_ORDER.forEach(tier => {
-    if (data[tier] && data[tier].length > 0) {
+  // Grouping logic: T1, T2, T3, T4, T5
+  const TIER_GROUPS = ["T1", "T2", "T3", "T4", "T5"];
+  
+  TIER_GROUPS.forEach(mainTier => {
+    const playersInGroup = [];
+    
+    // Look for HT1, LT1, T1 within the JSON for this kit
+    Object.keys(data).forEach(subTierKey => {
+      if (subTierKey.includes(mainTier)) {
+        data[subTierKey].forEach(name => {
+          playersInGroup.push({ name, subTier: subTierKey });
+        });
+      }
+    });
+
+    if (playersInGroup.length > 0) {
       const block = document.createElement('div');
       block.className = 'tier-block';
       
-      let html = `<div class="tier-header">${tier}</div>`;
-      data[tier].forEach(player => {
+      let html = `<div class="tier-header">${mainTier.toUpperCase()}</div>`;
+      
+      playersInGroup.forEach(p => {
         html += `
           <div class="player-row">
-            <span class="player-name">${player}</span>
-            <span class="tier-tag">${tier}</span>
+            <span class="player-name">${p.name}</span>
+            <span class="sub-tier">${p.subTier}</span>
           </div>`;
       });
       
@@ -161,6 +194,17 @@ function renderKit(kitName) {
     }
   });
 }
+
+// Simple Search Logic
+document.getElementById('playerSearch').addEventListener('input', (e) => {
+  const term = e.target.value.toLowerCase();
+  const rows = document.querySelectorAll('.player-row');
+  
+  rows.forEach(row => {
+    const name = row.querySelector('.player-name').textContent.toLowerCase();
+    row.style.display = name.includes(term) ? 'flex' : 'none';
+  });
+});
 
 loadData();
 </script>

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Multi Tiers</title>
+<title>Multi Tiers — MultiCraft Tier System</title>
 <style>
   :root {
     --bg: #0a0c10;
@@ -22,164 +22,90 @@
     font-family: 'Courier New', monospace;
     margin: 0;
     min-height: 100vh;
-    overflow-y: scroll;
   }
 
   .container { max-width: 900px; margin: 0 auto; padding: 24px; }
 
-  header { text-align: center; padding: 40px 0 20px; }
-  h1 { letter-spacing: 0.15em; font-size: 2.2rem; margin: 0 0 25px; color: #fff; }
+  header { text-align: center; padding: 30px 0; }
+  h1 { letter-spacing: 0.15em; font-size: 2rem; margin-bottom: 25px; }
 
-  /* Search */
   .search-container { margin-bottom: 30px; display: flex; justify-content: center; }
   #playerSearch {
-    width: 100%;
-    max-width: 450px;
-    padding: 12px 18px;
-    background: var(--bg3);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    color: white;
-    font-family: inherit;
-    outline: none;
-    transition: border-color 0.2s;
+    width: 100%; max-width: 450px; padding: 12px;
+    background: var(--bg3); border: 1px solid var(--border);
+    border-radius: 6px; color: white; font-family: inherit; outline: none;
   }
-  #playerSearch:focus { border-color: var(--accent-bright); }
 
-  /* Kit Buttons */
   .kit-selector {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 10px;
-    margin-bottom: 40px;
+    display: flex; flex-wrap: wrap; justify-content: center;
+    gap: 10px; margin-bottom: 40px;
   }
 
   .kit-btn {
-    background: var(--bg3);
-    border: 1px solid var(--border);
-    color: #5a6474;
-    padding: 10px 18px;
-    border-radius: 4px;
-    cursor: pointer;
-    text-transform: uppercase;
-    font-size: 0.75rem;
-    font-weight: bold;
-    letter-spacing: 1px;
+    background: var(--bg3); border: 1px solid var(--border);
+    color: #5a6474; padding: 10px 18px; border-radius: 4px;
+    cursor: pointer; text-transform: uppercase; font-size: 0.75rem;
     transition: all 0.2s;
   }
 
-  .kit-btn:hover { border-color: #ffffff55; color: #fff; }
   .kit-btn.active {
-    background: var(--accent);
-    color: #fff;
+    background: var(--accent); color: #fff;
     border-color: var(--accent-bright);
-    box-shadow: 0 0 15px rgba(122, 73, 209, 0.3);
+    box-shadow: 0 0 10px rgba(122, 73, 209, 0.4);
   }
 
-  /* Tier Blocks */
   .tier-block {
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    margin-bottom: 25px;
-    overflow: hidden;
-    animation: fadeIn 0.4s ease forwards;
-  }
-
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 10px; margin-bottom: 20px; overflow: hidden;
   }
 
   .tier-header {
-    padding: 15px 20px;
-    background: rgba(255,255,255,0.03);
+    padding: 15px 20px; background: rgba(255,255,255,0.03);
     border-bottom: 1px solid var(--border);
-    font-weight: bold;
-    font-size: 1.1rem;
-    letter-spacing: 3px;
-    color: var(--accent-bright);
+    font-weight: bold; color: var(--accent-bright); letter-spacing: 2px;
   }
 
   .player-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 14px 20px;
-    border-bottom: 1px solid var(--border);
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 12px 20px; border-bottom: 1px solid var(--border);
   }
 
   .player-row:last-child { border-bottom: none; }
   
-  .player-name { 
-    flex: 1; 
-    cursor: pointer; 
-    font-size: 1rem;
-    transition: color 0.2s;
-  }
-  .player-name:hover { color: var(--accent-bright); text-decoration: underline; }
+  .player-name { cursor: pointer; transition: 0.2s; flex: 1; }
+  .player-name:hover { color: var(--accent-bright); }
 
-  .sub-tier {
-    font-size: 0.75rem;
-    padding: 4px 8px;
-    border-radius: 4px;
-    background: var(--bg3);
-    color: #888;
-    border: 1px solid var(--border);
+  .sub-tag {
+    font-size: 0.7rem; padding: 3px 8px; border-radius: 4px;
+    background: var(--bg3); color: #888; border: 1px solid var(--border);
   }
 
   /* Modal */
   .modal {
-    display: none;
-    position: fixed;
-    z-index: 2000;
-    left: 0; top: 0;
-    width: 100%; height: 100%;
-    background-color: rgba(0,0,0,0.85);
-    backdrop-filter: blur(6px);
+    display: none; position: fixed; z-index: 2000;
+    left: 0; top: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.85); backdrop-filter: blur(5px);
   }
 
   .modal-content {
-    background-color: var(--bg2);
-    margin: 10% auto;
-    padding: 0;
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    width: 90%;
-    max-width: 450px;
-    overflow: hidden;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+    background: var(--bg2); margin: 10% auto;
+    border: 1px solid var(--border); border-radius: 12px;
+    width: 90%; max-width: 450px; overflow: hidden;
   }
 
   .modal-header {
-    padding: 20px;
-    background: var(--bg3);
+    padding: 20px; background: var(--bg3);
     border-bottom: 1px solid var(--border);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    display: flex; justify-content: space-between; align-items: center;
   }
 
-  .modal-header h2 { margin: 0; font-size: 1.2rem; letter-spacing: 1px; }
-
-  .close-btn { font-size: 24px; cursor: pointer; color: #5a6474; }
-  .close-btn:hover { color: #fff; }
-
-  .modal-body { padding: 10px 20px 30px; }
-
+  .modal-body { padding: 20px; }
   .stat-item {
-    display: flex;
-    justify-content: space-between;
-    padding: 15px 0;
-    border-bottom: 1px solid var(--border);
+    display: flex; justify-content: space-between;
+    padding: 12px 0; border-bottom: 1px solid var(--border);
   }
-  .stat-item:last-child { border-bottom: none; }
 
-  .stat-kit { color: #888; font-size: 0.8rem; text-transform: uppercase; }
-  .stat-rank { color: var(--accent-bright); font-weight: bold; }
-
-  .status-msg { text-align: center; padding: 60px; color: #5a6474; }
+  .status-msg { text-align: center; padding: 50px; color: #5a6474; }
 </style>
 </head>
 <body>
@@ -191,16 +117,15 @@
       <input type="text" id="playerSearch" placeholder="Search for a player...">
     </div>
   </header>
-
   <div class="kit-selector" id="kitSelector"></div>
-  <div id="tierList"><div class="status-msg">Loading rankings...</div></div>
+  <div id="tierList"></div>
 </div>
 
 <div id="playerModal" class="modal">
   <div class="modal-content">
     <div class="modal-header">
       <h2 id="modalPlayerName">Player</h2>
-      <span class="close-btn">&times;</span>
+      <span onclick="closeModal()" style="cursor:pointer; font-size: 24px;">&times;</span>
     </div>
     <div class="modal-body" id="modalStats"></div>
   </div>
@@ -208,27 +133,24 @@
 
 <script>
 let FULL_DATA = {};
+const TIER_ORDER = ["T1", "T2", "T3", "T4", "T5"];
 
 async function loadData() {
   const url = 'https://raw.githubusercontent.com/multitiers/multitiers.github.io/refs/heads/main/rankings.json';
   try {
-    const response = await fetch(url);
-    if (!response.ok) throw new Error("Failed to fetch JSON");
-    FULL_DATA = await response.json();
+    const res = await fetch(url);
+    FULL_DATA = await res.json();
     initButtons();
   } catch (e) {
-    document.getElementById('tierList').innerHTML = `<div class="status-msg" style="color:red">Error: ${e.message}<br>Check your JSON for extra commas.</div>`;
+    document.getElementById('tierList').innerHTML = `<div class="status-msg">Error loading data.</div>`;
   }
 }
 
 function initButtons() {
   const selector = document.getElementById('kitSelector');
   const kits = Object.keys(FULL_DATA);
-  
-  if (kits.length === 0) return;
-
   selector.innerHTML = '';
-  kits.forEach((kit, index) => {
+  kits.forEach((kit, i) => {
     const btn = document.createElement('button');
     btn.className = 'kit-btn';
     btn.textContent = kit;
@@ -238,7 +160,7 @@ function initButtons() {
       renderKit(kit);
     };
     selector.appendChild(btn);
-    if(index === 0) btn.click();
+    if(i === 0) btn.click();
   });
 }
 
@@ -247,92 +169,69 @@ function renderKit(kitName) {
   const list = document.getElementById('tierList');
   list.innerHTML = '';
 
-  const TIER_GROUPS = ["T1", "T2", "T3", "T4", "T5"];
-  
-  TIER_GROUPS.forEach(mainTier => {
-    const playersInGroup = [];
-    
-    // Sort logic to ensure HT is always above LT inside the box
-    const subOrder = ["HT", "", "LT"]; 
-    
-    Object.keys(data).sort().forEach(subTierKey => {
-      if (subTierKey.includes(mainTier)) {
-        data[subTierKey].forEach(name => {
-          playersInGroup.push({ name, subTier: subTierKey });
-        });
-      }
+  if (kitName === "Overall") {
+    // Points System: Sort High to Low
+    Object.keys(data).sort((a,b) => b - a).forEach(pts => {
+      createBlock(pts + " POINTS", data[pts], pts + " PTS", list);
     });
-
-    if (playersInGroup.length > 0) {
-      const block = document.createElement('div');
-      block.className = 'tier-block';
-      
-      let html = `<div class="tier-header">${mainTier}</div>`;
-      playersInGroup.forEach(p => {
-        html += `
-          <div class="player-row">
-            <span class="player-name" onclick="showPlayerStats('${p.name}')">${p.name}</span>
-            <span class="sub-tier">${p.subTier}</span>
-          </div>`;
+  } else {
+    // Tier System: T1 through T5
+    TIER_ORDER.forEach(tier => {
+      const players = [];
+      Object.keys(data).forEach(k => {
+        if(k.includes(tier)) data[k].forEach(name => players.push({name, sub: k}));
       });
-      
-      block.innerHTML = html;
-      list.appendChild(block);
-    }
+      if(players.length > 0) createBlock(tier, players, null, list);
+    });
+  }
+}
+
+function createBlock(title, players, forceTag, container) {
+  const block = document.createElement('div');
+  block.className = 'tier-block';
+  let html = `<div class="tier-header">${title}</div>`;
+  players.forEach(p => {
+    const name = p.name || p;
+    const tag = forceTag || p.sub;
+    html += `
+      <div class="player-row">
+        <span class="player-name" onclick="showPlayerStats('${name}')">${name}</span>
+        <span class="sub-tag">${tag}</span>
+      </div>`;
   });
+  block.innerHTML = html;
+  container.appendChild(block);
 }
 
 function showPlayerStats(playerName) {
   const modal = document.getElementById('playerModal');
-  const nameHeader = document.getElementById('modalPlayerName');
+  document.getElementById('modalPlayerName').textContent = playerName;
   const statsDiv = document.getElementById('modalStats');
-  
-  nameHeader.textContent = playerName;
   statsDiv.innerHTML = '';
-  
-  let found = false;
+
   for (const kit in FULL_DATA) {
     for (const tier in FULL_DATA[kit]) {
       if (FULL_DATA[kit][tier].includes(playerName)) {
-        found = true;
-        const item = document.createElement('div');
-        item.className = 'stat-item';
-        item.innerHTML = `
-          <span class="stat-kit">${kit}</span>
-          <span class="stat-rank">${tier}</span>
-        `;
-        statsDiv.appendChild(item);
+        const tag = (kit === "Overall") ? "PTS" : "";
+        statsDiv.innerHTML += `
+          <div class="stat-item">
+            <span style="color:#888">${kit}</span>
+            <span style="color:var(--accent-bright); font-weight:bold;">${tier} ${tag}</span>
+          </div>`;
       }
     }
   }
-
-  if(!found) statsDiv.innerHTML = '<div class="status-msg">No data found.</div>';
   modal.style.display = "block";
 }
 
-// Modal Close
-document.querySelector('.close-btn').onclick = () => {
-  document.getElementById('playerModal').style.display = "none";
-};
+function closeModal() { document.getElementById('playerModal').style.display = "none"; }
+window.onclick = (e) => { if(e.target.className === 'modal') closeModal(); };
 
-window.onclick = (e) => {
-  if (e.target == document.getElementById('playerModal')) {
-    document.getElementById('playerModal').style.display = "none";
-  }
-};
-
-// Search Filter
 document.getElementById('playerSearch').addEventListener('input', (e) => {
   const term = e.target.value.toLowerCase();
   document.querySelectorAll('.player-row').forEach(row => {
-    const name = row.querySelector('.player-name').textContent.toLowerCase();
-    row.style.display = name.includes(term) ? 'flex' : 'none';
-  });
-  
-  // Hide empty tier blocks during search
-  document.querySelectorAll('.tier-block').forEach(block => {
-    const hasVisible = Array.from(block.querySelectorAll('.player-row')).some(r => r.style.display !== 'none');
-    block.style.display = hasVisible ? 'block' : 'none';
+    const isVisible = row.querySelector('.player-name').textContent.toLowerCase().includes(term);
+    row.style.display = isVisible ? 'flex' : 'none';
   });
 });
 

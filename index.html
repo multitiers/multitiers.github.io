@@ -10,17 +10,20 @@
     src: url('./MultiCrafFont.ttf') format('truetype');
   }
 
+  * { box-sizing: border-box; margin:0; padding:0; }
+
   body {
     font-family: 'MultiCrafFont', sans-serif;
-    background: linear-gradient(180deg, #0b0c1a, #1a1c2f);
+    background: url('./background.jpg') no-repeat center center fixed;
+    background-size: cover;
     color: #fff;
-    margin: 0;
-    padding: 0;
+    min-height: 100vh;
+    padding-bottom: 50px;
   }
 
   header {
     text-align: center;
-    padding: 50px 20px 20px;
+    padding: 60px 20px 20px;
   }
 
   header h1 {
@@ -28,30 +31,31 @@
     background: linear-gradient(90deg, #8be9fd, #ff79c6);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    letter-spacing: 3px;
+    letter-spacing: 2px;
   }
 
   header p {
-    color: #888;
+    color: #aaa;
     margin-top: 5px;
+    font-size: 1em;
   }
 
   .tabs {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    gap: 10px;
+    gap: 12px;
     margin-bottom: 40px;
   }
 
   .tab {
-    padding: 10px 25px;
+    padding: 12px 28px;
     cursor: pointer;
-    border-radius: 10px;
+    border-radius: 12px;
     background: rgba(255,255,255,0.05);
     border: 1px solid rgba(255,255,255,0.1);
-    transition: 0.3s;
     font-weight: bold;
+    transition: 0.3s;
   }
 
   .tab.active {
@@ -60,9 +64,7 @@
     border: none;
   }
 
-  .tab:hover {
-    transform: scale(1.05);
-  }
+  .tab:hover { transform: scale(1.05); }
 
   .tiers-container {
     display: flex;
@@ -74,68 +76,70 @@
 
   .tier-card {
     width: 100%;
-    max-width: 800px;
-    background: rgba(255,255,255,0.05);
-    border-radius: 12px;
+    max-width: 900px;
+    background: rgba(0,0,0,0.5);
+    border-radius: 15px;
     padding: 20px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    box-shadow: 0 5px 25px rgba(0,0,0,0.5);
   }
 
   .tier-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 15px;
+    margin-bottom: 12px;
   }
 
   .tier-badge {
-    padding: 5px 10px;
-    border-radius: 5px;
+    padding: 6px 12px;
+    border-radius: 6px;
     font-weight: bold;
     color: #fff;
   }
 
+  /* Example badge colors */
   .tier-badge.HT1 { background: #ff5555; }
   .tier-badge.HT2 { background: #ffb86c; }
   .tier-badge.LT1 { background: #6272a4; }
   .tier-badge.LT2 { background: #50fa7b; }
-  /* Add more tier colors here */
+
+  .tier-description {
+    font-size: 0.9em;
+    color: #bbb;
+    margin-bottom: 10px;
+  }
 
   .tier-players {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 6px;
   }
 
   .player {
     display: flex;
     justify-content: space-between;
-    padding: 5px 10px;
+    padding: 6px 12px;
     background: rgba(255,255,255,0.05);
-    border-radius: 5px;
+    border-radius: 6px;
   }
 
-  .player span {
-    font-weight: bold;
-  }
+  .player span { font-weight: bold; }
 
 </style>
 </head>
 <body>
 <header>
   <h1>MULTICRAFT TIERS</h1>
-  <p>MultiCraft Build and Mine</p>
+  <p>By NotMythxc4l</p>
 </header>
 
 <div class="tabs" id="section-tabs"></div>
-
 <div class="tiers-container" id="tiers-container"></div>
 
 <script>
-// Sample dynamic JSON structure
 let rankingsData = {};
 
-// Fetch your rankings.json
+// Load rankings.json dynamically
 fetch('rankings.json')
   .then(res => res.json())
   .then(json => {
@@ -143,7 +147,7 @@ fetch('rankings.json')
     createTabs();
     showSection(Object.keys(rankingsData)[0]);
   })
-  .catch(err => console.error(err));
+  .catch(err => console.error("Error loading rankings.json:", err));
 
 function createTabs() {
   const tabsDiv = document.getElementById('section-tabs');
@@ -153,7 +157,7 @@ function createTabs() {
     tab.className = 'tab';
     tab.textContent = section;
     tab.onclick = () => showSection(section);
-    if (index === 0) tab.classList.add('active');
+    if(index === 0) tab.classList.add('active');
     tabsDiv.appendChild(tab);
   });
 }
@@ -162,14 +166,14 @@ function showSection(sectionName) {
   // highlight active tab
   document.querySelectorAll('.tab').forEach(t => {
     t.classList.remove('active');
-    if (t.textContent === sectionName) t.classList.add('active');
+    if(t.textContent === sectionName) t.classList.add('active');
   });
 
   const container = document.getElementById('tiers-container');
   container.innerHTML = '';
 
   const section = rankingsData[sectionName];
-  if (!section) return;
+  if(!section) return;
 
   section.forEach(tier => {
     const card = document.createElement('div');
@@ -179,7 +183,7 @@ function showSection(sectionName) {
     header.className = 'tier-header';
 
     const badge = document.createElement('div');
-    badge.className = `tier-badge ${tier[0]}`; // assumes first element is tier code like HT1
+    badge.className = `tier-badge ${tier[0]}`;
     badge.textContent = tier[0];
 
     const count = document.createElement('div');
@@ -188,6 +192,11 @@ function showSection(sectionName) {
     header.appendChild(badge);
     header.appendChild(count);
     card.appendChild(header);
+
+    const desc = document.createElement('div');
+    desc.className = 'tier-description';
+    desc.textContent = "By NotMythxc4l";
+    card.appendChild(desc);
 
     const playersDiv = document.createElement('div');
     playersDiv.className = 'tier-players';

@@ -1,152 +1,168 @@
-<div class="kit-selector" id="kitSelector">
-  </div>
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Multi Tiers — MultiCraft Tier System</title>
 <style>
-  /* Add these styles to your <style> tag */
+  :root {
+    --bg: #0a0c10;
+    --bg2: #0e1117;
+    --bg3: #161b24;
+    --border: #1e2530;
+    --accent: #3c1e70;
+  }
+
+  body {
+    background: var(--bg);
+    color: #ffffff;
+    font-family: 'Courier New', monospace;
+    margin: 0;
+    min-height: 100vh;
+  }
+
+  .container { max-width: 900px; margin: 0 auto; padding: 24px; }
+
+  header {
+    text-align: center;
+    padding: 40px 0;
+  }
+
+  h1 { letter-spacing: 0.1em; font-size: 2.5rem; }
+
+  /* KIT BUTTONS */
   .kit-selector {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     gap: 10px;
-    margin-top: 20px;
+    margin-bottom: 30px;
   }
+
   .kit-btn {
     background: var(--bg3);
     border: 1px solid var(--border);
-    color: rgba(255,255,255,0.6);
+    color: #5a6474;
     padding: 8px 16px;
-    border-radius: 6px;
+    border-radius: 4px;
     cursor: pointer;
-    font-family: 'MultiCraft', monospace;
+    font-family: inherit;
+    text-transform: uppercase;
     font-size: 0.75rem;
     transition: all 0.2s;
   }
-  .kit-btn:hover { border-color: rgba(255,255,255,0.3); }
+
+  .kit-btn:hover { border-color: #fff; color: #fff; }
   .kit-btn.active {
-    background: #fff;
-    color: #000;
-    border-color: #fff;
-    box-shadow: 0 0 15px rgba(255,255,255,0.2);
+    background: var(--accent);
+    color: #fff;
+    border-color: #7a49d1;
+    box-shadow: 0 0 15px rgba(122, 73, 209, 0.4);
   }
+
+  /* TIER LIST STYLES */
+  .tier-block {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin-bottom: 10px;
+    overflow: hidden;
+  }
+
+  .tier-header {
+    padding: 10px 15px;
+    background: rgba(255,255,255,0.03);
+    border-bottom: 1px solid var(--border);
+    font-size: 0.8rem;
+    color: #5a6474;
+  }
+
+  .player-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 15px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .player-row:last-child { border-bottom: none; }
+  
+  .player-name { flex: 1; }
+  .tier-tag { color: #5a6474; font-size: 0.75rem; }
+
+  .status-msg { text-align: center; padding: 50px; color: #5a6474; }
 </style>
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <h1>MULTICRAFT TIERS</h1>
+  </header>
+
+  <div class="kit-selector" id="kitSelector"></div>
+  <div id="tierList"><div class="status-msg">Loading rankings...</div></div>
+</div>
 
 <script>
 const TIER_ORDER = ['T1','HT1','LT1','T2','HT2','LT2','T3','HT3','LT3','T4','HT4','LT4','T5','HT5','LT5'];
-const GROUP_TOPS = new Set(['T1','T2','T3','T4','T5']);
 let FULL_DATA = {};
-let currentKit = "";
-let searchIndex = [];
 
-function initKits(data) {
-  FULL_DATA = data;
+async function loadData() {
+  const url = 'https://raw.githubusercontent.com/multitiers/multitiers.github.io/refs/heads/main/rankings.json';
+  try {
+    const response = await fetch(url);
+    FULL_DATA = await response.json();
+    initButtons();
+  } catch (e) {
+    document.getElementById('tierList').innerHTML = `<div class="status-msg">Error loading JSON: ${e.message}</div>`;
+  }
+}
+
+function initButtons() {
   const selector = document.getElementById('kitSelector');
-  selector.innerHTML = '';
+  const kits = Object.keys(FULL_DATA);
   
-  const kits = Object.keys(data);
-  if (kits.length === 0) return;
-
+  selector.innerHTML = '';
   kits.forEach((kit, index) => {
     const btn = document.createElement('button');
     btn.className = 'kit-btn';
-    btn.textContent = kit.toUpperCase();
+    btn.textContent = kit;
     btn.onclick = () => {
       document.querySelectorAll('.kit-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
-      render(kit);
+      renderKit(kit);
     };
     selector.appendChild(btn);
-    if (index === 0) {
-        btn.classList.add('active');
-        render(kit);
-    }
+    if(index === 0) btn.click(); // Load first kit by default
   });
 }
 
-function render(kitName) {
+function renderKit(kitName) {
   const data = FULL_DATA[kitName];
-  const tierList = document.getElementById('tierList');
-  tierList.innerHTML = '';
-  searchIndex = [];
+  const list = document.getElementById('tierList');
+  list.innerHTML = '';
 
-  const populated = TIER_ORDER.filter(key => (data[key] || []).length > 0);
-
-  if (!populated.length) {
-    tierList.innerHTML = '<div class="status-msg">No players ranked in this kit.</div>';
-    return;
-  }
-
-  populated.forEach((key, i) => {
-    const players = data[key];
-    if (i > 0 && GROUP_TOPS.has(key)) {
-      const gap = document.createElement('div');
-      gap.className = 'group-gap';
-      tierList.appendChild(gap);
+  TIER_ORDER.forEach(tier => {
+    if (data[tier] && data[tier].length > 0) {
+      const block = document.createElement('div');
+      block.className = 'tier-block';
+      
+      let html = `<div class="tier-header">${tier}</div>`;
+      data[tier].forEach(player => {
+        html += `
+          <div class="player-row">
+            <span class="player-name">${player}</span>
+            <span class="tier-tag">${tier}</span>
+          </div>`;
+      });
+      
+      block.innerHTML = html;
+      list.appendChild(block);
     }
-
-    const block = document.createElement('div');
-    block.className = 'tier-block';
-    block.style.animationDelay = (i * 0.05) + 's';
-
-    const header = document.createElement('div');
-    header.className = 'tier-block-header';
-    header.innerHTML = `<span class="tier-block-label">${key}</span><div class="tier-block-line"></div>`;
-    block.appendChild(header);
-
-    players.forEach((name, idx) => {
-      const row = document.createElement('div');
-      row.className = 'player-row';
-      row.dataset.player = name.toLowerCase();
-      row.innerHTML = `
-        <span class="player-rank">${idx + 1}</span>
-        <span class="player-name">${name}</span>
-        <span class="player-tier-tag">${key}</span>
-      `;
-      block.appendChild(row);
-      // Search index includes kit info for better search
-      searchIndex.push({ name, key, kit: kitName });
-    });
-    tierList.appendChild(block);
   });
 }
 
-// SEARCH LOGIC (Updated to switch kits when searching)
-const searchInput = document.getElementById('searchInput');
-const searchResults = document.getElementById('searchResults');
-
-searchInput.addEventListener('input', () => {
-  const q = searchInput.value.trim().toLowerCase();
-  if (!q) { searchResults.style.display = 'none'; return; }
-
-  const matches = searchIndex.filter(p => p.name.toLowerCase().includes(q)).slice(0, 8);
-  searchResults.innerHTML = matches.length ? '' : '<div style="padding:12px 14px;color:#5a6474;font-size:0.76rem;">No players found</div>';
-  
-  matches.forEach(p => {
-    const el = document.createElement('div');
-    el.className = 'sr-item';
-    el.innerHTML = `<span class="sr-badge">${p.kit} | ${p.key}</span><span class="sr-name">${p.name}</span>`;
-    el.onclick = () => {
-      // Switch kit if necessary
-      const kitBtns = document.querySelectorAll('.kit-btn');
-      kitBtns.forEach(btn => {
-          if(btn.textContent.toLowerCase() === p.kit.toLowerCase()){
-              btn.click();
-              setTimeout(() => scrollToPlayer(p.name), 100);
-          }
-      });
-      searchResults.style.display = 'none';
-      searchInput.value = p.name;
-    };
-    searchResults.appendChild(el);
-  });
-  searchResults.style.display = 'block';
-});
-
-// Load the updated JSON structure
-const JSON_URL = 'https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/rankings.json';
-fetch(JSON_URL)
-  .then(r => r.json())
-  .then(data => initKits(data))
-  .catch(e => {
-    document.getElementById('tierList').innerHTML = `<div class="status-msg error">Error: ${e.message}</div>`;
-  });
+loadData();
 </script>
+</body>
+</html>

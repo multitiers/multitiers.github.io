@@ -1,18 +1,7 @@
 {
-  "sections": [
-    {
-      "name": "Overall",
-      "players": [
-        ["Game1K", "HT1"],
-        ["NotMythxc4l", "LT2"]
-      ]
-    },
-    {
-      "name": "Emerald",
-      "players": [
-        ["Game1K", "HT1"],
-        ["NotMythxc4l", "LT2"]
-      ]
-    }
-  ]
+  "T1":  ["Game1K"],
+  "T2":  ["NotMythxc4l"],
+  "T3":  [],
+  "T4":  [],
+  "T5":  [],
 }

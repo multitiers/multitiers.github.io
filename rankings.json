@@ -1,6 +1,10 @@
 {
   "Overall": {
-    "HT1": ["Game1K"]
+    "20": ["Game1K"],
+    "17": ["system1117"],
+    "17": ["sample"],
+    "13": ["V4n1shed"],
+    "11": ["revan"]
   },
   "Emerald": {
     "HT1": ["Game1K"],
@@ -17,12 +21,9 @@
     "LT3": ["revan"]
   },
   "Emerald OA": {
-    "HT1": ["Game1K"]
   },
   "Dragonhide KB OA": {
-    "HT1": ["Game1K"]
   },
   "Wand": {
-    "HT1": ["Game1K"]
   }
 }

@@ -1,132 +1,186 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Multi Tiers</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi Tiers - Grouped Rankings</title>
 
-<style>
-body{
-background:#0a0c10;
-color:#fff;
-font-family:Courier New,monospace;
-}
+    <style>
+        body {
+            background: #0a0c10;
+            color: #fff;
+            font-family: 'Courier New', monospace;
+        }
 
-.container{max-width:900px;margin:60px auto;padding:0 20px}
+        .container {
+            max-width: 900px;
+            margin: 60px auto;
+            padding: 0 20px;
+        }
 
-.section{
-margin-bottom:60px;
-}
+        .section {
+            margin-bottom: 80px;
+        }
 
-.section-title{
-font-size:1.6rem;
-margin-bottom:20px;
-letter-spacing:.1em;
-opacity:.8;
-}
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 30px;
+            letter-spacing: .15em;
+            text-align: center;
+            color: #58a6ff;
+            text-transform: uppercase;
+            border-bottom: 1px solid #1e2530;
+            padding-bottom: 10px;
+        }
 
-.table{
-background:#11151d;
-border:1px solid #1e2530;
-border-radius:8px;
-overflow:hidden;
-}
+        /* The T1, T2, T3 Headers */
+        .tier-group-header {
+            font-size: 1.2rem;
+            margin: 30px 0 15px 5px;
+            color: #8b949e;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
 
-.row{
-display:flex;
-padding:12px 16px;
-border-bottom:1px solid #1e2530;
-align-items:center;
-}
+        .tier-group-header::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: #1e2530;
+            margin-left: 15px;
+        }
 
-.row:last-child{border-bottom:none}
+        .table {
+            background: #11151d;
+            border: 1px solid #1e2530;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
 
-.rank{
-width:30px;
-opacity:.4;
-}
+        .row {
+            display: flex;
+            padding: 12px 16px;
+            border-bottom: 1px solid #1e2530;
+            align-items: center;
+            transition: background 0.2s;
+        }
 
-.name{
-flex:1;
-}
+        .row:hover {
+            background: #161b22;
+        }
 
-.tier{
-font-size:.75rem;
-padding:3px 8px;
-border:1px solid #2a3342;
-border-radius:4px;
-opacity:.7;
-}
-</style>
+        .row:last-child {
+            border-bottom: none;
+        }
+
+        .rank {
+            width: 40px;
+            opacity: .4;
+            font-size: 0.9rem;
+        }
+
+        .name {
+            flex: 1;
+            font-weight: 500;
+        }
+
+        .tier {
+            font-size: .75rem;
+            padding: 3px 10px;
+            border: 1px solid #30363d;
+            border-radius: 4px;
+            background: #0d1117;
+            color: #c9d1d9;
+        }
+    </style>
 </head>
 <body>
 
 <div class="container">
-<div id="content">Loading...</div>
+    <div id="content">Loading rankings...</div>
 </div>
 
 <script>
+    const JSON_URL = 'https://multitiers.github.io/rankings.json';
 
-const JSON_URL = 'https://multitiers.github.io/rankings.json';
+    // Helper to sort tiers: HT -> T -> LT
+    const SUB_TIER_ORDER = { 'HT': 0, 'T': 1, 'LT': 2 };
 
-function render(data){
-const container=document.getElementById('content');
-container.innerHTML='';
+    function render(data) {
+        const container = document.getElementById('content');
+        container.innerHTML = '';
 
-data.sections.forEach(section=>{
+        data.sections.forEach(section => {
+            const sectionDiv = document.createElement('div');
+            sectionDiv.className = 'section';
 
-const sectionDiv=document.createElement('div');
-sectionDiv.className='section';
+            // 1. Add Section Title (e.g., UHC Rankings)
+            const title = document.createElement('div');
+            title.className = 'section-title';
+            title.textContent = section.name;
+            sectionDiv.appendChild(title);
 
-const title=document.createElement('div');
-title.className='section-title';
-title.textContent=section.name;
-sectionDiv.appendChild(title);
+            // 2. Group players by their Tier number (T1, T2, etc.)
+            const groups = {};
+            section.players.forEach(player => {
+                const fullTierString = player[1]; // e.g., "HT1"
+                const match = fullTierString.match(/\d+/);
+                const tierNum = match ? `T${match[0]}` : "Unranked";
 
-const table=document.createElement('div');
-table.className='table';
+                if (!groups[tierNum]) groups[tierNum] = [];
+                groups[tierNum].push(player);
+            });
 
-// SORT LOGIC
-section.players.sort((a,b)=>{
+            // 3. Sort the group names (T1 then T2 then T3)
+            const sortedTierKeys = Object.keys(groups).sort((a, b) => {
+                return parseInt(a.replace(/\D/g, '')) - parseInt(b.replace(/\D/g, ''));
+            });
 
-const getNumber=t=>parseInt(t.match(/\d+/)?.[0]||0);
-const getType=t=>t.replace(/\d+/g,'');
+            // 4. Render each Tier Group
+            sortedTierKeys.forEach(tierName => {
+                // Add the T1/T2 Sub-header
+                const groupHeader = document.createElement('div');
+                groupHeader.className = 'tier-group-header';
+                groupHeader.textContent = tierName;
+                sectionDiv.appendChild(groupHeader);
 
-const order={HT:0,T:1,LT:2};
+                const table = document.createElement('div');
+                table.className = 'table';
 
-const numDiff=getNumber(a[1])-getNumber(b[1]);
-if(numDiff!==0) return numDiff;
+                // Sort players inside this tier (HT -> T -> LT)
+                groups[tierName].sort((a, b) => {
+                    const typeA = a[1].replace(/\d+/g, '').toUpperCase() || 'T';
+                    const typeB = b[1].replace(/\d+/g, '').toUpperCase() || 'T';
+                    return (SUB_TIER_ORDER[typeA] ?? 5) - (SUB_TIER_ORDER[typeB] ?? 5);
+                });
 
-return order[getType(a[1])] - order[getType(b[1])];
-});
+                groups[tierName].forEach((player, index) => {
+                    const row = document.createElement('div');
+                    row.className = 'row';
+                    row.innerHTML = `
+                        <div class="rank">${index + 1}</div>
+                        <div class="name">${player[0]}</div>
+                        <div class="tier">${player[1]}</div>
+                    `;
+                    table.appendChild(row);
+                });
 
-section.players.forEach((player,index)=>{
+                sectionDiv.appendChild(table);
+            });
 
-const row=document.createElement('div');
-row.className='row';
+            container.appendChild(sectionDiv);
+        });
+    }
 
-row.innerHTML=`
-<div class="rank">${index+1}</div>
-<div class="name">${player[0]}</div>
-<div class="tier">${player[1]}</div>
-`;
-
-table.appendChild(row);
-});
-
-sectionDiv.appendChild(table);
-container.appendChild(sectionDiv);
-
-});
-
-}
-
-fetch(JSON_URL)
-.then(r=>r.json())
-.then(data=>render(data))
-.catch(()=>{
-document.getElementById('content').innerHTML='Error loading rankings.json';
-});
-
+    fetch(JSON_URL)
+        .then(r => r.json())
+        .then(data => render(data))
+        .catch(err => {
+            console.error(err);
+            document.getElementById('content').innerHTML = 'Error loading rankings.json';
+        });
 </script>
 
 </body>

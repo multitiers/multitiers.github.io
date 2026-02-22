@@ -5,61 +5,110 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Multi Tiers</title>
 <style>
+  @font-face {
+    font-family: 'MultiCrafFont';
+    src: url('./MultiCrafFont.ttf') format('truetype');
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
   body {
-    background: #1e1e1e;
+    font-family: 'MultiCrafFont', Arial, sans-serif;
+    background: linear-gradient(135deg, #1a1a2e, #162447, #1f4068);
     color: #fff;
-    font-family: Arial, sans-serif;
-    text-align: center;
-    margin: 0;
-    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    transition: background 0.5s;
   }
+
   h1 {
+    font-size: 4em;
+    margin: 40px 0;
     color: #fff;
-    margin: 30px 0;
-    font-size: 3em;
+    text-shadow: 0 0 15px rgba(255,255,255,0.6);
   }
+
+  .fade-in {
+    animation: fadeIn 0.5s ease forwards;
+  }
+  .fade-out {
+    animation: fadeOut 0.5s ease forwards;
+  }
+
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity:1; transform: translateY(0);} }
+  @keyframes fadeOut { from { opacity: 1; transform: translateY(0);} to { opacity:0; transform: translateY(20px);} }
+
   .section {
     cursor: pointer;
-    padding: 20px;
-    margin: 10px auto;
-    width: 200px;
-    background: #333;
-    border-radius: 8px;
-    transition: 0.2s;
+    padding: 20px 40px;
+    margin: 10px;
+    width: 250px;
+    max-width: 80%;
+    background: rgba(255,255,255,0.05);
+    border: 2px solid rgba(255,255,255,0.3);
+    border-radius: 12px;
+    transition: 0.3s;
+    font-size: 1.5em;
+    text-align: center;
   }
+
   .section:hover {
-    background: #555;
+    background: rgba(255,255,255,0.15);
+    transform: scale(1.05);
   }
+
+  #section-view {
+    display: none;
+    width: 90%;
+    max-width: 1000px;
+    margin-top: 20px;
+  }
+
   table {
     margin: 20px auto;
     border-collapse: collapse;
-    width: 80%;
+    width: 100%;
+    background: rgba(0,0,0,0.3);
+    border-radius: 8px;
+    overflow: hidden;
   }
+
   th, td {
-    border: 1px solid #fff;
-    padding: 10px;
+    padding: 12px 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+    text-align: left;
   }
+
+  th {
+    background: rgba(255,255,255,0.1);
+    font-size: 1.2em;
+  }
+
   button {
-    padding: 10px 20px;
+    padding: 10px 25px;
     margin: 20px;
     cursor: pointer;
     border: none;
-    background: #333;
+    background: rgba(255,255,255,0.1);
     color: #fff;
-    border-radius: 5px;
-    transition: 0.2s;
+    border-radius: 8px;
+    font-size: 1em;
+    transition: 0.3s;
   }
   button:hover {
-    background: #555;
+    background: rgba(255,255,255,0.25);
   }
 </style>
 </head>
 <body>
-
 <h1>Multi Tiers</h1>
 
-<div id="homepage"></div>
-<div id="section-view" style="display:none;">
+<div id="homepage" class="fade-in"></div>
+
+<div id="section-view">
   <button onclick="goBack()">⬅ Back</button>
   <h2 id="section-title"></h2>
   <table id="section-table">
@@ -71,71 +120,90 @@
 </div>
 
 <script>
-// Sample JSON structure (replace with your fetch or local JSON)
-const data = {
-  "Overall": [
-    ["Player", "HT5"],
-    ["Game1K", "HT1"]
-  ],
-  "Arena": [
-    ["Player", "HT3"],
-    ["ArenaMaster", "HT5"]
-  ],
-  "Rankings": [
-    ["Player", "HT2"],
-    ["Champion", "HT4"]
-  ]
-};
+// Load JSON dynamically
+let rankingsData = {};
 
-// Build homepage
-const homepage = document.getElementById("homepage");
-Object.keys(data).forEach(section => {
-  const div = document.createElement("div");
-  div.className = "section";
-  div.textContent = section;
-  div.onclick = () => showSection(section);
-  homepage.appendChild(div);
-});
+// Fetch rankings.json
+fetch('rankings.json')
+  .then(res => res.json())
+  .then(json => {
+    rankingsData = json;
+    buildHomepage();
+  })
+  .catch(err => {
+    console.error("Error loading rankings.json:", err);
+    document.getElementById("homepage").innerHTML = "<p style='color:red;'>Failed to load rankings.json</p>";
+  });
+
+function buildHomepage() {
+  const homepage = document.getElementById("homepage");
+  homepage.innerHTML = "";
+  Object.keys(rankingsData).forEach(section => {
+    const div = document.createElement("div");
+    div.className = "section fade-in";
+    div.textContent = section;
+    div.onclick = () => showSection(section);
+    homepage.appendChild(div);
+  });
+}
 
 function showSection(sectionName) {
-  document.getElementById("homepage").style.display = "none";
-  document.getElementById("section-view").style.display = "block";
-  document.getElementById("section-title").textContent = sectionName;
+  const homepage = document.getElementById("homepage");
+  const sectionView = document.getElementById("section-view");
 
-  // Clear old table
+  homepage.classList.add("fade-out");
+  setTimeout(() => {
+    homepage.style.display = "none";
+    homepage.classList.remove("fade-out");
+
+    sectionView.style.display = "block";
+    sectionView.classList.add("fade-in");
+
+    document.getElementById("section-title").textContent = sectionName;
+    buildTable(rankingsData[sectionName]);
+  }, 500);
+}
+
+function buildTable(sectionData) {
   const tableHeader = document.getElementById("table-header");
   const tableBody = document.getElementById("table-body");
   tableHeader.innerHTML = "";
   tableBody.innerHTML = "";
 
-  // Fill table
-  const sectionData = data[sectionName];
-  if (sectionData.length === 0) return;
+  if (!sectionData || sectionData.length === 0) return;
 
-  // Header
-  sectionData[0].forEach(col => {
+  // Assume first row contains headers
+  const headers = sectionData[0];
+  headers.forEach(col => {
     const th = document.createElement("th");
     th.textContent = col;
     tableHeader.appendChild(th);
   });
 
-  // Body
   for (let i = 1; i < sectionData.length; i++) {
-    const tr = document.createElement("tr");
+    const row = document.createElement("tr");
     sectionData[i].forEach(cell => {
       const td = document.createElement("td");
       td.textContent = cell;
-      tr.appendChild(td);
+      row.appendChild(td);
     });
-    tableBody.appendChild(tr);
+    tableBody.appendChild(row);
   }
 }
 
 function goBack() {
-  document.getElementById("section-view").style.display = "none";
-  document.getElementById("homepage").style.display = "block";
+  const homepage = document.getElementById("homepage");
+  const sectionView = document.getElementById("section-view");
+
+  sectionView.classList.add("fade-out");
+  setTimeout(() => {
+    sectionView.style.display = "none";
+    sectionView.classList.remove("fade-out");
+
+    homepage.style.display = "block";
+    homepage.classList.add("fade-in");
+  }, 500);
 }
 </script>
-
 </body>
 </html>

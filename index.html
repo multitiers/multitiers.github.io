@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Multi Tiers</title>
+<title>MultiTiers</title>
 <style>
   @font-face {
     font-family: 'MultiCrafFont';
@@ -14,71 +14,71 @@
 
   body {
     font-family: 'MultiCrafFont', Arial, sans-serif;
-    background: linear-gradient(135deg, #1a1a2e, #162447, #1f4068);
+    background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
     color: #fff;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    transition: background 0.5s;
   }
 
   h1 {
     font-size: 4em;
-    margin: 40px 0;
+    margin: 50px 0 30px;
     color: #fff;
-    text-shadow: 0 0 15px rgba(255,255,255,0.6);
+    text-shadow: 0 0 20px rgba(255,255,255,0.6);
+    letter-spacing: 2px;
   }
 
-  .fade-in {
-    animation: fadeIn 0.5s ease forwards;
-  }
-  .fade-out {
-    animation: fadeOut 0.5s ease forwards;
-  }
+  .fade-in { animation: fadeIn 0.5s ease forwards; }
+  .fade-out { animation: fadeOut 0.5s ease forwards; }
 
   @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity:1; transform: translateY(0);} }
   @keyframes fadeOut { from { opacity: 1; transform: translateY(0);} to { opacity:0; transform: translateY(20px);} }
 
+  /* Section buttons */
   .section {
     cursor: pointer;
-    padding: 20px 40px;
-    margin: 10px;
-    width: 250px;
-    max-width: 80%;
-    background: rgba(255,255,255,0.05);
-    border: 2px solid rgba(255,255,255,0.3);
-    border-radius: 12px;
-    transition: 0.3s;
-    font-size: 1.5em;
-    text-align: center;
+    padding: 20px 50px;
+    margin: 12px;
+    min-width: 180px;
+    max-width: 90%;
+    background: linear-gradient(135deg, #ff416c, #ff4b2b);
+    border: none;
+    border-radius: 15px;
+    font-size: 1.6em;
+    font-weight: bold;
+    color: #fff;
+    text-shadow: 0 0 6px rgba(0,0,0,0.4);
+    transition: 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
   }
 
   .section:hover {
-    background: rgba(255,255,255,0.15);
     transform: scale(1.05);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
   }
 
+  /* Section view */
   #section-view {
     display: none;
     width: 90%;
     max-width: 1000px;
-    margin-top: 20px;
+    margin-top: 30px;
   }
 
   table {
-    margin: 20px auto;
-    border-collapse: collapse;
     width: 100%;
-    background: rgba(0,0,0,0.3);
-    border-radius: 8px;
+    border-collapse: collapse;
+    background: rgba(255,255,255,0.05);
+    border-radius: 10px;
     overflow: hidden;
   }
 
   th, td {
-    padding: 12px 20px;
-    border-bottom: 1px solid rgba(255,255,255,0.2);
+    padding: 14px 18px;
+    border-bottom: 1px solid rgba(255,255,255,0.15);
     text-align: left;
   }
 
@@ -87,29 +87,34 @@
     font-size: 1.2em;
   }
 
-  button {
-    padding: 10px 25px;
-    margin: 20px;
+  /* Back button */
+  button.back-btn {
+    padding: 12px 30px;
+    margin-bottom: 20px;
     cursor: pointer;
     border: none;
-    background: rgba(255,255,255,0.1);
+    border-radius: 12px;
+    background: linear-gradient(135deg, #36d1dc, #5b86e5);
+    font-size: 1.1em;
+    font-weight: bold;
     color: #fff;
-    border-radius: 8px;
-    font-size: 1em;
-    transition: 0.3s;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    transition: 0.3s ease;
   }
-  button:hover {
-    background: rgba(255,255,255,0.25);
+
+  button.back-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
   }
 </style>
 </head>
 <body>
-<h1>Multi Tiers</h1>
+<h1>MultiTiers</h1>
 
 <div id="homepage" class="fade-in"></div>
 
 <div id="section-view">
-  <button onclick="goBack()">⬅ Back</button>
+  <button class="back-btn" onclick="goBack()">⬅ Back</button>
   <h2 id="section-title"></h2>
   <table id="section-table">
     <thead>
@@ -120,10 +125,10 @@
 </div>
 
 <script>
-// Load JSON dynamically
+// Rankings JSON
 let rankingsData = {};
 
-// Fetch rankings.json
+// Load rankings.json dynamically
 fetch('rankings.json')
   .then(res => res.json())
   .then(json => {
@@ -172,7 +177,6 @@ function buildTable(sectionData) {
 
   if (!sectionData || sectionData.length === 0) return;
 
-  // Assume first row contains headers
   const headers = sectionData[0];
   headers.forEach(col => {
     const th = document.createElement("th");

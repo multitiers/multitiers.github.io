@@ -10,203 +10,199 @@
     src: url('./MultiCrafFont.ttf') format('truetype');
   }
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-
   body {
-    font-family: 'MultiCrafFont', Arial, sans-serif;
-    background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+    font-family: 'MultiCrafFont', sans-serif;
+    background: linear-gradient(180deg, #0b0c1a, #1a1c2f);
     color: #fff;
-    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+  }
+
+  header {
+    text-align: center;
+    padding: 50px 20px 20px;
+  }
+
+  header h1 {
+    font-size: 3.5em;
+    background: linear-gradient(90deg, #8be9fd, #ff79c6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: 3px;
+  }
+
+  header p {
+    color: #888;
+    margin-top: 5px;
+  }
+
+  .tabs {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 40px;
+  }
+
+  .tab {
+    padding: 10px 25px;
+    cursor: pointer;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    transition: 0.3s;
+    font-weight: bold;
+  }
+
+  .tab.active {
+    background: linear-gradient(135deg, #bd93f9, #ff79c6);
+    color: #fff;
+    border: none;
+  }
+
+  .tab:hover {
+    transform: scale(1.05);
+  }
+
+  .tiers-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-start;
+    gap: 20px;
+    padding: 0 20px 50px;
   }
 
-  h1 {
-    font-size: 4em;
-    margin: 50px 0 30px;
-    color: #fff;
-    text-shadow: 0 0 20px rgba(255,255,255,0.6);
-    letter-spacing: 2px;
-  }
-
-  .fade-in { animation: fadeIn 0.5s ease forwards; }
-  .fade-out { animation: fadeOut 0.5s ease forwards; }
-
-  @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity:1; transform: translateY(0);} }
-  @keyframes fadeOut { from { opacity: 1; transform: translateY(0);} to { opacity:0; transform: translateY(20px);} }
-
-  /* Section buttons */
-  .section {
-    cursor: pointer;
-    padding: 20px 50px;
-    margin: 12px;
-    min-width: 180px;
-    max-width: 90%;
-    background: linear-gradient(135deg, #ff416c, #ff4b2b);
-    border: none;
-    border-radius: 15px;
-    font-size: 1.6em;
-    font-weight: bold;
-    color: #fff;
-    text-shadow: 0 0 6px rgba(0,0,0,0.4);
-    transition: 0.3s ease;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-  }
-
-  .section:hover {
-    transform: scale(1.05);
-    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-  }
-
-  /* Section view */
-  #section-view {
-    display: none;
-    width: 90%;
-    max-width: 1000px;
-    margin-top: 30px;
-  }
-
-  table {
+  .tier-card {
     width: 100%;
-    border-collapse: collapse;
+    max-width: 800px;
     background: rgba(255,255,255,0.05);
-    border-radius: 10px;
-    overflow: hidden;
-  }
-
-  th, td {
-    padding: 14px 18px;
-    border-bottom: 1px solid rgba(255,255,255,0.15);
-    text-align: left;
-  }
-
-  th {
-    background: rgba(255,255,255,0.1);
-    font-size: 1.2em;
-  }
-
-  /* Back button */
-  button.back-btn {
-    padding: 12px 30px;
-    margin-bottom: 20px;
-    cursor: pointer;
-    border: none;
     border-radius: 12px;
-    background: linear-gradient(135deg, #36d1dc, #5b86e5);
-    font-size: 1.1em;
+    padding: 20px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  }
+
+  .tier-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+
+  .tier-badge {
+    padding: 5px 10px;
+    border-radius: 5px;
     font-weight: bold;
     color: #fff;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-    transition: 0.3s ease;
   }
 
-  button.back-btn:hover {
-    transform: scale(1.05);
-    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+  .tier-badge.HT1 { background: #ff5555; }
+  .tier-badge.HT2 { background: #ffb86c; }
+  .tier-badge.LT1 { background: #6272a4; }
+  .tier-badge.LT2 { background: #50fa7b; }
+  /* Add more tier colors here */
+
+  .tier-players {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
   }
+
+  .player {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 10px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 5px;
+  }
+
+  .player span {
+    font-weight: bold;
+  }
+
 </style>
 </head>
 <body>
-<h1>MultiTiers</h1>
+<header>
+  <h1>MULTICRAFT TIERS</h1>
+  <p>MultiCraft Build and Mine</p>
+</header>
 
-<div id="homepage" class="fade-in"></div>
+<div class="tabs" id="section-tabs"></div>
 
-<div id="section-view">
-  <button class="back-btn" onclick="goBack()">⬅ Back</button>
-  <h2 id="section-title"></h2>
-  <table id="section-table">
-    <thead>
-      <tr id="table-header"></tr>
-    </thead>
-    <tbody id="table-body"></tbody>
-  </table>
-</div>
+<div class="tiers-container" id="tiers-container"></div>
 
 <script>
-// Rankings JSON
+// Sample dynamic JSON structure
 let rankingsData = {};
 
-// Load rankings.json dynamically
+// Fetch your rankings.json
 fetch('rankings.json')
   .then(res => res.json())
   .then(json => {
     rankingsData = json;
-    buildHomepage();
+    createTabs();
+    showSection(Object.keys(rankingsData)[0]);
   })
-  .catch(err => {
-    console.error("Error loading rankings.json:", err);
-    document.getElementById("homepage").innerHTML = "<p style='color:red;'>Failed to load rankings.json</p>";
-  });
+  .catch(err => console.error(err));
 
-function buildHomepage() {
-  const homepage = document.getElementById("homepage");
-  homepage.innerHTML = "";
-  Object.keys(rankingsData).forEach(section => {
-    const div = document.createElement("div");
-    div.className = "section fade-in";
-    div.textContent = section;
-    div.onclick = () => showSection(section);
-    homepage.appendChild(div);
+function createTabs() {
+  const tabsDiv = document.getElementById('section-tabs');
+  tabsDiv.innerHTML = '';
+  Object.keys(rankingsData).forEach((section, index) => {
+    const tab = document.createElement('div');
+    tab.className = 'tab';
+    tab.textContent = section;
+    tab.onclick = () => showSection(section);
+    if (index === 0) tab.classList.add('active');
+    tabsDiv.appendChild(tab);
   });
 }
 
 function showSection(sectionName) {
-  const homepage = document.getElementById("homepage");
-  const sectionView = document.getElementById("section-view");
-
-  homepage.classList.add("fade-out");
-  setTimeout(() => {
-    homepage.style.display = "none";
-    homepage.classList.remove("fade-out");
-
-    sectionView.style.display = "block";
-    sectionView.classList.add("fade-in");
-
-    document.getElementById("section-title").textContent = sectionName;
-    buildTable(rankingsData[sectionName]);
-  }, 500);
-}
-
-function buildTable(sectionData) {
-  const tableHeader = document.getElementById("table-header");
-  const tableBody = document.getElementById("table-body");
-  tableHeader.innerHTML = "";
-  tableBody.innerHTML = "";
-
-  if (!sectionData || sectionData.length === 0) return;
-
-  const headers = sectionData[0];
-  headers.forEach(col => {
-    const th = document.createElement("th");
-    th.textContent = col;
-    tableHeader.appendChild(th);
+  // highlight active tab
+  document.querySelectorAll('.tab').forEach(t => {
+    t.classList.remove('active');
+    if (t.textContent === sectionName) t.classList.add('active');
   });
 
-  for (let i = 1; i < sectionData.length; i++) {
-    const row = document.createElement("tr");
-    sectionData[i].forEach(cell => {
-      const td = document.createElement("td");
-      td.textContent = cell;
-      row.appendChild(td);
+  const container = document.getElementById('tiers-container');
+  container.innerHTML = '';
+
+  const section = rankingsData[sectionName];
+  if (!section) return;
+
+  section.forEach(tier => {
+    const card = document.createElement('div');
+    card.className = 'tier-card';
+
+    const header = document.createElement('div');
+    header.className = 'tier-header';
+
+    const badge = document.createElement('div');
+    badge.className = `tier-badge ${tier[0]}`; // assumes first element is tier code like HT1
+    badge.textContent = tier[0];
+
+    const count = document.createElement('div');
+    count.textContent = `${tier[1].length} players`;
+
+    header.appendChild(badge);
+    header.appendChild(count);
+    card.appendChild(header);
+
+    const playersDiv = document.createElement('div');
+    playersDiv.className = 'tier-players';
+    tier[1].forEach(player => {
+      const p = document.createElement('div');
+      p.className = 'player';
+      const name = document.createElement('span');
+      name.textContent = player;
+      p.appendChild(name);
+      playersDiv.appendChild(p);
     });
-    tableBody.appendChild(row);
-  }
-}
 
-function goBack() {
-  const homepage = document.getElementById("homepage");
-  const sectionView = document.getElementById("section-view");
-
-  sectionView.classList.add("fade-out");
-  setTimeout(() => {
-    sectionView.style.display = "none";
-    sectionView.classList.remove("fade-out");
-
-    homepage.style.display = "block";
-    homepage.classList.add("fade-in");
-  }, 500);
+    card.appendChild(playersDiv);
+    container.appendChild(card);
+  });
 }
 </script>
 </body>

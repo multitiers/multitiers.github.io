@@ -23,7 +23,6 @@
   header { text-align: center; padding: 30px 0; }
   h1 { letter-spacing: 0.15em; font-size: 2rem; margin-bottom: 25px; }
 
-  /* Search */
   .search-container { margin-bottom: 30px; display: flex; justify-content: center; }
   #playerSearch {
     width: 100%; max-width: 450px; padding: 12px;
@@ -31,7 +30,6 @@
     border-radius: 6px; color: var(--white); font-family: inherit; outline: none;
   }
 
-  /* Kit Selectors */
   .kit-selector { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-bottom: 40px; }
   .kit-btn {
     background: var(--bg3); border: 1px solid var(--border); color: var(--muted); 
@@ -40,7 +38,6 @@
   }
   .kit-btn.active { background: var(--accent); color: var(--white); border-color: var(--accent-bright); box-shadow: 0 0 10px rgba(122, 73, 209, 0.4); }
 
-  /* Main List Styling */
   .tier-block { background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; margin-bottom: 20px; overflow: hidden; }
   .tier-header { padding: 15px 20px; background: rgba(255,255,255,0.03); border-bottom: 1px solid var(--border); font-weight: bold; color: var(--accent-bright); letter-spacing: 2px; text-transform: uppercase;}
 
@@ -56,20 +53,18 @@
   .pts-tag { font-size: 0.75rem; font-weight: bold; color: var(--gold); }
   .tier-tag { font-size: 0.75rem; font-weight: bold; color: var(--white); padding: 4px 8px; border-radius: 4px; background: var(--bg3); border: 1px solid var(--border); }
 
-  /* Dividers */
-  .overall-spacer { height: 1px; background: var(--border); margin: 0 20px; }
-
   /* Modal Styling */
   .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(5px); }
   .modal-content { background: var(--bg2); margin: 10% auto; border: 1px solid var(--border); border-radius: 12px; width: 90%; max-width: 450px; overflow: hidden; }
-  .modal-header { padding: 25px 20px; background: var(--bg3); border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
-  .modal-body { padding: 0; } /* Set padding to 0 to allow full-width spacers */
+  .modal-header { padding: 25px 20px; background: var(--bg3); display: flex; justify-content: space-between; align-items: center; }
+  .modal-body { padding: 0; } 
+
+  /* The Separator Line */
+  .modal-spacer { height: 1px; background: var(--border); width: 100%; }
 
   .stat-item { display: flex; justify-content: space-between; padding: 16px 20px; border-bottom: 1px solid var(--border); }
   .stat-item:last-child { border-bottom: none; }
   
-  .modal-spacer { height: 1px; background: var(--border); width: 100%; }
-
   .status-msg { text-align: center; padding: 50px; color: var(--muted); }
 </style>
 </head>
@@ -96,6 +91,7 @@
       <div class="modal-spacer"></div>
       <div id="modalStats"></div>
       <div class="modal-spacer"></div>
+      <div style="height: 20px;"></div>
     </div>
   </div>
 </div>
@@ -146,8 +142,7 @@ function renderKit(kitName) {
     const pointsKeys = Object.keys(data).sort((a, b) => parseInt(b) - parseInt(a));
     let globalRank = 1;
 
-    pointsKeys.forEach((pts, idx) => {
-      if (idx > 0) html += `<div class="overall-spacer"></div>`;
+    pointsKeys.forEach((pts) => {
       data[pts].forEach(name => {
         const rankClass = globalRank === 1 ? 'rank-1' : '';
         html += `

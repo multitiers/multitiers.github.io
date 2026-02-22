@@ -1,7 +1,10 @@
 {
-  "T1":  ["Game1K"],
-  "T2":  ["NotMythxc4l"],
-  "T3":  [],
-  "T4":  [],
-  "T5":  [],
+  "Overall": {
+    "HT1": ["Game1k"],
+    "LT2": ["NotMythxc4l"]
+  },
+  "Emerald": {
+    "HT1": ["Game1K"],
+    "LT2": ["NotMythxc4l"]
+  }
 }

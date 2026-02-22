@@ -1,186 +1,140 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Multi Tiers</title>
-
-    <style>
-        body {
-            background: #0a0c10;
-            color: #fff;
-            font-family: 'Courier New', monospace;
-        }
-
-        .container {
-            max-width: 900px;
-            margin: 60px auto;
-            padding: 0 20px;
-        }
-
-        .section {
-            margin-bottom: 80px;
-        }
-
-        .section-title {
-            font-size: 2rem;
-            margin-bottom: 30px;
-            letter-spacing: .15em;
-            text-align: center;
-            color: #58a6ff;
-            text-transform: uppercase;
-            border-bottom: 1px solid #1e2530;
-            padding-bottom: 10px;
-        }
-
-        /* The T1, T2, T3 Headers */
-        .tier-group-header {
-            font-size: 1.2rem;
-            margin: 30px 0 15px 5px;
-            color: #8b949e;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-        }
-
-        .tier-group-header::after {
-            content: "";
-            flex: 1;
-            height: 1px;
-            background: #1e2530;
-            margin-left: 15px;
-        }
-
-        .table {
-            background: #11151d;
-            border: 1px solid #1e2530;
-            border-radius: 8px;
-            overflow: hidden;
-            margin-bottom: 20px;
-        }
-
-        .row {
-            display: flex;
-            padding: 12px 16px;
-            border-bottom: 1px solid #1e2530;
-            align-items: center;
-            transition: background 0.2s;
-        }
-
-        .row:hover {
-            background: #161b22;
-        }
-
-        .row:last-child {
-            border-bottom: none;
-        }
-
-        .rank {
-            width: 40px;
-            opacity: .4;
-            font-size: 0.9rem;
-        }
-
-        .name {
-            flex: 1;
-            font-weight: 500;
-        }
-
-        .tier {
-            font-size: .75rem;
-            padding: 3px 10px;
-            border: 1px solid #30363d;
-            border-radius: 4px;
-            background: #0d1117;
-            color: #c9d1d9;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Multi Tiers</title>
+<style>
+  body {
+    background: #1e1e1e;
+    color: #fff;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+  }
+  h1 {
+    color: #fff;
+    margin: 30px 0;
+    font-size: 3em;
+  }
+  .section {
+    cursor: pointer;
+    padding: 20px;
+    margin: 10px auto;
+    width: 200px;
+    background: #333;
+    border-radius: 8px;
+    transition: 0.2s;
+  }
+  .section:hover {
+    background: #555;
+  }
+  table {
+    margin: 20px auto;
+    border-collapse: collapse;
+    width: 80%;
+  }
+  th, td {
+    border: 1px solid #fff;
+    padding: 10px;
+  }
+  button {
+    padding: 10px 20px;
+    margin: 20px;
+    cursor: pointer;
+    border: none;
+    background: #333;
+    color: #fff;
+    border-radius: 5px;
+    transition: 0.2s;
+  }
+  button:hover {
+    background: #555;
+  }
+</style>
 </head>
 <body>
 
-<div class="container">
-    <div id="content">Loading rankings...</div>
+<h1>Multi Tiers</h1>
+
+<div id="homepage"></div>
+<div id="section-view" style="display:none;">
+  <button onclick="goBack()">⬅ Back</button>
+  <h2 id="section-title"></h2>
+  <table id="section-table">
+    <thead>
+      <tr id="table-header"></tr>
+    </thead>
+    <tbody id="table-body"></tbody>
+  </table>
 </div>
 
 <script>
-    const JSON_URL = 'https://raw.githubusercontent.com/multiTiers/multiTiers.github.io/main/rankings.json';
+// Sample JSON structure (replace with your fetch or local JSON)
+const data = {
+  "Overall": [
+    ["Player", "HT5"],
+    ["Game1K", "HT1"]
+  ],
+  "Arena": [
+    ["Player", "HT3"],
+    ["ArenaMaster", "HT5"]
+  ],
+  "Rankings": [
+    ["Player", "HT2"],
+    ["Champion", "HT4"]
+  ]
+};
 
-    // Helper to sort tiers: HT -> T -> LT
-    const SUB_TIER_ORDER = { 'HT': 0, 'T': 1, 'LT': 2 };
+// Build homepage
+const homepage = document.getElementById("homepage");
+Object.keys(data).forEach(section => {
+  const div = document.createElement("div");
+  div.className = "section";
+  div.textContent = section;
+  div.onclick = () => showSection(section);
+  homepage.appendChild(div);
+});
 
-    function render(data) {
-        const container = document.getElementById('content');
-        container.innerHTML = '';
+function showSection(sectionName) {
+  document.getElementById("homepage").style.display = "none";
+  document.getElementById("section-view").style.display = "block";
+  document.getElementById("section-title").textContent = sectionName;
 
-        data.sections.forEach(section => {
-            const sectionDiv = document.createElement('div');
-            sectionDiv.className = 'section';
+  // Clear old table
+  const tableHeader = document.getElementById("table-header");
+  const tableBody = document.getElementById("table-body");
+  tableHeader.innerHTML = "";
+  tableBody.innerHTML = "";
 
-            // 1. Add Section Title (e.g., UHC Rankings)
-            const title = document.createElement('div');
-            title.className = 'section-title';
-            title.textContent = section.name;
-            sectionDiv.appendChild(title);
+  // Fill table
+  const sectionData = data[sectionName];
+  if (sectionData.length === 0) return;
 
-            // 2. Group players by their Tier number (T1, T2, etc.)
-            const groups = {};
-            section.players.forEach(player => {
-                const fullTierString = player[1]; // e.g., "HT1"
-                const match = fullTierString.match(/\d+/);
-                const tierNum = match ? `T${match[0]}` : "Unranked";
+  // Header
+  sectionData[0].forEach(col => {
+    const th = document.createElement("th");
+    th.textContent = col;
+    tableHeader.appendChild(th);
+  });
 
-                if (!groups[tierNum]) groups[tierNum] = [];
-                groups[tierNum].push(player);
-            });
+  // Body
+  for (let i = 1; i < sectionData.length; i++) {
+    const tr = document.createElement("tr");
+    sectionData[i].forEach(cell => {
+      const td = document.createElement("td");
+      td.textContent = cell;
+      tr.appendChild(td);
+    });
+    tableBody.appendChild(tr);
+  }
+}
 
-            // 3. Sort the group names (T1 then T2 then T3)
-            const sortedTierKeys = Object.keys(groups).sort((a, b) => {
-                return parseInt(a.replace(/\D/g, '')) - parseInt(b.replace(/\D/g, ''));
-            });
-
-            // 4. Render each Tier Group
-            sortedTierKeys.forEach(tierName => {
-                // Add the T1/T2 Sub-header
-                const groupHeader = document.createElement('div');
-                groupHeader.className = 'tier-group-header';
-                groupHeader.textContent = tierName;
-                sectionDiv.appendChild(groupHeader);
-
-                const table = document.createElement('div');
-                table.className = 'table';
-
-                // Sort players inside this tier (HT -> T -> LT)
-                groups[tierName].sort((a, b) => {
-                    const typeA = a[1].replace(/\d+/g, '').toUpperCase() || 'T';
-                    const typeB = b[1].replace(/\d+/g, '').toUpperCase() || 'T';
-                    return (SUB_TIER_ORDER[typeA] ?? 5) - (SUB_TIER_ORDER[typeB] ?? 5);
-                });
-
-                groups[tierName].forEach((player, index) => {
-                    const row = document.createElement('div');
-                    row.className = 'row';
-                    row.innerHTML = `
-                        <div class="rank">${index + 1}</div>
-                        <div class="name">${player[0]}</div>
-                        <div class="tier">${player[1]}</div>
-                    `;
-                    table.appendChild(row);
-                });
-
-                sectionDiv.appendChild(table);
-            });
-
-            container.appendChild(sectionDiv);
-        });
-    }
-
-    fetch(JSON_URL)
-        .then(r => r.json())
-        .then(data => render(data))
-        .catch(err => {
-            console.error(err);
-            document.getElementById('content').innerHTML = 'Error loading rankings.json';
-        });
+function goBack() {
+  document.getElementById("section-view").style.display = "none";
+  document.getElementById("homepage").style.display = "block";
+}
 </script>
 
 </body>

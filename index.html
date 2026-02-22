@@ -1,154 +1,120 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Multi Tiers</title>
 
 <style>
-:root{
---bg:#0a0c10;
---bg2:#0e1117;
---border:#1e2530;
-}
-
-*{box-sizing:border-box;margin:0;padding:0}
-
 body{
-background:var(--bg);
+background:#0a0c10;
 color:#fff;
 font-family:Courier New,monospace;
-min-height:100vh;
 }
 
-.container{max-width:950px;margin:0 auto;padding:0 24px}
+.container{max-width:900px;margin:60px auto;padding:0 20px}
 
-.hero{
-padding:60px 0 40px;
-text-align:center;
-}
-
-.hero h1{
-font-size:clamp(2.4rem,6vw,4.8rem);
-letter-spacing:.1em;
-}
-
-#tierList{
-display:flex;
-flex-direction:column;
-gap:40px;
+.section{
 margin-bottom:60px;
 }
 
 .section-title{
-font-size:1.4rem;
-letter-spacing:.12em;
-margin-bottom:14px;
-opacity:.7;
+font-size:1.6rem;
+margin-bottom:20px;
+letter-spacing:.1em;
+opacity:.8;
 }
 
-.tier-block{
-background:var(--bg2);
-border:1px solid var(--border);
-border-radius:10px;
+.table{
+background:#11151d;
+border:1px solid #1e2530;
+border-radius:8px;
 overflow:hidden;
-margin-bottom:16px;
 }
 
-.tier-header{
-padding:10px 14px;
-border-bottom:1px solid var(--border);
-background:rgba(255,255,255,.03);
-letter-spacing:.15em;
-font-size:.85rem;
-opacity:.6;
-}
-
-.player-row{
+.row{
 display:flex;
+padding:12px 16px;
+border-bottom:1px solid #1e2530;
 align-items:center;
-gap:14px;
-padding:11px 14px;
-border-bottom:1px solid var(--border);
 }
 
-.player-row:last-child{border-bottom:none}
+.row:last-child{border-bottom:none}
 
-.player-rank{
+.rank{
+width:30px;
+opacity:.4;
+}
+
+.name{
+flex:1;
+}
+
+.tier{
 font-size:.75rem;
-opacity:.25;
-min-width:20px;
-text-align:right;
-}
-
-.player-name{flex:1}
-
-.status-msg{
-text-align:center;
-padding:60px 20px;
-opacity:.5;
+padding:3px 8px;
+border:1px solid #2a3342;
+border-radius:4px;
+opacity:.7;
 }
 </style>
 </head>
 <body>
 
-<main class="container">
-<div class="hero">
-<h1>MULTICRAFT<br>TIER SYSTEM</h1>
+<div class="container">
+<div id="content">Loading...</div>
 </div>
-
-<div id="tierList">
-<div class="status-msg">Loading...</div>
-</div>
-</main>
 
 <script>
 
 const JSON_URL = 'https://raw.githubusercontent.com/multitiers/multitiers.github.io/main/rankings.json';
 
 function render(data){
-const container=document.getElementById('tierList');
+const container=document.getElementById('content');
 container.innerHTML='';
-
-if(!data.sections || !data.sections.length){
-container.innerHTML='<div class="status-msg">No sections found.</div>';
-return;
-}
 
 data.sections.forEach(section=>{
 
-const sectionWrap=document.createElement('div');
+const sectionDiv=document.createElement('div');
+sectionDiv.className='section';
 
 const title=document.createElement('div');
 title.className='section-title';
 title.textContent=section.name;
-sectionWrap.appendChild(title);
+sectionDiv.appendChild(title);
 
-section.tiers.forEach(tier=>{
+const table=document.createElement('div');
+table.className='table';
 
-const block=document.createElement('div');
-block.className='tier-block';
+// SORT LOGIC
+section.players.sort((a,b)=>{
 
-const header=document.createElement('div');
-header.className='tier-header';
-header.textContent=tier.name;
-block.appendChild(header);
+const getNumber=t=>parseInt(t.match(/\d+/)?.[0]||0);
+const getType=t=>t.replace(/\d+/g,'');
 
-tier.players.forEach((player,idx)=>{
+const order={HT:0,T:1,LT:2};
+
+const numDiff=getNumber(a[1])-getNumber(b[1]);
+if(numDiff!==0) return numDiff;
+
+return order[getType(a[1])] - order[getType(b[1])];
+});
+
+section.players.forEach((player,index)=>{
+
 const row=document.createElement('div');
-row.className='player-row';
+row.className='row';
+
 row.innerHTML=`
-<span class="player-rank">${idx+1}</span>
-<span class="player-name">${player}</span>
+<div class="rank">${index+1}</div>
+<div class="name">${player[0]}</div>
+<div class="tier">${player[1]}</div>
 `;
-block.appendChild(row);
+
+table.appendChild(row);
 });
 
-sectionWrap.appendChild(block);
-
-});
-
-container.appendChild(sectionWrap);
+sectionDiv.appendChild(table);
+container.appendChild(sectionDiv);
 
 });
 
@@ -158,10 +124,10 @@ fetch(JSON_URL)
 .then(r=>r.json())
 .then(data=>render(data))
 .catch(()=>{
-document.getElementById('tierList').innerHTML=
-'<div class="status-msg">Error loading rankings.json</div>';
+document.getElementById('content').innerHTML='Error loading rankings.json';
 });
 
 </script>
+
 </body>
 </html>

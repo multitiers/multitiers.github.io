@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Multi Tiers — MultiCraft Tier System</title>
+<title>Multi Tiers</title>
 <style>
   :root {
     --bg: #0a0c10;
@@ -12,20 +12,12 @@
     --border: #1e2530;
     --accent: #3c1e70;
     --accent-bright: #7a49d1;
+    --gold: #ffd700;
   }
 
   * { box-sizing: border-box; }
-
-  body {
-    background: var(--bg);
-    color: #ffffff;
-    font-family: 'Courier New', monospace;
-    margin: 0;
-    min-height: 100vh;
-  }
-
+  body { background: var(--bg); color: #ffffff; font-family: 'Courier New', monospace; margin: 0; min-height: 100vh; }
   .container { max-width: 900px; margin: 0 auto; padding: 24px; }
-
   header { text-align: center; padding: 30px 0; }
   h1 { letter-spacing: 0.15em; font-size: 2rem; margin-bottom: 25px; }
 
@@ -36,75 +28,34 @@
     border-radius: 6px; color: white; font-family: inherit; outline: none;
   }
 
-  .kit-selector {
-    display: flex; flex-wrap: wrap; justify-content: center;
-    gap: 10px; margin-bottom: 40px;
-  }
-
+  .kit-selector { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-bottom: 40px; }
   .kit-btn {
-    background: var(--bg3); border: 1px solid var(--border);
-    color: #5a6474; padding: 10px 18px; border-radius: 4px;
-    cursor: pointer; text-transform: uppercase; font-size: 0.75rem;
-    transition: all 0.2s;
+    background: var(--bg3); border: 1px solid var(--border); color: #5a6474; 
+    padding: 10px 18px; border-radius: 4px; cursor: pointer; text-transform: uppercase; 
+    font-size: 0.75rem; transition: all 0.2s;
   }
+  .kit-btn.active { background: var(--accent); color: #fff; border-color: var(--accent-bright); box-shadow: 0 0 10px rgba(122, 73, 209, 0.4); }
 
-  .kit-btn.active {
-    background: var(--accent); color: #fff;
-    border-color: var(--accent-bright);
-    box-shadow: 0 0 10px rgba(122, 73, 209, 0.4);
-  }
+  .tier-block { background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; margin-bottom: 20px; overflow: hidden; }
+  .tier-header { padding: 15px 20px; background: rgba(255,255,255,0.03); border-bottom: 1px solid var(--border); font-weight: bold; color: var(--accent-bright); letter-spacing: 2px; }
 
-  .tier-block {
-    background: var(--bg2); border: 1px solid var(--border);
-    border-radius: 10px; margin-bottom: 20px; overflow: hidden;
-  }
-
-  .tier-header {
-    padding: 15px 20px; background: rgba(255,255,255,0.03);
-    border-bottom: 1px solid var(--border);
-    font-weight: bold; color: var(--accent-bright); letter-spacing: 2px;
-  }
-
-  .player-row {
-    display: flex; justify-content: space-between; align-items: center;
-    padding: 12px 20px; border-bottom: 1px solid var(--border);
-  }
-
+  .player-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 20px; border-bottom: 1px solid var(--border); }
   .player-row:last-child { border-bottom: none; }
   
+  .rank-num { font-weight: bold; margin-right: 15px; color: #5a6474; width: 30px; display: inline-block; }
+  .rank-1 { color: var(--gold) !important; text-shadow: 0 0 8px rgba(255, 215, 0, 0.4); }
+
   .player-name { cursor: pointer; transition: 0.2s; flex: 1; }
   .player-name:hover { color: var(--accent-bright); text-decoration: underline; }
 
-  .sub-tag {
-    font-size: 0.7rem; padding: 3px 8px; border-radius: 4px;
-    background: var(--bg3); color: #888; border: 1px solid var(--border);
-  }
+  .sub-tag { font-size: 0.7rem; padding: 3px 8px; border-radius: 4px; background: var(--bg3); color: #888; border: 1px solid var(--border); }
 
   /* Modal */
-  .modal {
-    display: none; position: fixed; z-index: 2000;
-    left: 0; top: 0; width: 100%; height: 100%;
-    background: rgba(0,0,0,0.85); backdrop-filter: blur(5px);
-  }
-
-  .modal-content {
-    background: var(--bg2); margin: 10% auto;
-    border: 1px solid var(--border); border-radius: 12px;
-    width: 90%; max-width: 450px; overflow: hidden;
-  }
-
-  .modal-header {
-    padding: 20px; background: var(--bg3);
-    border-bottom: 1px solid var(--border);
-    display: flex; justify-content: space-between; align-items: center;
-  }
-
+  .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(5px); }
+  .modal-content { background: var(--bg2); margin: 10% auto; border: 1px solid var(--border); border-radius: 12px; width: 90%; max-width: 450px; overflow: hidden; }
+  .modal-header { padding: 20px; background: var(--bg3); border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
   .modal-body { padding: 20px; }
-  .stat-item {
-    display: flex; justify-content: space-between;
-    padding: 12px 0; border-bottom: 1px solid var(--border);
-  }
-
+  .stat-item { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--border); }
   .status-msg { text-align: center; padding: 50px; color: #5a6474; }
 </style>
 </head>
@@ -170,25 +121,32 @@ function renderKit(kitName) {
   list.innerHTML = '';
 
   if (kitName === "Overall") {
-    // Sort Point keys numerically (20, 17, 13, etc)
+    // LEADERBOARD LOGIC: Strictly by points
     const pointsKeys = Object.keys(data).sort((a, b) => parseInt(b) - parseInt(a));
-    
+    let globalRank = 1;
+
     pointsKeys.forEach(pts => {
       const block = document.createElement('div');
       block.className = 'tier-block';
       let html = `<div class="tier-header">${pts} POINTS</div>`;
+      
       data[pts].forEach(name => {
+        const rankClass = globalRank === 1 ? 'rank-1' : '';
         html += `
           <div class="player-row">
-            <span class="player-name" onclick="showPlayerStats('${name}')">${name}</span>
+            <div>
+              <span class="rank-num ${rankClass}">#${globalRank}</span>
+              <span class="player-name" onclick="showPlayerStats('${name}')">${name}</span>
+            </div>
             <span class="sub-tag">${pts} PTS</span>
           </div>`;
+        globalRank++;
       });
       block.innerHTML = html;
       list.appendChild(block);
     });
   } else {
-    // Normal Tier System for everything else
+    // TIER LOGIC
     TIER_ORDER.forEach(tier => {
       const players = [];
       Object.keys(data).forEach(k => {
@@ -219,15 +177,13 @@ function showPlayerStats(playerName) {
   document.getElementById('modalPlayerName').textContent = playerName;
   const statsDiv = document.getElementById('modalStats');
   statsDiv.innerHTML = '';
-
   for (const kit in FULL_DATA) {
     for (const tier in FULL_DATA[kit]) {
       if (FULL_DATA[kit][tier].includes(playerName)) {
-        const tag = (kit === "Overall") ? "PTS" : "";
         statsDiv.innerHTML += `
           <div class="stat-item">
             <span style="color:#888">${kit}</span>
-            <span style="color:var(--accent-bright); font-weight:bold;">${tier} ${tag}</span>
+            <span style="color:var(--accent-bright); font-weight:bold;">${tier} ${(kit==="Overall"?"PTS":"")}</span>
           </div>`;
       }
     }
@@ -238,22 +194,15 @@ function showPlayerStats(playerName) {
 function closeModal() { document.getElementById('playerModal').style.display = "none"; }
 window.onclick = (e) => { if(e.target.className === 'modal') closeModal(); };
 
-// FIXED SEARCH: Now looks at current rows and hides empty blocks
 document.getElementById('playerSearch').addEventListener('input', (e) => {
   const term = e.target.value.toLowerCase();
-  
   document.querySelectorAll('.tier-block').forEach(block => {
     let hasMatch = false;
     block.querySelectorAll('.player-row').forEach(row => {
       const name = row.querySelector('.player-name').textContent.toLowerCase();
-      if (name.includes(term)) {
-        row.style.display = 'flex';
-        hasMatch = true;
-      } else {
-        row.style.display = 'none';
-      }
+      if (name.includes(term)) { row.style.display = 'flex'; hasMatch = true; }
+      else { row.style.display = 'none'; }
     });
-    // Hide the whole block (header + rows) if no players match in it
     block.style.display = hasMatch ? 'block' : 'none';
   });
 });

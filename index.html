@@ -9,10 +9,8 @@
 <meta property="og:image" content="https://multicraft.world/images/tild3864-6536-4335-a134-323832623836__noroot.png" />
 <title>MultiTiers</title>
 <style>
-  /* 1. Custom Font Definition */
   @font-face {
     font-family: 'MultiCraftFont';
-    /* Ensure this filename matches your uploaded file exactly */
     src: url('MultiCraftFont.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
@@ -52,7 +50,6 @@
   .container { max-width: 900px; margin: 0 auto; padding: 24px; }
   header { text-align: center; padding: 50px 0; }
 
-  /* 2. Main Title - Fixed to use your Font */
   h1 { 
     font-family: 'MultiCraftFont', sans-serif;
     letter-spacing: 0.05em; 
@@ -64,7 +61,6 @@
     text-transform: uppercase;
   }
 
-  /* Search UI */
   .search-container { margin-bottom: 30px; display: flex; justify-content: center; }
   #playerSearch {
     width: 100%; max-width: 450px; padding: 14px;
@@ -73,7 +69,6 @@
     backdrop-filter: blur(5px);
   }
 
-  /* Kit Selectors */
   .kit-selector { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-bottom: 40px; }
   .kit-btn {
     background: var(--bg3); border: 1px solid var(--border); color: var(--muted); 
@@ -82,7 +77,6 @@
   }
   .kit-btn.active { background: var(--accent); color: var(--white); border-color: var(--accent-bright); box-shadow: 0 0 15px rgba(122, 73, 209, 0.3); }
 
-  /* Rankings List */
   .tier-block { background: rgba(14, 17, 23, 0.75); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 20px; overflow: hidden; backdrop-filter: blur(10px); }
   .tier-header { padding: 15px 20px; background: rgba(255,255,255,0.03); border-bottom: 1px solid var(--border); font-weight: bold; color: var(--accent-bright); letter-spacing: 2px; }
   
@@ -94,9 +88,9 @@
   .row-rank-3 { background: rgba(205, 127, 50, 0.03); border-left: 4px solid var(--bronze); }
 
   .rank-num { font-weight: 900; margin-right: 15px; color: var(--muted); width: 45px; display: inline-block; font-style: italic; }
-  .rank-1 { color: var(--gold) !important; text-shadow: 0 0 10px rgba(255, 215, 0, 0.5); }
-  .rank-2 { color: var(--silver) !important; text-shadow: 0 0 10px rgba(224, 224, 224, 0.5); }
-  .rank-3 { color: var(--bronze) !important; text-shadow: 0 0 10px rgba(205, 127, 50, 0.5); }
+  .rank-1 { color: var(--gold) !important; }
+  .rank-2 { color: var(--silver) !important; }
+  .rank-3 { color: var(--bronze) !important; }
 
   .player-name-wrapper { display: flex; align-items: center; flex: 1; overflow: hidden; }
   .player-name { font-weight: bold; font-size: 1.1rem; }
@@ -123,12 +117,49 @@
   .pos-text { padding: 20px; flex: 1; font-weight: 800; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; }
   .pos-points { color: var(--gold); margin-left: 5px; font-weight: 400; font-size: 0.85rem; text-transform: none; }
 
-  .tiers-grid { background: rgba(0,0,0,0.3); margin: 10px 30px 40px; padding: 25px; border-radius: 15px; border: 1px solid var(--border); display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-  .kit-item { text-align: center; display: flex; flex-direction: column; align-items: center; }
-  .kit-icon { width: 38px; height: 38px; object-fit: contain; margin-bottom: 8px; filter: drop-shadow(0 0 5px rgba(255,255,255,0.2)); }
+  /* Improved Tier Inventory Grid */
+  .tiers-grid { 
+    background: rgba(0,0,0,0.3); 
+    margin: 10px 30px 40px; 
+    padding: 20px; 
+    border-radius: 15px; 
+    border: 1px solid var(--border); 
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 15px; 
+  }
+  .kit-item { 
+    text-align: center; 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center;
+    width: 60px;
+  }
+  .kit-icon-wrapper {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 8px;
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+  .kit-icon { 
+    width: 28px; 
+    height: 28px; 
+    object-fit: contain;
+  }
   .kit-tier-badge { 
-    display: block; font-size: 0.7rem; font-weight: 800; color: var(--white); 
-    background: rgba(0,0,0,0.6); padding: 3px 10px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1);
+    font-size: 0.65rem; 
+    font-weight: 900; 
+    color: var(--gold); 
+    background: rgba(0,0,0,0.6); 
+    padding: 2px 6px; 
+    border-radius: 10px; 
+    border: 1px solid rgba(255,215,0,0.2);
   }
 
   .close-btn { cursor: pointer; font-size: 28px; color: var(--muted); position: absolute; right: 25px; top: 20px; transition: 0.2s; }
@@ -169,12 +200,20 @@ let FULL_DATA = {};
 const TIER_ORDER = ["T1", "T2", "T3", "T4", "T5"];
 const POINT_MAP = { "HT1": 10, "LT1": 9, "HT2": 8, "LT2": 7, "HT3": 6, "LT3": 5, "HT4": 4, "LT4": 3, "HT5": 2, "LT5": 1 };
 
+// Map kit names to image filenames (ensure these images exist in your folder)
+const KIT_IMAGES = {
+  "Emerald": "emerald.png",
+  "Dragonhide KB": "dragonhide_kb.png",
+  "Emerald OA": "emerald_oa.png",
+  "KB OA": "kb_oa.png",
+  "Wand": "wand.png"
+};
+
 async function loadData() {
   const url = 'https://raw.githubusercontent.com/multitiers/multitiers.github.io/refs/heads/main/rankings.json';
   try {
     const res = await fetch(url);
     const rawData = await res.json();
-    
     FULL_DATA = {};
     for (const kit in rawData) {
         FULL_DATA[kit] = {};
@@ -182,7 +221,6 @@ async function loadData() {
             FULL_DATA[kit][tier] = rawData[kit][tier].map(name => name.trim());
         }
     }
-
     calculateOverall(); 
     initButtons();
   } catch (e) {
@@ -237,7 +275,6 @@ function renderKit(kitName) {
   const data = FULL_DATA[kitName];
   const list = document.getElementById('tierList');
   list.innerHTML = '';
-
   if (kitName === "Overall") {
     const block = document.createElement('div');
     block.className = 'tier-block';
@@ -249,7 +286,6 @@ function renderKit(kitName) {
         const info = getTitleInfo(rank);
         let rankClass = rank === 1 ? 'rank-1' : (rank === 2 ? 'rank-2' : (rank === 3 ? 'rank-3' : ''));
         let rowClass = rank <= 3 ? `row-rank-${rank}` : '';
-        
         html += `<div class="player-row ${rowClass}" onclick="showPlayerStats('${name}')">
           <div class="player-name-wrapper">
             <span class="rank-num ${rankClass}">#${rank}</span>
@@ -286,22 +322,28 @@ function showPlayerStats(playerName) {
   const grid = document.getElementById('modalTiersGrid');
   const rankNumEl = document.getElementById('modalRankNum');
   const titleEl = document.getElementById('modalRankTitle');
-  
   document.getElementById('modalPlayerName').textContent = playerName;
   grid.innerHTML = '';
   let totalPts = 0;
 
-  const kits = ["Emerald", "Dragonhide KB", "Emerald OA", "KB OA", "Wand"];
-  kits.forEach(kit => {
+  // Kits to check for tiers
+  const kitKeys = Object.keys(KIT_IMAGES);
+  
+  kitKeys.forEach(kit => {
     if(!FULL_DATA[kit]) return;
     for (const tierLabel in FULL_DATA[kit]) {
       const playerList = FULL_DATA[kit][tierLabel];
       if (playerList.some(n => n.toLowerCase() === playerName.toLowerCase())) {
         totalPts += (POINT_MAP[tierLabel] || 0);
-        const iconFile = kit.toLowerCase().replace(/\s+/g, '_') + '.png';
-        grid.innerHTML += `<div class="kit-item">
-          <img src="${iconFile}" class="kit-icon" onerror="this.src='favicon.svg'">
-          <span class="kit-tier-badge">${tierLabel}</span></div>`;
+        const imgName = KIT_IMAGES[kit];
+        
+        grid.innerHTML += `
+          <div class="kit-item">
+            <div class="kit-icon-wrapper">
+              <img src="${imgName}" class="kit-icon" alt="${kit}" onerror="this.style.display='none'">
+            </div>
+            <span class="kit-tier-badge">${tierLabel}</span>
+          </div>`;
       }
     }
   });
@@ -313,15 +355,10 @@ function showPlayerStats(playerName) {
     if(overallData[pts].some(n => n.toLowerCase() === playerName.toLowerCase())) { rankNum = currentRank; break; }
     currentRank += overallData[pts].length;
   }
-
   const info = getTitleInfo(rankNum);
   titleEl.textContent = info.title;
   titleEl.style.color = info.color;
   rankNumEl.style.color = info.color;
-  
-  if (rankNum <= 3) titleEl.style.textShadow = `0 0 15px ${info.color}88`;
-  else titleEl.style.textShadow = "none";
-
   rankNumEl.textContent = rankNum > 0 ? `#${rankNum}` : '--';
   document.getElementById('modalTotalPoints').textContent = `(${totalPts} pts)`;
   modal.style.display = "block";

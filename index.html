@@ -9,12 +9,14 @@
 <meta property="og:image" content="https://multicraft.world/images/tild3864-6536-4335-a134-323832623836__noroot.png" />
 <title>MultiTiers</title>
 <style>
-  /* Custom Font Definition */
+  /* 1. Custom Font Definition */
   @font-face {
     font-family: 'MultiCraftFont';
-    src: url('MultiCraftFont.tff') format('truetype');
+    /* Ensure this filename matches your uploaded file exactly */
+    src: url('MultiCraftFont.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
+    font-display: swap;
   }
 
   :root {
@@ -30,7 +32,7 @@
     --gray: #6a6a6a;
     --white: #ffffff;
     --muted: #5a6474;
-    --space-glow: rgba(60, 30, 112, 0.15);
+    --space-glow: rgba(122, 73, 209, 0.15);
   }
 
   * { box-sizing: border-box; }
@@ -38,8 +40,8 @@
   body { 
     background-color: var(--bg);
     background-image: 
-      radial-gradient(circle at center, var(--space-glow) 0%, transparent 70%),
-      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400' viewBox='0 0 800 800'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Ccircle cx='100' cy='100' r='1'/%3E%3Ccircle cx='300' cy='250' r='1'/%3E%3Ccircle cx='500' cy='50' r='1'/%3E%3Ccircle cx='700' cy='150' r='1.5'/%3E%3Ccircle cx='150' cy='600' r='1'/%3E%3Ccircle cx='450' cy='750' r='1'/%3E%3Ccircle cx='650' cy='500' r='1'/%3E%3Ccircle cx='50' cy='350' r='1.5'/%3E%3C/g%3E%3C/svg%3E");
+      radial-gradient(circle at center, var(--space-glow) 0%, transparent 75%),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400' viewBox='0 0 800 800'%3E%3Cg fill='%23ffffff' fill-opacity='0.08'%3E%3Ccircle cx='100' cy='100' r='1'/%3E%3Ccircle cx='300' cy='250' r='1'/%3E%3Ccircle cx='500' cy='50' r='1'/%3E%3Ccircle cx='700' cy='150' r='1.5'/%3E%3Ccircle cx='150' cy='600' r='1'/%3E%3Ccircle cx='450' cy='750' r='1'/%3E%3Ccircle cx='650' cy='500' r='1'/%3E%3Ccircle cx='50' cy='350' r='1.5'/%3E%3C/g%3E%3C/svg%3E");
     background-attachment: fixed;
     color: var(--white); 
     font-family: 'Courier New', monospace; 
@@ -48,16 +50,18 @@
   }
 
   .container { max-width: 900px; margin: 0 auto; padding: 24px; }
-  header { text-align: center; padding: 40px 0; }
+  header { text-align: center; padding: 50px 0; }
 
-  /* Title using custom font */
+  /* 2. Main Title - Fixed to use your Font */
   h1 { 
-    font-family: 'MultiCraftFont', 'Courier New', monospace;
-    letter-spacing: 0.1em; 
-    font-size: 3.5rem; 
-    margin-bottom: 25px; 
+    font-family: 'MultiCraftFont', sans-serif;
+    letter-spacing: 0.05em; 
+    font-size: 4rem; 
+    margin: 0 0 20px 0; 
     font-weight: normal; 
-    text-shadow: 0 0 20px rgba(122, 73, 209, 0.5); 
+    color: var(--white);
+    text-shadow: 0 0 15px rgba(122, 73, 209, 0.6), 0 0 30px rgba(122, 73, 209, 0.3); 
+    text-transform: uppercase;
   }
 
   /* Search UI */
@@ -79,7 +83,7 @@
   .kit-btn.active { background: var(--accent); color: var(--white); border-color: var(--accent-bright); box-shadow: 0 0 15px rgba(122, 73, 209, 0.3); }
 
   /* Rankings List */
-  .tier-block { background: rgba(14, 17, 23, 0.7); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 20px; overflow: hidden; backdrop-filter: blur(10px); }
+  .tier-block { background: rgba(14, 17, 23, 0.75); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 20px; overflow: hidden; backdrop-filter: blur(10px); }
   .tier-header { padding: 15px 20px; background: rgba(255,255,255,0.03); border-bottom: 1px solid var(--border); font-weight: bold; color: var(--accent-bright); letter-spacing: 2px; }
   
   .player-row { display: flex; justify-content: space-between; align-items: center; padding: 16px 20px; border-bottom: 1px solid var(--border); transition: 0.2s; cursor: pointer; }
@@ -101,13 +105,13 @@
   .pts-tag { font-size: 0.8rem; font-weight: bold; color: var(--gold); }
   .tier-tag { font-size: 0.75rem; font-weight: bold; color: var(--white); padding: 5px 10px; border-radius: 6px; background: var(--bg3); border: 1px solid var(--border); }
 
-  /* Modal */
+  /* Modal HUD */
   .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(12px); }
   .modal-content { 
     background: linear-gradient(180deg, #161b24 0%, #0a0c10 100%); 
     margin: 5% auto; border: 1px solid rgba(255,255,255,0.1); 
     border-radius: 24px; width: 90%; max-width: 450px; overflow: hidden; position: relative;
-    box-shadow: 0 25px 60px rgba(0,0,0,0.8), 0 0 20px rgba(122, 73, 209, 0.15);
+    box-shadow: 0 25px 60px rgba(0,0,0,0.8), 0 0 20px rgba(122, 73, 209, 0.2);
   }
   .modal-profile-header { text-align: center; padding: 50px 20px 25px; }
   .profile-name { font-size: 2.5rem; font-weight: 900; margin: 0; color: var(--white); letter-spacing: -1px; }
@@ -170,6 +174,7 @@ async function loadData() {
   try {
     const res = await fetch(url);
     const rawData = await res.json();
+    
     FULL_DATA = {};
     for (const kit in rawData) {
         FULL_DATA[kit] = {};
@@ -177,10 +182,11 @@ async function loadData() {
             FULL_DATA[kit][tier] = rawData[kit][tier].map(name => name.trim());
         }
     }
+
     calculateOverall(); 
     initButtons();
   } catch (e) {
-    document.getElementById('tierList').innerHTML = `<div style="text-align:center; padding: 50px; color: var(--muted);">Establishing connection to MultiTiers...</div>`;
+    document.getElementById('tierList').innerHTML = `<div style="text-align:center; padding: 50px; color: var(--muted);">Syncing with Data Core...</div>`;
   }
 }
 
@@ -231,6 +237,7 @@ function renderKit(kitName) {
   const data = FULL_DATA[kitName];
   const list = document.getElementById('tierList');
   list.innerHTML = '';
+
   if (kitName === "Overall") {
     const block = document.createElement('div');
     block.className = 'tier-block';
@@ -242,6 +249,7 @@ function renderKit(kitName) {
         const info = getTitleInfo(rank);
         let rankClass = rank === 1 ? 'rank-1' : (rank === 2 ? 'rank-2' : (rank === 3 ? 'rank-3' : ''));
         let rowClass = rank <= 3 ? `row-rank-${rank}` : '';
+        
         html += `<div class="player-row ${rowClass}" onclick="showPlayerStats('${name}')">
           <div class="player-name-wrapper">
             <span class="rank-num ${rankClass}">#${rank}</span>
@@ -278,9 +286,11 @@ function showPlayerStats(playerName) {
   const grid = document.getElementById('modalTiersGrid');
   const rankNumEl = document.getElementById('modalRankNum');
   const titleEl = document.getElementById('modalRankTitle');
+  
   document.getElementById('modalPlayerName').textContent = playerName;
   grid.innerHTML = '';
   let totalPts = 0;
+
   const kits = ["Emerald", "Dragonhide KB", "Emerald OA", "KB OA", "Wand"];
   kits.forEach(kit => {
     if(!FULL_DATA[kit]) return;
@@ -295,6 +305,7 @@ function showPlayerStats(playerName) {
       }
     }
   });
+
   const overallData = FULL_DATA["Overall"];
   const sortedPoints = Object.keys(overallData).sort((a, b) => parseInt(b) - parseInt(a));
   let rankNum = 0, currentRank = 1;
@@ -302,12 +313,15 @@ function showPlayerStats(playerName) {
     if(overallData[pts].some(n => n.toLowerCase() === playerName.toLowerCase())) { rankNum = currentRank; break; }
     currentRank += overallData[pts].length;
   }
+
   const info = getTitleInfo(rankNum);
   titleEl.textContent = info.title;
   titleEl.style.color = info.color;
   rankNumEl.style.color = info.color;
+  
   if (rankNum <= 3) titleEl.style.textShadow = `0 0 15px ${info.color}88`;
   else titleEl.style.textShadow = "none";
+
   rankNumEl.textContent = rankNum > 0 ? `#${rankNum}` : '--';
   document.getElementById('modalTotalPoints').textContent = `(${totalPts} pts)`;
   modal.style.display = "block";

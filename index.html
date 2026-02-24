@@ -7,7 +7,7 @@
 <meta property="og:title" content="MultiTiers" />
 <meta property="og:description" content="Official PvP Rankings and Tier Testing" />
 <meta property="og:image" content="https://multicraft.world/images/tild3864-6536-4335-a134-323832623836__noroot.png" />
-<title>Multi Tiers</title>
+<title>MultiTiers</title>
 <style>
   :root {
     --bg: #0a0c10;
@@ -28,7 +28,7 @@
   body { background: var(--bg); color: var(--white); font-family: 'Courier New', monospace; margin: 0; min-height: 100vh; }
   .container { max-width: 900px; margin: 0 auto; padding: 24px; }
   header { text-align: center; padding: 30px 0; }
-  h1 { letter-spacing: 0.15em; font-size: 2.5rem; margin-bottom: 25px; font-weight: 900; }
+  h1 { letter-spacing: 0.2em; font-size: 2.5rem; margin-bottom: 25px; font-weight: 900; color: var(--white); }
 
   /* Search */
   .search-container { margin-bottom: 30px; display: flex; justify-content: center; }
@@ -51,45 +51,52 @@
   .tier-block { background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; margin-bottom: 20px; overflow: hidden; }
   .tier-header { padding: 15px 20px; background: rgba(255,255,255,0.03); border-bottom: 1px solid var(--border); font-weight: bold; color: var(--accent-bright); letter-spacing: 2px; }
   .player-row { display: flex; justify-content: space-between; align-items: center; padding: 14px 20px; border-bottom: 1px solid var(--border); transition: 0.2s; cursor: pointer; }
-  .player-row:hover { background: rgba(255,255,255,0.02); }
+  .player-row:hover { background: rgba(255,255,255,0.05); }
   
-  .rank-num { font-weight: bold; margin-right: 15px; color: var(--muted); width: 35px; display: inline-block; }
-  .rank-1 { color: var(--gold) !important; text-shadow: 0 0 8px rgba(255, 215, 0, 0.4); }
-  .rank-2 { color: var(--silver) !important; text-shadow: 0 0 8px rgba(224, 224, 224, 0.4); }
-  .rank-3 { color: var(--bronze) !important; text-shadow: 0 0 8px rgba(205, 127, 50, 0.4); }
+  /* Top 3 Glow Effects */
+  .row-rank-1 { background: rgba(255, 215, 0, 0.03); border-left: 3px solid var(--gold); }
+  .row-rank-2 { background: rgba(224, 224, 224, 0.02); border-left: 3px solid var(--silver); }
+  .row-rank-3 { background: rgba(205, 127, 50, 0.02); border-left: 3px solid var(--bronze); }
 
-  .player-name { font-weight: bold; }
-  .list-title { font-size: 0.65rem; margin-left: 10px; text-transform: uppercase; letter-spacing: 1px; vertical-align: middle; padding: 2px 6px; border-radius: 3px; background: rgba(255,255,255,0.05); }
+  .rank-num { font-weight: bold; margin-right: 15px; color: var(--muted); width: 45px; display: inline-block; }
+  .rank-1 { color: var(--gold) !important; text-shadow: 0 0 8px rgba(255, 215, 0, 0.5); }
+  .rank-2 { color: var(--silver) !important; text-shadow: 0 0 8px rgba(224, 224, 224, 0.5); }
+  .rank-3 { color: var(--bronze) !important; text-shadow: 0 0 8px rgba(205, 127, 50, 0.5); }
+
+  .player-name-wrapper { display: flex; align-items: center; flex: 1; overflow: hidden; }
+  .player-name { font-weight: bold; white-space: nowrap; }
+  .list-title { font-size: 0.6rem; margin-left: 10px; text-transform: uppercase; letter-spacing: 1px; padding: 2px 6px; border-radius: 4px; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.05); flex-shrink: 0; }
 
   .pts-tag { font-size: 0.75rem; font-weight: bold; color: var(--gold); }
   .tier-tag { font-size: 0.75rem; font-weight: bold; color: var(--white); padding: 4px 8px; border-radius: 4px; background: var(--bg3); border: 1px solid var(--border); }
 
   /* Profile Modal */
-  .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); backdrop-filter: blur(8px); }
-  .modal-content { background: var(--bg2); margin: 5% auto; border: 1px solid var(--border); border-radius: 20px; width: 90%; max-width: 450px; overflow: hidden; position: relative;}
+  .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); backdrop-filter: blur(10px); }
+  .modal-content { background: var(--bg2); margin: 5% auto; border: 1px solid var(--border); border-radius: 20px; width: 90%; max-width: 450px; overflow: hidden; position: relative; box-shadow: 0 20px 50px rgba(0,0,0,0.5);}
   .modal-profile-header { text-align: center; padding: 40px 20px 20px; }
-  .profile-name { font-size: 2.2rem; font-weight: 900; margin: 0; color: var(--white); }
+  .profile-name { font-size: 2.2rem; font-weight: 900; margin: 0; color: var(--white); text-transform: none; }
 
   .section-label { font-size: 0.7rem; color: var(--muted); text-transform: uppercase; letter-spacing: 2px; margin: 20px 25px 10px; font-weight: 800; }
 
   .position-bar { background: var(--bg3); margin: 0 25px; border-radius: 12px; display: flex; align-items: center; border: 1px solid var(--border); }
   .pos-num { background: rgba(255,255,255,0.05); padding: 15px 25px; font-size: 1.6rem; font-style: italic; font-weight: 900; border-right: 1px solid var(--border); }
-  .pos-text { padding: 15px 20px; flex: 1; font-weight: 800; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; }
+  .pos-text { padding: 15px 20px; flex: 1; font-weight: 800; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; }
   .pos-points { color: var(--gold); margin-left: 5px; font-weight: normal; font-size: 0.85rem; text-transform: none; }
 
   .tiers-grid { background: rgba(0,0,0,0.2); margin: 10px 25px 30px; padding: 20px; border-radius: 12px; border: 1px solid var(--border); display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
   .kit-item { text-align: center; display: flex; flex-direction: column; align-items: center; }
-  .kit-icon { width: 32px; height: 32px; object-fit: contain; margin-bottom: 5px; }
+  .kit-icon { width: 34px; height: 34px; object-fit: contain; margin-bottom: 5px; }
   .kit-tier-badge { display: block; font-size: 0.7rem; font-weight: 800; color: var(--white); }
 
-  .close-btn { cursor: pointer; font-size: 24px; color: var(--muted); position: absolute; right: 20px; top: 15px; }
+  .close-btn { cursor: pointer; font-size: 24px; color: var(--muted); position: absolute; right: 20px; top: 15px; transition: 0.2s; }
+  .close-btn:hover { color: var(--white); }
 </style>
 </head>
 <body>
 
 <div class="container">
   <header>
-    <h1>MULTI TIERS</h1>
+    <h1>MULTITIERS</h1>
     <div class="search-container">
       <input type="text" id="playerSearch" placeholder="Search player name...">
     </div>
@@ -104,12 +111,12 @@
     <div class="modal-profile-header">
       <div class="profile-name" id="modalPlayerName">Player</div>
     </div>
-    <div class="section-label">Position</div>
+    <div class="section-label">Rank Status</div>
     <div class="position-bar">
       <div class="pos-num" id="modalRankNum">#--</div>
       <div class="pos-text"><span id="modalRankTitle">Combat Ace</span> <span class="pos-points" id="modalTotalPoints">(0 pts)</span></div>
     </div>
-    <div class="section-label">Tiers</div>
+    <div class="section-label">Tier Inventory</div>
     <div id="modalTiersGrid" class="tiers-grid"></div>
   </div>
 </div>
@@ -123,11 +130,21 @@ async function loadData() {
   const url = 'https://raw.githubusercontent.com/multitiers/multitiers.github.io/refs/heads/main/rankings.json';
   try {
     const res = await fetch(url);
-    FULL_DATA = await res.json();
+    const rawData = await res.json();
+    
+    // Normalize logic: clean spaces and fix casing consistency
+    FULL_DATA = {};
+    for (const kit in rawData) {
+        FULL_DATA[kit] = {};
+        for (const tier in rawData[kit]) {
+            FULL_DATA[kit][tier] = rawData[kit][tier].map(name => name.trim());
+        }
+    }
+
     calculateOverall(); 
     initButtons();
   } catch (e) {
-    document.getElementById('tierList').innerHTML = `<div class="status-msg">Error loading rankings.</div>`;
+    document.getElementById('tierList').innerHTML = `<div style="text-align:center; padding: 50px; color: var(--muted);">Error connecting to MultiTiers database.</div>`;
   }
 }
 
@@ -137,7 +154,9 @@ function calculateOverall() {
     if (kit === "Overall") continue; 
     for (const tier in FULL_DATA[kit]) {
       const pts = POINT_MAP[tier] || 0;
-      FULL_DATA[kit][tier].forEach(player => { totals[player] = (totals[player] || 0) + pts; });
+      FULL_DATA[kit][tier].forEach(player => {
+        totals[player] = (totals[player] || 0) + pts;
+      });
     }
   }
   FULL_DATA["Overall"] = {};
@@ -167,9 +186,9 @@ function initButtons() {
 }
 
 function getTitleInfo(rank) {
-  if (rank === 1) return { title: "Grandmaster", color: "var(--gold)" };
-  if (rank === 2 || rank === 3) return { title: "Master", color: rank === 2 ? "var(--silver)" : "var(--bronze)" };
-  return { title: "Ace", color: "var(--gray)" };
+  if (rank === 1) return { title: "Combat Grandmaster", color: "var(--gold)" };
+  if (rank === 2 || rank === 3) return { title: "Combat Master", color: rank === 2 ? "var(--silver)" : "var(--bronze)" };
+  return { title: "Combat Ace", color: "var(--gray)" };
 }
 
 function renderKit(kitName) {
@@ -180,16 +199,17 @@ function renderKit(kitName) {
   if (kitName === "Overall") {
     const block = document.createElement('div');
     block.className = 'tier-block';
-    let html = `<div class="tier-header">OVERALL RANKINGS</div>`;
+    let html = `<div class="tier-header">GLOBAL LEADERBOARD</div>`;
     const sortedPoints = Object.keys(data).sort((a, b) => parseInt(b) - parseInt(a));
     let rank = 1;
     sortedPoints.forEach(pts => {
       data[pts].forEach(name => {
         const info = getTitleInfo(rank);
         let rankClass = rank === 1 ? 'rank-1' : (rank === 2 ? 'rank-2' : (rank === 3 ? 'rank-3' : ''));
+        let rowClass = rank <= 3 ? `row-rank-${rank}` : '';
         
-        html += `<div class="player-row" onclick="showPlayerStats('${name}')">
-          <div>
+        html += `<div class="player-row ${rowClass}" onclick="showPlayerStats('${name}')">
+          <div class="player-name-wrapper">
             <span class="rank-num ${rankClass}">#${rank}</span>
             <span class="player-name">${name}</span>
             <span class="list-title" style="color:${info.color}">${info.title}</span>
@@ -233,7 +253,8 @@ function showPlayerStats(playerName) {
   kits.forEach(kit => {
     if(!FULL_DATA[kit]) return;
     for (const tierLabel in FULL_DATA[kit]) {
-      if (FULL_DATA[kit][tierLabel].includes(playerName)) {
+      const playerList = FULL_DATA[kit][tierLabel];
+      if (playerList.some(n => n.toLowerCase() === playerName.toLowerCase())) {
         totalPts += (POINT_MAP[tierLabel] || 0);
         const iconFile = kit.toLowerCase().replace(/\s+/g, '_') + '.png';
         grid.innerHTML += `<div class="kit-item">
@@ -247,16 +268,16 @@ function showPlayerStats(playerName) {
   const sortedPoints = Object.keys(overallData).sort((a, b) => parseInt(b) - parseInt(a));
   let rankNum = 0, currentRank = 1;
   for(let pts of sortedPoints) {
-    if(overallData[pts].includes(playerName)) { rankNum = currentRank; break; }
+    if(overallData[pts].some(n => n.toLowerCase() === playerName.toLowerCase())) { rankNum = currentRank; break; }
     currentRank += overallData[pts].length;
   }
 
   const info = getTitleInfo(rankNum);
-  titleEl.textContent = `Combat ${info.title}`;
+  titleEl.textContent = info.title;
   titleEl.style.color = info.color;
   rankNumEl.style.color = info.color;
   
-  if (rankNum <= 3) titleEl.style.textShadow = `0 0 10px ${info.color}66`;
+  if (rankNum <= 3) titleEl.style.textShadow = `0 0 15px ${info.color}88`;
   else titleEl.style.textShadow = "none";
 
   rankNumEl.textContent = rankNum > 0 ? `#${rankNum}` : '--';
@@ -267,9 +288,8 @@ function showPlayerStats(playerName) {
 function closeModal() { document.getElementById('playerModal').style.display = "none"; }
 window.onclick = (e) => { if(e.target.className === 'modal') closeModal(); };
 
-// Search filter update
 document.getElementById('playerSearch').addEventListener('input', (e) => {
-  const term = e.target.value.toLowerCase();
+  const term = e.target.value.toLowerCase().trim();
   document.querySelectorAll('.player-row').forEach(row => {
     const name = row.querySelector('.player-name').textContent.toLowerCase();
     row.style.display = name.includes(term) ? 'flex' : 'none';

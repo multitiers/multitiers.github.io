@@ -17,9 +17,9 @@
     --accent: #3c1e70;
     --accent-bright: #7a49d1;
     --gold: #ffd700;
-    --silver: #c0c0c0;
+    --silver: #e0e0e0;
     --bronze: #cd7f32;
-    --gray: #888888;
+    --gray: #6a6a6a;
     --white: #ffffff;
     --muted: #5a6474;
   }
@@ -54,7 +54,13 @@
   .player-row:hover { background: rgba(255,255,255,0.02); }
   
   .rank-num { font-weight: bold; margin-right: 15px; color: var(--muted); width: 35px; display: inline-block; }
-  .rank-1 { color: var(--gold) !important; }
+  .rank-1 { color: var(--gold) !important; text-shadow: 0 0 8px rgba(255, 215, 0, 0.4); }
+  .rank-2 { color: var(--silver) !important; text-shadow: 0 0 8px rgba(224, 224, 224, 0.4); }
+  .rank-3 { color: var(--bronze) !important; text-shadow: 0 0 8px rgba(205, 127, 50, 0.4); }
+
+  .player-name { font-weight: bold; }
+  .list-title { font-size: 0.65rem; margin-left: 10px; text-transform: uppercase; letter-spacing: 1px; vertical-align: middle; padding: 2px 6px; border-radius: 3px; background: rgba(255,255,255,0.05); }
+
   .pts-tag { font-size: 0.75rem; font-weight: bold; color: var(--gold); }
   .tier-tag { font-size: 0.75rem; font-weight: bold; color: var(--white); padding: 4px 8px; border-radius: 4px; background: var(--bg3); border: 1px solid var(--border); }
 
@@ -160,6 +166,12 @@ function initButtons() {
   });
 }
 
+function getTitleInfo(rank) {
+  if (rank === 1) return { title: "Grandmaster", color: "var(--gold)" };
+  if (rank === 2 || rank === 3) return { title: "Master", color: rank === 2 ? "var(--silver)" : "var(--bronze)" };
+  return { title: "Ace", color: "var(--gray)" };
+}
+
 function renderKit(kitName) {
   const data = FULL_DATA[kitName];
   const list = document.getElementById('tierList');
@@ -173,8 +185,15 @@ function renderKit(kitName) {
     let rank = 1;
     sortedPoints.forEach(pts => {
       data[pts].forEach(name => {
+        const info = getTitleInfo(rank);
+        let rankClass = rank === 1 ? 'rank-1' : (rank === 2 ? 'rank-2' : (rank === 3 ? 'rank-3' : ''));
+        
         html += `<div class="player-row" onclick="showPlayerStats('${name}')">
-          <div><span class="rank-num ${rank === 1 ? 'rank-1' : ''}">#${rank}</span><span class="player-name">${name}</span></div>
+          <div>
+            <span class="rank-num ${rankClass}">#${rank}</span>
+            <span class="player-name">${name}</span>
+            <span class="list-title" style="color:${info.color}">${info.title}</span>
+          </div>
           <span class="pts-tag">${pts} PTS</span></div>`;
         rank++;
       });
@@ -210,14 +229,12 @@ function showPlayerStats(playerName) {
   grid.innerHTML = '';
   let totalPts = 0;
 
-  // Specific kits logic
   const kits = ["Emerald", "Dragonhide KB", "Emerald OA", "KB OA", "Wand"];
   kits.forEach(kit => {
     if(!FULL_DATA[kit]) return;
     for (const tierLabel in FULL_DATA[kit]) {
       if (FULL_DATA[kit][tierLabel].includes(playerName)) {
         totalPts += (POINT_MAP[tierLabel] || 0);
-        // Map spaces to underscores for filenames
         const iconFile = kit.toLowerCase().replace(/\s+/g, '_') + '.png';
         grid.innerHTML += `<div class="kit-item">
           <img src="${iconFile}" class="kit-icon" onerror="this.src='favicon.svg'">
@@ -234,10 +251,13 @@ function showPlayerStats(playerName) {
     currentRank += overallData[pts].length;
   }
 
-  if (rankNum === 1) { titleEl.textContent = "Combat Grandmaster"; titleEl.style.color = "var(--gold)"; rankNumEl.style.color = "var(--gold)"; }
-  else if (rankNum === 2) { titleEl.textContent = "Combat Master"; titleEl.style.color = "var(--silver)"; rankNumEl.style.color = "var(--silver)"; }
-  else if (rankNum === 3) { titleEl.textContent = "Combat Master"; titleEl.style.color = "var(--bronze)"; rankNumEl.style.color = "var(--bronze)"; }
-  else { titleEl.textContent = "Combat Ace"; titleEl.style.color = "var(--gray)"; rankNumEl.style.color = "var(--gray)"; }
+  const info = getTitleInfo(rankNum);
+  titleEl.textContent = `Combat ${info.title}`;
+  titleEl.style.color = info.color;
+  rankNumEl.style.color = info.color;
+  
+  if (rankNum <= 3) titleEl.style.textShadow = `0 0 10px ${info.color}66`;
+  else titleEl.style.textShadow = "none";
 
   rankNumEl.textContent = rankNum > 0 ? `#${rankNum}` : '--';
   document.getElementById('modalTotalPoints').textContent = `(${totalPts} pts)`;
@@ -246,6 +266,15 @@ function showPlayerStats(playerName) {
 
 function closeModal() { document.getElementById('playerModal').style.display = "none"; }
 window.onclick = (e) => { if(e.target.className === 'modal') closeModal(); };
+
+// Search filter update
+document.getElementById('playerSearch').addEventListener('input', (e) => {
+  const term = e.target.value.toLowerCase();
+  document.querySelectorAll('.player-row').forEach(row => {
+    const name = row.querySelector('.player-name').textContent.toLowerCase();
+    row.style.display = name.includes(term) ? 'flex' : 'none';
+  });
+});
 
 loadData();
 </script>

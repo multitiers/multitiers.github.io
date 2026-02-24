@@ -30,7 +30,7 @@
   header { text-align: center; padding: 30px 0; }
   h1 { letter-spacing: 0.15em; font-size: 2.5rem; margin-bottom: 25px; font-weight: 900; }
 
-  /* Search UI */
+  /* Search */
   .search-container { margin-bottom: 30px; display: flex; justify-content: center; }
   #playerSearch {
     width: 100%; max-width: 450px; padding: 12px;
@@ -38,7 +38,7 @@
     border-radius: 6px; color: var(--white); font-family: inherit; outline: none;
   }
 
-  /* Buttons */
+  /* Kit Tabs */
   .kit-selector { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-bottom: 40px; }
   .kit-btn {
     background: var(--bg3); border: 1px solid var(--border); color: var(--muted); 
@@ -47,7 +47,7 @@
   }
   .kit-btn.active { background: var(--accent); color: var(--white); border-color: var(--accent-bright); }
 
-  /* Tier Blocks */
+  /* Rankings List */
   .tier-block { background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; margin-bottom: 20px; overflow: hidden; }
   .tier-header { padding: 15px 20px; background: rgba(255,255,255,0.03); border-bottom: 1px solid var(--border); font-weight: bold; color: var(--accent-bright); letter-spacing: 2px; }
   .player-row { display: flex; justify-content: space-between; align-items: center; padding: 14px 20px; border-bottom: 1px solid var(--border); transition: 0.2s; cursor: pointer; }
@@ -55,14 +55,12 @@
   
   .rank-num { font-weight: bold; margin-right: 15px; color: var(--muted); width: 35px; display: inline-block; }
   .rank-1 { color: var(--gold) !important; }
-  .player-name { flex: 1; }
   .pts-tag { font-size: 0.75rem; font-weight: bold; color: var(--gold); }
   .tier-tag { font-size: 0.75rem; font-weight: bold; color: var(--white); padding: 4px 8px; border-radius: 4px; background: var(--bg3); border: 1px solid var(--border); }
 
   /* Profile Modal */
   .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); backdrop-filter: blur(8px); }
   .modal-content { background: var(--bg2); margin: 5% auto; border: 1px solid var(--border); border-radius: 20px; width: 90%; max-width: 450px; overflow: hidden; position: relative;}
-  
   .modal-profile-header { text-align: center; padding: 40px 20px 20px; }
   .profile-name { font-size: 2.2rem; font-weight: 900; margin: 0; color: var(--white); }
 
@@ -100,13 +98,11 @@
     <div class="modal-profile-header">
       <div class="profile-name" id="modalPlayerName">Player</div>
     </div>
-
     <div class="section-label">Position</div>
     <div class="position-bar">
       <div class="pos-num" id="modalRankNum">#--</div>
       <div class="pos-text"><span id="modalRankTitle">Combat Ace</span> <span class="pos-points" id="modalTotalPoints">(0 pts)</span></div>
     </div>
-
     <div class="section-label">Tiers</div>
     <div id="modalTiersGrid" class="tiers-grid"></div>
   </div>
@@ -215,13 +211,13 @@ function showPlayerStats(playerName) {
   let totalPts = 0;
 
   // Specific kits logic
-  const kits = ["Emerald", "Dragonhide", "Emerald OA", "KB OA", "Wand"];
+  const kits = ["Emerald", "Dragonhide KB", "Emerald OA", "KB OA", "Wand"];
   kits.forEach(kit => {
     if(!FULL_DATA[kit]) return;
     for (const tierLabel in FULL_DATA[kit]) {
       if (FULL_DATA[kit][tierLabel].includes(playerName)) {
         totalPts += (POINT_MAP[tierLabel] || 0);
-        // Filename logic: lowercase, spaces to underscores
+        // Map spaces to underscores for filenames
         const iconFile = kit.toLowerCase().replace(/\s+/g, '_') + '.png';
         grid.innerHTML += `<div class="kit-item">
           <img src="${iconFile}" class="kit-icon" onerror="this.src='favicon.svg'">
@@ -238,7 +234,6 @@ function showPlayerStats(playerName) {
     currentRank += overallData[pts].length;
   }
 
-  // Titles & Colors
   if (rankNum === 1) { titleEl.textContent = "Combat Grandmaster"; titleEl.style.color = "var(--gold)"; rankNumEl.style.color = "var(--gold)"; }
   else if (rankNum === 2) { titleEl.textContent = "Combat Master"; titleEl.style.color = "var(--silver)"; rankNumEl.style.color = "var(--silver)"; }
   else if (rankNum === 3) { titleEl.textContent = "Combat Master"; titleEl.style.color = "var(--bronze)"; rankNumEl.style.color = "var(--bronze)"; }

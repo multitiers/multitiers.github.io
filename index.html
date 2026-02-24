@@ -21,6 +21,8 @@
     --accent: #3c1e70;
     --accent-bright: #7a49d1;
     --gold: #ffd700;
+    --silver: #e0e0e0;
+    --bronze: #cd7f32;
     --white: #ffffff;
     --muted: #5a6474;
     --space-glow: rgba(122, 73, 209, 0.15);
@@ -30,7 +32,7 @@
     background-color: var(--bg);
     background-image: 
       radial-gradient(circle at center, var(--space-glow) 0%, transparent 75%),
-      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400' viewBox='0 0 800 800'%3E%3Cg fill='%23ffffff' fill-opacity='0.08'%3E%3Ccircle cx='100' cy='100' r='1'/%3E%3Ccircle cx='300' cy='250' r='1'/%3E%3Ccircle cx='500' cy='50' r='1'/%3E%3Ccircle cx='700' cy='150' r='1.5'/%3E%3Ccircle cx='150' cy='600' r='1'/%3E%3Ccircle cx='450' cy='750' r='1'/%3E%3Ccircle cx='650' cy='500' r='1'/%3E%3Ccircle cx='50' cy='350' r='1.5'/%3E%3C/g%3E%3C/svg%3E");
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400' viewBox='0 0 800 800'%3E%3Cg fill='%23ffffff' fill-opacity='0.08'%3E%3Ccircle cx='100' cy='100' r='1'/%3E%3Ccircle cx='300' cy='250' r='1'/%3E%3Ccircle cx='50' cy='350' r='1.5'/%3E%3C/g%3E%3C/svg%3E");
     background-attachment: fixed;
     color: var(--white); 
     font-family: 'Courier New', monospace; 
@@ -39,55 +41,40 @@
 
   .container { max-width: 950px; margin: 0 auto; padding: 20px; }
   
-  /* Chill Server Style Header */
-  header { text-align: center; padding: 40px 0 20px; }
+  header { text-align: center; padding: 60px 0 30px; }
   h1 { 
     font-family: 'MultiCraftFont', sans-serif;
     font-size: 4.5rem; margin: 0;
     text-shadow: 0 0 20px rgba(122, 73, 209, 0.6);
   }
 
-  .server-ip-box {
-    display: inline-flex; align-items: center;
-    background: rgba(255,255,255,0.05);
-    border: 1px solid var(--border);
-    padding: 8px 15px; border-radius: 8px;
-    margin-top: 15px; cursor: pointer; transition: 0.2s;
-  }
-  .server-ip-box:hover { background: rgba(255,255,255,0.1); border-color: var(--accent-bright); }
-  .ip-label { font-size: 0.6rem; text-transform: uppercase; color: var(--muted); margin-right: 10px; font-weight: bold; }
-  .ip-text { font-weight: 900; color: var(--accent-bright); margin-right: 10px; font-size: 0.9rem; }
-  .copy-label { font-size: 0.6rem; color: var(--white); opacity: 0.6; }
-
-  /* Kit Selectors with Icons */
-  .kit-selector { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin: 40px 0; }
+  .kit-selector { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin: 20px 0 40px; }
   .kit-btn {
     background: var(--bg3); border: 1px solid var(--border); color: var(--muted); 
-    padding: 8px 16px; border-radius: 6px; cursor: pointer;
+    padding: 10px 18px; border-radius: 6px; cursor: pointer;
     display: flex; align-items: center; gap: 10px;
     text-transform: uppercase; font-size: 0.8rem; font-weight: bold; transition: 0.3s;
   }
-  .kit-btn img { width: 20px; height: 20px; object-fit: contain; }
+  .kit-btn img { width: 22px; height: 22px; object-fit: contain; }
   .kit-btn.active { 
     background: var(--accent); color: var(--white); border-color: var(--accent-bright); 
     box-shadow: 0 0 15px rgba(122, 73, 209, 0.4); 
   }
 
-  /* Rankings */
   .tier-block { background: rgba(14, 17, 23, 0.8); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 20px; overflow: hidden; backdrop-filter: blur(10px); }
   .tier-header { padding: 15px 20px; background: rgba(255,255,255,0.03); border-bottom: 1px solid var(--border); color: var(--accent-bright); font-weight: 900; letter-spacing: 2px; }
   .player-row { display: flex; justify-content: space-between; align-items: center; padding: 16px 20px; border-bottom: 1px solid var(--border); cursor: pointer; }
   .player-row:hover { background: rgba(255,255,255,0.05); }
 
   .tier-tag { font-size: 0.75rem; font-weight: bold; padding: 5px 10px; border-radius: 6px; background: var(--bg3); border: 1px solid var(--border); }
+  .pts-tag { color: var(--gold); font-weight: bold; font-size: 0.85rem; }
 
-  /* Modal Inventory Grid */
+  /* Modal */
   .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); backdrop-filter: blur(10px); }
   .modal-content { 
     background: linear-gradient(180deg, #161b24 0%, #0a0c10 100%); 
     margin: 5% auto; border: 1px solid rgba(255,255,255,0.1); 
     border-radius: 24px; width: 90%; max-width: 450px; padding: 30px; position: relative;
-    box-shadow: 0 0 40px rgba(0,0,0,1);
   }
   .profile-name { font-size: 2.5rem; font-weight: 900; text-align: center; margin-bottom: 30px; }
   .tiers-grid { display: flex; flex-wrap: wrap; gap: 15px; background: rgba(0,0,0,0.3); padding: 20px; border-radius: 15px; border: 1px solid var(--border); }
@@ -104,11 +91,6 @@
 <div class="container">
   <header>
     <h1>MULTITIERS</h1>
-    <div class="server-ip-box" onclick="copyIP()">
-      <span class="ip-label">Server Code</span>
-      <span class="ip-text" id="serverIP">MULTICRAFT.WORLD</span>
-      <span class="copy-label">Copy</span>
-    </div>
   </header>
 
   <div class="kit-selector" id="kitSelector"></div>
@@ -127,14 +109,14 @@
 <script>
 let FULL_DATA = {};
 const TIER_ORDER = ["T1", "T2", "T3", "T4", "T5"];
+const POINT_MAP = { "HT1": 10, "LT1": 9, "HT2": 8, "LT2": 7, "HT3": 6, "LT3": 5, "HT4": 4, "LT4": 3, "HT5": 2, "LT5": 1 };
 
-// Icon Mapping
 const KIT_ICONS = {
-  "Overall": "favicon.svg", // Or a trophy icon
+  "Overall": "favicon.svg",
   "Emerald": "emerald.png",
   "Dragonhide KB": "dragonhide_kb.png",
   "Emerald OA": "emerald_oa.png",
-  "KB OA": "kb_oa.png",
+  "Dragonhide KB OA": "kb_oa.png", // Corrected mapping
   "Wand": "wand.png"
 };
 
@@ -143,10 +125,30 @@ async function loadData() {
   try {
     const res = await fetch(url);
     const rawData = await res.json();
-    FULL_DATA = rawData; 
+    FULL_DATA = rawData;
+    calculateOverall();
     initButtons();
   } catch (e) {
-    console.error("Failed to load rankings.");
+    console.error("Data load failed.");
+  }
+}
+
+function calculateOverall() {
+  const totals = {};
+  for (const kit in FULL_DATA) {
+    if (kit === "Overall") continue; 
+    for (const tier in FULL_DATA[kit]) {
+      const pts = POINT_MAP[tier] || 0;
+      FULL_DATA[kit][tier].forEach(player => {
+        totals[player] = (totals[player] || 0) + pts;
+      });
+    }
+  }
+  FULL_DATA["Overall"] = {};
+  for (const player in totals) {
+    const score = totals[player].toString();
+    if (!FULL_DATA["Overall"][score]) FULL_DATA["Overall"][score] = [];
+    FULL_DATA["Overall"][score].push(player);
   }
 }
 
@@ -158,10 +160,8 @@ function initButtons() {
   kits.forEach((kit, i) => {
     const btn = document.createElement('button');
     btn.className = 'kit-btn';
-    
-    // Add Image + Text to button
     const iconPath = KIT_ICONS[kit] || "favicon.svg";
-    btn.innerHTML = `<img src="${iconPath}" onerror="this.style.display='none'"> <span>${kit}</span>`;
+    btn.innerHTML = `<img src="${iconPath}" onerror="this.style.visibility='hidden'"> <span>${kit}</span>`;
     
     btn.onclick = () => {
       document.querySelectorAll('.kit-btn').forEach(b => b.classList.remove('active'));
@@ -178,28 +178,44 @@ function renderKit(kitName) {
   const list = document.getElementById('tierList');
   list.innerHTML = '';
 
-  TIER_ORDER.forEach(tier => {
-    const players = [];
-    Object.keys(data).forEach(subTier => {
-      if(subTier.includes(tier)) {
-        data[subTier].forEach(name => players.push({name, sub: subTier}));
-      }
-    });
-
-    if(players.length > 0) {
-      const block = document.createElement('div');
-      block.className = 'tier-block';
-      let html = `<div class="tier-header">${tier}</div>`;
-      players.forEach(p => {
-        html += `<div class="player-row" onclick="showPlayerStats('${p.name}')">
-          <span class="player-name"><b>${p.name}</b></span>
-          <span class="tier-tag">${p.sub}</span>
+  if (kitName === "Overall") {
+    const block = document.createElement('div');
+    block.className = 'tier-block';
+    let html = `<div class="tier-header">GLOBAL RANKINGS</div>`;
+    const sortedPoints = Object.keys(data).sort((a, b) => parseInt(b) - parseInt(a));
+    
+    sortedPoints.forEach(pts => {
+      data[pts].forEach(name => {
+        html += `<div class="player-row" onclick="showPlayerStats('${name}')">
+          <span class="player-name"><b>${name}</b></span>
+          <span class="pts-tag">${pts} PTS</span>
         </div>`;
       });
-      block.innerHTML = html;
-      list.appendChild(block);
-    }
-  });
+    });
+    block.innerHTML = html;
+    list.appendChild(block);
+  } else {
+    TIER_ORDER.forEach(tier => {
+      const players = [];
+      Object.keys(data).forEach(subTier => {
+        if(subTier.includes(tier)) data[subTier].forEach(name => players.push({name, sub: subTier}));
+      });
+
+      if(players.length > 0) {
+        const block = document.createElement('div');
+        block.className = 'tier-block';
+        let html = `<div class="tier-header">${tier}</div>`;
+        players.forEach(p => {
+          html += `<div class="player-row" onclick="showPlayerStats('${p.name}')">
+            <span class="player-name"><b>${p.name}</b></span>
+            <span class="tier-tag">${p.sub}</span>
+          </div>`;
+        });
+        block.innerHTML = html;
+        list.appendChild(block);
+      }
+    });
+  }
 }
 
 function showPlayerStats(playerName) {
@@ -220,12 +236,6 @@ function showPlayerStats(playerName) {
     }
   });
   document.getElementById('playerModal').style.display = "block";
-}
-
-function copyIP() {
-  const ip = document.getElementById('serverIP').innerText;
-  navigator.clipboard.writeText(ip);
-  alert("IP Copied: " + ip);
 }
 
 function closeModal() { document.getElementById('playerModal').style.display = "none"; }

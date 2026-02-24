@@ -3,10 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta property="og:type" content="website" />
-<meta property="og:title" content="MultiTiers" />
-<meta property="og:description" content="Official PvP Rankings and Tier Testing" />
-<meta property="og:image" content="https://multicraft.world/images/tild3864-6536-4335-a134-323832623836__noroot.png" />
 <title>MultiTiers</title>
 <style>
   @font-face {
@@ -25,16 +21,11 @@
     --accent: #3c1e70;
     --accent-bright: #7a49d1;
     --gold: #ffd700;
-    --silver: #e0e0e0;
-    --bronze: #cd7f32;
-    --gray: #6a6a6a;
     --white: #ffffff;
     --muted: #5a6474;
     --space-glow: rgba(122, 73, 209, 0.15);
   }
 
-  * { box-sizing: border-box; }
-  
   body { 
     background-color: var(--bg);
     background-image: 
@@ -43,127 +34,69 @@
     background-attachment: fixed;
     color: var(--white); 
     font-family: 'Courier New', monospace; 
-    margin: 0; 
-    min-height: 100vh; 
+    margin: 0; padding-bottom: 50px;
   }
 
-  .container { max-width: 900px; margin: 0 auto; padding: 24px; }
-  header { text-align: center; padding: 50px 0; }
-
+  .container { max-width: 950px; margin: 0 auto; padding: 20px; }
+  
+  /* Chill Server Style Header */
+  header { text-align: center; padding: 40px 0 20px; }
   h1 { 
     font-family: 'MultiCraftFont', sans-serif;
-    letter-spacing: 0.05em; 
-    font-size: 4rem; 
-    margin: 0 0 20px 0; 
-    font-weight: normal; 
-    color: var(--white);
-    text-shadow: 0 0 15px rgba(122, 73, 209, 0.6), 0 0 30px rgba(122, 73, 209, 0.3); 
-    text-transform: uppercase;
+    font-size: 4.5rem; margin: 0;
+    text-shadow: 0 0 20px rgba(122, 73, 209, 0.6);
   }
 
-  .search-container { margin-bottom: 30px; display: flex; justify-content: center; }
-  #playerSearch {
-    width: 100%; max-width: 450px; padding: 14px;
-    background: rgba(22, 27, 36, 0.8); border: 1px solid var(--border);
-    border-radius: 8px; color: var(--white); font-family: inherit; outline: none;
-    backdrop-filter: blur(5px);
+  .server-ip-box {
+    display: inline-flex; align-items: center;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border);
+    padding: 8px 15px; border-radius: 8px;
+    margin-top: 15px; cursor: pointer; transition: 0.2s;
   }
+  .server-ip-box:hover { background: rgba(255,255,255,0.1); border-color: var(--accent-bright); }
+  .ip-label { font-size: 0.6rem; text-transform: uppercase; color: var(--muted); margin-right: 10px; font-weight: bold; }
+  .ip-text { font-weight: 900; color: var(--accent-bright); margin-right: 10px; font-size: 0.9rem; }
+  .copy-label { font-size: 0.6rem; color: var(--white); opacity: 0.6; }
 
-  .kit-selector { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-bottom: 40px; }
+  /* Kit Selectors with Icons */
+  .kit-selector { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin: 40px 0; }
   .kit-btn {
     background: var(--bg3); border: 1px solid var(--border); color: var(--muted); 
-    padding: 10px 18px; border-radius: 4px; cursor: pointer; text-transform: uppercase; 
-    font-size: 0.75rem; transition: all 0.3s;
+    padding: 8px 16px; border-radius: 6px; cursor: pointer;
+    display: flex; align-items: center; gap: 10px;
+    text-transform: uppercase; font-size: 0.8rem; font-weight: bold; transition: 0.3s;
   }
-  .kit-btn.active { background: var(--accent); color: var(--white); border-color: var(--accent-bright); box-shadow: 0 0 15px rgba(122, 73, 209, 0.3); }
+  .kit-btn img { width: 20px; height: 20px; object-fit: contain; }
+  .kit-btn.active { 
+    background: var(--accent); color: var(--white); border-color: var(--accent-bright); 
+    box-shadow: 0 0 15px rgba(122, 73, 209, 0.4); 
+  }
 
-  .tier-block { background: rgba(14, 17, 23, 0.75); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 20px; overflow: hidden; backdrop-filter: blur(10px); }
-  .tier-header { padding: 15px 20px; background: rgba(255,255,255,0.03); border-bottom: 1px solid var(--border); font-weight: bold; color: var(--accent-bright); letter-spacing: 2px; }
-  
-  .player-row { display: flex; justify-content: space-between; align-items: center; padding: 16px 20px; border-bottom: 1px solid var(--border); transition: 0.2s; cursor: pointer; }
+  /* Rankings */
+  .tier-block { background: rgba(14, 17, 23, 0.8); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 20px; overflow: hidden; backdrop-filter: blur(10px); }
+  .tier-header { padding: 15px 20px; background: rgba(255,255,255,0.03); border-bottom: 1px solid var(--border); color: var(--accent-bright); font-weight: 900; letter-spacing: 2px; }
+  .player-row { display: flex; justify-content: space-between; align-items: center; padding: 16px 20px; border-bottom: 1px solid var(--border); cursor: pointer; }
   .player-row:hover { background: rgba(255,255,255,0.05); }
 
-  .row-rank-1 { background: rgba(255, 215, 0, 0.04); border-left: 4px solid var(--gold); }
-  .row-rank-2 { background: rgba(224, 224, 224, 0.03); border-left: 4px solid var(--silver); }
-  .row-rank-3 { background: rgba(205, 127, 50, 0.03); border-left: 4px solid var(--bronze); }
+  .tier-tag { font-size: 0.75rem; font-weight: bold; padding: 5px 10px; border-radius: 6px; background: var(--bg3); border: 1px solid var(--border); }
 
-  .rank-num { font-weight: 900; margin-right: 15px; color: var(--muted); width: 45px; display: inline-block; font-style: italic; }
-  .rank-1 { color: var(--gold) !important; }
-  .rank-2 { color: var(--silver) !important; }
-  .rank-3 { color: var(--bronze) !important; }
-
-  .player-name-wrapper { display: flex; align-items: center; flex: 1; overflow: hidden; }
-  .player-name { font-weight: bold; font-size: 1.1rem; }
-  .list-title { font-size: 0.65rem; margin-left: 12px; text-transform: uppercase; letter-spacing: 1px; padding: 3px 8px; border-radius: 5px; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.05); flex-shrink: 0; }
-
-  .pts-tag { font-size: 0.8rem; font-weight: bold; color: var(--gold); }
-  .tier-tag { font-size: 0.75rem; font-weight: bold; color: var(--white); padding: 5px 10px; border-radius: 6px; background: var(--bg3); border: 1px solid var(--border); }
-
-  /* Modal HUD */
-  .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(12px); }
+  /* Modal Inventory Grid */
+  .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); backdrop-filter: blur(10px); }
   .modal-content { 
     background: linear-gradient(180deg, #161b24 0%, #0a0c10 100%); 
     margin: 5% auto; border: 1px solid rgba(255,255,255,0.1); 
-    border-radius: 24px; width: 90%; max-width: 450px; overflow: hidden; position: relative;
-    box-shadow: 0 25px 60px rgba(0,0,0,0.8), 0 0 20px rgba(122, 73, 209, 0.2);
+    border-radius: 24px; width: 90%; max-width: 450px; padding: 30px; position: relative;
+    box-shadow: 0 0 40px rgba(0,0,0,1);
   }
-  .modal-profile-header { text-align: center; padding: 50px 20px 25px; }
-  .profile-name { font-size: 2.5rem; font-weight: 900; margin: 0; color: var(--white); letter-spacing: -1px; }
+  .profile-name { font-size: 2.5rem; font-weight: 900; text-align: center; margin-bottom: 30px; }
+  .tiers-grid { display: flex; flex-wrap: wrap; gap: 15px; background: rgba(0,0,0,0.3); padding: 20px; border-radius: 15px; border: 1px solid var(--border); }
+  .kit-item { text-align: center; width: 65px; display: flex; flex-direction: column; align-items: center; }
+  .kit-icon-wrapper { background: rgba(255, 255, 255, 0.05); border-radius: 50%; width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; margin-bottom: 8px; }
+  .kit-icon { width: 26px; height: 26px; }
+  .kit-tier-badge { font-size: 0.65rem; font-weight: 900; color: var(--gold); background: rgba(0,0,0,0.6); padding: 2px 6px; border-radius: 10px; border: 1px solid rgba(255,215,0,0.3); }
 
-  .section-label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 2px; margin: 25px 30px 12px; font-weight: 800; }
-
-  .position-bar { background: rgba(255,255,255,0.03); margin: 0 30px; border-radius: 15px; display: flex; align-items: center; border: 1px solid var(--border); }
-  .pos-num { background: rgba(255,255,255,0.05); padding: 20px 30px; font-size: 1.8rem; font-style: italic; font-weight: 900; border-right: 1px solid var(--border); }
-  .pos-text { padding: 20px; flex: 1; font-weight: 800; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; }
-  .pos-points { color: var(--gold); margin-left: 5px; font-weight: 400; font-size: 0.85rem; text-transform: none; }
-
-  /* Improved Tier Inventory Grid */
-  .tiers-grid { 
-    background: rgba(0,0,0,0.3); 
-    margin: 10px 30px 40px; 
-    padding: 20px; 
-    border-radius: 15px; 
-    border: 1px solid var(--border); 
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    gap: 15px; 
-  }
-  .kit-item { 
-    text-align: center; 
-    display: flex; 
-    flex-direction: column; 
-    align-items: center;
-    width: 60px;
-  }
-  .kit-icon-wrapper {
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 50%;
-    width: 48px;
-    height: 48px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 8px;
-    border: 1px solid rgba(255,255,255,0.1);
-  }
-  .kit-icon { 
-    width: 28px; 
-    height: 28px; 
-    object-fit: contain;
-  }
-  .kit-tier-badge { 
-    font-size: 0.65rem; 
-    font-weight: 900; 
-    color: var(--gold); 
-    background: rgba(0,0,0,0.6); 
-    padding: 2px 6px; 
-    border-radius: 10px; 
-    border: 1px solid rgba(255,215,0,0.2);
-  }
-
-  .close-btn { cursor: pointer; font-size: 28px; color: var(--muted); position: absolute; right: 25px; top: 20px; transition: 0.2s; }
-  .close-btn:hover { color: var(--white); transform: scale(1.1); }
+  .close-btn { cursor: pointer; font-size: 30px; color: var(--muted); position: absolute; right: 25px; top: 20px; }
 </style>
 </head>
 <body>
@@ -171,10 +104,13 @@
 <div class="container">
   <header>
     <h1>MULTITIERS</h1>
-    <div class="search-container">
-      <input type="text" id="playerSearch" placeholder="Search player name...">
+    <div class="server-ip-box" onclick="copyIP()">
+      <span class="ip-label">Server Code</span>
+      <span class="ip-text" id="serverIP">MULTICRAFT.WORLD</span>
+      <span class="copy-label">Copy</span>
     </div>
   </header>
+
   <div class="kit-selector" id="kitSelector"></div>
   <div id="tierList"></div>
 </div>
@@ -182,15 +118,8 @@
 <div id="playerModal" class="modal">
   <div class="modal-content">
     <span class="close-btn" onclick="closeModal()">&times;</span>
-    <div class="modal-profile-header">
-      <div class="profile-name" id="modalPlayerName">Player</div>
-    </div>
-    <div class="section-label">Ranking Status</div>
-    <div class="position-bar">
-      <div class="pos-num" id="modalRankNum">#--</div>
-      <div class="pos-text"><span id="modalRankTitle">Combat Ace</span> <span class="pos-points" id="modalTotalPoints">(0 pts)</span></div>
-    </div>
-    <div class="section-label">Tier Inventory</div>
+    <div class="profile-name" id="modalPlayerName">Player</div>
+    <div style="font-size: 0.7rem; color: var(--muted); text-transform: uppercase; margin-bottom: 10px; font-weight: bold;">Tier Inventory</div>
     <div id="modalTiersGrid" class="tiers-grid"></div>
   </div>
 </div>
@@ -198,10 +127,10 @@
 <script>
 let FULL_DATA = {};
 const TIER_ORDER = ["T1", "T2", "T3", "T4", "T5"];
-const POINT_MAP = { "HT1": 10, "LT1": 9, "HT2": 8, "LT2": 7, "HT3": 6, "LT3": 5, "HT4": 4, "LT4": 3, "HT5": 2, "LT5": 1 };
 
-// Map kit names to image filenames (ensure these images exist in your folder)
-const KIT_IMAGES = {
+// Icon Mapping
+const KIT_ICONS = {
+  "Overall": "favicon.svg", // Or a trophy icon
   "Emerald": "emerald.png",
   "Dragonhide KB": "dragonhide_kb.png",
   "Emerald OA": "emerald_oa.png",
@@ -214,36 +143,10 @@ async function loadData() {
   try {
     const res = await fetch(url);
     const rawData = await res.json();
-    FULL_DATA = {};
-    for (const kit in rawData) {
-        FULL_DATA[kit] = {};
-        for (const tier in rawData[kit]) {
-            FULL_DATA[kit][tier] = rawData[kit][tier].map(name => name.trim());
-        }
-    }
-    calculateOverall(); 
+    FULL_DATA = rawData; 
     initButtons();
   } catch (e) {
-    document.getElementById('tierList').innerHTML = `<div style="text-align:center; padding: 50px; color: var(--muted);">Syncing with Data Core...</div>`;
-  }
-}
-
-function calculateOverall() {
-  const totals = {};
-  for (const kit in FULL_DATA) {
-    if (kit === "Overall") continue; 
-    for (const tier in FULL_DATA[kit]) {
-      const pts = POINT_MAP[tier] || 0;
-      FULL_DATA[kit][tier].forEach(player => {
-        totals[player] = (totals[player] || 0) + pts;
-      });
-    }
-  }
-  FULL_DATA["Overall"] = {};
-  for (const player in totals) {
-    const score = totals[player].toString();
-    if (!FULL_DATA["Overall"][score]) FULL_DATA["Overall"][score] = [];
-    FULL_DATA["Overall"][score].push(player);
+    console.error("Failed to load rankings.");
   }
 }
 
@@ -251,10 +154,15 @@ function initButtons() {
   const selector = document.getElementById('kitSelector');
   const kits = Object.keys(FULL_DATA);
   selector.innerHTML = '';
+
   kits.forEach((kit, i) => {
     const btn = document.createElement('button');
     btn.className = 'kit-btn';
-    btn.textContent = kit;
+    
+    // Add Image + Text to button
+    const iconPath = KIT_ICONS[kit] || "favicon.svg";
+    btn.innerHTML = `<img src="${iconPath}" onerror="this.style.display='none'"> <span>${kit}</span>`;
+    
     btn.onclick = () => {
       document.querySelectorAll('.kit-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
@@ -265,116 +173,62 @@ function initButtons() {
   });
 }
 
-function getTitleInfo(rank) {
-  if (rank === 1) return { title: "Combat Grandmaster", color: "var(--gold)" };
-  if (rank === 2 || rank === 3) return { title: "Combat Master", color: rank === 2 ? "var(--silver)" : "var(--bronze)" };
-  return { title: "Combat Ace", color: "var(--gray)" };
-}
-
 function renderKit(kitName) {
   const data = FULL_DATA[kitName];
   const list = document.getElementById('tierList');
   list.innerHTML = '';
-  if (kitName === "Overall") {
-    const block = document.createElement('div');
-    block.className = 'tier-block';
-    let html = `<div class="tier-header">GLOBAL RANKINGS</div>`;
-    const sortedPoints = Object.keys(data).sort((a, b) => parseInt(b) - parseInt(a));
-    let rank = 1;
-    sortedPoints.forEach(pts => {
-      data[pts].forEach(name => {
-        const info = getTitleInfo(rank);
-        let rankClass = rank === 1 ? 'rank-1' : (rank === 2 ? 'rank-2' : (rank === 3 ? 'rank-3' : ''));
-        let rowClass = rank <= 3 ? `row-rank-${rank}` : '';
-        html += `<div class="player-row ${rowClass}" onclick="showPlayerStats('${name}')">
-          <div class="player-name-wrapper">
-            <span class="rank-num ${rankClass}">#${rank}</span>
-            <span class="player-name">${name}</span>
-            <span class="list-title" style="color:${info.color}">${info.title}</span>
-          </div>
-          <span class="pts-tag">${pts} PTS</span></div>`;
-        rank++;
-      });
-    });
-    block.innerHTML = html;
-    list.appendChild(block);
-  } else {
-    TIER_ORDER.forEach(tier => {
-      const players = [];
-      Object.keys(data).forEach(k => { if(k.includes(tier)) data[k].forEach(name => players.push({name, sub: k})); });
-      if(players.length > 0) {
-        const block = document.createElement('div');
-        block.className = 'tier-block';
-        let html = `<div class="tier-header">${tier}</div>`;
-        players.forEach(p => {
-          html += `<div class="player-row" onclick="showPlayerStats('${p.name}')">
-            <span class="player-name">${p.name}</span><span class="tier-tag">${p.sub}</span></div>`;
-        });
-        block.innerHTML = html;
-        list.appendChild(block);
+
+  TIER_ORDER.forEach(tier => {
+    const players = [];
+    Object.keys(data).forEach(subTier => {
+      if(subTier.includes(tier)) {
+        data[subTier].forEach(name => players.push({name, sub: subTier}));
       }
     });
-  }
+
+    if(players.length > 0) {
+      const block = document.createElement('div');
+      block.className = 'tier-block';
+      let html = `<div class="tier-header">${tier}</div>`;
+      players.forEach(p => {
+        html += `<div class="player-row" onclick="showPlayerStats('${p.name}')">
+          <span class="player-name"><b>${p.name}</b></span>
+          <span class="tier-tag">${p.sub}</span>
+        </div>`;
+      });
+      block.innerHTML = html;
+      list.appendChild(block);
+    }
+  });
 }
 
 function showPlayerStats(playerName) {
-  const modal = document.getElementById('playerModal');
-  const grid = document.getElementById('modalTiersGrid');
-  const rankNumEl = document.getElementById('modalRankNum');
-  const titleEl = document.getElementById('modalRankTitle');
   document.getElementById('modalPlayerName').textContent = playerName;
+  const grid = document.getElementById('modalTiersGrid');
   grid.innerHTML = '';
-  let totalPts = 0;
 
-  // Kits to check for tiers
-  const kitKeys = Object.keys(KIT_IMAGES);
-  
-  kitKeys.forEach(kit => {
-    if(!FULL_DATA[kit]) return;
-    for (const tierLabel in FULL_DATA[kit]) {
-      const playerList = FULL_DATA[kit][tierLabel];
-      if (playerList.some(n => n.toLowerCase() === playerName.toLowerCase())) {
-        totalPts += (POINT_MAP[tierLabel] || 0);
-        const imgName = KIT_IMAGES[kit];
-        
+  Object.keys(KIT_ICONS).forEach(kit => {
+    if(kit === "Overall") return;
+    for (const tier in FULL_DATA[kit]) {
+      if (FULL_DATA[kit][tier].includes(playerName)) {
         grid.innerHTML += `
           <div class="kit-item">
-            <div class="kit-icon-wrapper">
-              <img src="${imgName}" class="kit-icon" alt="${kit}" onerror="this.style.display='none'">
-            </div>
-            <span class="kit-tier-badge">${tierLabel}</span>
+            <div class="kit-icon-wrapper"><img src="${KIT_ICONS[kit]}" class="kit-icon"></div>
+            <span class="kit-tier-badge">${tier}</span>
           </div>`;
       }
     }
   });
+  document.getElementById('playerModal').style.display = "block";
+}
 
-  const overallData = FULL_DATA["Overall"];
-  const sortedPoints = Object.keys(overallData).sort((a, b) => parseInt(b) - parseInt(a));
-  let rankNum = 0, currentRank = 1;
-  for(let pts of sortedPoints) {
-    if(overallData[pts].some(n => n.toLowerCase() === playerName.toLowerCase())) { rankNum = currentRank; break; }
-    currentRank += overallData[pts].length;
-  }
-  const info = getTitleInfo(rankNum);
-  titleEl.textContent = info.title;
-  titleEl.style.color = info.color;
-  rankNumEl.style.color = info.color;
-  rankNumEl.textContent = rankNum > 0 ? `#${rankNum}` : '--';
-  document.getElementById('modalTotalPoints').textContent = `(${totalPts} pts)`;
-  modal.style.display = "block";
+function copyIP() {
+  const ip = document.getElementById('serverIP').innerText;
+  navigator.clipboard.writeText(ip);
+  alert("IP Copied: " + ip);
 }
 
 function closeModal() { document.getElementById('playerModal').style.display = "none"; }
-window.onclick = (e) => { if(e.target.className === 'modal') closeModal(); };
-
-document.getElementById('playerSearch').addEventListener('input', (e) => {
-  const term = e.target.value.toLowerCase().trim();
-  document.querySelectorAll('.player-row').forEach(row => {
-    const name = row.querySelector('.player-name').textContent.toLowerCase();
-    row.style.display = name.includes(term) ? 'flex' : 'none';
-  });
-});
-
 loadData();
 </script>
 </body>

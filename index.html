@@ -17,6 +17,9 @@
     --accent: #3c1e70;
     --accent-bright: #7a49d1;
     --gold: #ffd700;
+    --silver: #c0c0c0;
+    --bronze: #cd7f32;
+    --gray: #888888;
     --white: #ffffff;
     --muted: #5a6474;
   }
@@ -223,9 +226,11 @@ function renderKit(kitName) {
 function showPlayerStats(playerName) {
   const modal = document.getElementById('playerModal');
   const grid = document.getElementById('modalTiersGrid');
+  const rankNumEl = document.getElementById('modalRankNum');
+  const titleEl = document.getElementById('modalRankTitle');
+  
   document.getElementById('modalPlayerName').textContent = playerName;
   grid.innerHTML = '';
-  
   let totalPts = 0;
 
   for (const kit in FULL_DATA) {
@@ -233,7 +238,6 @@ function showPlayerStats(playerName) {
     for (const tierLabel in FULL_DATA[kit]) {
       if (FULL_DATA[kit][tierLabel].includes(playerName)) {
         totalPts += (POINT_MAP[tierLabel] || 0);
-        
         const iconFile = kit.toLowerCase().replace(/\s+/g, '_') + '.png';
         grid.innerHTML += `
           <div class="kit-item">
@@ -244,7 +248,6 @@ function showPlayerStats(playerName) {
     }
   }
 
-  // Calculate Numeric Rank
   const overallData = FULL_DATA["Overall"];
   const sortedPoints = Object.keys(overallData).sort((a, b) => parseInt(b) - parseInt(a));
   let rankNum = 0;
@@ -258,13 +261,26 @@ function showPlayerStats(playerName) {
     currentRank += overallData[pts].length;
   }
 
-  // Apply Title Logic
-  let title = "Combat Ace";
-  if (rankNum === 1) title = "Combat Grandmaster";
-  else if (rankNum === 2 || rankNum === 3) title = "Combat Master";
+  // Color Logic
+  if (rankNum === 1) {
+    titleEl.textContent = "Combat Grandmaster";
+    titleEl.style.color = "var(--gold)";
+    rankNumEl.style.color = "var(--gold)";
+  } else if (rankNum === 2) {
+    titleEl.textContent = "Combat Master";
+    titleEl.style.color = "var(--silver)";
+    rankNumEl.style.color = "var(--silver)";
+  } else if (rankNum === 3) {
+    titleEl.textContent = "Combat Master";
+    titleEl.style.color = "var(--bronze)";
+    rankNumEl.style.color = "var(--bronze)";
+  } else {
+    titleEl.textContent = "Combat Ace";
+    titleEl.style.color = "var(--gray)";
+    rankNumEl.style.color = "var(--gray)";
+  }
 
-  document.getElementById('modalRankNum').textContent = rankNum > 0 ? `#${rankNum}` : '--';
-  document.getElementById('modalRankTitle').textContent = title;
+  rankNumEl.textContent = rankNum > 0 ? `#${rankNum}` : '--';
   document.getElementById('modalTotalPoints').textContent = `(${totalPts} pts)`;
   modal.style.display = "block";
 }

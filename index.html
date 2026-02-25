@@ -13,7 +13,7 @@
       --purple: #a855f7; --blue: #3b82f6; --neon: #8b5cf6;
       --gold: #ffd700; --t1: #ff4d4d; --t2: #ffa64d; --t3: #ffff4d; --t4: #4dff4d; --t5: #4dffff;
       --border: #1a1e26;
-      --gradient: linear-gradient(90deg, var(--purple), var(--blue));
+      --gradient: linear-gradient(135deg, #a855f7 0%, #3b82f6 50%, #a855f7 100%);
     }
 
     body { 
@@ -25,52 +25,73 @@
     #item-vault { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; pointer-events: none; opacity: 0.35; }
     .floating-item { position: absolute; width: 30px; height: 30px; background-size: contain; background-repeat: no-repeat; transition: all 12s ease-in-out; }
 
-    @keyframes neonPulse {
-      0%, 100% { box-shadow: 0 0 10px rgba(168, 85, 247, 0.2); border-color: rgba(168, 85, 247, 0.3); }
-      50% { box-shadow: 0 0 30px rgba(59, 130, 246, 0.5); border-color: var(--blue); }
-    }
-    @keyframes pulseSword { 0%, 100% { transform: scale(1); filter: drop-shadow(0 0 10px var(--purple)); } 50% { transform: scale(1.1); filter: drop-shadow(0 0 25px var(--blue)); } }
-
-    /* --- Centered Header --- */
-    header { width: 100%; display: flex; justify-content: center; padding: 60px 0 30px; }
-    .header-content { display: flex; align-items: center; justify-content: center; gap: 20px; }
-    .title-sword { width: 65px; height: 65px; animation: pulseSword 3s infinite ease-in-out; }
+    /* --- SPECIAL TITLE EFFECTS --- */
+    header { width: 100%; display: flex; justify-content: center; padding: 70px 0 40px; }
+    .header-content { display: flex; align-items: center; justify-content: center; gap: 25px; cursor: default; }
     
-    h1.main-title { 
-      font-family: 'MultiCraftFont', sans-serif; font-size: 3.2rem; margin: 0; letter-spacing: 4px;
-      background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      filter: drop-shadow(0 0 10px rgba(168, 85, 247, 0.3));
+    .title-sword { 
+      width: 75px; height: 75px; 
+      animation: pulseSword 3s infinite ease-in-out;
+      filter: drop-shadow(0 0 15px var(--purple));
     }
 
+    .main-title { 
+      font-family: 'MultiCraftFont', sans-serif; 
+      font-size: 3.5rem; margin: 0; letter-spacing: 6px;
+      background: var(--gradient); background-size: 200% auto;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      animation: shimmer 4s linear infinite;
+      transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      filter: drop-shadow(0 0 2px rgba(255,255,255,0.3)) drop-shadow(0 0 12px var(--purple));
+    }
+
+    .header-content:hover .main-title { letter-spacing: 12px; filter: drop-shadow(0 0 25px var(--blue)); transform: scale(1.05); }
+
+    @keyframes shimmer { 0% { background-position: 0% center; } 100% { background-position: 200% center; } }
+    @keyframes pulseSword { 0%, 100% { transform: scale(1) rotate(0deg); filter: drop-shadow(0 0 15px var(--purple)); } 50% { transform: scale(1.15) rotate(5deg); filter: drop-shadow(0 0 30px var(--blue)); } }
+
+    /* --- Navigation --- */
     nav { display: flex; justify-content: center; gap: 25px; padding: 20px; background: rgba(0,0,0,0.85); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; backdrop-filter: blur(15px); }
     .nav-link { color: #5a6474; text-decoration: none; font-weight: bold; font-size: 0.85rem; cursor: pointer; transition: 0.3s; }
     .nav-link.active { color: #fff; text-shadow: 0 0 10px var(--purple); }
 
     .container { max-width: 850px; margin: 0 auto; padding: 0 20px; }
     
-    /* --- Centered Search --- */
+    /* --- GLOWING SEARCH --- */
     .search-container { position: relative; width: 100%; max-width: 500px; margin: 20px auto 40px; }
-    .search-box { width: 100%; box-sizing: border-box; padding: 16px; background: #0a0c12; border: 2px solid var(--border); border-radius: 12px; color: #fff; text-align: center; outline: none; transition: 0.3s; font-family: inherit; font-size: 1rem; }
-    .search-box:focus { border-color: var(--purple); }
+    .search-box { 
+      width: 100%; box-sizing: border-box; padding: 18px; 
+      background: #0a0c12; border: 2px solid var(--border); border-radius: 15px; 
+      color: #fff; text-align: center; outline: none; 
+      transition: 0.4s ease; font-family: inherit; font-size: 1rem;
+    }
+    .search-box:focus { 
+      border-color: transparent;
+      background-image: linear-gradient(#0a0c12, #0a0c12), var(--gradient);
+      background-origin: border-box;
+      background-clip: padding-box, border-box;
+      box-shadow: 0 0 30px rgba(168, 85, 247, 0.4);
+      transform: translateY(-2px);
+    }
     
-    #searchDropdown { position: absolute; top: calc(100% + 5px); left: 0; width: 100%; background: var(--bg-panel); border: 1px solid var(--purple); border-radius: 10px; z-index: 50; display: none; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-    .search-result { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; border-bottom: 1px solid rgba(255,255,255,0.05); cursor: pointer; }
-    .search-result:hover { background: rgba(168, 85, 247, 0.15); }
-    .view-profile-btn { font-size: 0.7rem; color: var(--blue); border: 1px solid var(--blue); padding: 4px 10px; border-radius: 4px; font-weight: bold; }
+    #searchDropdown { position: absolute; top: calc(100% + 10px); left: 0; width: 100%; background: var(--bg-panel); border: 1px solid var(--purple); border-radius: 12px; z-index: 50; display: none; overflow: hidden; box-shadow: 0 10px 40px rgba(0,0,0,0.8); }
+    .search-result { display: flex; justify-content: space-between; align-items: center; padding: 15px 25px; border-bottom: 1px solid rgba(255,255,255,0.05); cursor: pointer; }
+    .search-result:hover { background: rgba(168, 85, 247, 0.2); }
+    .view-profile-btn { font-size: 0.7rem; color: var(--blue); border: 1px solid var(--blue); padding: 5px 12px; border-radius: 6px; font-weight: bold; }
 
-    .kit-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-bottom: 40px; }
-    .kit-btn { background: #0a0c12; border: 1px solid var(--border); padding: 10px 20px; border-radius: 10px; cursor: pointer; display: flex; align-items: center; gap: 10px; transition: 0.3s; color: #5a6474; font-weight: bold; }
-    .kit-btn.active { border-color: var(--blue); color: #fff; background: rgba(59, 130, 246, 0.1); }
-    .kit-btn img { width: 22px; height: 22px; }
-
-    .tier-card { background: var(--bg-panel); border: 1px solid var(--purple); border-radius: 14px; margin-bottom: 25px; animation: neonPulse 6s infinite ease-in-out; }
+    /* --- List & Tiers --- */
+    .tier-card { background: var(--bg-panel); border: 1px solid var(--purple); border-radius: 14px; margin-bottom: 25px; animation: neonPulse 6s infinite ease-in-out; overflow: hidden; }
+    @keyframes neonPulse { 0%, 100% { border-color: var(--purple); box-shadow: 0 0 10px rgba(168, 85, 247, 0.1); } 50% { border-color: var(--blue); box-shadow: 0 0 25px rgba(59, 130, 246, 0.3); } }
     .row { display: flex; justify-content: space-between; align-items: center; padding: 18px 25px; border-bottom: 1px solid rgba(255,255,255,0.03); cursor: pointer; }
-    
-    .modal-content { background: #050608; border: 2px solid var(--purple); border-radius: 20px; width: 90%; max-width: 420px; padding: 40px; text-align: center; position: relative; }
-    .hof-btn { margin-top: 25px; padding: 15px; background: var(--gradient); border: none; border-radius: 10px; color: #fff; font-weight: bold; cursor: pointer; display: none; width: 100%; letter-spacing: 2px; box-shadow: 0 4px 15px rgba(168, 85, 247, 0.3); }
+    .row:hover { background: rgba(255, 255, 255, 0.05); }
 
-    .color-T1 { color: var(--t1); } .color-T2 { color: var(--t2); } .color-T3 { color: var(--t3); } .color-T4 { color: var(--t4); } .color-T5 { color: var(--t5); }
-    .gold-text { color: var(--gold); }
+    /* --- Profile Modal --- */
+    .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.92); z-index: 1000; backdrop-filter: blur(15px); align-items: center; justify-content: center; }
+    .modal-content { background: #050608; border: 2px solid var(--purple); border-radius: 20px; width: 90%; max-width: 420px; padding: 40px; text-align: center; position: relative; box-shadow: 0 0 50px rgba(168, 85, 247, 0.2); }
+    .hof-btn { margin-top: 25px; padding: 15px; background: var(--gradient); background-size: 200% auto; border: none; border-radius: 10px; color: #fff; font-weight: bold; cursor: pointer; display: none; width: 100%; letter-spacing: 2px; }
+
+    .color-T1 { color: var(--t1); text-shadow: 0 0 5px var(--t1); }
+    .gold-text { color: var(--gold); text-shadow: 0 0 5px rgba(255, 215, 0, 0.3); }
   </style>
 </head>
 <body>
@@ -97,7 +118,7 @@
       <input type="text" class="search-box" id="mainSearch" placeholder="SEARCH PLAYERS..." oninput="handleSearch()">
       <div id="searchDropdown"></div>
     </div>
-    <div class="kit-grid" id="kitBar"></div>
+    <div class="kit-grid" id="kitBar" style="display:flex; flex-wrap:wrap; justify-content:center; gap:10px; margin-bottom:40px;"></div>
     <div id="displayList"></div>
   </div>
 
@@ -108,15 +129,15 @@
 
   <div id="testers-sec" style="display:none; text-align:center;">
     <h1 class="gold-text" style="font-family:'MultiCraftFont'; font-size:2.5rem; margin-bottom:40px;">TIER TESTERS</h1>
-    <div id="testerList" class="tester-grid"></div>
+    <div id="testerList"></div>
   </div>
 </div>
 
-<div id="profileModal" class="modal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.9); z-index:1000; backdrop-filter:blur(15px); align-items:center; justify-content:center;">
+<div id="profileModal" class="modal">
   <div class="modal-content">
-    <span onclick="closeProfile()" style="position:absolute; top:15px; right:20px; cursor:pointer; font-size:25px;">&times;</span>
+    <span onclick="closeProfile()" style="position:absolute; top:15px; right:20px; cursor:pointer; font-size:30px; color:#5a6474;">&times;</span>
     <h2 id="pName" style="font-size: 2.5rem; margin-bottom:5px; font-family:'MultiCraftFont'; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Player</h2>
-    <div id="pPoints" class="gold-text" style="font-weight:bold; margin-bottom:30px;">0 TOTAL PTS</div>
+    <div id="pPoints" class="gold-text" style="font-weight:bold; margin-bottom:30px; letter-spacing: 1px;">0 TOTAL PTS</div>
     <div id="pGrids" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;"></div>
     <button id="pHofLink" class="hof-btn" onclick="showSection('hof'); closeProfile()">LEGACY</button>
   </div>
@@ -149,13 +170,16 @@ function buildKitBar() {
   const bar = document.getElementById('kitBar');
   Object.keys(DATA).forEach(k => {
     const btn = document.createElement('button');
+    btn.style = "background:#0a0c12; border:1px solid var(--border); padding:10px 20px; border-radius:10px; cursor:pointer; display:flex; align-items:center; gap:10px; color:#5a6474; font-weight:bold; transition: 0.3s;";
     btn.className = `kit-btn ${k === 'Overall' ? 'active' : ''}`;
-    const img = ICONS[k] ? `<img src="${ICONS[k]}">` : '';
+    const img = ICONS[k] ? `<img src="${ICONS[k]}" style="width:20px;">` : '';
     btn.innerHTML = `${img} ${k.toUpperCase()}`;
     btn.onclick = () => {
-      document.querySelectorAll('.kit-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active'); ACTIVE_KIT = k; render(k);
+      document.querySelectorAll('.kit-btn').forEach(b => { b.style.borderColor = 'var(--border)'; b.style.color = '#5a6474'; b.style.boxShadow = 'none'; });
+      btn.style.borderColor = 'var(--blue)'; btn.style.color = '#fff'; btn.style.boxShadow = '0 0 15px rgba(59, 130, 246, 0.2)';
+      ACTIVE_KIT = k; render(k);
     };
+    if(k === 'Overall') { btn.style.borderColor = 'var(--blue)'; btn.style.color = '#fff'; }
     bar.appendChild(btn);
   });
 }
@@ -166,7 +190,7 @@ function handleSearch() {
   if(!val) { dropdown.style.display = 'none'; return; }
   const matches = Object.keys(DATA["Overall"]).filter(n => n.toLowerCase().includes(val));
   if(matches.length) {
-    dropdown.innerHTML = matches.map(m => `<div class="search-result" onclick="openProfile('${m}'); dropdown.style.display='none';"><span>${m}</span><span class="view-profile-btn">VIEW PROFILE</span></div>`).join('');
+    dropdown.innerHTML = matches.map(m => `<div class="search-result" onclick="openProfile('${m}'); document.getElementById('searchDropdown').style.display='none';"><span>${m}</span><span class="view-profile-btn">VIEW PROFILE</span></div>`).join('');
     dropdown.style.display = 'block';
   } else dropdown.style.display = 'none';
 }
@@ -228,7 +252,7 @@ function showSection(id) {
     document.getElementById('nav-'+s).classList.toggle('active', s === id);
   });
   if(id === 'hof') document.getElementById('hofList').innerHTML = HOF.map(h => `<div class="tier-card" style="padding:30px; border-color:var(--purple);"><h2 style="font-family:'MultiCraftFont'; margin:0;">${h.name}</h2><p class="gold-text" style="margin-top:10px;">${h.description}</p></div>`).join('');
-  if(id === 'testers') document.getElementById('testerList').innerHTML = `<div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(160px, 1fr)); gap:15px;">` + TESTERS.map(t => `<div style="background:var(--bg-panel); border:1px solid var(--border); padding:20px; border-radius:10px; font-weight:bold; color:var(--blue);">${t.name}</div>`).join('') + `</div>`;
+  if(id === 'testers') document.getElementById('testerList').innerHTML = `<div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(160px, 1fr)); gap:15px;">` + TESTERS.map(t => `<div style="background:var(--bg-panel); border:1px solid var(--border); padding:20px; border-radius:10px; font-weight:bold; color:var(--blue); text-align:center;">${t.name}</div>`).join('') + `</div>`;
 }
 
 function closeProfile() { document.getElementById('profileModal').style.display = 'none'; }

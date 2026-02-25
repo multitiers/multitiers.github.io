@@ -1,26 +1,20 @@
 {
-  "Players": {
-    "Game1K": { "region": "NA", "discord": "game1kyt" },
-    "sample": { "region": "EU", "discord": "???" },
-    "system1117": { "region": "AS", "discord": "system1117_42144" },
-    "Possessed_YT": { "region": "NA", "discord": "ironofthetrials87" },
-    "V4n1shed": { "region": "SA", "discord": "0bscur3d_" },
-    "revan": { "region": "NA", "discord": "imperator_aurelian" }
-  },
   "Overall": {},
   "Emerald": {
     "HT1": ["Game1K"],
     "LT1": ["sample"],
     "HT2": ["system1117"],
     "LT2": ["Possessed_YT", "V4n1shed"],
-    "HT3": ["revan"]
+    "HT3": ["revan"],
+    "LT5": ["BESTPVPER"]
   },
   "Dragonhide KB": {
     "HT1": ["Game1K"],
     "LT1": ["system1117"],
     "HT2": ["sample"],
     "HT3": ["V4n1shed", "Possessed_YT"],
-    "LT3": ["revan"]
+    "LT3": ["revan"],
+    "LT5": ["BESTPVPER"]
   },
   "Emerald OA": {
   },
@@ -28,3 +22,4 @@
   },
   "Wand": {
   }
+}

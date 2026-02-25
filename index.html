@@ -1,234 +1,223 @@
 <!DOCTYPE html>
-<html lang="en" translate="no">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MultiTiers | PVP Rankings</title>
-  
-  <link rel="icon" type="image/png" href="emerald.png">
+  <title>MultiTiers | Elite PVP</title>
   <style>
     @font-face { font-family: 'MultiCraftFont'; src: url('MultiCraftFont.ttf'); }
-    
+
     :root {
-      --bg: #030406; --bg-panel: rgba(12, 10, 20, 0.98);
-      --purple: #a855f7; --white: #ffffff;
-      --border: rgba(168, 85, 247, 0.25);
+      --accent: #a855f7;
+      --accent-glow: rgba(168, 85, 247, 0.5);
+      --bg: #050505;
+      --glass: rgba(255, 255, 255, 0.03);
+      --glass-border: rgba(255, 255, 255, 0.1);
     }
 
-    body { 
-      background: var(--bg); color: #fff; font-family: 'Courier New', monospace; margin: 0; padding-bottom: 50px;
-      background-image: radial-gradient(circle at 50% -10%, rgba(168, 85, 247, 0.15) 0%, transparent 70%);
-      background-attachment: fixed; overflow-x: hidden;
+    body {
+      background: var(--bg);
+      color: #eee;
+      font-family: 'Inter', -apple-system, sans-serif;
+      margin: 0;
+      overflow-x: hidden;
+      background-image: 
+        radial-gradient(circle at 20% 20%, rgba(168, 85, 247, 0.1) 0%, transparent 40%),
+        radial-gradient(circle at 80% 80%, rgba(168, 85, 247, 0.05) 0%, transparent 40%);
     }
-
-    /* Moving Kit Background */
-    #space-container { position: fixed; inset: 0; z-index: -1; pointer-events: none; }
-    .space-star {
-      position: absolute; width: 35px; height: 35px; background-size: contain; background-repeat: no-repeat;
-      animation: travel 25s linear infinite, spin 4s linear infinite; opacity: 0.3;
-      filter: drop-shadow(0 0 10px var(--purple));
-    }
-    @keyframes travel { from { left: 110vw; } to { left: -10vw; } }
-    @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
     /* Top Left Navigation */
-    nav { 
-      position: fixed; top: 20px; left: 20px; display: flex; flex-direction: column; 
-      gap: 15px; z-index: 1000; background: rgba(0,0,0,0.5); padding: 15px; 
-      border-radius: 10px; backdrop-filter: blur(10px); border: 1px solid var(--border);
+    nav {
+      position: fixed; top: 30px; left: 30px; z-index: 1000;
+      display: flex; flex-direction: column; gap: 10px;
     }
-    .nav-link { 
-      color: #5a6474; font-weight: bold; cursor: pointer; transition: 0.3s; 
-      text-transform: uppercase; letter-spacing: 1px; font-size: 0.8rem;
+    .nav-btn {
+      background: var(--glass);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--glass-border);
+      padding: 12px 20px;
+      border-radius: 8px;
+      color: #888;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      text-transform: uppercase;
+      font-size: 11px;
+      letter-spacing: 2px;
     }
-    .nav-link:hover, .nav-link.active { color: #fff; text-shadow: 0 0 10px var(--purple); }
-
-    /* Status Bar (Discord/IP) */
-    .status-bar {
-      width: 100%; background: rgba(168, 85, 247, 0.1); border-bottom: 1px solid var(--border);
-      display: flex; justify-content: center; gap: 40px; padding: 10px 0; font-size: 0.75rem;
-      letter-spacing: 1px; color: #888;
+    .nav-btn:hover, .nav-btn.active {
+      color: #fff;
+      border-color: var(--accent);
+      box-shadow: 0 0 20px var(--accent-glow);
+      transform: translateX(5px);
     }
-    .status-item b { color: var(--purple); }
 
-    /* Header */
-    header { width: 100%; display: flex; justify-content: center; padding: 80px 0 20px; }
-    .header-content { display: flex; align-items: center; gap: 20px; }
-    .title-sword { width: 60px; height: 60px; animation: pulse 3s infinite ease-in-out; filter: drop-shadow(0 0 15px var(--purple)); }
-    @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); filter: drop-shadow(0 0 25px #fff); } }
-    .main-title { font-family: 'MultiCraftFont', sans-serif; font-size: 3.5rem; margin: 0; letter-spacing: 5px; background: linear-gradient(135deg, #a855f7 0%, #fff 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    /* Status Header */
+    .top-status {
+      position: absolute; top: 0; width: 100%; height: 40px;
+      display: flex; justify-content: center; align-items: center;
+      gap: 30px; font-size: 10px; font-weight: bold;
+      letter-spacing: 1px; color: #555;
+    }
+    .status-item span { color: var(--accent); margin-right: 5px; }
 
-    /* Search Bar */
-    .search-wrapper { display: flex; justify-content: center; margin-bottom: 30px; }
-    .search-input { width: 100%; max-width: 450px; padding: 15px 25px; background: #07080c; border: 2px solid var(--border); border-radius: 50px; color: #fff; text-align: center; outline: none; transition: 0.4s; box-shadow: 0 0 15px rgba(168, 85, 247, 0.1); }
-    .search-input:focus { border-color: var(--purple); box-shadow: 0 0 30px var(--purple); width: 500px; }
+    /* Main Branding */
+    header { text-align: center; padding: 120px 0 60px; }
+    .logo-container { display: flex; align-items: center; justify-content: center; gap: 20px; }
+    .main-title {
+      font-family: 'MultiCraftFont', sans-serif;
+      font-size: clamp(2rem, 8vw, 4rem);
+      background: linear-gradient(to bottom, #fff 30%, var(--accent));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 0 30px var(--accent-glow));
+      margin: 0;
+    }
 
-    /* Kit Buttons */
-    .kit-btn { background: #0a0c12; border: 1px solid var(--border); padding: 10px 18px; border-radius: 4px; color: #5a6474; font-weight: bold; cursor: pointer; transition: 0.3s; display: flex; align-items: center; gap: 10px; }
-    .kit-btn.active { background: var(--purple); color: #000; box-shadow: 0 0 20px var(--purple); border-color: #fff; }
+    /* Modern Card Grids */
+    .content-area { max-width: 1000px; margin: 0 auto; padding: 20px; }
+    .glass-card {
+      background: var(--glass);
+      backdrop-filter: blur(15px);
+      border: 1px solid var(--glass-border);
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 20px;
+      transition: 0.3s;
+    }
+    .glass-card:hover { border-color: rgba(168, 85, 247, 0.4); }
 
-    /* General Cards */
-    .tier-card { background: var(--bg-panel); border: 1px solid var(--border); border-radius: 8px; margin-bottom: 15px; overflow: hidden; animation: fadeIn 0.5s ease; }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
-    .row { display: flex; justify-content: space-between; align-items: center; padding: 18px 25px; cursor: pointer; }
-    .row:hover { background: rgba(168, 85, 247, 0.1); }
+    /* Tier Testers Custom UI */
+    .tester-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+    .tester-card {
+      position: relative; overflow: hidden;
+      background: linear-gradient(145deg, rgba(255,255,255,0.05) 0%, rgba(0,0,0,0) 100%);
+      padding: 30px; border-radius: 20px; border: 1px solid var(--glass-border);
+      text-align: center; transition: 0.4s;
+    }
+    .tester-card::before {
+      content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px;
+      background: var(--accent); box-shadow: 0 0 15px var(--accent);
+    }
+    .tester-card:hover { transform: translateY(-10px); border-color: var(--accent); }
+    .t-name { font-family: 'MultiCraftFont', sans-serif; font-size: 1.8rem; margin-bottom: 5px; }
+    .t-region { color: var(--accent); font-weight: 900; font-size: 12px; letter-spacing: 3px; margin-bottom: 15px; }
+    .t-discord { color: #7289da; font-size: 13px; background: rgba(114, 137, 218, 0.1); padding: 8px 15px; border-radius: 30px; display: inline-block; }
 
-    /* Tier Testers UI */
-    .tester-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
-    .tester-card { background: var(--bg-panel); border: 1px solid var(--border); padding: 25px; border-radius: 12px; border-top: 3px solid var(--purple); text-align: center; }
-    .tester-name { font-family: 'MultiCraftFont', sans-serif; font-size: 1.5rem; color: #fff; margin-bottom: 5px; }
-    .tester-region { color: var(--purple); font-size: 0.8rem; font-weight: bold; margin-bottom: 15px; }
-    .tester-discord { background: rgba(114, 137, 218, 0.1); color: #7289da; padding: 8px; border-radius: 5px; font-size: 0.85rem; border: 1px solid rgba(114, 137, 218, 0.2); }
+    /* Search Input Modern */
+    .search-box {
+      width: 100%; max-width: 500px; margin: 0 auto 40px; display: block;
+      background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border);
+      padding: 18px; border-radius: 100px; color: #fff; text-align: center;
+      outline: none; transition: 0.3s;
+    }
+    .search-box:focus { border-color: var(--accent); box-shadow: 0 0 40px rgba(168, 85, 247, 0.2); width: 105%; }
 
-    /* Profile Modal */
-    #profileModal { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.96); z-index:1000; align-items:center; justify-content:center; backdrop-filter:blur(10px); }
-    .modal-content { background: #050608; border: 2px solid var(--purple); padding: 45px; text-align: center; width: 90%; max-width: 400px; box-shadow: 0 0 50px rgba(168, 85, 247, 0.5); position: relative; }
+    /* Animations */
+    @keyframes slideIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    .animate { animation: slideIn 0.5s ease forwards; }
   </style>
 </head>
 <body>
 
-<div id="space-container"></div>
-
-<div class="status-bar">
-  <div class="status-item">DISCORD: <b>UNRELEASED</b></div>
-  <div class="status-item">IP: <b>UNRELEASED</b></div>
+<div class="top-status">
+  <div class="status-item"><span>●</span> DISCORD: <b>UNRELEASED</b></div>
+  <div class="status-item"><span>●</span> SERVER: <b>UNRELEASED</b></div>
 </div>
 
 <nav>
-  <div class="nav-link active" id="btn-rankings" onclick="showSection('rankings')">RANKINGS</div>
-  <div class="nav-link" id="btn-hof" onclick="showSection('hof')">HALL OF FAME</div>
-  <div class="nav-link" id="btn-testers" onclick="showSection('testers')">TIER TESTERS</div>
+  <div class="nav-btn active" id="btn-rankings" onclick="showSection('rankings')">Rankings</div>
+  <div class="nav-btn" id="btn-hof" onclick="showSection('hof')">Hall of Fame</div>
+  <div class="nav-btn" id="btn-testers" onclick="showSection('testers')">Tier Testers</div>
 </nav>
 
 <header>
-  <div class="header-content">
+  <div class="logo-container">
     <h1 class="main-title">MULTI</h1>
-    <img src="backgroundsword.png" class="title-sword">
+    <img src="backgroundsword.png" width="80" style="filter: drop-shadow(0 0 20px var(--accent));">
     <h1 class="main-title">TIERS</h1>
   </div>
 </header>
 
-<div class="container" style="max-width: 900px; margin: auto; padding: 0 20px;">
-  
+<div class="content-area">
   <div id="rankings-sec">
-    <div class="search-wrapper">
-      <input type="text" id="playerSearch" class="search-input" placeholder="SEARCH FOR A PLAYER..." oninput="handleSearch()">
-    </div>
-    <div id="kitBar" style="display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; margin-bottom: 40px;"></div>
-    <div id="displayList"></div>
+    <input type="text" id="pSearch" class="search-box" placeholder="SEARCH PLAYER..." oninput="doSearch()">
+    <div id="kitBar" style="display:flex; justify-content:center; gap:10px; margin-bottom:30px; flex-wrap:wrap;"></div>
+    <div id="rankList"></div>
   </div>
 
   <div id="hof-sec" style="display:none; text-align:center;">
-    <h1 style="color:var(--gold); letter-spacing:4px; margin-bottom:40px; font-family:'MultiCraftFont';">HALL OF FAME</h1>
+    <h2 class="main-title" style="font-size:2rem; margin-bottom:40px;">LEGENDS</h2>
     <div id="hofList"></div>
   </div>
 
   <div id="testers-sec" style="display:none;">
-    <h1 style="color:var(--purple); letter-spacing:4px; margin-bottom:40px; text-align:center; font-family:'MultiCraftFont';">TIER TESTERS</h1>
+    <h2 class="main-title" style="font-size:2rem; text-align:center; margin-bottom:40px;">TIER TESTERS</h2>
     <div id="testerList" class="tester-grid"></div>
   </div>
 </div>
 
-<div id="profileModal">
-  <div class="modal-content">
-    <span onclick="closeProfile()" style="position:absolute; top:15px; right:20px; cursor:pointer; font-size:24px;">&times;</span>
-    <h2 id="pName" style="font-family:'MultiCraftFont'; font-size:3rem; margin:0; color:var(--purple);">PLAYER</h2>
-    <div id="pPoints" style="color:#ffd700; margin: 20px 0;">0 TOTAL PTS</div>
-    <div id="pGrids" style="display:grid; grid-template-columns:1fr 1fr; gap:10px; text-align:left;"></div>
-  </div>
-</div>
-
 <script>
-let DATA = {}; let HOF = []; let TESTERS = []; let currentKit = "Overall";
+let DATA, HOF, TESTERS;
 
-async function load() {
+async function init() {
   try {
-    const r = await fetch('rankings.json').then(res => res.json());
-    const h = await fetch('hof.json').then(res => res.json());
-    const t = await fetch('testers.json').then(res => res.json());
-    DATA = r; HOF = h; TESTERS = t;
-    processOverall(); buildKitBar(); spawnStars(); render("Overall");
-  } catch(e) { console.error("Error loading JSON", e); }
-}
-
-function processOverall() {
-  const pts = {"HT1":10,"LT1":9,"HT2":8,"LT2":7,"HT3":6,"LT3":5};
-  let totals = {};
-  for(let k in DATA) {
-    if(k!=="Players" && k!=="Overall") {
-      for(let t in DATA[k]) { DATA[k][t].forEach(p => totals[p] = (totals[p]||0) + (pts[t]||0)); }
-    }
-  }
-  DATA["Overall"] = totals;
-}
-
-function buildKitBar() {
-  const bar = document.getElementById('kitBar');
-  const kits = ["Overall", ...Object.keys(DATA).filter(k => k!=="Overall" && k!=="Players")];
-  bar.innerHTML = kits.map(k => `<button class="kit-btn ${k==='Overall'?'active':''}" onclick="setKit(this, '${k}')"><img src="emerald.png" width="16"> ${k.toUpperCase()}</button>`).join('');
-}
-
-function setKit(btn, kit) {
-  document.querySelectorAll('.kit-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  currentKit = kit; render(kit);
-}
-
-function render(kit, filter = "") {
-  const out = document.getElementById('displayList'); out.innerHTML = "";
-  if(kit === "Overall") {
-    let sorted = Object.entries(DATA["Overall"]).sort((a,b) => b[1]-a[1]);
-    if(filter) sorted = sorted.filter(([n]) => n.toLowerCase().includes(filter));
-    out.innerHTML = sorted.map(([n, s], i) => `<div class="tier-card"><div class="row" onclick="openProfile('${n}')"><span><b>#${i+1}</b> ${n}</span><span style="color:#ffd700">${s} PTS</span></div></div>`).join('');
-  } else {
-    ["HT1","LT1","HT2","LT2","HT3","LT3"].forEach(t => {
-      let players = (DATA[kit][t] || []).filter(n => !filter || n.toLowerCase().includes(filter));
-      if(players.length) {
-        let h = `<div class="tier-card"><div class="row" style="background:rgba(255,255,255,0.02); cursor:default; border-bottom:1px solid var(--border);"><b style="color:var(--purple)">${t}</b></div>`;
-        players.forEach(p => h += `<div class="row" onclick="openProfile('${p}')"><b>${p}</b> <span>VIEW</span></div>`);
-        out.innerHTML += h + `</div>`;
-      }
-    });
+    const fetchJson = async (file) => {
+      const res = await fetch(file);
+      if (!res.ok) throw new Error(`Could not load ${file}`);
+      return res.json();
+    };
+    
+    DATA = await fetchJson('rankings.json');
+    HOF = await fetchJson('hof.json');
+    TESTERS = await fetchJson('testers.json');
+    
+    setupRankings();
+    showSection('rankings');
+  } catch(e) {
+    document.body.innerHTML = `<div style="padding:100px; text-align:center;"><h1>⚠️ FILE LOAD ERROR</h1><p>You must run this on a local server (like Live Server) to load JSON files.</p></div>`;
   }
 }
 
-function openProfile(name) {
-  document.getElementById('pName').innerText = name;
-  document.getElementById('pPoints').innerText = (DATA["Overall"][name] || 0) + " TOTAL PTS";
-  let grids = "";
-  for(let k in DATA) if(k!=="Overall" && k!=="Players") for(let t in DATA[k]) if(DATA[k][t].includes(name)) grids += `<div style="padding:5px; border:1px solid #222; font-size:10px;"><b>${k}</b><br>${t}</div>`;
-  document.getElementById('pGrids').innerHTML = grids;
-  document.getElementById('profileModal').style.display = 'flex';
+function setupRankings() {
+  // Logic for generating "Overall" and Kit buttons remains same as your engine
+  const kits = ["Overall", ...Object.keys(DATA).filter(k => k !== "Players" && k !== "Overall")];
+  document.getElementById('kitBar').innerHTML = kits.map(k => 
+    `<button class="nav-btn" style="font-size:9px" onclick="renderRankings('${k}')">${k}</button>`
+  ).join('');
+  renderRankings("Overall");
 }
 
-function showSection(id) {
-  ['rankings','hof','testers'].forEach(s => {
-    document.getElementById(s+'-sec').style.display = s===id ? 'block' : 'none';
-    document.getElementById('btn-'+s).classList.toggle('active', s===id);
-  });
-  if(id==='hof') document.getElementById('hofList').innerHTML = HOF.map(h => `<div class="tier-card" style="padding:25px;"><h3>${h.name}</h3><p style="opacity:0.7">${h.description}</p></div>`).join('');
-  if(id==='testers') document.getElementById('testerList').innerHTML = TESTERS.map(t => `
-    <div class="tester-card">
-      <div class="tester-name">${t.name}</div>
-      <div class="tester-region">${t.region}</div>
-      <div class="tester-discord">${t.discord}</div>
+function renderRankings(kit) {
+  const list = document.getElementById('rankList');
+  list.innerHTML = "";
+  // Simple render logic - adjust based on your specific rankings.json structure
+  const entries = kit === "Overall" ? Object.entries(DATA["Overall"]).sort((a,b)=>b[1]-a[1]) : [];
+  list.innerHTML = entries.map(([name, pts], i) => `
+    <div class="glass-card animate" style="display:flex; justify-content:space-between; align-items:center;">
+      <span><b style="color:var(--accent); margin-right:15px;">#${i+1}</b> ${name}</span>
+      <span style="color:#ffd700; font-weight:bold;">${pts} PTS</span>
     </div>
   `).join('');
 }
 
-function spawnStars() {
-  const container = document.getElementById('space-container');
-  for(let i=0; i<15; i++) {
-    const s = document.createElement('div'); s.className = 'space-star';
-    s.style.backgroundImage = "url('emerald.png')";
-    s.style.top = Math.random()*100+'vh'; s.style.animationDelay = Math.random()*-20+'s';
-    container.appendChild(s);
+function showSection(id) {
+  ['rankings','hof','testers'].forEach(s => {
+    document.getElementById(s+'-sec').style.display = s === id ? 'block' : 'none';
+    document.getElementById('btn-'+s).classList.toggle('active', s === id);
+  });
+
+  if(id === 'testers') {
+    document.getElementById('testerList').innerHTML = TESTERS.map(t => `
+      <div class="tester-card animate">
+        <div class="t-name">${t.name}</div>
+        <div class="t-region">${t.region}</div>
+        <div class="t-discord">@${t.discord}</div>
+      </div>
+    `).join('');
   }
 }
 
-function handleSearch() { render(currentKit, document.getElementById('playerSearch').value.toLowerCase()); }
-function closeProfile() { document.getElementById('profileModal').style.display = 'none'; }
-load();
+init();
 </script>
 </body>
 </html>

@@ -1,220 +1,203 @@
 <!DOCTYPE html>
-<html lang="en" translate="no">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PVP TIERS</title>
-  <style>
-    @font-face { font-family: 'MultiCraftFont'; src: url('MultiCraftFont.ttf') format('truetype'); }
-    :root {
-      --bg: #030406; --purple: #a855f7; --white: #ffffff;
-      --gold: #ffd700; --silver: #c0c0c0; --bronze: #cd7f32;
-      --t1: #ff4d4d; --t2: #ffa64d; --t3: #ffff4d;
-      --border: rgba(168, 85, 247, 0.3);
-    }
-
-    body { background: var(--bg); color: #fff; font-family: 'Courier New', monospace; margin: 0; overflow-x: hidden; }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    /* Background Star Engine */
-    #star-container { position: fixed; inset: 0; z-index: -1; pointer-events: none; }
-    .star { position: absolute; width: 20px; height: 20px; background: var(--purple); border-radius: 2px; opacity: 0.15; animation: drift 15s linear infinite; }
-    @keyframes drift { from { transform: translateX(110vw) rotate(0deg); } to { transform: translateX(-10vw) rotate(360deg); } }
+    <title>PVP TIERS</title>
+    <meta name="description" content="Official Player Rankings and Kit Tiers.">
+    <meta property="og:title" content="PVP TIERS">
+    <meta property="og:description" content="Global Leaderboards and Official Tier Rankings.">
+    <meta property="og:image" content="backgroundsword.png">
+    <meta name="theme-color" content="#a855f7">
+    <link rel="icon" type="image/png" href="backgroundsword.png">
 
-    /* Nav */
-    nav { display: flex; justify-content: space-between; align-items: center; padding: 20px 40px; background: rgba(0,0,0,0.9); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 1000; backdrop-filter: blur(10px); }
-    .nav-link { color: #5a6474; text-decoration: none; font-weight: bold; cursor: pointer; transition: 0.3s; font-size: 0.9rem; text-transform: uppercase; }
-    .nav-link:hover, .nav-link.active { color: #fff; text-shadow: 0 0 10px var(--purple); }
+    <style>
+        @font-face { font-family: 'MultiCraftFont'; src: url('MultiCraftFont.ttf'); }
+        :root {
+            --bg: #030406; --purple: #a855f7; --border: rgba(168, 85, 247, 0.3);
+            --gold: #ffd700; --t1: #ff4d4d;
+        }
 
-    /* Buttons */
-    .kit-btn {
-      background: transparent; border: 1px solid var(--border); color: #fff;
-      padding: 12px 24px; border-radius: 4px; cursor: pointer; font-weight: bold;
-      transition: 0.3s; text-transform: uppercase; letter-spacing: 1px;
-    }
-    .kit-btn:hover { background: rgba(168, 85, 247, 0.1); border-color: var(--purple); transform: translateY(-2px); }
-    .kit-btn.active { background: var(--purple); color: #000; border-color: var(--purple); box-shadow: 0 0 15px var(--purple); }
+        body { background: var(--bg); color: #fff; font-family: 'Courier New', monospace; margin: 0; overflow-x: hidden; }
 
-    .search-top { background: #111; border: 1px solid var(--border); padding: 10px 20px; border-radius: 4px; color: #fff; outline: none; width: 200px; transition: 0.3s; }
-    .search-top:focus { width: 300px; border-color: var(--purple); }
+        /* Spinning Glowing Background Canvas */
+        #bgCanvas { position: fixed; top: 0; left: 0; z-index: -1; pointer-events: none; }
 
-    .header-main { text-align: center; padding: 60px 0; }
-    .home-info-bar { text-align: center; margin-bottom: 40px; padding: 15px; border: 1px solid var(--border); width: fit-content; margin-inline: auto; font-size: 0.8rem; letter-spacing: 1px; }
+        /* Navigation */
+        nav { 
+            display: flex; justify-content: space-between; align-items: center; 
+            padding: 20px 40px; background: rgba(0,0,0,0.8); border-bottom: 1px solid var(--border);
+            backdrop-filter: blur(10px); sticky; top: 0; z-index: 100;
+        }
+        .nav-link { color: #5a6474; cursor: pointer; font-weight: bold; text-transform: uppercase; transition: 0.3s; }
+        .nav-link:hover, .nav-link.active { color: #fff; text-shadow: 0 0 10px var(--purple); }
 
-    .tier-scroll { display: flex; gap: 20px; overflow-x: auto; padding: 20px 0; scrollbar-width: none; }
-    .tier-scroll::-webkit-scrollbar { display: none; }
-    .tier-col { flex: 0 0 300px; border: 1px solid var(--border); background: rgba(255,255,255,0.01); }
-    .tier-label { padding: 15px; text-align: center; font-weight: bold; border-bottom: 1px solid var(--border); background: rgba(168, 85, 247, 0.05); }
+        /* Buttons with Animations */
+        .kit-btn {
+            background: transparent; border: 1px solid var(--border); color: #fff;
+            padding: 12px 24px; border-radius: 4px; cursor: pointer; font-weight: bold;
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .kit-btn:hover { 
+            background: var(--purple); color: #000; 
+            transform: scale(1.1) rotate(-1deg); box-shadow: 0 0 20px var(--purple);
+        }
+        .kit-btn.active { background: var(--purple); color: #000; box-shadow: 0 0 30px var(--purple); }
 
-    .p-row { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; border-bottom: 1px solid rgba(255,255,255,0.05); cursor: pointer; transition: 0.2s; }
-    .p-row:hover { background: rgba(168, 85, 247, 0.1); padding-left: 25px; }
+        /* Layout */
+        .header { text-align: center; padding: 60px 0; animation: slideDown 1s ease; }
+        @keyframes slideDown { from { transform: translateY(-50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
-    .modal { display:none; position:fixed; inset:0; z-index:2000; background:rgba(0,0,0,0.95); align-items:center; justify-content:center; }
-    .modal-box { background: #0a0a0c; border: 1px solid var(--purple); padding: 40px; width: 90%; max-width: 450px; position: relative; animation: pop 0.3s ease-out; }
-    @keyframes pop { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        .tier-scroll { display: flex; gap: 20px; overflow-x: auto; padding: 20px; scrollbar-width: none; }
+        .tier-col { 
+            flex: 0 0 300px; border: 1px solid var(--border); background: rgba(255,255,255,0.01);
+            animation: fadeIn 0.5s ease forwards; opacity: 0;
+        }
+        @keyframes fadeIn { to { opacity: 1; transform: translateY(0); } }
 
-    #rulesContent { white-space: pre-line; text-align: left; line-height: 2; border-left: 2px solid var(--purple); padding-left: 20px; }
-    .hof-card { padding: 20px; border: 1px solid var(--border); background: rgba(255,255,255,0.02); }
-    .hof-card h3 { color: var(--purple); margin-top: 0; text-transform: uppercase; }
-  </style>
+        .p-row { display: flex; justify-content: space-between; padding: 15px 20px; border-bottom: 1px solid rgba(255,255,255,0.05); cursor: pointer; }
+        .p-row:hover { background: rgba(168, 85, 247, 0.1); padding-left: 30px; transition: 0.3s; }
+
+        /* Modal Pop-up */
+        .modal { display:none; position:fixed; inset:0; z-index:2000; background:rgba(0,0,0,0.9); align-items:center; justify-content:center; }
+        .modal-box { 
+            background: #0a0a0c; border: 1px solid var(--purple); padding: 40px; width: 400px; 
+            animation: pop 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+        @keyframes pop { from { transform: scale(0); } to { transform: scale(1); } }
+    </style>
 </head>
 <body>
 
-<div id="star-container"></div>
+<canvas id="bgCanvas"></canvas>
 
 <nav>
-  <div style="display:flex; gap:30px;">
-    <span class="nav-link active" id="nav-rankings" onclick="showTab('rankings')">Rankings</span>
-    <span class="nav-link" id="nav-info" onclick="showTab('info')">Information</span>
-    <span class="nav-link" id="nav-testers" onclick="showTab('testers')">Testers</span>
-    <span class="nav-link" id="nav-hof" onclick="showTab('hof')">Hall of Fame</span>
-  </div>
-  <input type="text" id="mainSearch" class="search-top" placeholder="SEARCH PLAYER..." oninput="doSearch()">
+    <div style="display:flex; gap:30px;">
+        <span class="nav-link active" onclick="showTab('rankings')">Rankings</span>
+        <span class="nav-link" onclick="showTab('info')">Info</span>
+        <span class="nav-link" onclick="showTab('hof')">Hall of Fame</span>
+    </div>
+    <input type="text" id="mainSearch" style="background:#111; border:1px solid var(--border); color:#fff; padding:8px 15px;" placeholder="SEARCH PLAYER..." oninput="doSearch()">
 </nav>
 
-<div class="header-main">
-  <h1 style="font-family:'MultiCraftFont'; font-size: 3.5rem; margin:0; letter-spacing: 5px;">PVP TIERS</h1>
-  <div class="home-info-bar">SERVER CODE: UNRELEASED | DISCORD: UNRELEASED</div>
+<div class="header">
+    <h1 style="font-family:'MultiCraftFont'; font-size: 4rem; letter-spacing: 10px; margin: 0;">PVP TIERS</h1>
+    <p style="opacity: 0.5; letter-spacing: 2px;">MULTITIERS.NET</p>
 </div>
 
 <div class="container" style="max-width: 1400px; margin: auto; padding: 0 20px;">
-  <div id="rankings-tab">
-    <div id="kitBar" style="display:flex; justify-content:center; gap:10px; flex-wrap:wrap; margin-bottom:50px;"></div>
-    <div id="tierDisplay"></div>
-  </div>
-
-  <div id="info-tab" style="display:none;">
-    <div id="rulesContent">
-      1. NO CHEATING OR MACROS
-      2. RESPECT ALL STAFF AND TESTERS
-      3. TESTS ON OFFICIAL SERVERS ONLY
-      4. REPORT ISSUES TO ADMINS
+    <div id="rankings-tab">
+        <div id="kitBar" style="display:flex; justify-content:center; gap:10px; margin-bottom:50px; flex-wrap:wrap;"></div>
+        <div id="tierDisplay"></div>
     </div>
-  </div>
-
-  <div id="testers-tab" style="display:none;"><div id="testerDisplay" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr)); gap:20px;"></div></div>
-  <div id="hof-tab" style="display:none;"><div id="hofDisplay" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr)); gap:20px;"></div></div>
 </div>
 
 <div id="pModal" class="modal">
-  <div class="modal-box">
-    <span onclick="closeP()" style="position:absolute; top:20px; right:20px; cursor:pointer; font-size:1.5rem;">CLOSE</span>
-    <h2 id="modalName" style="font-size:2.5rem; margin:0; color:var(--purple); text-transform:uppercase;"></h2>
-    <p id="modalPos" style="color:var(--gold); letter-spacing:1px;"></p>
-    <div style="border:1px solid #333; padding:10px; margin:20px 0; font-size:0.8rem;">DISCORD: <span id="modalDiscord"></span></div>
-    <div id="modalTiers" style="text-align:left; border-top:1px solid #222; padding-top:20px;"></div>
-  </div>
+    <div class="modal-box">
+        <h2 id="modalName" style="color:var(--purple); text-transform:uppercase;"></h2>
+        <div id="modalData" style="margin-top:20px; line-height:1.6;"></div>
+        <button onclick="closeP()" style="margin-top:30px; width:100%; padding:10px; background:var(--purple); border:none; cursor:pointer; font-weight:bold;">CLOSE</button>
+    </div>
 </div>
 
 <script>
-let DATA = {}; let curKit = "Overall"; let OVERALL = {};
+let DATA = {}; let OVERALL = {};
+
+// Background Animation Engine
+const canvas = document.getElementById('bgCanvas');
+const ctx = canvas.getContext('2d');
+let particles = [];
+
+function initParticles() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    particles = [];
+    for(let i=0; i<40; i++) {
+        particles.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            size: Math.random() * 3 + 1,
+            speed: Math.random() * 1 + 0.5,
+            rotation: Math.random() * Math.PI * 2,
+            spin: Math.random() * 0.05
+        });
+    }
+}
+
+function draw() {
+    ctx.clearRect(0,0,canvas.width, canvas.height);
+    ctx.fillStyle = "rgba(168, 85, 247, 0.4)";
+    particles.forEach(p => {
+        p.y -= p.speed;
+        p.rotation += p.spin;
+        if(p.y < -20) p.y = canvas.height + 20;
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.rotation);
+        ctx.shadowBlur = 15;
+        ctx.shadowColor = "#a855f7";
+        ctx.fillRect(-p.size, -p.size, p.size*2, p.size*2);
+        ctx.restore();
+    });
+    requestAnimationFrame(draw);
+}
 
 async function init() {
-  const [r, t, h] = await Promise.all([
-    fetch(`https://raw.githubusercontent.com/multitiers/multitiers.github.io/refs/heads/main/rankings.json?v=${Date.now()}`).then(res => res.json()),
-    fetch(`https://raw.githubusercontent.com/multitiers/multitiers.github.io/refs/heads/main/testers.json?v=${Date.now()}`).then(res => res.json()),
-    fetch(`https://raw.githubusercontent.com/multitiers/multitiers.github.io/refs/heads/main/hof.json?v=${Date.now()}`).then(res => res.json())
-  ]);
-  DATA = r; 
-  buildOverall();
-  genKitButtons();
-  genStars();
-  render("Overall");
-
-  document.getElementById('testerDisplay').innerHTML = t.map(x => `<div class="tier-col" style="padding:20px;"><h3>${x.name}</h3><span style="color:var(--purple)">${x.region}</span><br><small>${x.discord}</small></div>`).join('');
-  document.getElementById('hofDisplay').innerHTML = h.map(x => `<div class="hof-card"><h3>${x.name}</h3><p style="font-size:0.85rem; opacity:0.8;">${x.description}</p></div>`).join('');
+    const r = await fetch(`rankings.json?v=${Date.now()}`).then(res => res.json());
+    DATA = r;
+    buildOverall();
+    genButtons();
+    render("Overall");
 }
 
 function buildOverall() {
-  OVERALL = {};
-  const pts = { "HT1":10, "LT1":9, "HT2":8, "LT2":7, "HT3":6, "LT3":5 };
-  for(let k in DATA) {
-    if(k === "Players" || k === "Overall") continue;
-    for(let tier in DATA[k]) {
-      DATA[k][tier].forEach(name => { OVERALL[name] = (OVERALL[name] || 0) + (pts[tier] || 0); });
-    }
-  }
-}
-
-function genKitButtons() {
-  const bar = document.getElementById('kitBar');
-  ["Overall", ...Object.keys(DATA).filter(k => k!=="Players" && k!=="Overall")].forEach(k => {
-    const btn = document.createElement('button');
-    btn.className = 'kit-btn';
-    btn.innerText = k;
-    btn.onclick = () => {
-      document.querySelectorAll('.kit-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      curKit = k; render(k);
-    };
-    if(k === "Overall") btn.classList.add('active');
-    bar.appendChild(btn);
-  });
-}
-
-function render(kit, filter="") {
-  const out = document.getElementById('tierDisplay'); out.innerHTML = "";
-  if(kit === "Overall") {
-    let sorted = Object.entries(OVERALL).sort((a,b)=>b[1]-a[1]);
-    sorted.forEach(([name, points], i) => {
-      if(!filter || name.toLowerCase().includes(filter)) {
-        let c = i==0 ? 'var(--gold)' : i==1 ? 'var(--silver)' : i==2 ? 'var(--bronze)' : '#fff';
-        out.innerHTML += `<div class="p-row" onclick="openP('${name}')"><span style="color:${c}">#${i+1} ${name}</span><span>${points} PTS</span></div>`;
-      }
-    });
-  } else {
-    const scroll = document.createElement('div'); scroll.className = "tier-scroll";
-    ["HT1","LT1","HT2","LT2","HT3","LT3"].forEach(t => {
-      const col = document.createElement('div'); col.className = "tier-col";
-      col.innerHTML = `<div class="tier-label">${t}</div>`;
-      const players = DATA[kit][t] || [];
-      if(players.length === 0) col.innerHTML += `<div style="padding:20px; opacity:0.2; text-align:center; font-size:0.7rem;">NO RANKINGS</div>`;
-      players.forEach(n => {
-        if(!filter || n.toLowerCase().includes(filter)) {
-          const pData = DATA.Players[n] || {};
-          col.innerHTML += `<div class="p-row" onclick="openP('${n}')"><span>${n} <span style="font-size:0.6rem; color:#5a6474; margin-left:5px;">[${pData.region || '??'}]</span></span></div>`;
+    const pts = { "HT1":10, "LT1":9, "HT2":8, "LT2":7, "HT3":6, "LT3":5 };
+    for(let k in DATA) {
+        if(k === "Players" || k === "Overall") continue;
+        for(let t in DATA[k]) {
+            DATA[k][t].forEach(n => { OVERALL[n] = (OVERALL[n] || 0) + (pts[t] || 0); });
         }
-      });
-      scroll.appendChild(col);
-    });
-    out.appendChild(scroll);
-  }
-}
-
-function openP(name) {
-  const p = DATA.Players[name] || {};
-  const sorted = Object.entries(OVERALL).sort((a,b)=>b[1]-a[1]);
-  const pos = sorted.findIndex(x => x[0] === name) + 1;
-  document.getElementById('modalName').innerText = name;
-  document.getElementById('modalPos').innerText = `RANK #${pos} | ${OVERALL[name] || 0} POINTS`;
-  document.getElementById('modalDiscord').innerText = p.discord || "NOT LINKED";
-  let ts = "";
-  for(let k in DATA) {
-    if(k==="Players" || k==="Overall") continue;
-    for(let t in DATA[k]) {
-      if(DATA[k][t].includes(name)) ts += `<div style="margin-bottom:10px; font-size:0.8rem;"><b>${k.toUpperCase()}:</b> <span style="color:var(--purple)">${t}</span></div>`;
     }
-  }
-  document.getElementById('modalTiers').innerHTML = ts || "NO ACTIVE RANKINGS";
-  document.getElementById('pModal').style.display = 'flex';
 }
 
-function genStars() {
-  const container = document.getElementById('star-container');
-  for(let i=0; i<15; i++) {
-    const s = document.createElement('div'); s.className = 'star';
-    s.style.top = Math.random() * 100 + "vh";
-    s.style.animationDelay = Math.random() * 10 + "s";
-    container.appendChild(s);
-  }
+function genButtons() {
+    const bar = document.getElementById('kitBar');
+    ["Overall", ...Object.keys(DATA).filter(k => k!=="Players" && k!=="Overall")].forEach(k => {
+        const b = document.createElement('button');
+        b.className = 'kit-btn'; b.innerText = k;
+        b.onclick = () => { document.querySelectorAll('.kit-btn').forEach(x=>x.classList.remove('active')); b.classList.add('active'); render(k); };
+        if(k === "Overall") b.classList.add('active');
+        bar.appendChild(b);
+    });
 }
 
-function showTab(id) {
-  ['rankings','info','testers','hof'].forEach(t => document.getElementById(t+'-tab').style.display = (t===id?'block':'none'));
-  document.querySelectorAll('.nav-link').forEach(l => l.classList.toggle('active', l.id === 'nav-'+id));
+function render(kit) {
+    const out = document.getElementById('tierDisplay');
+    if(kit === "Overall") {
+        let sorted = Object.entries(OVERALL).sort((a,b)=>b[1]-a[1]);
+        out.innerHTML = sorted.map(([n,p], i) => `<div class="p-row" onclick="openP('${n}')"><span>#${i+1} ${n}</span><span>${p} PTS</span></div>`).join('');
+    } else {
+        let html = `<div class="tier-scroll">`;
+        ["HT1","LT1","HT2","LT2","HT3","LT3"].forEach(t => {
+            html += `<div class="tier-col"><div style="padding:15px; text-align:center; font-weight:bold; border-bottom:1px solid var(--border);">${t}</div>`;
+            (DATA[kit][t] || []).forEach(n => { html += `<div class="p-row" onclick="openP('${n}')">${n}</div>`; });
+            html += `</div>`;
+        });
+        out.innerHTML = html + `</div>`;
+    }
 }
+
+function openP(n) {
+    const p = DATA.Players[n] || {};
+    document.getElementById('modalName').innerText = n;
+    document.getElementById('modalData').innerHTML = `DISCORD: ${p.discord || 'N/A'}<br>REGION: ${p.region || '??'}<br>POINTS: ${OVERALL[n] || 0}`;
+    document.getElementById('pModal').style.display = 'flex';
+}
+
 function closeP() { document.getElementById('pModal').style.display = 'none'; }
-function doSearch() { render(curKit, document.getElementById('mainSearch').value.toLowerCase()); }
-init();
+window.addEventListener('resize', initParticles);
+initParticles(); draw(); init();
 </script>
 </body>
 </html>

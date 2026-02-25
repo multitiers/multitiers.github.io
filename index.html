@@ -23,7 +23,7 @@
       --space-glow: rgba(122, 73, 209, 0.25);
     }
 
-    /* --- Space & Spinning Background --- */
+    /* --- Space Background --- */
     body { 
       background-color: var(--bg);
       background-image: radial-gradient(circle at center, var(--space-glow) 0%, transparent 85%);
@@ -34,60 +34,59 @@
       overflow-x: hidden;
     }
 
-    body::before, body::after, #item-vault {
-      content: ""; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-      z-index: -2; pointer-events: none;
-    }
-
+    /* Stars */
     body::before {
+      content: ""; position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: -3;
       background-image: radial-gradient(1.5px 1.5px at 20px 30px, #fff, rgba(0,0,0,0)), 
                         radial-gradient(1px 1px at 150px 150px, #fff, rgba(0,0,0,0));
       background-size: 300px 300px; animation: twinkle 4s infinite ease-in-out;
     }
 
-    #item-vault { z-index: -1; opacity: 0.35; } 
+    /* Shuffling Item Vault */
+    #item-vault {
+      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+      z-index: -2; pointer-events: none; opacity: 0.35;
+    }
     .floating-item {
-      position: absolute; width: 45px; height: 45px;
+      position: absolute; width: 50px; height: 50px;
       background-size: contain; background-repeat: no-repeat;
-      animation: floatItem 30s infinite linear, spinItem 10s infinite linear;
+      transition: all 5s ease-in-out; /* Smooth 5-second movement when shuffling */
+      animation: spinItem 10s infinite linear;
     }
 
-    @keyframes twinkle { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
+    @keyframes twinkle { 0%, 100% { opacity: 0.3; } 50% { opacity: 0.8; } }
     @keyframes spinItem { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-    @keyframes floatItem {
-      0% { transform: translate(0, 0); }
-      50% { transform: translate(15vw, 20vh); }
-      100% { transform: translate(0, 0); }
-    }
 
     /* --- Header & Sword Backdrop --- */
     .container { max-width: 950px; margin: 0 auto; padding: 20px; position: relative; z-index: 1; }
     
-    header { 
-      text-align: center; padding: 80px 0 40px; position: relative; 
+    header { text-align: center; padding: 60px 0; }
+    .header-content {
+      display: inline-flex; align-items: center; justify-content: center;
+      gap: 25px; position: relative;
     }
-    .title-backdrop-sword {
-      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-      width: 200px; height: 200px; opacity: 0.8; z-index: -1;
-      filter: drop-shadow(0 0 30px var(--accent-bright));
-      animation: pulseSword 4s infinite ease-in-out;
+    .title-sword {
+      width: 130px; height: 130px;
+      filter: drop-shadow(0 0 25px var(--accent-bright));
+      animation: pulseSword 3s infinite ease-in-out;
+      flex-shrink: 0;
     }
     @keyframes pulseSword {
-        0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.6; }
-        50% { transform: translate(-50%, -50%) scale(1.1); opacity: 0.9; }
+        0%, 100% { transform: scale(1); filter: drop-shadow(0 0 20px var(--accent-bright)); }
+        50% { transform: scale(1.1); filter: drop-shadow(0 0 40px var(--accent-bright)); }
     }
     h1 { 
-      font-family: 'MultiCraftFont', sans-serif; font-size: 5rem; margin: 0; 
-      text-shadow: 0 0 40px rgba(0, 0, 0, 1), 0 0 20px rgba(122, 73, 209, 0.8); 
-      letter-spacing: 6px; position: relative;
+      font-family: 'MultiCraftFont', sans-serif; font-size: 4.8rem; margin: 0; 
+      text-shadow: 0 0 30px rgba(122, 73, 209, 0.8); letter-spacing: 2px;
     }
 
-    /* --- Search --- */
+    /* --- UI Elements --- */
     .search-wrapper { position: relative; max-width: 550px; margin: 0 auto 40px; }
     #playerSearch {
       width: 100%; padding: 16px 25px; background: rgba(22, 27, 36, 0.95); 
       border: 2px solid var(--border); border-radius: 14px; color: white; 
       font-family: inherit; font-size: 1.1rem; outline: none; transition: 0.3s;
+      box-sizing: border-box;
     }
     #playerSearch:focus { border-color: var(--accent-bright); box-shadow: 0 0 25px rgba(122, 73, 209, 0.5); }
     
@@ -99,7 +98,6 @@
     .search-item { padding: 15px 20px; cursor: pointer; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; }
     .search-item:hover { background: var(--accent); }
 
-    /* --- Leaderboard List --- */
     .kit-selector { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-bottom: 40px; }
     .kit-btn {
       background: rgba(28, 35, 45, 0.8); border: 1px solid var(--border); color: var(--muted); 
@@ -126,18 +124,18 @@
     .rank-num { font-weight: 900; width: 40px; font-style: italic; font-size: 1.2rem; }
     .rank-1 { color: var(--gold); text-shadow: 0 0 15px rgba(255,215,0,0.5); }
 
-    /* --- Modals --- */
+    /* --- Modal --- */
     .modal { display: none; position: fixed; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); backdrop-filter: blur(15px); }
     .modal-content { background: #0e1117; margin: 5% auto; border: 1px solid var(--border); border-radius: 30px; width: 90%; max-width: 480px; padding: 40px; position: relative; }
     .close-btn { cursor: pointer; font-size: 35px; color: var(--muted); position: absolute; right: 25px; top: 15px; }
 
     .modal-tabs { display: flex; justify-content: center; gap: 10px; margin-bottom: 30px; flex-wrap: wrap; width: 100%; }
     .tab-btn { background: var(--bg3); border: 1px solid var(--border); color: var(--muted); padding: 8px 16px; border-radius: 12px; cursor: pointer; font-weight: bold; transition: 0.2s; }
-    .tab-btn.active { background: var(--accent-bright); color: white; border-color: white; transform: scale(1.05); }
+    .tab-btn.active { background: var(--accent-bright); color: white; border-color: white; }
 
-    .modal-rank-num { font-size: 1.6rem; font-weight: 900; font-style: italic; display: block; }
+    .modal-rank-num { font-size: 1.6rem; font-weight: 900; font-style: italic; display: block; text-align: center; }
     .profile-name { font-size: 2.8rem; font-weight: 900; margin: 10px 0; display: block; text-align: center; }
-    .pts-tag { color: var(--gold); font-weight: bold; font-size: 1.1rem; }
+    .pts-tag { color: var(--gold); font-weight: bold; font-size: 1.1rem; text-align: center; }
 
     .tiers-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; background: rgba(0,0,0,0.3); padding: 25px; border-radius: 20px; }
     .kit-item { text-align: center; width: 75px; }
@@ -151,12 +149,15 @@
 
 <div class="container">
   <header>
-    <img src="backgroundsword.png" class="title-backdrop-sword">
-    <h1>MULTITIERS</h1>
+    <div class="header-content">
+        <h1>MULTI</h1>
+        <img src="backgroundsword.png" class="title-sword">
+        <h1>TIERS</h1>
+    </div>
   </header>
 
   <div class="search-wrapper">
-    <input type="text" id="playerSearch" placeholder="Search Global Players..." autocomplete="off">
+    <input type="text" id="playerSearch" placeholder="Search Players..." autocomplete="off">
     <div id="searchResults" class="search-results"></div>
   </div>
 
@@ -167,16 +168,12 @@
 <div id="playerModal" class="modal">
   <div class="modal-content">
     <span class="close-btn" onclick="closeModal()">&times;</span>
-    
     <div id="tabContainer" class="modal-tabs"></div>
-    
-    <div style="text-align: center; margin-bottom: 30px;">
+    <div style="margin-bottom: 30px;">
       <span class="modal-rank-num" id="modalRankNum">#--</span>
       <span class="profile-name" id="modalPlayerName">Player</span>
       <div id="modalTotalPts" class="pts-tag">0 PTS</div>
     </div>
-    
-    <div style="font-size: 0.7rem; color: var(--muted); text-transform: uppercase; margin-bottom: 10px; font-weight: bold; text-align: center; letter-spacing: 2px;">Kit Breakdown</div>
     <div class="tiers-grid" id="modalTiersGrid"></div>
   </div>
 </div>
@@ -191,6 +188,35 @@ const KIT_ICONS = {
   "Emerald OA": "emerald_oa.png", "Dragonhide KB OA": "kb_oa.png", "Wand": "wand.png"
 };
 
+// Vault Logic
+function spawnVaultItems() {
+  const vault = document.getElementById('item-vault');
+  const icons = Object.values(KIT_ICONS);
+  const totalItems = 20; 
+  vault.innerHTML = '';
+
+  for (let i = 0; i < totalItems; i++) {
+    const item = document.createElement('div');
+    item.className = 'floating-item';
+    item.style.backgroundImage = `url(${icons[i % icons.length]})`;
+    vault.appendChild(item);
+  }
+  shuffleVault();
+  setInterval(shuffleVault, 60000); // Shuffles every 60 seconds
+}
+
+function shuffleVault() {
+    const items = document.querySelectorAll('.floating-item');
+    items.forEach(item => {
+        const x = Math.random() * 90; // Keep slightly away from edges
+        const y = Math.random() * 90;
+        item.style.left = x + 'vw';
+        item.style.top = y + 'vh';
+        // Give each item a random spin duration to break synchronization
+        item.style.animationDuration = (8 + Math.random() * 10) + 's';
+    });
+}
+
 async function loadData() {
   const url = 'https://raw.githubusercontent.com/multitiers/multitiers.github.io/refs/heads/main/rankings.json';
   try {
@@ -203,20 +229,6 @@ async function loadData() {
     initSearch();
     spawnVaultItems();
   } catch (e) { console.error("Load failed."); }
-}
-
-function spawnVaultItems() {
-  const vault = document.getElementById('item-vault');
-  const icons = Object.values(KIT_ICONS);
-  for (let i = 0; i < 15; i++) {
-    const item = document.createElement('div');
-    item.className = 'floating-item';
-    item.style.backgroundImage = `url(${icons[i % icons.length]})`;
-    item.style.left = Math.random() * 95 + 'vw';
-    item.style.top = Math.random() * 95 + 'vh';
-    item.style.animationDelay = (Math.random() * -20) + 's';
-    vault.appendChild(item);
-  }
 }
 
 function calculateOverall() {
@@ -275,7 +287,7 @@ function initSearch() {
       matches.forEach(name => {
         const item = document.createElement('div');
         item.className = 'search-item';
-        item.innerHTML = `<span>${name}</span> <small>Profile</small>`;
+        item.innerHTML = `<span>${name}</span> <small>View Profile</small>`;
         item.onclick = () => { showPlayerStatsGroup([name], 0); results.style.display='none'; input.value=''; };
         results.appendChild(item);
       });
@@ -348,8 +360,6 @@ function updateModal(name, forcedRank) {
   const grid = document.getElementById('modalTiersGrid');
   grid.innerHTML = '';
   let pts = 0;
-  
-  // Build kit display
   Object.keys(KIT_ICONS).forEach(kit => {
     for (const t in FULL_DATA[kit]) {
       if (FULL_DATA[kit][t].includes(name)) {
@@ -364,17 +374,13 @@ function updateModal(name, forcedRank) {
 
   document.getElementById('modalTotalPts').textContent = pts + " PTS";
 
-  // Calculate actual Leaderboard Rank
   let finalRank = forcedRank;
   if (finalRank === 0) {
       const overallData = FULL_DATA["Overall"];
       const sortedPoints = Object.keys(overallData).sort((a, b) => b - a);
       let calculatedRank = 1;
       for (let score of sortedPoints) {
-          if (overallData[score].includes(name)) {
-              finalRank = calculatedRank;
-              break;
-          }
+          if (overallData[score].includes(name)) { finalRank = calculatedRank; break; }
           calculatedRank++;
       }
   }

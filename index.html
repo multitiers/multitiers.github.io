@@ -50,16 +50,21 @@
   .rank-3 { color: var(--bronze) !important; text-shadow: 0 0 10px rgba(205, 127, 50, 0.3); }
 
   .list-title { font-size: 0.65rem; margin-left: 12px; text-transform: uppercase; letter-spacing: 1px; padding: 3px 8px; border-radius: 5px; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.05); }
-  .tier-tag { font-size: 0.75rem; font-weight: bold; padding: 5px 10px; border-radius: 6px; background: var(--bg3); border: 1px solid var(--border); }
   .pts-tag { color: var(--gold); font-weight: bold; font-size: 0.85rem; }
 
-  /* Modal */
+  /* Modal & Tabs */
   .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); backdrop-filter: blur(10px); }
   .modal-content { background: linear-gradient(180deg, #161b24 0%, #0a0c10 100%); margin: 5% auto; border: 1px solid rgba(255,255,255,0.1); border-radius: 24px; width: 90%; max-width: 450px; padding: 30px; position: relative; }
+  
+  .modal-tabs { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; }
+  .tab-btn { background: var(--bg3); border: 1px solid var(--border); color: var(--muted); padding: 5px 12px; border-radius: 20px; cursor: pointer; font-size: 0.7rem; font-weight: bold; }
+  .tab-btn.active { background: var(--accent-bright); color: white; border-color: var(--white); }
+
   .modal-rank-display { text-align: center; margin-bottom: 20px; }
   .modal-rank-num { font-size: 1.4rem; font-weight: 900; font-style: italic; display: block; }
   .profile-name { font-size: 2.2rem; font-weight: 900; margin: 10px 0; display: block; }
   .modal-combat-title { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; font-weight: bold; }
+  
   .section-label { font-size: 0.7rem; color: var(--muted); text-transform: uppercase; margin: 25px 0 10px; font-weight: bold; border-bottom: 1px solid var(--border); padding-bottom: 5px; }
   .tiers-grid { display: flex; flex-wrap: wrap; gap: 15px; background: rgba(0,0,0,0.3); padding: 20px; border-radius: 15px; border: 1px solid var(--border); }
   .kit-item { text-align: center; width: 65px; display: flex; flex-direction: column; align-items: center; }
@@ -80,6 +85,8 @@
 <div id="playerModal" class="modal">
   <div class="modal-content">
     <span class="close-btn" onclick="closeModal()">&times;</span>
+    <div id="tabContainer" class="modal-tabs" style="display:none;"></div>
+    
     <div class="modal-rank-display">
       <span class="modal-rank-num" id="modalRankNum">#--</span>
       <span class="profile-name" id="modalPlayerName">Player</span>
@@ -169,11 +176,9 @@ function renderKit(kitName) {
       const players = data[pts];
       const info = getTitleInfo(rankNum);
       const rankClass = rankNum <= 3 ? `rank-${rankNum}` : '';
-      
-      // Combine tied players with " & "
       const combinedNames = players.join(' & ');
       
-      html += `<div class="player-row" onclick="showPlayerStats('${players[0]}')">
+      html += `<div class="player-row" onclick="showPlayerStatsGroup(${JSON.stringify(players)})">
         <div style="display:flex; align-items:center; flex-wrap:wrap;">
           <span class="rank-num ${rankClass}">#${rankNum}</span>
           <span class="player-name"><b>${combinedNames}</b></span>
@@ -181,11 +186,12 @@ function renderKit(kitName) {
         </div>
         <span class="pts-tag">${pts} PTS</span>
       </div>`;
-      rankNum += players.length; // Skip ranks for tied players
+      rankNum += players.length;
     });
     block.innerHTML = html;
     list.appendChild(block);
   } else {
+    // Standard Kit Rendering
     TIER_ORDER.forEach(tier => {
       const players = [];
       Object.keys(data).forEach(subTier => { if(subTier.includes(tier)) data[subTier].forEach(name => players.push({name, sub: subTier})); });
@@ -194,7 +200,7 @@ function renderKit(kitName) {
         block.className = 'tier-block';
         let html = `<div class="tier-header">${tier}</div>`;
         players.forEach(p => {
-          html += `<div class="player-row" onclick="showPlayerStats('${p.name}')">
+          html += `<div class="player-row" onclick="showPlayerStatsGroup(['${p.name}'])">
             <span class="player-name"><b>${p.name}</b></span>
             <span class="tier-tag">${p.sub}</span>
           </div>`;
@@ -206,7 +212,30 @@ function renderKit(kitName) {
   }
 }
 
-function showPlayerStats(playerName) {
+function showPlayerStatsGroup(playerNames) {
+  const tabs = document.getElementById('tabContainer');
+  tabs.innerHTML = '';
+  if (playerNames.length > 1) {
+    tabs.style.display = 'flex';
+    playerNames.forEach((name, i) => {
+      const btn = document.createElement('button');
+      btn.className = `tab-btn ${i === 0 ? 'active' : ''}`;
+      btn.textContent = name;
+      btn.onclick = () => {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        updateModalContent(name);
+      };
+      tabs.appendChild(btn);
+    });
+  } else {
+    tabs.style.display = 'none';
+  }
+  updateModalContent(playerNames[0]);
+  document.getElementById('playerModal').style.display = "block";
+}
+
+function updateModalContent(playerName) {
   document.getElementById('modalPlayerName').textContent = playerName;
   const grid = document.getElementById('modalTiersGrid');
   grid.innerHTML = '';
@@ -240,13 +269,7 @@ function showPlayerStats(playerName) {
   rankEl.style.color = info.color;
   titleEl.textContent = info.title;
   titleEl.style.color = info.color;
-  
-  if (globalRank === 1) rankEl.style.textShadow = "0 0 10px rgba(255, 215, 0, 0.4)";
-  else if (globalRank === 3) rankEl.style.textShadow = "0 0 10px rgba(205, 127, 50, 0.4)";
-  else rankEl.style.textShadow = "none";
-
   document.getElementById('modalTotalPts').textContent = `${totalPts} PTS`;
-  document.getElementById('playerModal').style.display = "block";
 }
 
 function closeModal() { document.getElementById('playerModal').style.display = "none"; }

@@ -3,24 +3,24 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PvP Tiers</title>
-  <meta name="description" content="Official Rankings and Tiertesting for MultiCraft">
-  <meta property="og:title" content="PvP Tiers">
-  <meta property="og:description" content="Offical Rankings and Tiertesting for MultiCraft">
-  <meta property="og:image" content="https://raw.githubusercontent.com/multitiers/multitiers.github.io/refs/heads/main/backgroundsword.png">
+  <title>MultiTiers | PVP Rankings</title>
+  
+  <meta property="og:title" content="MultiTiers PVP">
+  <meta property="og:description" content="Official Player Rankings and Hall of Fame.">
+  <meta property="og:image" content="backgroundsword.png">
   <meta name="theme-color" content="#a855f7">
-  <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/multitiers/multitiers.github.io/refs/heads/main/emerald.png">
+  
+  <link rel="icon" type="image/png" href="emerald.png">
 
   <style>
-    @font-face { font-family: 'MultiCraftFont'; src: url('MultiCraftFont.ttf') format('truetype'); }
+    @font-face { font-family: 'MultiCraftFont'; src: url('MultiCraftFont.ttf'); }
     
     :root {
-      --bg: #030406; --bg-panel: rgba(10, 10, 15, 0.95);
+      --bg: #030406; --bg-panel: rgba(15, 12, 25, 0.95);
       --purple: #a855f7; --white: #ffffff;
       --gold: #ffd700; --silver: #c0c0c0; --bronze: #cd7f32;
-      --t1: #ff4d4d; --t2: #ffa64d; --t3: #ffff4d; --t4: #4dff4d; --t5: #4dffff;
-      --border: rgba(168, 85, 247, 0.25);
-      --gradient: linear-gradient(135deg, #a855f7 0%, #ffffff 100%);
+      --t1: #ff4d4d; --t2: #ffa64d; --t3: #ffff4d;
+      --border: rgba(168, 85, 247, 0.3);
     }
 
     body { 
@@ -29,7 +29,7 @@
       background-attachment: fixed; overflow-x: hidden;
     }
 
-    /* #2 Kit Star Engine */
+    /* Moving Kit Background */
     #space-container { position: fixed; inset: 0; z-index: -1; pointer-events: none; }
     .space-star {
       position: absolute; width: 35px; height: 35px; background-size: contain; background-repeat: no-repeat;
@@ -39,50 +39,41 @@
     @keyframes travel { from { left: 110vw; } to { left: -10vw; } }
     @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
-    /* Header */
+    /* Header & Glow */
     header { width: 100%; display: flex; justify-content: center; padding: 60px 0 30px; }
-    .header-content { display: flex; align-items: center; justify-content: center; gap: 20px; }
-    .title-sword { width: 60px; height: 60px; animation: pulseSword 3s infinite ease-in-out; filter: drop-shadow(0 0 15px var(--purple)); }
-    @keyframes pulseSword { 0%, 100% { transform: scale(1); filter: drop-shadow(0 0 15px var(--purple)); } 50% { transform: scale(1.15); filter: drop-shadow(0 0 25px #fff); } }
-    .main-title { font-family: 'MultiCraftFont', sans-serif; font-size: 3.2rem; margin: 0; letter-spacing: 4px; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .header-content { display: flex; align-items: center; gap: 20px; }
+    .title-sword { width: 60px; height: 60px; animation: pulse 3s infinite; filter: drop-shadow(0 0 15px var(--purple)); }
+    @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); filter: drop-shadow(0 0 25px #fff); } }
+    .main-title { font-family: 'MultiCraftFont', sans-serif; font-size: 3.2rem; margin: 0; letter-spacing: 4px; background: linear-gradient(135deg, #a855f7 0%, #fff 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
     /* Navigation */
     nav { display: flex; justify-content: center; gap: 25px; padding: 20px; background: rgba(0,0,0,0.8); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; backdrop-filter: blur(10px); }
-    .nav-link { color: #5a6474; text-decoration: none; font-weight: bold; cursor: pointer; transition: 0.3s; font-size: 0.85rem; letter-spacing: 1px; }
+    .nav-link { color: #5a6474; font-weight: bold; cursor: pointer; transition: 0.3s; text-transform: uppercase; }
     .nav-link.active { color: #fff; text-shadow: 0 0 10px var(--purple); }
 
-    /* Neon Search Bar */
-    .search-wrapper { display: flex; justify-content: center; margin-bottom: 30px; }
+    /* Neon Search */
+    .search-wrapper { display: flex; justify-content: center; margin-bottom: 40px; }
     .search-input { 
       width: 100%; max-width: 450px; padding: 15px 25px; background: #0a0c12; border: 2px solid var(--border); 
       border-radius: 50px; color: #fff; text-align: center; outline: none; transition: 0.3s;
-      box-shadow: 0 0 10px rgba(168, 85, 247, 0.1);
+      box-shadow: 0 0 15px rgba(168, 85, 247, 0.1);
     }
-    .search-input:focus { border-color: var(--purple); box-shadow: 0 0 20px var(--purple); width: 500px; }
+    .search-input:focus { border-color: var(--purple); box-shadow: 0 0 25px var(--purple); width: 500px; }
 
-    /* Kit Buttons */
-    .kit-btn { background: #0a0c12; border: 1px solid var(--border); padding: 10px 20px; border-radius: 4px; color: #5a6474; font-weight: bold; cursor: pointer; transition: 0.3s; display: flex; align-items: center; gap: 8px; text-transform: uppercase; }
-    .kit-btn:hover { border-color: var(--purple); color: #fff; transform: translateY(-2px); }
-    .kit-btn.active { border-color: #fff; color: #fff; box-shadow: 0 0 15px var(--purple); background: var(--purple); color: #000; }
+    /* UI Elements */
+    .kit-btn { background: #0a0c12; border: 1px solid var(--border); padding: 10px 20px; border-radius: 4px; color: #5a6474; font-weight: bold; cursor: pointer; transition: 0.3s; display: flex; align-items: center; gap: 8px; }
+    .kit-btn:hover, .kit-btn.active { border-color: #fff; color: #fff; box-shadow: 0 0 15px var(--purple); }
+    .kit-btn.active { background: var(--purple); color: #000; }
 
-    /* Tier Lists */
     .tier-card { background: var(--bg-panel); border: 1px solid var(--border); border-radius: 10px; margin-bottom: 15px; overflow: hidden; animation: fadeIn 0.4s ease; }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-    .row { display: flex; justify-content: space-between; align-items: center; padding: 18px 25px; cursor: pointer; transition: 0.2s; }
-    .row:hover { background: rgba(168, 85, 247, 0.1); padding-left: 30px; }
-
-    /* Rank Colors */
-    .rank-1 { color: var(--gold); text-shadow: 0 0 12px var(--gold); }
-    .rank-2 { color: var(--silver); text-shadow: 0 0 12px var(--silver); }
-    .rank-3 { color: var(--bronze); text-shadow: 0 0 12px var(--bronze); }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } }
+    .row { display: flex; justify-content: space-between; align-items: center; padding: 18px 25px; cursor: pointer; }
+    .row:hover { background: rgba(168, 85, 247, 0.15); }
 
     /* Profile Modal */
-    .modal-content { 
-      background: #050608; border: 2px solid var(--purple); border-radius: 0; padding: 40px; 
-      text-align: center; position: relative; width: 90%; max-width: 420px;
-      box-shadow: 0 0 50px rgba(168, 85, 247, 0.4);
-    }
-    .profile-info-tag { background: #111; padding: 10px; border-radius: 5px; margin: 10px 0; font-size: 0.8rem; border: 1px solid #222; }
+    #profileModal { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.95); z-index:1000; align-items:center; justify-content:center; backdrop-filter:blur(15px); }
+    .modal-content { background: #050608; border: 2px solid var(--purple); padding: 40px; text-align: center; width: 90%; max-width: 400px; box-shadow: 0 0 40px var(--purple); }
+    .tag { background: #111; padding: 8px; border-radius: 4px; margin: 10px 0; border: 1px solid #222; font-size: 0.8rem; }
   </style>
 </head>
 <body>
@@ -90,84 +81,80 @@
 <div id="space-container"></div>
 
 <nav>
-  <div class="nav-link active" id="nav-rankings" onclick="showSection('rankings')">RANKINGS</div>
-  <div class="nav-link" id="nav-hof" onclick="showSection('hof')">HALL OF FAME</div>
-  <div class="nav-link" id="nav-testers" onclick="showSection('testers')">TESTERS</div>
+  <div class="nav-link active" onclick="showSection('rankings')">RANKINGS</div>
+  <div class="nav-link" onclick="showSection('hof')">HALL OF FAME</div>
+  <div class="nav-link" onclick="showSection('testers')">TESTERS</div>
 </nav>
 
 <header>
   <div class="header-content">
     <h1 class="main-title">MULTI</h1>
-    <img src="https://raw.githubusercontent.com/multitiers/multitiers.github.io/refs/heads/main/backgroundsword.png" class="title-sword">
+    <img src="backgroundsword.png" class="title-sword">
     <h1 class="main-title">TIERS</h1>
   </div>
 </header>
 
-<div class="container" style="max-width: 900px; margin: auto; padding: 0 20px;">
+<div class="container" style="max-width: 850px; margin: auto; padding: 0 20px;">
   
   <div id="rankings-sec">
     <div class="search-wrapper">
-      <input type="text" id="playerSearch" class="search-input" placeholder="SEARCH PLAYER..." oninput="handleSearch()">
+      <input type="text" id="playerSearch" class="search-input" placeholder="CLICK TO SEARCH PLAYER..." oninput="handleSearch()">
     </div>
     <div id="kitBar" style="display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; margin-bottom: 40px;"></div>
     <div id="displayList"></div>
   </div>
 
   <div id="hof-sec" style="display:none; text-align:center;">
-    <h1 style="color:var(--gold); letter-spacing: 5px;">HALL OF FAME</h1>
+    <h1 style="color:var(--gold); letter-spacing:4px;">HALL OF FAME</h1>
     <div id="hofList"></div>
   </div>
 
   <div id="testers-sec" style="display:none; text-align:center;">
-    <h1 style="color:var(--purple); letter-spacing: 5px;">TIER TESTERS</h1>
-    <div id="testerList" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(200px, 1fr)); gap:15px;"></div>
+    <h1 style="color:var(--purple); letter-spacing:4px;">OFFICIAL TESTERS</h1>
+    <div id="testerList" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(180px, 1fr)); gap:15px;"></div>
   </div>
 </div>
 
-<div id="profileModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.95); z-index:1000; align-items:center; justify-content:center; backdrop-filter:blur(15px);">
+<div id="profileModal">
   <div class="modal-content">
-    <span onclick="closeProfile()" style="position:absolute; top:15px; right:20px; cursor:pointer; font-size:25px; color:#555;">&times;</span>
-    <div id="pRank" style="font-weight:bold; margin-bottom:10px; color:#5a6474; letter-spacing:2px;">RANK #--</div>
-    <h2 id="pName" style="font-size: 2.8rem; margin:0; font-family:'MultiCraftFont'; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">PLAYER</h2>
-    
-    <div class="profile-info-tag">REGION: <span id="pRegion" style="color:var(--purple)">--</span></div>
-    <div class="profile-info-tag">DISCORD: <span id="pDiscord" style="color:var(--white)">--</span></div>
-    
-    <div id="pPoints" style="color:var(--gold); margin: 20px 0; font-weight:bold; font-size:1.2rem;">0 TOTAL PTS</div>
-    <div id="pGrids" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; text-align: left;"></div>
+    <span onclick="closeProfile()" style="float:right; cursor:pointer; font-size:20px;">&times;</span>
+    <div id="pRank" style="color:#5a6474; font-size:0.8rem; margin-bottom:10px;">RANK #--</div>
+    <h2 id="pName" style="font-family:'MultiCraftFont'; font-size:2.5rem; margin:0; color:var(--purple);">PLAYER</h2>
+    <div class="tag">REGION: <span id="pRegion" style="color:var(--purple)">--</span></div>
+    <div class="tag">DISCORD: <span id="pDiscord">--</span></div>
+    <div id="pPoints" style="color:var(--gold); font-weight:bold; margin:15px 0;">0 PTS</div>
+    <div id="pGrids" style="display:grid; grid-template-columns:1fr 1fr; gap:10px; text-align:left;"></div>
   </div>
 </div>
 
 <script>
 let DATA = {}; let HOF = []; let TESTERS = []; let currentKit = "Overall";
-const ICONS = { 
-  "Overall": "https://raw.githubusercontent.com/multitiers/multitiers.github.io/refs/heads/main/emerald.png", 
-  "Emerald": "https://raw.githubusercontent.com/multitiers/multitiers.github.io/refs/heads/main/emerald.png", 
-  "Dragonhide KB": "dragonhide_kb.png", 
-  "Emerald OA": "emerald_oa.png", 
-  "Dragonhide KB OA": "kb_oa.png", 
-  "Wand": "wand.png" 
-};
 
 async function load() {
   try {
-    const get = async (f) => (await fetch(`https://raw.githubusercontent.com/multitiers/multitiers.github.io/refs/heads/main/${f}?v=${Date.now()}`)).json();
-    DATA = await get('rankings.json'); 
-    HOF = await get('hof.json'); 
-    TESTERS = await get('testers.json');
-    processOverall(); buildKitBar(); spawnSpaceStars(); render("Overall");
-  } catch(e) { console.error("Data Load Error", e); }
+    // Load local files
+    const r = await fetch('rankings.json').then(res => res.json());
+    const h = await fetch('hof.json').then(res => res.json());
+    const t = await fetch('testers.json').then(res => res.json());
+    
+    DATA = r; HOF = h; TESTERS = t;
+    
+    processOverall();
+    buildKitBar();
+    spawnStars();
+    render("Overall");
+  } catch(e) {
+    document.getElementById('displayList').innerHTML = `<div style="text-align:center; color:red;">DATA FAILED TO LOAD.<br>Ensure you are using a local server or GitHub Pages.</div>`;
+  }
 }
 
 function processOverall() {
-  const pts = {"HT1":10,"LT1":9,"HT2":8,"LT2":7,"HT3":6,"LT3":5,"HT4":4,"LT4":3,"HT5":2,"LT5":1};
+  const pts = {"HT1":10,"LT1":9,"HT2":8,"LT2":7,"HT3":6,"LT3":5};
   let totals = {};
-  for(let k in DATA) { 
-    if(k!=="Overall" && k!=="Players") {
-      for(let t in DATA[k]) {
-        if(Array.isArray(DATA[k][t])) {
-          DATA[k][t].forEach(p => totals[p] = (totals[p]||0) + (pts[t]||0));
-        }
+  for(let kit in DATA) {
+    if(kit !== "Players" && kit !== "Overall") {
+      for(let tier in DATA[kit]) {
+        DATA[kit][tier].forEach(p => totals[p] = (totals[p]||0) + (pts[tier]||0));
       }
     }
   }
@@ -177,17 +164,14 @@ function processOverall() {
 function buildKitBar() {
   const bar = document.getElementById('kitBar');
   const kits = ["Overall", ...Object.keys(DATA).filter(k => k!=="Overall" && k!=="Players")];
-  kits.forEach(k => {
-    const btn = document.createElement('button');
-    btn.className = `kit-btn ${k==='Overall'?'active':''}`;
-    btn.innerHTML = `<img src="${ICONS[k] || ICONS['Overall']}" style="width:18px;"> ${k}`;
-    btn.onclick = () => { 
-      document.querySelectorAll('.kit-btn').forEach(b => b.classList.remove('active')); 
-      btn.classList.add('active'); 
-      currentKit = k; render(k); 
-    };
-    bar.appendChild(btn);
-  });
+  bar.innerHTML = kits.map(k => `<button class="kit-btn ${k==='Overall'?'active':''}" onclick="changeKit(this, '${k}')"><img src="emerald.png" width="16"> ${k.toUpperCase()}</button>`).join('');
+}
+
+function changeKit(btn, kit) {
+  document.querySelectorAll('.kit-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  currentKit = kit;
+  render(kit);
 }
 
 function render(kit, filter = "") {
@@ -195,44 +179,39 @@ function render(kit, filter = "") {
   if(kit === "Overall") {
     let sorted = Object.entries(DATA["Overall"]).sort((a,b) => b[1]-a[1]);
     if(filter) sorted = sorted.filter(([n]) => n.toLowerCase().includes(filter));
-    sorted.forEach(([n, s], i) => {
-      let trueRank = Object.entries(DATA["Overall"]).sort((a,b) => b[1]-a[1]).findIndex(x => x[0] === n) + 1;
-      let rCls = trueRank === 1 ? "rank-1" : trueRank === 2 ? "rank-2" : trueRank === 3 ? "rank-3" : "";
-      out.innerHTML += `<div class="tier-card"><div class="row" onclick="openProfile('${n}')"><span><b class="${rCls}" style="margin-right:15px;">#${trueRank}</b> ${n}</span><span style="color:var(--gold)">${s} PTS</span></div></div>`;
-    });
+    out.innerHTML = sorted.map(([n, s], i) => `<div class="tier-card"><div class="row" onclick="openProfile('${n}')"><span><b class="${i<3?`rank-${i+1}`:''}">#${i+1}</b> ${n}</span><span style="color:var(--gold)">${s} PTS</span></div></div>`).join('');
   } else {
-    ["HT1","LT1","HT2","LT2","HT3","LT3","HT4","LT4","HT5","LT5"].forEach(t => {
+    ["HT1","LT1","HT2","LT2","HT3","LT3"].forEach(t => {
       let players = (DATA[kit][t] || []).filter(n => !filter || n.toLowerCase().includes(filter));
       if(players.length) {
-        let h = `<div class="tier-card"><div class="row" style="background:rgba(255,255,255,0.02); cursor:default; border-bottom:1px solid var(--border);"><b style="color:var(--purple)">${t}</b></div>`;
-        players.forEach(p => h += `<div class="row" onclick="openProfile('${p}')"><b>${p}</b> <span>VIEW</span></div>`);
-        out.innerHTML += h + `</div>`;
+        let html = `<div class="tier-card"><div class="row" style="background:rgba(255,255,255,0.02); cursor:default; border-bottom:1px solid var(--border);"><b style="color:var(--purple)">${t}</b></div>`;
+        players.forEach(p => html += `<div class="row" onclick="openProfile('${p}')"><b>${p}</b> <span>VIEW</span></div>`);
+        out.innerHTML += html + `</div>`;
       }
     });
   }
 }
 
 function openProfile(name) {
-  const pData = (DATA.Players && DATA.Players[name]) ? DATA.Players[name] : { region: "??", discord: "Not Linked" };
-  let sorted = Object.entries(DATA["Overall"]).sort((a,b) => b[1]-a[1]);
-  let r = sorted.findIndex(x => x[0] === name) + 1;
+  const p = (DATA.Players && DATA.Players[name]) ? DATA.Players[name] : { region: "??", discord: "Unknown" };
+  const sorted = Object.entries(DATA["Overall"]).sort((a,b) => b[1]-a[1]);
+  const rank = sorted.findIndex(x => x[0] === name) + 1;
   
-  document.getElementById('pRank').textContent = `RANK #${r}`;
-  document.getElementById('pName').textContent = name;
-  document.getElementById('pRegion').textContent = pData.region;
-  document.getElementById('pDiscord').textContent = pData.discord;
-  document.getElementById('pPoints').textContent = (DATA["Overall"][name] || 0) + " TOTAL PTS";
+  document.getElementById('pRank').innerText = `RANK #${rank}`;
+  document.getElementById('pName').innerText = name;
+  document.getElementById('pRegion').innerText = p.region;
+  document.getElementById('pDiscord').innerText = p.discord;
+  document.getElementById('pPoints').innerText = (DATA["Overall"][name] || 0) + " TOTAL PTS";
   
-  const grid = document.getElementById('pGrids'); grid.innerHTML = "";
+  let gridHtml = "";
   for(let k in DATA) {
     if(k!=="Overall" && k!=="Players") {
       for(let t in DATA[k]) {
-        if(DATA[k][t].includes(name)) {
-          grid.innerHTML += `<div style="background:#111; padding:10px; border:1px solid var(--border); font-size:11px;"><b>${k}</b><br><span style="color:var(--purple)">${t}</span></div>`;
-        }
+        if(DATA[k][t].includes(name)) gridHtml += `<div style="font-size:10px; border:1px solid #222; padding:5px;"><b>${k}</b><br><span style="color:var(--purple)">${t}</span></div>`;
       }
     }
   }
+  document.getElementById('pGrids').innerHTML = gridHtml;
   document.getElementById('profileModal').style.display = 'flex';
 }
 
@@ -240,19 +219,16 @@ function handleSearch() { render(currentKit, document.getElementById('playerSear
 function closeProfile() { document.getElementById('profileModal').style.display = 'none'; }
 
 function showSection(id) {
-  ['rankings','hof','testers'].forEach(s => {
-    document.getElementById(s+'-sec').style.display = s===id ? 'block' : 'none';
-    document.getElementById('nav-'+s).classList.toggle('active', s===id);
-  });
-  if(id==='hof') document.getElementById('hofList').innerHTML = HOF.map(h => `<div class="tier-card" style="padding:30px;"><h2>${h.name}</h2><p style="opacity:0.7">${h.description}</p></div>`).join('');
-  if(id==='testers') document.getElementById('testerList').innerHTML = TESTERS.map(t => `<div class="tier-card" style="padding:20px; color:var(--purple); font-weight:bold;">${t.name}<br><span style="font-size:10px; color:#555;">${t.region}</span></div>`).join('');
+  ['rankings','hof','testers'].forEach(s => document.getElementById(s+'-sec').style.display = s===id ? 'block' : 'none');
+  if(id==='hof') document.getElementById('hofList').innerHTML = HOF.map(h => `<div class="tier-card" style="padding:25px;"><h3>${h.name}</h3><p style="opacity:0.7">${h.description}</p></div>`).join('');
+  if(id==='testers') document.getElementById('testerList').innerHTML = TESTERS.map(t => `<div class="tier-card" style="padding:15px; color:var(--purple); font-weight:bold;">${t.name}</div>`).join('');
 }
 
-function spawnSpaceStars() {
+function spawnStars() {
   const container = document.getElementById('space-container');
   for(let i=0; i<15; i++) {
     const s = document.createElement('div'); s.className = 'space-star';
-    s.style.backgroundImage = `url('${ICONS['Overall']}')`;
+    s.style.backgroundImage = "url('emerald.png')";
     s.style.top = Math.random()*100+'vh'; s.style.animationDelay = Math.random()*-20+'s';
     container.appendChild(s);
   }

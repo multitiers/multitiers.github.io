@@ -22,7 +22,7 @@
     --accent-bright: #7a49d1;
     --gold: #ffd700;
     --silver: #e0e0e0;
-    --bronze: #cd7f32;
+    --bronze: #cd7f32; /* Bronze variable ensured here */
     --white: #ffffff;
     --muted: #5a6474;
     --space-glow: rgba(122, 73, 209, 0.15);
@@ -67,9 +67,9 @@
   .player-row:hover { background: rgba(255,255,255,0.05); }
 
   .rank-num { font-weight: 900; margin-right: 15px; width: 35px; display: inline-block; font-style: italic; color: var(--muted); }
-  .rank-1 { color: var(--gold); }
-  .rank-2 { color: var(--silver); }
-  .rank-3 { color: var(--bronze); }
+  .rank-1 { color: var(--gold) !important; text-shadow: 0 0 10px rgba(255, 215, 0, 0.3); }
+  .rank-2 { color: var(--silver) !important; }
+  .rank-3 { color: var(--bronze) !important; text-shadow: 0 0 10px rgba(205, 127, 50, 0.3); }
 
   .list-title { font-size: 0.65rem; margin-left: 12px; text-transform: uppercase; letter-spacing: 1px; padding: 3px 8px; border-radius: 5px; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.05); }
 
@@ -85,7 +85,7 @@
     box-shadow: 0 0 40px rgba(0,0,0,1);
   }
   .modal-rank-display { text-align: center; margin-bottom: 20px; }
-  .modal-rank-num { font-size: 1.2rem; font-weight: 900; font-style: italic; display: block; }
+  .modal-rank-num { font-size: 1.4rem; font-weight: 900; font-style: italic; display: block; }
   .profile-name { font-size: 2.5rem; font-weight: 900; margin: 10px 0; display: block; }
   .modal-combat-title { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; font-weight: bold; }
 
@@ -174,7 +174,8 @@ function calculateOverall() {
 
 function getTitleInfo(rank) {
   if (rank === 1) return { title: "Combat Grandmaster", color: "var(--gold)" };
-  if (rank === 2 || rank === 3) return { title: "Combat Master", color: rank === 2 ? "var(--silver)" : "var(--bronze)" };
+  if (rank === 2) return { title: "Combat Master", color: "var(--silver)" };
+  if (rank === 3) return { title: "Combat Master", color: "var(--bronze)" }; // Fixed Bronze Mapping
   return { title: "Combat Ace", color: "var(--muted)" };
 }
 
@@ -257,7 +258,6 @@ function showPlayerStats(playerName) {
   grid.innerHTML = '';
   let totalPts = 0;
 
-  // Inventory Grid Logic
   Object.keys(KIT_ICONS).forEach(kit => {
     for (const tier in FULL_DATA[kit]) {
       if (FULL_DATA[kit][tier].includes(playerName)) {
@@ -271,7 +271,6 @@ function showPlayerStats(playerName) {
     }
   });
 
-  // Calculate Global Rank Position
   const overallData = FULL_DATA["Overall"];
   const sortedPoints = Object.keys(overallData).sort((a, b) => parseInt(b) - parseInt(a));
   let globalRank = 0;
@@ -292,8 +291,13 @@ function showPlayerStats(playerName) {
   rankEl.style.color = info.color;
   titleEl.textContent = info.title;
   titleEl.style.color = info.color;
-  document.getElementById('modalTotalPts').textContent = `${totalPts} PTS`;
+  
+  // Add subtle glow to top 3 in modal
+  if (globalRank === 1) rankEl.style.textShadow = "0 0 10px rgba(255, 215, 0, 0.4)";
+  else if (globalRank === 3) rankEl.style.textShadow = "0 0 10px rgba(205, 127, 50, 0.4)";
+  else rankEl.style.textShadow = "none";
 
+  document.getElementById('modalTotalPts').textContent = `${totalPts} PTS`;
   document.getElementById('playerModal').style.display = "block";
 }
 

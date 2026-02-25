@@ -195,7 +195,7 @@ function openProfile(name) {
   let r = s.findIndex(x => x[0] === name) + 1;
   document.getElementById('pRank').innerText = `RANK #${r}`;
   document.getElementById('pName').innerText = name;
-  document.getElementById('pPoints').innerText = `${DATA["Overall"][name] || 0} TOTAL PTS`;
+  document.getElementById('pPoints').innerText = `${DATA["Overall"][name] || 0} PTS`;
   const grid = document.getElementById('pGrids'); grid.innerHTML = "";
   for(let k in ICONS) {
     if(k!=="Overall" && DATA[k]) {

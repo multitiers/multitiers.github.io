@@ -5,27 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>MultiTiers | PVP Rankings</title>
   
-  <meta property="og:title" content="MultiTiers PVP">
-  <meta property="og:description" content="Official Player Rankings and Hall of Fame.">
-  <meta property="og:image" content="backgroundsword.png">
-  <meta name="theme-color" content="#a855f7">
-  
   <link rel="icon" type="image/png" href="emerald.png">
-
   <style>
     @font-face { font-family: 'MultiCraftFont'; src: url('MultiCraftFont.ttf'); }
     
     :root {
-      --bg: #030406; --bg-panel: rgba(15, 12, 25, 0.95);
+      --bg: #030406; --bg-panel: rgba(12, 10, 20, 0.98);
       --purple: #a855f7; --white: #ffffff;
-      --gold: #ffd700; --silver: #c0c0c0; --bronze: #cd7f32;
-      --t1: #ff4d4d; --t2: #ffa64d; --t3: #ffff4d;
-      --border: rgba(168, 85, 247, 0.3);
+      --border: rgba(168, 85, 247, 0.25);
     }
 
     body { 
       background: var(--bg); color: #fff; font-family: 'Courier New', monospace; margin: 0; padding-bottom: 50px;
-      background-image: radial-gradient(circle at 50% -10%, rgba(168, 85, 247, 0.2) 0%, transparent 70%);
+      background-image: radial-gradient(circle at 50% -10%, rgba(168, 85, 247, 0.15) 0%, transparent 70%);
       background-attachment: fixed; overflow-x: hidden;
     }
 
@@ -33,57 +25,79 @@
     #space-container { position: fixed; inset: 0; z-index: -1; pointer-events: none; }
     .space-star {
       position: absolute; width: 35px; height: 35px; background-size: contain; background-repeat: no-repeat;
-      animation: travel 25s linear infinite, spin 4s linear infinite; opacity: 0.4;
+      animation: travel 25s linear infinite, spin 4s linear infinite; opacity: 0.3;
       filter: drop-shadow(0 0 10px var(--purple));
     }
     @keyframes travel { from { left: 110vw; } to { left: -10vw; } }
     @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
-    /* Header & Glow */
-    header { width: 100%; display: flex; justify-content: center; padding: 60px 0 30px; }
-    .header-content { display: flex; align-items: center; gap: 20px; }
-    .title-sword { width: 60px; height: 60px; animation: pulse 3s infinite; filter: drop-shadow(0 0 15px var(--purple)); }
-    @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); filter: drop-shadow(0 0 25px #fff); } }
-    .main-title { font-family: 'MultiCraftFont', sans-serif; font-size: 3.2rem; margin: 0; letter-spacing: 4px; background: linear-gradient(135deg, #a855f7 0%, #fff 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-
-    /* Navigation */
-    nav { display: flex; justify-content: center; gap: 25px; padding: 20px; background: rgba(0,0,0,0.8); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; backdrop-filter: blur(10px); }
-    .nav-link { color: #5a6474; font-weight: bold; cursor: pointer; transition: 0.3s; text-transform: uppercase; }
-    .nav-link.active { color: #fff; text-shadow: 0 0 10px var(--purple); }
-
-    /* Neon Search */
-    .search-wrapper { display: flex; justify-content: center; margin-bottom: 40px; }
-    .search-input { 
-      width: 100%; max-width: 450px; padding: 15px 25px; background: #0a0c12; border: 2px solid var(--border); 
-      border-radius: 50px; color: #fff; text-align: center; outline: none; transition: 0.3s;
-      box-shadow: 0 0 15px rgba(168, 85, 247, 0.1);
+    /* Top Left Navigation */
+    nav { 
+      position: fixed; top: 20px; left: 20px; display: flex; flex-direction: column; 
+      gap: 15px; z-index: 1000; background: rgba(0,0,0,0.5); padding: 15px; 
+      border-radius: 10px; backdrop-filter: blur(10px); border: 1px solid var(--border);
     }
-    .search-input:focus { border-color: var(--purple); box-shadow: 0 0 25px var(--purple); width: 500px; }
+    .nav-link { 
+      color: #5a6474; font-weight: bold; cursor: pointer; transition: 0.3s; 
+      text-transform: uppercase; letter-spacing: 1px; font-size: 0.8rem;
+    }
+    .nav-link:hover, .nav-link.active { color: #fff; text-shadow: 0 0 10px var(--purple); }
 
-    /* UI Elements */
-    .kit-btn { background: #0a0c12; border: 1px solid var(--border); padding: 10px 20px; border-radius: 4px; color: #5a6474; font-weight: bold; cursor: pointer; transition: 0.3s; display: flex; align-items: center; gap: 8px; }
-    .kit-btn:hover, .kit-btn.active { border-color: #fff; color: #fff; box-shadow: 0 0 15px var(--purple); }
-    .kit-btn.active { background: var(--purple); color: #000; }
+    /* Status Bar (Discord/IP) */
+    .status-bar {
+      width: 100%; background: rgba(168, 85, 247, 0.1); border-bottom: 1px solid var(--border);
+      display: flex; justify-content: center; gap: 40px; padding: 10px 0; font-size: 0.75rem;
+      letter-spacing: 1px; color: #888;
+    }
+    .status-item b { color: var(--purple); }
 
-    .tier-card { background: var(--bg-panel); border: 1px solid var(--border); border-radius: 10px; margin-bottom: 15px; overflow: hidden; animation: fadeIn 0.4s ease; }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } }
+    /* Header */
+    header { width: 100%; display: flex; justify-content: center; padding: 80px 0 20px; }
+    .header-content { display: flex; align-items: center; gap: 20px; }
+    .title-sword { width: 60px; height: 60px; animation: pulse 3s infinite ease-in-out; filter: drop-shadow(0 0 15px var(--purple)); }
+    @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); filter: drop-shadow(0 0 25px #fff); } }
+    .main-title { font-family: 'MultiCraftFont', sans-serif; font-size: 3.5rem; margin: 0; letter-spacing: 5px; background: linear-gradient(135deg, #a855f7 0%, #fff 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+    /* Search Bar */
+    .search-wrapper { display: flex; justify-content: center; margin-bottom: 30px; }
+    .search-input { width: 100%; max-width: 450px; padding: 15px 25px; background: #07080c; border: 2px solid var(--border); border-radius: 50px; color: #fff; text-align: center; outline: none; transition: 0.4s; box-shadow: 0 0 15px rgba(168, 85, 247, 0.1); }
+    .search-input:focus { border-color: var(--purple); box-shadow: 0 0 30px var(--purple); width: 500px; }
+
+    /* Kit Buttons */
+    .kit-btn { background: #0a0c12; border: 1px solid var(--border); padding: 10px 18px; border-radius: 4px; color: #5a6474; font-weight: bold; cursor: pointer; transition: 0.3s; display: flex; align-items: center; gap: 10px; }
+    .kit-btn.active { background: var(--purple); color: #000; box-shadow: 0 0 20px var(--purple); border-color: #fff; }
+
+    /* General Cards */
+    .tier-card { background: var(--bg-panel); border: 1px solid var(--border); border-radius: 8px; margin-bottom: 15px; overflow: hidden; animation: fadeIn 0.5s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
     .row { display: flex; justify-content: space-between; align-items: center; padding: 18px 25px; cursor: pointer; }
-    .row:hover { background: rgba(168, 85, 247, 0.15); }
+    .row:hover { background: rgba(168, 85, 247, 0.1); }
+
+    /* Tier Testers UI */
+    .tester-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
+    .tester-card { background: var(--bg-panel); border: 1px solid var(--border); padding: 25px; border-radius: 12px; border-top: 3px solid var(--purple); text-align: center; }
+    .tester-name { font-family: 'MultiCraftFont', sans-serif; font-size: 1.5rem; color: #fff; margin-bottom: 5px; }
+    .tester-region { color: var(--purple); font-size: 0.8rem; font-weight: bold; margin-bottom: 15px; }
+    .tester-discord { background: rgba(114, 137, 218, 0.1); color: #7289da; padding: 8px; border-radius: 5px; font-size: 0.85rem; border: 1px solid rgba(114, 137, 218, 0.2); }
 
     /* Profile Modal */
-    #profileModal { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.95); z-index:1000; align-items:center; justify-content:center; backdrop-filter:blur(15px); }
-    .modal-content { background: #050608; border: 2px solid var(--purple); padding: 40px; text-align: center; width: 90%; max-width: 400px; box-shadow: 0 0 40px var(--purple); }
-    .tag { background: #111; padding: 8px; border-radius: 4px; margin: 10px 0; border: 1px solid #222; font-size: 0.8rem; }
+    #profileModal { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.96); z-index:1000; align-items:center; justify-content:center; backdrop-filter:blur(10px); }
+    .modal-content { background: #050608; border: 2px solid var(--purple); padding: 45px; text-align: center; width: 90%; max-width: 400px; box-shadow: 0 0 50px rgba(168, 85, 247, 0.5); position: relative; }
   </style>
 </head>
 <body>
 
 <div id="space-container"></div>
 
+<div class="status-bar">
+  <div class="status-item">DISCORD: <b>UNRELEASED</b></div>
+  <div class="status-item">IP: <b>UNRELEASED</b></div>
+</div>
+
 <nav>
-  <div class="nav-link active" onclick="showSection('rankings')">RANKINGS</div>
-  <div class="nav-link" onclick="showSection('hof')">HALL OF FAME</div>
-  <div class="nav-link" onclick="showSection('testers')">TESTERS</div>
+  <div class="nav-link active" id="btn-rankings" onclick="showSection('rankings')">RANKINGS</div>
+  <div class="nav-link" id="btn-hof" onclick="showSection('hof')">HALL OF FAME</div>
+  <div class="nav-link" id="btn-testers" onclick="showSection('testers')">TIER TESTERS</div>
 </nav>
 
 <header>
@@ -94,35 +108,32 @@
   </div>
 </header>
 
-<div class="container" style="max-width: 850px; margin: auto; padding: 0 20px;">
+<div class="container" style="max-width: 900px; margin: auto; padding: 0 20px;">
   
   <div id="rankings-sec">
     <div class="search-wrapper">
-      <input type="text" id="playerSearch" class="search-input" placeholder="CLICK TO SEARCH PLAYER..." oninput="handleSearch()">
+      <input type="text" id="playerSearch" class="search-input" placeholder="SEARCH FOR A PLAYER..." oninput="handleSearch()">
     </div>
     <div id="kitBar" style="display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; margin-bottom: 40px;"></div>
     <div id="displayList"></div>
   </div>
 
   <div id="hof-sec" style="display:none; text-align:center;">
-    <h1 style="color:var(--gold); letter-spacing:4px;">HALL OF FAME</h1>
+    <h1 style="color:var(--gold); letter-spacing:4px; margin-bottom:40px; font-family:'MultiCraftFont';">HALL OF FAME</h1>
     <div id="hofList"></div>
   </div>
 
-  <div id="testers-sec" style="display:none; text-align:center;">
-    <h1 style="color:var(--purple); letter-spacing:4px;">OFFICIAL TESTERS</h1>
-    <div id="testerList" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(180px, 1fr)); gap:15px;"></div>
+  <div id="testers-sec" style="display:none;">
+    <h1 style="color:var(--purple); letter-spacing:4px; margin-bottom:40px; text-align:center; font-family:'MultiCraftFont';">TIER TESTERS</h1>
+    <div id="testerList" class="tester-grid"></div>
   </div>
 </div>
 
 <div id="profileModal">
   <div class="modal-content">
-    <span onclick="closeProfile()" style="float:right; cursor:pointer; font-size:20px;">&times;</span>
-    <div id="pRank" style="color:#5a6474; font-size:0.8rem; margin-bottom:10px;">RANK #--</div>
-    <h2 id="pName" style="font-family:'MultiCraftFont'; font-size:2.5rem; margin:0; color:var(--purple);">PLAYER</h2>
-    <div class="tag">REGION: <span id="pRegion" style="color:var(--purple)">--</span></div>
-    <div class="tag">DISCORD: <span id="pDiscord">--</span></div>
-    <div id="pPoints" style="color:var(--gold); font-weight:bold; margin:15px 0;">0 PTS</div>
+    <span onclick="closeProfile()" style="position:absolute; top:15px; right:20px; cursor:pointer; font-size:24px;">&times;</span>
+    <h2 id="pName" style="font-family:'MultiCraftFont'; font-size:3rem; margin:0; color:var(--purple);">PLAYER</h2>
+    <div id="pPoints" style="color:#ffd700; margin: 20px 0;">0 TOTAL PTS</div>
     <div id="pGrids" style="display:grid; grid-template-columns:1fr 1fr; gap:10px; text-align:left;"></div>
   </div>
 </div>
@@ -132,30 +143,20 @@ let DATA = {}; let HOF = []; let TESTERS = []; let currentKit = "Overall";
 
 async function load() {
   try {
-    // Load local files
     const r = await fetch('rankings.json').then(res => res.json());
     const h = await fetch('hof.json').then(res => res.json());
     const t = await fetch('testers.json').then(res => res.json());
-    
     DATA = r; HOF = h; TESTERS = t;
-    
-    processOverall();
-    buildKitBar();
-    spawnStars();
-    render("Overall");
-  } catch(e) {
-    document.getElementById('displayList').innerHTML = `<div style="text-align:center; color:red;">DATA FAILED TO LOAD.<br>Ensure you are using a local server or GitHub Pages.</div>`;
-  }
+    processOverall(); buildKitBar(); spawnStars(); render("Overall");
+  } catch(e) { console.error("Error loading JSON", e); }
 }
 
 function processOverall() {
   const pts = {"HT1":10,"LT1":9,"HT2":8,"LT2":7,"HT3":6,"LT3":5};
   let totals = {};
-  for(let kit in DATA) {
-    if(kit !== "Players" && kit !== "Overall") {
-      for(let tier in DATA[kit]) {
-        DATA[kit][tier].forEach(p => totals[p] = (totals[p]||0) + (pts[tier]||0));
-      }
+  for(let k in DATA) {
+    if(k!=="Players" && k!=="Overall") {
+      for(let t in DATA[k]) { DATA[k][t].forEach(p => totals[p] = (totals[p]||0) + (pts[t]||0)); }
     }
   }
   DATA["Overall"] = totals;
@@ -164,14 +165,13 @@ function processOverall() {
 function buildKitBar() {
   const bar = document.getElementById('kitBar');
   const kits = ["Overall", ...Object.keys(DATA).filter(k => k!=="Overall" && k!=="Players")];
-  bar.innerHTML = kits.map(k => `<button class="kit-btn ${k==='Overall'?'active':''}" onclick="changeKit(this, '${k}')"><img src="emerald.png" width="16"> ${k.toUpperCase()}</button>`).join('');
+  bar.innerHTML = kits.map(k => `<button class="kit-btn ${k==='Overall'?'active':''}" onclick="setKit(this, '${k}')"><img src="emerald.png" width="16"> ${k.toUpperCase()}</button>`).join('');
 }
 
-function changeKit(btn, kit) {
+function setKit(btn, kit) {
   document.querySelectorAll('.kit-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
-  currentKit = kit;
-  render(kit);
+  currentKit = kit; render(kit);
 }
 
 function render(kit, filter = "") {
@@ -179,49 +179,41 @@ function render(kit, filter = "") {
   if(kit === "Overall") {
     let sorted = Object.entries(DATA["Overall"]).sort((a,b) => b[1]-a[1]);
     if(filter) sorted = sorted.filter(([n]) => n.toLowerCase().includes(filter));
-    out.innerHTML = sorted.map(([n, s], i) => `<div class="tier-card"><div class="row" onclick="openProfile('${n}')"><span><b class="${i<3?`rank-${i+1}`:''}">#${i+1}</b> ${n}</span><span style="color:var(--gold)">${s} PTS</span></div></div>`).join('');
+    out.innerHTML = sorted.map(([n, s], i) => `<div class="tier-card"><div class="row" onclick="openProfile('${n}')"><span><b>#${i+1}</b> ${n}</span><span style="color:#ffd700">${s} PTS</span></div></div>`).join('');
   } else {
     ["HT1","LT1","HT2","LT2","HT3","LT3"].forEach(t => {
       let players = (DATA[kit][t] || []).filter(n => !filter || n.toLowerCase().includes(filter));
       if(players.length) {
-        let html = `<div class="tier-card"><div class="row" style="background:rgba(255,255,255,0.02); cursor:default; border-bottom:1px solid var(--border);"><b style="color:var(--purple)">${t}</b></div>`;
-        players.forEach(p => html += `<div class="row" onclick="openProfile('${p}')"><b>${p}</b> <span>VIEW</span></div>`);
-        out.innerHTML += html + `</div>`;
+        let h = `<div class="tier-card"><div class="row" style="background:rgba(255,255,255,0.02); cursor:default; border-bottom:1px solid var(--border);"><b style="color:var(--purple)">${t}</b></div>`;
+        players.forEach(p => h += `<div class="row" onclick="openProfile('${p}')"><b>${p}</b> <span>VIEW</span></div>`);
+        out.innerHTML += h + `</div>`;
       }
     });
   }
 }
 
 function openProfile(name) {
-  const p = (DATA.Players && DATA.Players[name]) ? DATA.Players[name] : { region: "??", discord: "Unknown" };
-  const sorted = Object.entries(DATA["Overall"]).sort((a,b) => b[1]-a[1]);
-  const rank = sorted.findIndex(x => x[0] === name) + 1;
-  
-  document.getElementById('pRank').innerText = `RANK #${rank}`;
   document.getElementById('pName').innerText = name;
-  document.getElementById('pRegion').innerText = p.region;
-  document.getElementById('pDiscord').innerText = p.discord;
   document.getElementById('pPoints').innerText = (DATA["Overall"][name] || 0) + " TOTAL PTS";
-  
-  let gridHtml = "";
-  for(let k in DATA) {
-    if(k!=="Overall" && k!=="Players") {
-      for(let t in DATA[k]) {
-        if(DATA[k][t].includes(name)) gridHtml += `<div style="font-size:10px; border:1px solid #222; padding:5px;"><b>${k}</b><br><span style="color:var(--purple)">${t}</span></div>`;
-      }
-    }
-  }
-  document.getElementById('pGrids').innerHTML = gridHtml;
+  let grids = "";
+  for(let k in DATA) if(k!=="Overall" && k!=="Players") for(let t in DATA[k]) if(DATA[k][t].includes(name)) grids += `<div style="padding:5px; border:1px solid #222; font-size:10px;"><b>${k}</b><br>${t}</div>`;
+  document.getElementById('pGrids').innerHTML = grids;
   document.getElementById('profileModal').style.display = 'flex';
 }
 
-function handleSearch() { render(currentKit, document.getElementById('playerSearch').value.toLowerCase()); }
-function closeProfile() { document.getElementById('profileModal').style.display = 'none'; }
-
 function showSection(id) {
-  ['rankings','hof','testers'].forEach(s => document.getElementById(s+'-sec').style.display = s===id ? 'block' : 'none');
+  ['rankings','hof','testers'].forEach(s => {
+    document.getElementById(s+'-sec').style.display = s===id ? 'block' : 'none';
+    document.getElementById('btn-'+s).classList.toggle('active', s===id);
+  });
   if(id==='hof') document.getElementById('hofList').innerHTML = HOF.map(h => `<div class="tier-card" style="padding:25px;"><h3>${h.name}</h3><p style="opacity:0.7">${h.description}</p></div>`).join('');
-  if(id==='testers') document.getElementById('testerList').innerHTML = TESTERS.map(t => `<div class="tier-card" style="padding:15px; color:var(--purple); font-weight:bold;">${t.name}</div>`).join('');
+  if(id==='testers') document.getElementById('testerList').innerHTML = TESTERS.map(t => `
+    <div class="tester-card">
+      <div class="tester-name">${t.name}</div>
+      <div class="tester-region">${t.region}</div>
+      <div class="tester-discord">${t.discord}</div>
+    </div>
+  `).join('');
 }
 
 function spawnStars() {
@@ -234,6 +226,8 @@ function spawnStars() {
   }
 }
 
+function handleSearch() { render(currentKit, document.getElementById('playerSearch').value.toLowerCase()); }
+function closeProfile() { document.getElementById('profileModal').style.display = 'none'; }
 load();
 </script>
 </body>

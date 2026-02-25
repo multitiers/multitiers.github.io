@@ -56,9 +56,9 @@
   .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); backdrop-filter: blur(10px); }
   .modal-content { background: linear-gradient(180deg, #161b24 0%, #0a0c10 100%); margin: 5% auto; border: 1px solid rgba(255,255,255,0.1); border-radius: 24px; width: 90%; max-width: 450px; padding: 30px; position: relative; }
   
-  .modal-tabs { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; }
-  .tab-btn { background: var(--bg3); border: 1px solid var(--border); color: var(--muted); padding: 5px 12px; border-radius: 20px; cursor: pointer; font-size: 0.7rem; font-weight: bold; }
-  .tab-btn.active { background: var(--accent-bright); color: white; border-color: var(--white); }
+  .modal-tabs { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+  .tab-btn { background: var(--bg3); border: 1px solid var(--border); color: var(--muted); padding: 5px 12px; border-radius: 20px; cursor: pointer; font-size: 0.7rem; font-weight: bold; transition: 0.2s; }
+  .tab-btn.active { background: var(--accent-bright); color: white; border-color: var(--white); box-shadow: 0 0 10px rgba(122, 73, 209, 0.5); }
 
   .modal-rank-display { text-align: center; margin-bottom: 20px; }
   .modal-rank-num { font-size: 1.4rem; font-weight: 900; font-style: italic; display: block; }
@@ -170,28 +170,31 @@ function renderKit(kitName) {
     block.className = 'tier-block';
     let html = `<div class="tier-header">GLOBAL RANKINGS</div>`;
     const sortedPoints = Object.keys(data).sort((a, b) => parseInt(b) - parseInt(a));
-    let rankNum = 1;
-
+    
+    let currentRank = 1;
     sortedPoints.forEach(pts => {
       const players = data[pts];
-      const info = getTitleInfo(rankNum);
-      const rankClass = rankNum <= 3 ? `rank-${rankNum}` : '';
+      const info = getTitleInfo(currentRank);
+      const rankClass = currentRank <= 3 ? `rank-${currentRank}` : '';
       const combinedNames = players.join(' & ');
       
-      html += `<div class="player-row" onclick="showPlayerStatsGroup(${JSON.stringify(players)})">
+      // JSON stringify for safe attribute passing
+      const pData = JSON.stringify(players).replace(/"/g, '&quot;');
+      
+      html += `<div class="player-row" onclick="showPlayerStatsGroup(${pData})">
         <div style="display:flex; align-items:center; flex-wrap:wrap;">
-          <span class="rank-num ${rankClass}">#${rankNum}</span>
+          <span class="rank-num ${rankClass}">#${currentRank}</span>
           <span class="player-name"><b>${combinedNames}</b></span>
           <span class="list-title" style="color:${info.color}">${info.title}</span>
         </div>
         <span class="pts-tag">${pts} PTS</span>
       </div>`;
-      rankNum += players.length;
+      
+      currentRank += players.length; // This handles the "next rank" correctly
     });
     block.innerHTML = html;
     list.appendChild(block);
   } else {
-    // Standard Kit Rendering
     TIER_ORDER.forEach(tier => {
       const players = [];
       Object.keys(data).forEach(subTier => { if(subTier.includes(tier)) data[subTier].forEach(name => players.push({name, sub: subTier})); });
@@ -221,7 +224,8 @@ function showPlayerStatsGroup(playerNames) {
       const btn = document.createElement('button');
       btn.className = `tab-btn ${i === 0 ? 'active' : ''}`;
       btn.textContent = name;
-      btn.onclick = () => {
+      btn.onclick = (e) => {
+        e.stopPropagation();
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         updateModalContent(name);
@@ -241,6 +245,7 @@ function updateModalContent(playerName) {
   grid.innerHTML = '';
   let totalPts = 0;
 
+  // Inventory logic
   Object.keys(KIT_ICONS).forEach(kit => {
     for (const tier in FULL_DATA[kit]) {
       if (FULL_DATA[kit][tier].includes(playerName)) {
@@ -253,6 +258,7 @@ function updateModalContent(playerName) {
     }
   });
 
+  // Ranking logic
   const overallData = FULL_DATA["Overall"];
   const sortedPoints = Object.keys(overallData).sort((a, b) => parseInt(b) - parseInt(a));
   let globalRank = 0, runningRank = 1;
@@ -273,6 +279,13 @@ function updateModalContent(playerName) {
 }
 
 function closeModal() { document.getElementById('playerModal').style.display = "none"; }
+
+// Click outside to close
+window.onclick = function(event) {
+  const modal = document.getElementById('playerModal');
+  if (event.target == modal) closeModal();
+}
+
 loadData();
 </script>
 </body>

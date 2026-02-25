@@ -16,108 +16,111 @@
     }
 
     :root {
-      --bg: #030406; 
-      --bg-panel: rgba(10, 12, 18, 0.95);
+      --bg: #020305; 
+      --bg-panel: rgba(10, 12, 18, 0.98);
       --border: #1a1e26;
       --accent-purple: #7a49d1;
       --neon-glow: #9d6df5;
       --gold: #ffd700;
       --white: #ffffff;
       --muted: #5a6474;
-      --color-emerald: #2ecc71;
-      --color-kb: #e74c3c;
-      --color-wand: #3498db;
     }
 
-    /* --- Stars & Dark Background --- */
+    /* --- Space Background & Stars --- */
     body { 
       background-color: var(--bg);
       background-image: 
-        radial-gradient(1.5px 1.5px at 20px 30px, #eee, rgba(0,0,0,0)),
-        radial-gradient(2px 2px at 40px 70px, #fff, rgba(0,0,0,0)),
-        radial-gradient(1.5px 1.5px at 90px 40px, #fff, rgba(0,0,0,0));
-      background-size: 250px 250px;
+        radial-gradient(1px 1px at 25px 35px, #fff, rgba(0,0,0,0)),
+        radial-gradient(1.5px 1.5px at 60px 120px, #fff, rgba(0,0,0,0)),
+        radial-gradient(1px 1px at 150px 200px, #eee, rgba(0,0,0,0)),
+        radial-gradient(circle at 50% 0%, rgba(122, 73, 209, 0.2) 0%, transparent 70%);
+      background-size: 300px 300px, 400px 400px, 250px 250px, 100% 100%;
+      background-attachment: fixed;
       color: var(--white); 
       font-family: 'Courier New', monospace; 
       margin: 0; padding-bottom: 80px;
       overflow-x: hidden;
     }
 
-    /* --- Spinning Item Vault --- */
-    #item-vault {
-      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-      z-index: -1; pointer-events: none; opacity: 0.3;
-    }
+    /* --- Spinning & Shuffling Items --- */
+    #item-vault { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; pointer-events: none; opacity: 0.35; }
     .floating-item {
       position: absolute; width: 35px; height: 35px;
       background-size: contain; background-repeat: no-repeat;
-      transition: all 8s ease-in-out;
-      animation: spinItem 10s infinite linear;
+      transition: all 10s ease-in-out;
+      animation: spinItem 12s infinite linear;
     }
     @keyframes spinItem { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
-    /* --- Header & Sword --- */
-    .container { max-width: 850px; margin: 0 auto; padding: 0 20px; position: relative; z-index: 1; }
-    header { text-align: center; padding: 35px 0 20px; }
+    /* --- Header & Sword Pulse --- */
+    .container { max-width: 800px; margin: 0 auto; padding: 0 20px; }
+    header { text-align: center; padding: 40px 0 20px; }
     .header-content { display: inline-flex; align-items: center; justify-content: center; gap: 15px; }
     
     h1 { 
       font-family: 'MultiCraftFont', sans-serif; font-size: 2.8rem; margin: 0; 
       letter-spacing: 3px;
-      background: linear-gradient(to right, #ffffff 10%, var(--accent-purple) 50%, #ffffff 90%);
+      background: linear-gradient(to right, #fff, var(--accent-purple), #fff);
       background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      animation: shine 6s linear infinite;
+      animation: shine 5s linear infinite;
     }
     @keyframes shine { to { background-position: 200% center; } }
 
     .title-sword {
       width: 75px; height: 75px;
-      filter: drop-shadow(0 0 15px var(--accent-purple));
-      animation: pulseSword 4s infinite ease-in-out;
+      filter: drop-shadow(0 0 20px var(--accent-purple));
+      animation: pulseSword 3s infinite ease-in-out;
     }
-    @keyframes pulseSword { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+    @keyframes pulseSword { 0%, 100% { transform: scale(1); filter: drop-shadow(0 0 10px var(--accent-purple)); } 50% { transform: scale(1.1); filter: drop-shadow(0 0 30px var(--neon-glow)); } }
 
-    /* --- Kit Label Colors --- */
+    /* --- Centered Tier Blocks --- */
     .active-kit-label { text-align: center; margin-bottom: 25px; font-weight: bold; letter-spacing: 2px; text-transform: uppercase; font-size: 1.2rem; }
-    .label-emerald { color: var(--color-emerald); }
-    .label-kb { color: var(--color-kb); }
-    .label-wand { color: var(--color-wand); }
-    .label-emerald-oa { background: linear-gradient(to bottom, #fff, var(--color-emerald)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-    .label-kb-oa { background: linear-gradient(to bottom, #fff, var(--color-kb)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-
-    /* --- Tiers & Neon Outline --- */
+    
     .tier-block { 
       background: var(--bg-panel); 
-      border: 1px solid var(--accent-purple); /* Purple Outline */
-      border-radius: 8px; margin-bottom: 15px; 
-      box-shadow: 0 0 10px rgba(122, 73, 209, 0.2);
+      border: 1px solid var(--accent-purple); 
+      border-radius: 8px; margin-bottom: 20px; 
+      overflow: hidden;
+      animation: neonPulse 4s infinite ease-in-out; /* NEON PULSE EFFECT */
+    }
+    @keyframes neonPulse {
+        0%, 100% { box-shadow: 0 0 5px rgba(122, 73, 209, 0.2); border-color: rgba(122, 73, 209, 0.5); }
+        50% { box-shadow: 0 0 20px rgba(157, 109, 245, 0.4); border-color: var(--neon-glow); }
+    }
+
+    .tier-header { 
+      padding: 12px 20px; background: rgba(122, 73, 209, 0.1); 
+      color: var(--neon-glow); font-weight: bold; text-align: left;
+      border-bottom: 1px solid var(--accent-purple);
     }
     .player-row { 
       display: flex; justify-content: space-between; align-items: center; 
-      padding: 12px 20px; cursor: pointer; transition: 0.2s;
+      padding: 12px 20px; cursor: pointer; border-bottom: 1px solid rgba(255,255,255,0.02);
     }
-    .player-row:hover { background: rgba(157, 109, 245, 0.1); }
+    .player-row:hover { background: rgba(157, 109, 245, 0.15); }
 
-    /* --- Shrunk Modal Kit Grid --- */
-    .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); backdrop-filter: blur(8px); }
+    /* --- Kit Specific Label Colors --- */
+    .label-emerald { color: var(--color-emerald); }
+    .label-kb { color: var(--color-kb); }
+    .label-wand { color: var(--color-wand); }
+    .label-emerald-oa { background: linear-gradient(to bottom, #fff, #2ecc71); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .label-kb-oa { background: linear-gradient(to bottom, #fff, #e74c3c); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+    /* --- Modal Kit Grid Scaling --- */
+    .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); backdrop-filter: blur(10px); }
     .modal-content { 
-      background: #08090c; margin: 10% auto; 
-      border: 2px solid var(--accent-purple); /* Purple Neon Outline */
-      border-radius: 12px; width: 90%; max-width: 380px; padding: 25px; 
-      position: relative; box-shadow: 0 0 25px rgba(122, 73, 209, 0.4);
+      background: #050608; margin: 8% auto; border: 2px solid var(--accent-purple); 
+      border-radius: 15px; width: 90%; max-width: 400px; padding: 30px; position: relative;
+      animation: neonPulse 4s infinite ease-in-out;
     }
-    .modal-tiers-grid { 
-      display: grid; grid-template-columns: repeat(4, 1fr); /* More columns = smaller icons */
-      gap: 10px; margin-top: 20px; background: rgba(0,0,0,0.3); padding: 15px; border-radius: 8px;
+    .modal-grid { 
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; 
+      background: rgba(0,0,0,0.4); padding: 15px; border-radius: 10px; margin-top: 20px;
     }
-    .kit-item { text-align: center; }
-    .kit-icon-wrapper { 
-      background: rgba(255,255,255,0.03); border-radius: 50%; width: 35px; height: 35px; 
-      display: flex; align-items: center; justify-content: center; margin: 0 auto 5px; border: 1px solid var(--border); 
-    }
+    .kit-icon-sm { width: 30px; height: 30px; object-fit: contain; }
   </style>
 </head>
-<body translate="no">
+<body>
 
 <div id="item-vault"></div>
 
@@ -132,20 +135,21 @@
 
   <div class="active-kit-label" id="currentKitDisplay">OVERALL RANKINGS</div>
 
-  <div class="kit-selector" id="kitSelector" style="display:flex; justify-content:center; gap:8px; margin-bottom:30px;"></div>
+  <div class="kit-selector" id="kitSelector" style="display:flex; justify-content:center; gap:8px; margin-bottom:35px;"></div>
+  
   <div id="tierList"></div>
 </div>
 
 <div id="playerModal" class="modal">
   <div class="modal-content">
-    <span onclick="closeModal()" style="cursor:pointer; font-size:24px; color:var(--muted); position:absolute; right:15px; top:10px;">&times;</span>
-    <div id="tabContainer" style="display:flex; justify-content:center; gap:8px; margin-bottom:15px;"></div>
+    <span onclick="closeModal()" style="cursor:pointer; position:absolute; right:20px; top:15px; font-size:24px;">&times;</span>
+    <div id="tabContainer" style="display:flex; justify-content:center; gap:10px; margin-bottom:20px;"></div>
     <div style="text-align:center;">
       <span style="color:var(--gold); font-weight:bold;" id="modalRankNum">#--</span>
-      <h2 style="margin:5px 0;" id="modalPlayerName">Player</h2>
-      <div style="color:var(--neon-glow); font-size:0.9rem;" id="modalTotalPts">0 PTS</div>
+      <h2 style="margin:10px 0; font-size:2rem;" id="modalPlayerName">Player</h2>
+      <div style="color:var(--neon-glow); font-weight:bold;" id="modalTotalPts">0 PTS</div>
     </div>
-    <div class="modal-tiers-grid" id="modalTiersGrid"></div>
+    <div class="modal-grid" id="modalTiersGrid"></div>
   </div>
 </div>
 
@@ -155,12 +159,10 @@ const KIT_ICONS = {
   "Emerald": "emerald.png", "Dragonhide KB": "dragonhide_kb.png",
   "Emerald OA": "emerald_oa.png", "Dragonhide KB OA": "kb_oa.png", "Wand": "wand.png"
 };
-const POINT_MAP = { "HT1": 10, "LT1": 9, "HT2": 8, "LT2": 7, "HT3": 6, "LT3": 5, "HT4": 4, "LT4": 3, "HT5": 2, "LT5": 1 };
 
 function spawnVaultItems() {
   const vault = document.getElementById('item-vault');
   const icons = Object.values(KIT_ICONS);
-  vault.innerHTML = '';
   for (let i = 0; i < 20; i++) {
     const item = document.createElement('div');
     item.className = 'floating-item';
@@ -175,7 +177,6 @@ function shuffleVault() {
     document.querySelectorAll('.floating-item').forEach(item => {
         item.style.left = Math.random() * 90 + 'vw';
         item.style.top = Math.random() * 90 + 'vh';
-        item.style.animationDuration = (5 + Math.random() * 10) + 's';
     });
 }
 
@@ -195,8 +196,8 @@ function calculateOverall() {
   for (const kit in FULL_DATA) {
     if (kit === "Overall") continue; 
     for (const tier in FULL_DATA[kit]) {
-      const pts = POINT_MAP[tier] || 0;
-      FULL_DATA[kit][tier].forEach(p => { totals[p] = (totals[p] || 0) + pts; });
+      const pts = {"HT1":10,"LT1":9,"HT2":8,"LT2":7,"HT3":6,"LT3":5,"HT4":4,"LT4":3,"HT5":2,"LT5":1}[tier] || 0;
+      FULL_DATA[kit][tier].forEach(p => totals[p] = (totals[p] || 0) + pts);
     }
   }
   FULL_DATA["Overall"] = {};
@@ -213,7 +214,7 @@ function initButtons() {
   Object.keys(FULL_DATA).forEach((kit, i) => {
     const btn = document.createElement('button');
     btn.textContent = kit;
-    btn.style.cssText = "background:#0a0c12; border:1px solid #1a1e26; color:#5a6474; padding:8px 12px; border-radius:4px; cursor:pointer; font-size:0.7rem;";
+    btn.style.cssText = "background:#0a0c12; border:1px solid #1a1e26; color:#5a6474; padding:8px 14px; border-radius:4px; cursor:pointer; font-size:0.75rem; font-weight:bold; transition:0.3s;";
     btn.onclick = () => {
       document.querySelectorAll('#kitSelector button').forEach(b => b.style.borderColor = "#1a1e26");
       btn.style.borderColor = "#7a49d1";
@@ -236,7 +237,7 @@ function renderKit(kitName) {
     sorted.forEach(pts => {
       const names = data[pts];
       list.innerHTML += `<div class="tier-block"><div class="player-row" onclick="showModal(${JSON.stringify(names).replace(/"/g, '&quot;')}, ${rank})">
-        <div><span style="color:var(--muted); margin-right:10px;">#${rank}</span><b>${names.join(' & ')}</b></div>
+        <div><span style="color:var(--muted); margin-right:15px; font-weight:bold;">#${rank}</span><b>${names.join(' & ')}</b></div>
         <div style="color:var(--gold); font-weight:bold;">${pts} PTS</div>
       </div></div>`;
       rank++;
@@ -247,7 +248,7 @@ function renderKit(kitName) {
       Object.keys(data).forEach(sub => { if(sub.includes(t)) data[sub].forEach(n => pArr.push({n, sub})); });
       if(pArr.length > 0) {
         let h = `<div class="tier-block"><div class="tier-header">${t}</div>`;
-        pArr.forEach(p => { h += `<div class="player-row" onclick="showModal(['${p.n}'], 0)"><b>${p.n}</b> <span style="color:var(--accent-purple); font-size:0.75rem;">${p.sub}</span></div>`; });
+        pArr.forEach(p => { h += `<div class="player-row" onclick="showModal(['${p.n}'], 0)"><b>${p.n}</b> <span style="color:var(--accent-purple); font-weight:bold; font-size:0.8rem;">${p.sub}</span></div>`; });
         list.innerHTML += h + `</div>`;
       }
     });
@@ -258,10 +259,10 @@ function showModal(names, rank) {
   const tabs = document.getElementById('tabContainer');
   tabs.innerHTML = '';
   if(names.length > 1) {
-    names.forEach((n, i) => {
+    names.forEach(n => {
       const b = document.createElement('button');
       b.textContent = n;
-      b.style.cssText = "background:#11141b; border:1px solid #1a1e26; color:white; padding:5px 10px; border-radius:4px; cursor:pointer;";
+      b.style.cssText = "background:#11141b; border:1px solid #7a49d1; color:white; padding:5px 12px; border-radius:4px; cursor:pointer;";
       b.onclick = () => fillModal(n, rank);
       tabs.appendChild(b);
     });
@@ -278,8 +279,8 @@ function fillModal(name, forcedRank) {
     Object.keys(KIT_ICONS).forEach(kit => {
         for (const t in FULL_DATA[kit]) {
             if (FULL_DATA[kit][t].includes(name)) {
-                pts += POINT_MAP[t] || 0;
-                grid.innerHTML += `<div class="kit-item"><div class="kit-icon-wrapper"><img src="${KIT_ICONS[kit]}" width="20"></div><span style="font-size:0.6rem; color:var(--gold);">${t}</span></div>`;
+                pts += {"HT1":10,"LT1":9,"HT2":8,"LT2":7,"HT3":6,"LT3":5,"HT4":4,"LT4":3,"HT5":2,"LT5":1}[t] || 0;
+                grid.innerHTML += `<div style="text-align:center;"><img src="${KIT_ICONS[kit]}" class="kit-icon-sm"><br><span style="font-size:0.6rem; color:var(--gold);">${t}</span></div>`;
             }
         }
     });

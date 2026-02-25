@@ -1,23 +1,48 @@
 {
   "Overall": {},
   "Emerald": {
-    "HT1": ["Game1K"],
-    "LT1": ["sample"],
-    "HT2": ["system1117"],
-    "LT2": ["Possessed_YT", "V4n1shed"],
-    "HT3": ["revan"]
+    "HT1": [
+      { "name": "Game1K", "region": "NA", "discord": "game1kyt" }
+    ],
+    "LT1": [
+      { "name": "sample", "region": "EU", "discord": "???" }
+    ],
+    "HT2": [
+      { "name": "system1117", "region": "AS", "discord": "system1117_42144" }
+    ],
+    "LT2": [
+      { "name": "Possessed_YT", "region": "NA", "discord": "ironofthetrials87" },
+      { "name": "V4n1shed", "region": "SA", "discord": "0bscur3d_" }
+    ],
+    "HT3": [
+      { "name": "revan", "region": "EU", "discord": "imperator_aurelian" }
+    ]
   },
   "Dragonhide KB": {
-    "HT1": ["Game1K"],
-    "LT1": ["system1117"],
-    "HT2": ["sample"],
-    "HT3": ["V4n1shed", "Possessed_YT"],
-    "LT3": ["revan"]
+    "HT1": [
+      { "name": "Game1K", "region": "NA", "discord": "game1kyt" }
+    ],
+    "LT1": [
+      { "name": "system1117", "region": "AS", "discord": "system1117_42144" }
+    ],
+    "HT2": [
+      { "name": "sample", "region": "EU", "discord": "???" }
+    ],
+    "HT3": [
+      { "name": "V4n1shed", "region": "SA", "discord": "0bscur3d_" },
+      { "name": "Possessed_YT", "region": "NA", "discord": "ironofthetrials87" }
+    ],
+    "LT3": [
+      { "name": "revan", "region": "EU", "discord": "imperator_aurelian" }
+    ]
   },
   "Emerald OA": {
+    "HT1": []
   },
   "Dragonhide KB OA": {
+    "HT1": []
   },
   "Wand": {
+    "HT1": []
   }
 }

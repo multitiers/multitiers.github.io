@@ -10,77 +10,67 @@
     
     :root {
       --bg: #030406; --bg-panel: rgba(10, 12, 18, 0.98);
-      --accent: #7a49d1; --neon: #9d6df5; --gold: #ffd700;
-      --t1: #ff4d4d; --t2: #ffa64d; --t3: #ffff4d; --t4: #4dff4d; --t5: #4dffff;
+      --purple: #a855f7; --blue: #3b82f6; --neon: #8b5cf6;
+      --gold: #ffd700; --t1: #ff4d4d; --t2: #ffa64d; --t3: #ffff4d; --t4: #4dff4d; --t5: #4dffff;
       --border: #1a1e26;
+      --gradient: linear-gradient(90deg, var(--purple), var(--blue));
     }
 
     body { 
       background: var(--bg); color: #fff; font-family: 'Courier New', monospace; margin: 0; padding-bottom: 50px;
-      background-image: radial-gradient(circle at 50% -10%, rgba(122, 73, 209, 0.3) 0%, transparent 70%);
+      background-image: radial-gradient(circle at 50% -10%, rgba(168, 85, 247, 0.25) 0%, transparent 70%);
       background-attachment: fixed; overflow-x: hidden;
     }
 
-    /* --- Space / Item Vault --- */
-    #item-vault { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; pointer-events: none; opacity: 0.4; }
+    #item-vault { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; pointer-events: none; opacity: 0.35; }
     .floating-item { position: absolute; width: 30px; height: 30px; background-size: contain; background-repeat: no-repeat; transition: all 12s ease-in-out; }
 
-    /* --- Animations --- */
     @keyframes neonPulse {
-      0%, 100% { box-shadow: 0 0 10px rgba(122, 73, 209, 0.3); border-color: rgba(122, 73, 209, 0.4); }
-      50% { box-shadow: 0 0 30px rgba(157, 109, 245, 0.7); border-color: var(--neon); }
+      0%, 100% { box-shadow: 0 0 10px rgba(168, 85, 247, 0.2); border-color: rgba(168, 85, 247, 0.3); }
+      50% { box-shadow: 0 0 30px rgba(59, 130, 246, 0.5); border-color: var(--blue); }
     }
-    @keyframes pulseSword { 0%, 100% { transform: scale(1); filter: drop-shadow(0 0 10px var(--accent)); } 50% { transform: scale(1.15); filter: drop-shadow(0 0 25px var(--neon)); } }
+    @keyframes pulseSword { 0%, 100% { transform: scale(1); filter: drop-shadow(0 0 10px var(--purple)); } 50% { transform: scale(1.1); filter: drop-shadow(0 0 25px var(--blue)); } }
 
-    /* --- Header & Title --- */
-    header { text-align: center; padding: 50px 0 20px; }
-    .header-content { display: inline-flex; align-items: center; justify-content: center; gap: 20px; }
-    .title-sword { width: 70px; height: 70px; animation: pulseSword 3s infinite ease-in-out; }
-    h1 { 
-      font-family: 'MultiCraftFont', sans-serif; font-size: 3rem; margin: 0; letter-spacing: 4px;
-      background: linear-gradient(to right, #fff, var(--neon), #fff);
-      background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      animation: shine 5s linear infinite;
+    /* --- Centered Header --- */
+    header { width: 100%; display: flex; justify-content: center; padding: 60px 0 30px; }
+    .header-content { display: flex; align-items: center; justify-content: center; gap: 20px; }
+    .title-sword { width: 65px; height: 65px; animation: pulseSword 3s infinite ease-in-out; }
+    
+    h1.main-title { 
+      font-family: 'MultiCraftFont', sans-serif; font-size: 3.2rem; margin: 0; letter-spacing: 4px;
+      background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 0 10px rgba(168, 85, 247, 0.3));
     }
-    @keyframes shine { to { background-position: 200% center; } }
 
-    /* --- Navigation --- */
-    nav { display: flex; justify-content: center; gap: 25px; padding: 20px; background: rgba(0,0,0,0.8); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; backdrop-filter: blur(15px); }
-    .nav-link { color: #5a6474; text-decoration: none; font-weight: bold; font-size: 0.85rem; cursor: pointer; transition: 0.3s; letter-spacing: 1px; }
-    .nav-link.active { color: var(--neon); text-shadow: 0 0 10px var(--accent); }
+    nav { display: flex; justify-content: center; gap: 25px; padding: 20px; background: rgba(0,0,0,0.85); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; backdrop-filter: blur(15px); }
+    .nav-link { color: #5a6474; text-decoration: none; font-weight: bold; font-size: 0.85rem; cursor: pointer; transition: 0.3s; }
+    .nav-link.active { color: #fff; text-shadow: 0 0 10px var(--purple); }
 
     .container { max-width: 850px; margin: 0 auto; padding: 0 20px; }
     
-    /* --- Search System --- */
-    .search-container { position: relative; max-width: 500px; margin: 30px auto; }
-    .search-box { width: 100%; padding: 15px; background: #0a0c12; border: 1px solid var(--border); border-radius: 10px; color: #fff; text-align: center; outline: none; transition: 0.3s; font-family: inherit; font-size: 1rem; }
-    .search-box:focus { border-color: var(--neon); box-shadow: 0 0 15px rgba(157, 109, 245, 0.3); }
+    /* --- Centered Search --- */
+    .search-container { position: relative; width: 100%; max-width: 500px; margin: 20px auto 40px; }
+    .search-box { width: 100%; box-sizing: border-box; padding: 16px; background: #0a0c12; border: 2px solid var(--border); border-radius: 12px; color: #fff; text-align: center; outline: none; transition: 0.3s; font-family: inherit; font-size: 1rem; }
+    .search-box:focus { border-color: var(--purple); }
     
-    #searchDropdown { position: absolute; top: 100%; left: 0; width: 100%; background: var(--bg-panel); border: 1px solid var(--accent); border-radius: 0 0 10px 10px; z-index: 50; display: none; max-height: 300px; overflow-y: auto; }
-    .search-result { display: flex; justify-content: space-between; align-items: center; padding: 12px 20px; border-bottom: 1px solid rgba(255,255,255,0.05); cursor: pointer; }
-    .search-result:hover { background: rgba(122, 73, 209, 0.2); }
-    .view-profile-btn { font-size: 0.7rem; color: var(--neon); border: 1px solid var(--neon); padding: 4px 8px; border-radius: 4px; text-transform: uppercase; }
+    #searchDropdown { position: absolute; top: calc(100% + 5px); left: 0; width: 100%; background: var(--bg-panel); border: 1px solid var(--purple); border-radius: 10px; z-index: 50; display: none; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+    .search-result { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; border-bottom: 1px solid rgba(255,255,255,0.05); cursor: pointer; }
+    .search-result:hover { background: rgba(168, 85, 247, 0.15); }
+    .view-profile-btn { font-size: 0.7rem; color: var(--blue); border: 1px solid var(--blue); padding: 4px 10px; border-radius: 4px; font-weight: bold; }
 
-    /* --- List Styling --- */
-    .kit-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-bottom: 30px; }
-    .kit-btn { background: #0a0c12; border: 1px solid var(--border); padding: 10px 18px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: 0.3s; color: #5a6474; font-weight: bold; font-size: 0.75rem; }
-    .kit-btn.active { border-color: var(--accent); color: #fff; background: rgba(122, 73, 209, 0.15); box-shadow: 0 0 10px rgba(122, 73, 209, 0.3); }
-    .kit-btn img { width: 20px; height: 20px; }
+    .kit-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-bottom: 40px; }
+    .kit-btn { background: #0a0c12; border: 1px solid var(--border); padding: 10px 20px; border-radius: 10px; cursor: pointer; display: flex; align-items: center; gap: 10px; transition: 0.3s; color: #5a6474; font-weight: bold; }
+    .kit-btn.active { border-color: var(--blue); color: #fff; background: rgba(59, 130, 246, 0.1); }
+    .kit-btn img { width: 22px; height: 22px; }
 
-    .tier-card { background: var(--bg-panel); border: 1px solid var(--accent); border-radius: 12px; margin-bottom: 20px; animation: neonPulse 5s infinite ease-in-out; overflow: hidden; }
-    .row { display: flex; justify-content: space-between; align-items: center; padding: 16px 20px; border-bottom: 1px solid rgba(255,255,255,0.03); cursor: pointer; }
-    .row:hover { background: rgba(157, 109, 245, 0.05); }
+    .tier-card { background: var(--bg-panel); border: 1px solid var(--purple); border-radius: 14px; margin-bottom: 25px; animation: neonPulse 6s infinite ease-in-out; }
+    .row { display: flex; justify-content: space-between; align-items: center; padding: 18px 25px; border-bottom: 1px solid rgba(255,255,255,0.03); cursor: pointer; }
+    
+    .modal-content { background: #050608; border: 2px solid var(--purple); border-radius: 20px; width: 90%; max-width: 420px; padding: 40px; text-align: center; position: relative; }
+    .hof-btn { margin-top: 25px; padding: 15px; background: var(--gradient); border: none; border-radius: 10px; color: #fff; font-weight: bold; cursor: pointer; display: none; width: 100%; letter-spacing: 2px; box-shadow: 0 4px 15px rgba(168, 85, 247, 0.3); }
 
-    /* --- Profiles --- */
-    .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.96); z-index: 1000; backdrop-filter: blur(20px); align-items: center; justify-content: center; }
-    .modal-content { background: #050608; border: 2px solid var(--accent); border-radius: 20px; width: 90%; max-width: 420px; padding: 40px; text-align: center; position: relative; }
-    .close-btn { position: absolute; top: 15px; right: 20px; font-size: 30px; cursor: pointer; color: #5a6474; }
-    .hof-btn { margin-top: 25px; padding: 14px; background: linear-gradient(45deg, #b8860b, #ffd700); border: none; border-radius: 8px; color: #000; font-weight: 1000; cursor: pointer; display: none; width: 100%; text-transform: uppercase; }
-
-    /* --- Testers & HOF --- */
-    .tester-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 15px; }
-    .tester-card { background: var(--bg-panel); border: 1px solid var(--border); padding: 20px; border-radius: 10px; text-align: center; font-weight: bold; color: var(--neon); }
     .color-T1 { color: var(--t1); } .color-T2 { color: var(--t2); } .color-T3 { color: var(--t3); } .color-T4 { color: var(--t4); } .color-T5 { color: var(--t5); }
+    .gold-text { color: var(--gold); }
   </style>
 </head>
 <body>
@@ -90,14 +80,14 @@
 <nav>
   <div class="nav-link active" id="nav-rankings" onclick="showSection('rankings')">RANKINGS</div>
   <div class="nav-link" id="nav-hof" onclick="showSection('hof')">HALL OF FAME</div>
-  <div class="nav-link" id="nav-testers" onclick="showSection('testers')">TESTERS</div>
+  <div class="nav-link" id="nav-testers" onclick="showSection('testers')">TIER TESTERS</div>
 </nav>
 
 <header>
   <div class="header-content">
-    <h1>MULTI</h1>
+    <h1 class="main-title">MULTI</h1>
     <img src="backgroundsword.png" class="title-sword">
-    <h1>TIERS</h1>
+    <h1 class="main-title">TIERS</h1>
   </div>
 </header>
 
@@ -111,24 +101,24 @@
     <div id="displayList"></div>
   </div>
 
-  <div id="hof-sec" style="display:none; padding-top: 20px;">
-    <h1 style="text-align:center; color:var(--gold); font-family:'MultiCraftFont'; margin-bottom:30px;">HALL OF FAME</h1>
+  <div id="hof-sec" style="display:none; text-align:center;">
+    <h1 class="gold-text" style="font-family:'MultiCraftFont'; font-size:2.5rem; margin-bottom:40px;">HALL OF FAME</h1>
     <div id="hofList"></div>
   </div>
 
-  <div id="testers-sec" style="display:none; padding-top: 20px;">
-    <h1 style="text-align:center; color:var(--neon); font-family:'MultiCraftFont'; margin-bottom:30px;">TESTERS</h1>
+  <div id="testers-sec" style="display:none; text-align:center;">
+    <h1 class="gold-text" style="font-family:'MultiCraftFont'; font-size:2.5rem; margin-bottom:40px;">TIER TESTERS</h1>
     <div id="testerList" class="tester-grid"></div>
   </div>
 </div>
 
-<div id="profileModal" class="modal">
+<div id="profileModal" class="modal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.9); z-index:1000; backdrop-filter:blur(15px); align-items:center; justify-content:center;">
   <div class="modal-content">
-    <span class="close-btn" onclick="closeProfile()">&times;</span>
-    <h2 id="pName" style="font-size: 2.2rem; margin: 10px 0; font-family: 'MultiCraftFont';">Player</h2>
-    <div id="pPoints" style="color: var(--gold); font-weight: bold; margin-bottom: 25px;">0 TOTAL PTS</div>
-    <div id="pGrids" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;"></div>
-    <button id="pHofLink" class="hof-btn" onclick="showSection('hof'); closeProfile()">VIEW HOF LEGACY</button>
+    <span onclick="closeProfile()" style="position:absolute; top:15px; right:20px; cursor:pointer; font-size:25px;">&times;</span>
+    <h2 id="pName" style="font-size: 2.5rem; margin-bottom:5px; font-family:'MultiCraftFont'; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Player</h2>
+    <div id="pPoints" class="gold-text" style="font-weight:bold; margin-bottom:30px;">0 TOTAL PTS</div>
+    <div id="pGrids" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;"></div>
+    <button id="pHofLink" class="hof-btn" onclick="showSection('hof'); closeProfile()">LEGACY</button>
   </div>
 </div>
 
@@ -140,13 +130,8 @@ const ICONS = { "Emerald": "emerald.png", "Dragonhide KB": "dragonhide_kb.png", 
 async function load() {
   const get = async (f) => (await fetch(`https://raw.githubusercontent.com/multitiers/multitiers.github.io/refs/heads/main/${f}`)).json();
   try {
-    DATA = await get('rankings.json');
-    HOF = await get('hof.json');
-    TESTERS = await get('testers.json');
-    processOverall();
-    buildKitBar();
-    spawnVault();
-    render("Overall");
+    DATA = await get('rankings.json'); HOF = await get('hof.json'); TESTERS = await get('testers.json');
+    processOverall(); buildKitBar(); spawnVault(); render("Overall");
   } catch(e) { console.error("Sync Error"); }
 }
 
@@ -169,9 +154,7 @@ function buildKitBar() {
     btn.innerHTML = `${img} ${k.toUpperCase()}`;
     btn.onclick = () => {
       document.querySelectorAll('.kit-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      ACTIVE_KIT = k;
-      render(k);
+      btn.classList.add('active'); ACTIVE_KIT = k; render(k);
     };
     bar.appendChild(btn);
   });
@@ -181,28 +164,19 @@ function handleSearch() {
   const val = document.getElementById('mainSearch').value.toLowerCase();
   const dropdown = document.getElementById('searchDropdown');
   if(!val) { dropdown.style.display = 'none'; return; }
-  
   const matches = Object.keys(DATA["Overall"]).filter(n => n.toLowerCase().includes(val));
-  if(matches.length > 0) {
-    dropdown.innerHTML = matches.map(m => `
-      <div class="search-result" onclick="openProfile('${m}'); document.getElementById('searchDropdown').style.display='none';">
-        <span>${m}</span>
-        <span class="view-profile-btn">View Profile</span>
-      </div>`).join('');
+  if(matches.length) {
+    dropdown.innerHTML = matches.map(m => `<div class="search-result" onclick="openProfile('${m}'); dropdown.style.display='none';"><span>${m}</span><span class="view-profile-btn">VIEW PROFILE</span></div>`).join('');
     dropdown.style.display = 'block';
-  } else { dropdown.style.display = 'none'; }
+  } else dropdown.style.display = 'none';
 }
 
 function render(kit) {
-  const out = document.getElementById('displayList');
-  out.innerHTML = "";
+  const out = document.getElementById('displayList'); out.innerHTML = "";
   if(kit === "Overall") {
     let sorted = Object.entries(DATA["Overall"]).sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
     sorted.forEach(([name, score], i) => {
-      out.innerHTML += `<div class="tier-card"><div class="row" onclick="openProfile('${name}')">
-        <span><b style="color:var(--muted); margin-right:15px;">#${i+1}</b> ${name}</span>
-        <span style="color:var(--gold); font-weight:bold;">${score} PTS</span>
-      </div></div>`;
+      out.innerHTML += `<div class="tier-card"><div class="row" onclick="openProfile('${name}')"><span><b style="color:#5a6474; margin-right:15px;">#${i+1}</b> ${name}</span><span class="gold-text" style="font-weight:bold;">${score} PTS</span></div></div>`;
     });
   } else {
     ["T1","T2","T3","T4","T5"].forEach(t => {
@@ -210,7 +184,7 @@ function render(kit) {
       for(let sub in DATA[kit]) if(sub.includes(t)) DATA[kit][sub].forEach(n => players.push({n, sub}));
       if(players.length) {
         players.sort((a,b) => a.n.localeCompare(b.n));
-        let h = `<div class="tier-card"><div class="row" style="background:rgba(255,255,255,0.03); cursor:default;"><b class="color-${t}">${t}</b></div>`;
+        let h = `<div class="tier-card"><div class="row" style="background:rgba(255,255,255,0.02); cursor:default;"><b class="color-${t}">${t}</b></div>`;
         players.forEach(p => h += `<div class="row" onclick="openProfile('${p.n}')"><b>${p.n}</b> <span class="color-${t}" style="font-size:0.75rem;">${p.sub}</span></div>`);
         out.innerHTML += h + `</div>`;
       }
@@ -219,39 +193,32 @@ function render(kit) {
 }
 
 function spawnVault() {
-  const vault = document.getElementById('item-vault');
-  const imgs = Object.values(ICONS);
+  const vault = document.getElementById('item-vault'); const imgs = Object.values(ICONS);
   for(let i=0; i<20; i++) {
-    const el = document.createElement('div');
-    el.className = 'floating-item';
+    const el = document.createElement('div'); el.className = 'floating-item';
     el.style.backgroundImage = `url(${imgs[i % imgs.length]})`;
-    el.style.left = Math.random() * 100 + 'vw';
-    el.style.top = Math.random() * 100 + 'vh';
-    vault.appendChild(el);
-    animateItem(el);
+    el.style.left = Math.random() * 100 + 'vw'; el.style.top = Math.random() * 100 + 'vh';
+    vault.appendChild(el); animateItem(el);
   }
 }
 
 function animateItem(el) {
   setTimeout(() => {
-    el.style.left = Math.random() * 100 + 'vw';
-    el.style.top = Math.random() * 100 + 'vh';
+    el.style.left = Math.random() * 100 + 'vw'; el.style.top = Math.random() * 100 + 'vh';
     animateItem(el);
   }, 10000 + Math.random() * 5000);
 }
 
 function openProfile(name) {
   document.getElementById('pName').textContent = name;
-  const grid = document.getElementById('pGrids');
-  grid.innerHTML = "";
+  const grid = document.getElementById('pGrids'); grid.innerHTML = "";
   document.getElementById('pPoints').textContent = (DATA["Overall"][name] || 0) + " TOTAL PTS";
   for(let k in ICONS) {
     for(let t in DATA[k]) if(DATA[k][t].includes(name)) {
-      grid.innerHTML += `<div style="background:#0a0c12; padding:12px; border-radius:10px; border: 1px solid var(--border);">
-        <img src="${ICONS[k]}" style="width:25px;"><br><span style="font-size:0.65rem; color:var(--gold);">${t}</span></div>`;
+      grid.innerHTML += `<div style="background:#0a0c12; padding:12px; border-radius:10px; border:1px solid var(--border);"><img src="${ICONS[k]}" style="width:25px;"><br><span style="font-size:0.6rem; color:var(--gold);">${t}</span></div>`;
     }
   }
-  document.getElementById('pHofLink').style.display = HOF.some(h => h.name === name) ? 'block' : 'none';
+  document.getElementById('pHofLink').style.display = HOF.some(h => h.name.toLowerCase() === name.toLowerCase()) ? 'block' : 'none';
   document.getElementById('profileModal').style.display = 'flex';
 }
 
@@ -260,8 +227,8 @@ function showSection(id) {
     document.getElementById(s+'-sec').style.display = (s === id ? 'block' : 'none');
     document.getElementById('nav-'+s).classList.toggle('active', s === id);
   });
-  if(id === 'hof') document.getElementById('hofList').innerHTML = HOF.map(h => `<div class="tier-card" style="padding:30px; text-align:center; border-color:var(--gold);"><h2 style="font-family:'MultiCraftFont';">${h.name}</h2><p style="color:var(--gold);">${h.description}</p></div>`).join('');
-  if(id === 'testers') document.getElementById('testerList').innerHTML = TESTERS.map(t => `<div class="tester-card">${t.name}</div>`).join('');
+  if(id === 'hof') document.getElementById('hofList').innerHTML = HOF.map(h => `<div class="tier-card" style="padding:30px; border-color:var(--purple);"><h2 style="font-family:'MultiCraftFont'; margin:0;">${h.name}</h2><p class="gold-text" style="margin-top:10px;">${h.description}</p></div>`).join('');
+  if(id === 'testers') document.getElementById('testerList').innerHTML = `<div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(160px, 1fr)); gap:15px;">` + TESTERS.map(t => `<div style="background:var(--bg-panel); border:1px solid var(--border); padding:20px; border-radius:10px; font-weight:bold; color:var(--blue);">${t.name}</div>`).join('') + `</div>`;
 }
 
 function closeProfile() { document.getElementById('profileModal').style.display = 'none'; }

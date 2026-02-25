@@ -61,7 +61,6 @@
     box-shadow: 0 0 15px rgba(122, 73, 209, 0.4); 
   }
 
-  /* Ranking Styles */
   .tier-block { background: rgba(14, 17, 23, 0.8); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 20px; overflow: hidden; backdrop-filter: blur(10px); }
   .tier-header { padding: 15px 20px; background: rgba(255,255,255,0.03); border-bottom: 1px solid var(--border); color: var(--accent-bright); font-weight: 900; letter-spacing: 2px; }
   .player-row { display: flex; justify-content: space-between; align-items: center; padding: 16px 20px; border-bottom: 1px solid var(--border); cursor: pointer; transition: 0.2s; }
@@ -77,21 +76,29 @@
   .tier-tag { font-size: 0.75rem; font-weight: bold; padding: 5px 10px; border-radius: 6px; background: var(--bg3); border: 1px solid var(--border); }
   .pts-tag { color: var(--gold); font-weight: bold; font-size: 0.85rem; }
 
-  /* Modal */
+  /* Modal HUD */
   .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); backdrop-filter: blur(10px); }
   .modal-content { 
     background: linear-gradient(180deg, #161b24 0%, #0a0c10 100%); 
     margin: 5% auto; border: 1px solid rgba(255,255,255,0.1); 
     border-radius: 24px; width: 90%; max-width: 450px; padding: 30px; position: relative;
+    box-shadow: 0 0 40px rgba(0,0,0,1);
   }
-  .profile-name { font-size: 2.5rem; font-weight: 900; text-align: center; margin-bottom: 30px; }
+  .modal-rank-display { text-align: center; margin-bottom: 20px; }
+  .modal-rank-num { font-size: 1.2rem; font-weight: 900; font-style: italic; display: block; }
+  .profile-name { font-size: 2.5rem; font-weight: 900; margin: 10px 0; display: block; }
+  .modal-combat-title { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; font-weight: bold; }
+
+  .section-label { font-size: 0.7rem; color: var(--muted); text-transform: uppercase; margin: 25px 0 10px; font-weight: bold; border-bottom: 1px solid var(--border); padding-bottom: 5px; }
+
   .tiers-grid { display: flex; flex-wrap: wrap; gap: 15px; background: rgba(0,0,0,0.3); padding: 20px; border-radius: 15px; border: 1px solid var(--border); }
   .kit-item { text-align: center; width: 65px; display: flex; flex-direction: column; align-items: center; }
   .kit-icon-wrapper { background: rgba(255, 255, 255, 0.05); border-radius: 50%; width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; margin-bottom: 8px; }
   .kit-icon { width: 26px; height: 26px; }
   .kit-tier-badge { font-size: 0.65rem; font-weight: 900; color: var(--gold); background: rgba(0,0,0,0.6); padding: 2px 6px; border-radius: 10px; border: 1px solid rgba(255,215,0,0.3); }
 
-  .close-btn { cursor: pointer; font-size: 30px; color: var(--muted); position: absolute; right: 25px; top: 20px; }
+  .close-btn { cursor: pointer; font-size: 30px; color: var(--muted); position: absolute; right: 25px; top: 20px; transition: 0.2s; }
+  .close-btn:hover { color: var(--white); }
 </style>
 </head>
 <body>
@@ -100,7 +107,6 @@
   <header>
     <h1>MULTITIERS</h1>
   </header>
-
   <div class="kit-selector" id="kitSelector"></div>
   <div id="tierList"></div>
 </div>
@@ -108,8 +114,15 @@
 <div id="playerModal" class="modal">
   <div class="modal-content">
     <span class="close-btn" onclick="closeModal()">&times;</span>
-    <div class="profile-name" id="modalPlayerName">Player</div>
-    <div style="font-size: 0.7rem; color: var(--muted); text-transform: uppercase; margin-bottom: 10px; font-weight: bold;">Tier Inventory</div>
+    
+    <div class="modal-rank-display">
+      <span class="modal-rank-num" id="modalRankNum">#--</span>
+      <span class="profile-name" id="modalPlayerName">Player</span>
+      <span class="modal-combat-title" id="modalCombatTitle">Combat Ace</span>
+      <div style="color: var(--gold); font-size: 0.9rem; font-weight: bold; margin-top: 5px;" id="modalTotalPts">0 PTS</div>
+    </div>
+
+    <div class="section-label">Tier Inventory</div>
     <div id="modalTiersGrid" class="tiers-grid"></div>
   </div>
 </div>
@@ -169,7 +182,6 @@ function initButtons() {
   const selector = document.getElementById('kitSelector');
   const kits = Object.keys(FULL_DATA);
   selector.innerHTML = '';
-
   kits.forEach((kit, i) => {
     const btn = document.createElement('button');
     btn.className = 'kit-btn';
@@ -178,7 +190,6 @@ function initButtons() {
     } else {
       btn.innerHTML = `<span>${kit}</span>`;
     }
-    
     btn.onclick = () => {
       document.querySelectorAll('.kit-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
@@ -199,13 +210,11 @@ function renderKit(kitName) {
     block.className = 'tier-block';
     let html = `<div class="tier-header">GLOBAL RANKINGS</div>`;
     const sortedPoints = Object.keys(data).sort((a, b) => parseInt(b) - parseInt(a));
-    
     let rankNum = 1;
     sortedPoints.forEach(pts => {
       data[pts].forEach(name => {
         const info = getTitleInfo(rankNum);
         const rankClass = rankNum <= 3 ? `rank-${rankNum}` : '';
-        
         html += `<div class="player-row" onclick="showPlayerStats('${name}')">
           <div style="display:flex; align-items:center;">
             <span class="rank-num ${rankClass}">#${rankNum}</span>
@@ -225,7 +234,6 @@ function renderKit(kitName) {
       Object.keys(data).forEach(subTier => {
         if(subTier.includes(tier)) data[subTier].forEach(name => players.push({name, sub: subTier}));
       });
-
       if(players.length > 0) {
         const block = document.createElement('div');
         block.className = 'tier-block';
@@ -247,10 +255,13 @@ function showPlayerStats(playerName) {
   document.getElementById('modalPlayerName').textContent = playerName;
   const grid = document.getElementById('modalTiersGrid');
   grid.innerHTML = '';
+  let totalPts = 0;
 
+  // Inventory Grid Logic
   Object.keys(KIT_ICONS).forEach(kit => {
     for (const tier in FULL_DATA[kit]) {
       if (FULL_DATA[kit][tier].includes(playerName)) {
+        totalPts += (POINT_MAP[tier] || 0);
         grid.innerHTML += `
           <div class="kit-item">
             <div class="kit-icon-wrapper"><img src="${KIT_ICONS[kit]}" class="kit-icon"></div>
@@ -259,6 +270,30 @@ function showPlayerStats(playerName) {
       }
     }
   });
+
+  // Calculate Global Rank Position
+  const overallData = FULL_DATA["Overall"];
+  const sortedPoints = Object.keys(overallData).sort((a, b) => parseInt(b) - parseInt(a));
+  let globalRank = 0;
+  let runningRank = 1;
+  for (let pts of sortedPoints) {
+    if (overallData[pts].includes(playerName)) {
+      globalRank = runningRank;
+      break;
+    }
+    runningRank += overallData[pts].length;
+  }
+
+  const info = getTitleInfo(globalRank);
+  const rankEl = document.getElementById('modalRankNum');
+  const titleEl = document.getElementById('modalCombatTitle');
+
+  rankEl.textContent = globalRank > 0 ? `#${globalRank}` : '#--';
+  rankEl.style.color = info.color;
+  titleEl.textContent = info.title;
+  titleEl.style.color = info.color;
+  document.getElementById('modalTotalPts').textContent = `${totalPts} PTS`;
+
   document.getElementById('playerModal').style.display = "block";
 }
 

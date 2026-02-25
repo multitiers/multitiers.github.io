@@ -16,131 +16,128 @@
     }
 
     :root {
-      --bg: #05070a; --bg2: #0e1117; --bg3: #1c232d; --border: #2d3643;
-      --accent: #4c268f; --accent-bright: #9d6df5;
-      --gold: #ffd700; --silver: #e0e0e0; --bronze: #cd7f32;
-      --white: #ffffff; --muted: #8a95a7;
-      --space-glow: rgba(122, 73, 209, 0.25);
+      /* Darker & Cozier Palette */
+      --bg: #030406; 
+      --bg-panel: rgba(10, 12, 18, 0.95);
+      --border: #1a112e;
+      --accent-purple: #7a49d1;
+      --neon-glow: #9d6df5;
+      --gold: #ffd700;
+      --white: #ffffff;
+      --muted: #5a6474;
     }
 
-    /* --- Space Background --- */
     body { 
       background-color: var(--bg);
-      background-image: radial-gradient(circle at center, var(--space-glow) 0%, transparent 85%);
+      background-image: 
+        radial-gradient(circle at 50% -10%, rgba(60, 30, 112, 0.3) 0%, transparent 70%),
+        radial-gradient(circle at 0% 100%, rgba(20, 10, 40, 0.4) 0%, transparent 50%);
       background-attachment: fixed; 
       color: var(--white); 
       font-family: 'Courier New', monospace; 
-      margin: 0; padding-bottom: 50px;
+      margin: 0; padding-bottom: 80px;
       overflow-x: hidden;
     }
 
-    /* Stars */
-    body::before {
-      content: ""; position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: -3;
-      background-image: radial-gradient(1.5px 1.5px at 20px 30px, #fff, rgba(0,0,0,0)), 
-                        radial-gradient(1px 1px at 150px 150px, #fff, rgba(0,0,0,0));
-      background-size: 300px 300px; animation: twinkle 4s infinite ease-in-out;
-    }
-
-    /* Shuffling Item Vault */
+    /* --- Background Elements --- */
     #item-vault {
       position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-      z-index: -2; pointer-events: none; opacity: 0.35;
+      z-index: -1; pointer-events: none; opacity: 0.2;
     }
     .floating-item {
-      position: absolute; width: 50px; height: 50px;
+      position: absolute; width: 45px; height: 45px;
       background-size: contain; background-repeat: no-repeat;
-      transition: all 5s ease-in-out; /* Smooth 5-second movement when shuffling */
-      animation: spinItem 10s infinite linear;
+      transition: all 10s ease-in-out;
+      animation: spinItem 12s infinite linear;
     }
-
-    @keyframes twinkle { 0%, 100% { opacity: 0.3; } 50% { opacity: 0.8; } }
     @keyframes spinItem { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
-    /* --- Header & Sword Backdrop --- */
-    .container { max-width: 950px; margin: 0 auto; padding: 20px; position: relative; z-index: 1; }
+    /* --- Header & Sword --- */
+    .container { max-width: 900px; margin: 0 auto; padding: 0 20px; position: relative; z-index: 1; }
     
-    header { text-align: center; padding: 60px 0; }
+    header { text-align: center; padding: 40px 0 20px; }
     .header-content {
       display: inline-flex; align-items: center; justify-content: center;
-      gap: 25px; position: relative;
+      gap: 20px; position: relative;
     }
     .title-sword {
-      width: 130px; height: 130px;
-      filter: drop-shadow(0 0 25px var(--accent-bright));
-      animation: pulseSword 3s infinite ease-in-out;
-      flex-shrink: 0;
+      width: 100px; height: 100px;
+      filter: drop-shadow(0 0 15px var(--accent-purple));
+      animation: pulseSword 4s infinite ease-in-out;
     }
     @keyframes pulseSword {
-        0%, 100% { transform: scale(1); filter: drop-shadow(0 0 20px var(--accent-bright)); }
-        50% { transform: scale(1.1); filter: drop-shadow(0 0 40px var(--accent-bright)); }
+        0%, 100% { transform: scale(1); opacity: 0.7; }
+        50% { transform: scale(1.05); opacity: 1; }
     }
     h1 { 
-      font-family: 'MultiCraftFont', sans-serif; font-size: 4.8rem; margin: 0; 
-      text-shadow: 0 0 30px rgba(122, 73, 209, 0.8); letter-spacing: 2px;
+      font-family: 'MultiCraftFont', sans-serif; font-size: 3.5rem; margin: 0; 
+      text-shadow: 0 0 20px var(--accent-purple); letter-spacing: 4px;
     }
 
-    /* --- UI Elements --- */
-    .search-wrapper { position: relative; max-width: 550px; margin: 0 auto 40px; }
+    /* --- Kit Indicator (The "You are here" text) --- */
+    .active-kit-label {
+        text-align: center;
+        margin-bottom: 30px;
+        font-weight: bold;
+        letter-spacing: 3px;
+        color: var(--neon-glow);
+        text-transform: uppercase;
+        font-size: 1.4rem;
+        text-shadow: 0 0 10px rgba(157, 109, 245, 0.5);
+    }
+
+    /* --- UI Components --- */
+    .search-wrapper { position: relative; max-width: 500px; margin: 0 auto 30px; }
     #playerSearch {
-      width: 100%; padding: 16px 25px; background: rgba(22, 27, 36, 0.95); 
-      border: 2px solid var(--border); border-radius: 14px; color: white; 
-      font-family: inherit; font-size: 1.1rem; outline: none; transition: 0.3s;
-      box-sizing: border-box;
+      width: 100%; padding: 14px 20px; background: rgba(0,0,0,0.6); 
+      border: 1px solid var(--border); border-radius: 8px; color: white; 
+      font-family: inherit; outline: none; transition: 0.3s;
+      box-sizing: border-box; text-align: center;
     }
-    #playerSearch:focus { border-color: var(--accent-bright); box-shadow: 0 0 25px rgba(122, 73, 209, 0.5); }
+    #playerSearch:focus { border-color: var(--accent-purple); box-shadow: 0 0 15px rgba(122, 73, 209, 0.3); }
     
-    .search-results {
-      position: absolute; top: 110%; left: 0; right: 0; background: var(--bg3);
-      border: 1px solid var(--border); border-radius: 12px; z-index: 1000;
-      max-height: 300px; overflow-y: auto; display: none;
-    }
-    .search-item { padding: 15px 20px; cursor: pointer; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; }
-    .search-item:hover { background: var(--accent); }
-
-    .kit-selector { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-bottom: 40px; }
+    .kit-selector { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-bottom: 40px; }
     .kit-btn {
-      background: rgba(28, 35, 45, 0.8); border: 1px solid var(--border); color: var(--muted); 
-      padding: 12px 20px; border-radius: 10px; cursor: pointer; display: flex; 
-      align-items: center; gap: 10px; font-weight: bold; transition: 0.3s;
+      background: rgba(20, 15, 30, 0.7); border: 1px solid var(--border); color: var(--muted); 
+      padding: 10px 15px; border-radius: 5px; cursor: pointer; transition: 0.3s;
+      font-size: 0.75rem; font-weight: bold; text-transform: uppercase;
     }
-    .kit-btn.active { background: var(--accent); color: white; border-color: var(--accent-bright); }
+    .kit-btn.active { 
+        background: var(--accent-purple); color: white; border-color: var(--neon-glow);
+        box-shadow: 0 0 10px var(--accent-purple);
+    }
 
     .tier-block { 
-      background: rgba(14, 17, 23, 0.85); border: 1px solid var(--border); 
-      border-radius: 20px; margin-bottom: 30px; overflow: hidden; 
-      backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      background: var(--bg-panel); border: 1px solid var(--border); 
+      border-radius: 4px; margin-bottom: 15px; overflow: hidden; 
+      box-shadow: 0 4px 20px rgba(0,0,0,0.5);
     }
     .tier-header { 
-      padding: 20px 25px; background: rgba(255,255,255,0.05); 
-      color: var(--accent-bright); font-weight: 900; letter-spacing: 4px; font-size: 1.2rem;
+      padding: 15px 20px; background: rgba(122, 73, 209, 0.1); 
+      color: var(--neon-glow); font-weight: bold; letter-spacing: 2px;
+      border-bottom: 1px solid var(--border);
     }
     .player-row { 
       display: flex; justify-content: space-between; align-items: center; 
-      padding: 18px 25px; border-bottom: 1px solid var(--border); cursor: pointer;
+      padding: 12px 20px; border-bottom: 1px solid rgba(255,255,255,0.02); cursor: pointer;
     }
-    .player-row:hover { background: rgba(255,255,255,0.05); }
+    .player-row:hover { background: rgba(122, 73, 209, 0.05); }
 
-    .rank-num { font-weight: 900; width: 40px; font-style: italic; font-size: 1.2rem; }
-    .rank-1 { color: var(--gold); text-shadow: 0 0 15px rgba(255,215,0,0.5); }
+    .rank-num { font-weight: bold; width: 30px; color: var(--muted); }
+    .rank-1 { color: var(--gold); }
 
     /* --- Modal --- */
-    .modal { display: none; position: fixed; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); backdrop-filter: blur(15px); }
-    .modal-content { background: #0e1117; margin: 5% auto; border: 1px solid var(--border); border-radius: 30px; width: 90%; max-width: 480px; padding: 40px; position: relative; }
-    .close-btn { cursor: pointer; font-size: 35px; color: var(--muted); position: absolute; right: 25px; top: 15px; }
+    .modal { display: none; position: fixed; z-index: 100; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); backdrop-filter: blur(8px); }
+    .modal-content { background: #08090c; margin: 10% auto; border: 1px solid var(--accent-purple); border-radius: 12px; width: 90%; max-width: 400px; padding: 30px; position: relative; box-shadow: 0 0 30px rgba(122, 73, 209, 0.2); }
+    .close-btn { cursor: pointer; font-size: 24px; color: var(--muted); position: absolute; right: 20px; top: 10px; }
+    
+    .modal-tabs { display: flex; justify-content: center; gap: 8px; margin-bottom: 20px; }
+    .tab-btn { background: #161b24; border: 1px solid var(--border); color: white; padding: 5px 12px; border-radius: 4px; cursor: pointer; font-size: 0.8rem; }
+    .tab-btn.active { background: var(--accent-purple); }
 
-    .modal-tabs { display: flex; justify-content: center; gap: 10px; margin-bottom: 30px; flex-wrap: wrap; width: 100%; }
-    .tab-btn { background: var(--bg3); border: 1px solid var(--border); color: var(--muted); padding: 8px 16px; border-radius: 12px; cursor: pointer; font-weight: bold; transition: 0.2s; }
-    .tab-btn.active { background: var(--accent-bright); color: white; border-color: white; }
-
-    .modal-rank-num { font-size: 1.6rem; font-weight: 900; font-style: italic; display: block; text-align: center; }
-    .profile-name { font-size: 2.8rem; font-weight: 900; margin: 10px 0; display: block; text-align: center; }
-    .pts-tag { color: var(--gold); font-weight: bold; font-size: 1.1rem; text-align: center; }
-
-    .tiers-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; background: rgba(0,0,0,0.3); padding: 25px; border-radius: 20px; }
-    .kit-item { text-align: center; width: 75px; }
-    .kit-icon-wrapper { background: rgba(255,255,255,0.05); border-radius: 50%; width: 55px; height: 55px; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px; border: 1px solid rgba(255,255,255,0.05); }
-    .kit-tier-badge { font-size: 0.75rem; font-weight: bold; color: var(--gold); background: black; padding: 3px 8px; border-radius: 10px; border: 1px solid var(--gold); }
+    .tiers-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; background: rgba(0,0,0,0.3); padding: 15px; border-radius: 8px; }
+    .kit-item { text-align: center; width: 60px; }
+    .kit-icon-wrapper { background: rgba(255,255,255,0.03); border-radius: 50%; width: 45px; height: 45px; display: flex; align-items: center; justify-content: center; margin: 0 auto 8px; border: 1px solid var(--border); }
   </style>
 </head>
 <body translate="no">
@@ -156,8 +153,10 @@
     </div>
   </header>
 
+  <div class="active-kit-label" id="currentKitDisplay">OVERALL RANKINGS</div>
+
   <div class="search-wrapper">
-    <input type="text" id="playerSearch" placeholder="Search Players..." autocomplete="off">
+    <input type="text" id="playerSearch" placeholder="SEARCH PLAYERS..." autocomplete="off">
     <div id="searchResults" class="search-results"></div>
   </div>
 
@@ -169,10 +168,10 @@
   <div class="modal-content">
     <span class="close-btn" onclick="closeModal()">&times;</span>
     <div id="tabContainer" class="modal-tabs"></div>
-    <div style="margin-bottom: 30px;">
-      <span class="modal-rank-num" id="modalRankNum">#--</span>
-      <span class="profile-name" id="modalPlayerName">Player</span>
-      <div id="modalTotalPts" class="pts-tag">0 PTS</div>
+    <div style="text-align:center; margin-bottom: 20px;">
+      <span style="font-size: 1.2rem; font-weight: bold; color: var(--gold);" id="modalRankNum">#--</span>
+      <h2 style="margin: 5px 0;" id="modalPlayerName">Player</h2>
+      <div style="color: var(--neon-glow); font-size: 0.9rem;" id="modalTotalPts">0 PTS</div>
     </div>
     <div class="tiers-grid" id="modalTiersGrid"></div>
   </div>
@@ -188,32 +187,23 @@ const KIT_ICONS = {
   "Emerald OA": "emerald_oa.png", "Dragonhide KB OA": "kb_oa.png", "Wand": "wand.png"
 };
 
-// Vault Logic
 function spawnVaultItems() {
   const vault = document.getElementById('item-vault');
   const icons = Object.values(KIT_ICONS);
-  const totalItems = 20; 
-  vault.innerHTML = '';
-
-  for (let i = 0; i < totalItems; i++) {
+  for (let i = 0; i < 20; i++) {
     const item = document.createElement('div');
     item.className = 'floating-item';
     item.style.backgroundImage = `url(${icons[i % icons.length]})`;
     vault.appendChild(item);
   }
   shuffleVault();
-  setInterval(shuffleVault, 60000); // Shuffles every 60 seconds
+  setInterval(shuffleVault, 60000); 
 }
 
 function shuffleVault() {
-    const items = document.querySelectorAll('.floating-item');
-    items.forEach(item => {
-        const x = Math.random() * 90; // Keep slightly away from edges
-        const y = Math.random() * 90;
-        item.style.left = x + 'vw';
-        item.style.top = y + 'vh';
-        // Give each item a random spin duration to break synchronization
-        item.style.animationDuration = (8 + Math.random() * 10) + 's';
+    document.querySelectorAll('.floating-item').forEach(item => {
+        item.style.left = Math.random() * 90 + 'vw';
+        item.style.top = Math.random() * 90 + 'vh';
     });
 }
 
@@ -221,12 +211,10 @@ async function loadData() {
   const url = 'https://raw.githubusercontent.com/multitiers/multitiers.github.io/refs/heads/main/rankings.json';
   try {
     const res = await fetch(url);
-    const rawData = await res.json();
-    FULL_DATA = rawData;
+    FULL_DATA = await res.json();
     calculateOverall();
     extractAllPlayers();
     initButtons();
-    initSearch();
     spawnVaultItems();
   } catch (e) { console.error("Load failed."); }
 }
@@ -260,39 +248,20 @@ function extractAllPlayers() {
 
 function initButtons() {
   const selector = document.getElementById('kitSelector');
+  const display = document.getElementById('currentKitDisplay');
   selector.innerHTML = '';
   Object.keys(FULL_DATA).forEach((kit, i) => {
     const btn = document.createElement('button');
     btn.className = 'kit-btn';
-    btn.innerHTML = KIT_ICONS[kit] ? `<img src="${KIT_ICONS[kit]}" width="20"> ${kit}` : kit;
+    btn.textContent = kit;
     btn.onclick = () => {
       document.querySelectorAll('.kit-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
+      display.textContent = kit === "Overall" ? "OVERALL RANKINGS" : kit + " KIT";
       renderKit(kit);
     };
     selector.appendChild(btn);
     if(i === 0) btn.click();
-  });
-}
-
-function initSearch() {
-  const input = document.getElementById('playerSearch');
-  const results = document.getElementById('searchResults');
-  input.addEventListener('input', () => {
-    const val = input.value.toLowerCase();
-    results.innerHTML = '';
-    if (val.length < 1) { results.style.display = 'none'; return; }
-    const matches = ALL_PLAYERS.filter(p => p.toLowerCase().includes(val)).slice(0, 8);
-    if (matches.length > 0) {
-      matches.forEach(name => {
-        const item = document.createElement('div');
-        item.className = 'search-item';
-        item.innerHTML = `<span>${name}</span> <small>View Profile</small>`;
-        item.onclick = () => { showPlayerStatsGroup([name], 0); results.style.display='none'; input.value=''; };
-        results.appendChild(item);
-      });
-      results.style.display = 'block';
-    }
   });
 }
 
@@ -301,22 +270,20 @@ function renderKit(kitName) {
   const list = document.getElementById('tierList');
   list.innerHTML = '';
   if (kitName === "Overall") {
-    const block = document.createElement('div');
-    block.className = 'tier-block';
-    let html = `<div class="tier-header">GLOBAL RANKINGS</div>`;
     const sorted = Object.keys(data).sort((a,b) => b-a);
     let rank = 1;
     sorted.forEach(pts => {
       const pNames = data[pts];
-      const pData = JSON.stringify(pNames).replace(/"/g, '&quot;');
-      html += `<div class="player-row" onclick="showPlayerStatsGroup(${pData}, ${rank})">
-        <div><span class="rank-num ${rank<=3?'rank-'+rank:''}">#${rank}</span> <b>${pNames.join(' & ')}</b></div>
-        <div class="pts-tag">${pts} PTS</div>
+      const block = document.createElement('div');
+      block.className = 'tier-block';
+      let html = `<div class="player-row" onclick="showPlayerStatsGroup(${JSON.stringify(pNames).replace(/"/g, '&quot;')}, ${rank})">
+        <div><span class="rank-num ${rank<=1?'rank-1':''}">#${rank}</span> <b>${pNames.join(' & ')}</b></div>
+        <div style="color:var(--gold); font-weight:bold;">${pts} PTS</div>
       </div>`;
+      block.innerHTML = html;
+      list.appendChild(block);
       rank++;
     });
-    block.innerHTML = html;
-    list.appendChild(block);
   } else {
     TIER_ORDER.forEach(tier => {
       const players = [];
@@ -325,7 +292,7 @@ function renderKit(kitName) {
         let html = `<div class="tier-block"><div class="tier-header">${tier}</div>`;
         players.forEach(p => {
           html += `<div class="player-row" onclick="showPlayerStatsGroup(['${p.n}'], 0)">
-            <b>${p.n}</b> <span class="pts-tag" style="color:var(--accent-bright)">${p.sub}</span>
+            <b>${p.n}</b> <span style="color:var(--accent-purple)">${p.sub}</span>
           </div>`;
         });
         list.innerHTML += html + `</div>`;
@@ -334,11 +301,10 @@ function renderKit(kitName) {
   }
 }
 
-function showPlayerStatsGroup(names, rankFromClick) {
+function showPlayerStatsGroup(names, rank) {
   const tabs = document.getElementById('tabContainer');
   tabs.innerHTML = '';
   if(names.length > 1) {
-    tabs.style.display = 'flex';
     names.forEach((n, i) => {
       const b = document.createElement('button');
       b.className = 'tab-btn' + (i === 0 ? ' active' : '');
@@ -346,12 +312,12 @@ function showPlayerStatsGroup(names, rankFromClick) {
       b.onclick = () => {
           document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
           b.classList.add('active');
-          updateModal(n, rankFromClick);
+          updateModal(n, rank);
       };
       tabs.appendChild(b);
     });
-  } else { tabs.style.display = 'none'; }
-  updateModal(names[0], rankFromClick);
+  }
+  updateModal(names[0], rank);
   document.getElementById('playerModal').style.display = 'block';
 }
 
@@ -364,30 +330,19 @@ function updateModal(name, forcedRank) {
     for (const t in FULL_DATA[kit]) {
       if (FULL_DATA[kit][t].includes(name)) {
         pts += (POINT_MAP[t] || 0);
-        grid.innerHTML += `<div class="kit-item">
-          <div class="kit-icon-wrapper"><img src="${KIT_ICONS[kit]}" width="30"></div>
-          <span class="kit-tier-badge">${t}</span>
-        </div>`;
+        grid.innerHTML += `<div class="kit-item"><div class="kit-icon-wrapper"><img src="${KIT_ICONS[kit]}" width="25"></div><span style="font-size:0.7rem; color:var(--gold)">${t}</span></div>`;
       }
     }
   });
-
   document.getElementById('modalTotalPts').textContent = pts + " PTS";
-
-  let finalRank = forcedRank;
-  if (finalRank === 0) {
-      const overallData = FULL_DATA["Overall"];
-      const sortedPoints = Object.keys(overallData).sort((a, b) => b - a);
-      let calculatedRank = 1;
-      for (let score of sortedPoints) {
-          if (overallData[score].includes(name)) { finalRank = calculatedRank; break; }
-          calculatedRank++;
-      }
-  }
-
-  const rankDisplay = document.getElementById('modalRankNum');
-  rankDisplay.textContent = finalRank > 0 ? "#" + finalRank : "Unranked";
-  rankDisplay.className = 'modal-rank-num' + (finalRank <= 3 && finalRank > 0 ? ' rank-' + finalRank : '');
+  let finalRank = forcedRank || "Unranked";
+  if(forcedRank === 0) {
+      const overall = FULL_DATA["Overall"];
+      const sorted = Object.keys(overall).sort((a,b) => b-a);
+      let r = 1;
+      for(let s of sorted) { if(overall[s].includes(name)) { finalRank = "#"+r; break; } r++; }
+  } else { finalRank = "#"+forcedRank; }
+  document.getElementById('modalRankNum').textContent = finalRank;
 }
 
 function closeModal() { document.getElementById('playerModal').style.display = 'none'; }

@@ -11,7 +11,7 @@
     :root {
       --bg: #020204;
       --purple: #a855f7;
-      --purple-glow: rgba(168, 85, 247, 0.6);
+      --purple-glow: rgba(168, 85, 247, 0.5);
       --border: rgba(168, 85, 247, 0.2);
       --text-dim: #6b7280;
       --grad: linear-gradient(180deg, #ffffff 0%, #a855f7 100%);
@@ -21,79 +21,72 @@
       background: var(--bg); color: #fff; font-family: 'MultiCraftFont', monospace; margin: 0; padding-bottom: 50px;
       overflow-x: hidden;
       background-image: 
-        radial-gradient(circle at 10% 10%, rgba(168, 85, 247, 0.15) 0%, transparent 40%),
-        radial-gradient(circle at 90% 90%, rgba(168, 85, 247, 0.1) 0%, transparent 40%);
+        radial-gradient(circle at 15% 25%, rgba(168, 85, 247, 0.12) 0%, transparent 45%),
+        radial-gradient(circle at 85% 75%, rgba(168, 85, 247, 0.08) 0%, transparent 45%);
       background-attachment: fixed;
     }
 
-    /* Top Left Nav */
-    nav { position: fixed; top: 40px; left: 40px; z-index: 1000; display: flex; flex-direction: column; gap: 20px; }
-    .nav-link { 
-      font-family: 'MultiCraftFont'; color: var(--text-dim); text-decoration: none; 
-      font-size: 1.4rem; cursor: pointer; transition: 0.3s; background: none; border: none; text-align: left; 
-    }
-    .nav-link:hover, .nav-link.active { color: #fff; text-shadow: 0 0 20px var(--purple); transform: scale(1.05); }
-
-    /* Floating Background */
+    /* Floating Items (No Spin) */
     #space { position: fixed; inset: 0; z-index: -1; pointer-events: none; }
-    .float-item { position: absolute; width: 45px; height: 45px; background-size: contain; opacity: 0.15; animation: floatMove 30s linear infinite; }
-    @keyframes floatMove { from { transform: translate(110vw, 10vh); } to { transform: translate(-10vw, 40vh); } }
+    .float-item { position: absolute; width: 40px; height: 40px; background-size: contain; opacity: 0.15; animation: floatMove 25s linear infinite; }
+    @keyframes floatMove { from { transform: translate(110vw, 10vh); } to { transform: translate(-10vw, 30vh); } }
 
-    /* Shooting Star */
+    /* Noticeable Long Shooting Star */
     .shooting-star {
-      position: absolute; width: 250px; height: 2px;
-      background: linear-gradient(90deg, #fff, var(--purple), transparent);
-      box-shadow: 0 0 25px var(--purple); z-index: -1; opacity: 0;
+      position: absolute; width: 300px; height: 2px;
+      background: linear-gradient(90deg, transparent, #fff, var(--purple), transparent);
+      box-shadow: 0 0 20px var(--purple); z-index: -1; opacity: 0;
     }
     @keyframes shoot {
-      0% { transform: translate(-300px, 0) rotate(15deg); opacity: 0; }
+      0% { transform: translate(-350px, 0) rotate(10deg); opacity: 0; }
       20% { opacity: 1; }
-      80% { opacity: 1; }
-      100% { transform: translate(120vw, 30vh) rotate(15deg); opacity: 0; }
+      100% { transform: translate(120vw, 40vh) rotate(10deg); opacity: 0; }
     }
 
-    /* Header */
-    header { text-align: center; padding: 120px 0 60px; }
-    .title-sword { width: 80px; animation: pulse 2s infinite ease-in-out; filter: drop-shadow(0 0 20px var(--purple)); margin-bottom: 10px; }
-    @keyframes pulse { 0%, 100% { transform: scale(1); opacity: 0.8; } 50% { transform: scale(1.15); opacity: 1; filter: drop-shadow(0 0 35px var(--purple)); } }
-    .main-title { 
-      font-size: 5rem; margin: 0; background: var(--grad); -webkit-background-clip: text; 
-      -webkit-text-fill-color: transparent; filter: drop-shadow(0 0 40px rgba(168, 85, 247, 0.4)); letter-spacing: 10px; 
+    /* Navigation Top-Left */
+    nav { position: fixed; top: 30px; left: 30px; z-index: 1000; display: flex; flex-direction: column; gap: 15px; }
+    .nav-link { 
+      font-family: 'MultiCraftFont'; color: var(--text-dim); text-decoration: none; 
+      font-size: 1.2rem; cursor: pointer; transition: 0.3s; background: none; border: none; text-align: left; 
     }
+    .nav-link:hover, .nav-link.active { color: #fff; text-shadow: 0 0 15px var(--purple); }
 
-    .container { max-width: 850px; margin: auto; padding: 0 20px; }
+    header { text-align: center; padding: 100px 0 50px; }
+    .title-sword { width: 70px; animation: pulse 1.8s infinite ease-in-out; filter: drop-shadow(0 0 15px var(--purple)); }
+    @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); filter: drop-shadow(0 0 25px var(--purple)); } }
+    .main-title { font-size: 4.5rem; margin: 0; background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: 8px; }
+
+    .container { max-width: 800px; margin: auto; padding: 0 20px; }
 
     /* Glowy Search */
     .search-input { 
-      width: 100%; padding: 20px; background: rgba(0,0,0,0.6); border: 2px solid var(--border);
-      border-radius: 15px; color: #fff; text-align: center; outline: none; transition: 0.4s;
-      margin-bottom: 50px; font-family: 'MultiCraftFont'; font-size: 1.2rem;
-      box-shadow: 0 0 15px rgba(0,0,0,0.5);
+      width: 100%; padding: 18px; background: rgba(0,0,0,0.6); border: 2px solid var(--border);
+      border-radius: 12px; color: #fff; text-align: center; outline: none; transition: 0.3s;
+      margin-bottom: 40px; font-family: 'MultiCraftFont'; font-size: 1.1rem;
     }
     .search-input:focus { border-color: var(--purple); box-shadow: 0 0 30px var(--purple-glow); }
 
-    /* Kit Buttons (Reference Style) */
+    /* Slanting Kit Buttons */
     .kit-btn { 
-      background: #0a0a0f; border: 1px solid var(--border); padding: 12px 24px;
-      color: var(--text-dim); cursor: pointer; transition: 0.3s;
-      font-family: 'MultiCraftFont'; font-size: 0.9rem; text-transform: uppercase;
-      clip-path: polygon(10% 0, 100% 0, 90% 100%, 0 100%); /* Slight slant like the image */
+      background: #0a0a0f; border: 1px solid var(--border); padding: 10px 22px;
+      color: var(--text-dim); cursor: pointer; transition: 0.3s; font-family: 'MultiCraftFont';
+      clip-path: polygon(10% 0, 100% 0, 90% 100%, 0 100%);
     }
-    .kit-btn:hover { color: #fff; border-color: var(--purple); }
     .kit-btn.active { color: #fff; border-color: var(--purple); background: rgba(168, 85, 247, 0.2); box-shadow: 0 0 20px var(--purple-glow); }
 
-    /* Tier Cards */
-    .tier-card { background: rgba(15, 15, 25, 0.6); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 25px; overflow: hidden; }
-    .tier-header { padding: 15px 30px; background: rgba(168, 85, 247, 0.1); color: var(--purple); font-size: 1.5rem; border-bottom: 1px solid var(--border); }
-    .player-row { display: flex; justify-content: space-between; align-items: center; padding: 18px 30px; cursor: pointer; transition: 0.2s; border-bottom: 1px solid rgba(255,255,255,0.02); }
-    .player-row:hover { background: rgba(168, 85, 247, 0.05); padding-left: 35px; }
+    /* Tier Display */
+    .tier-card { background: rgba(15, 15, 25, 0.7); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 20px; overflow: hidden; }
+    .tier-header { padding: 12px 25px; background: rgba(168, 85, 247, 0.15); color: var(--purple); font-size: 1.4rem; border-bottom: 1px solid var(--border); }
+    .row { display: flex; justify-content: space-between; align-items: center; padding: 15px 25px; cursor: pointer; border-bottom: 1px solid rgba(255,255,255,0.03); }
+    .row:hover { background: rgba(168, 85, 247, 0.05); }
+
+    .tag-box { font-size: 0.7rem; padding: 2px 6px; border-radius: 4px; margin-left: 8px; vertical-align: middle; background: rgba(255,255,255,0.05); color: var(--text-dim); }
+    .tag-rank { color: var(--purple); border: 1px solid var(--border); }
 
     /* Modal */
-    #profileModal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 2000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(15px); }
-    .modal-content { background: #020204; border: 2px solid var(--purple); padding: 60px; border-radius: 30px; text-align: center; width: 90%; max-width: 450px; box-shadow: 0 0 60px var(--purple-glow); }
-    .p-name { font-size: 3.5rem; margin: 15px 0; background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-    
-    .empty-msg { padding: 60px; text-align: center; opacity: 0.3; letter-spacing: 4px; font-size: 1.2rem; }
+    #profileModal { position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 2000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(12px); }
+    .modal-content { background: #050508; border: 2px solid var(--purple); padding: 50px; border-radius: 20px; text-align: center; width: 400px; box-shadow: 0 0 50px var(--purple-glow); }
+    .p-name { font-size: 3rem; background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 10px 0; }
   </style>
 </head>
 <body>
@@ -117,17 +110,16 @@
     <div id="kitBar" style="display:flex; justify-content:center; gap:8px; flex-wrap:wrap; margin-bottom:40px;"></div>
     <div id="displayList"></div>
   </div>
-
-  <div id="sec-hof" style="display:none; text-align:center;"><h1 class="main-title" style="font-size:2.5rem;">HALL OF FAME</h1><div id="hofList"></div></div>
-  <div id="sec-testers" style="display:none; text-align:center;"><h1 class="main-title" style="font-size:2.5rem;">TIER TESTERS</h1><div id="testerList" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px;"></div></div>
+  <div id="sec-hof" style="display:none; text-align:center;"><h1 class="main-title" style="font-size:2rem;">HALL OF FAME</h1><div id="hofList"></div></div>
+  <div id="sec-testers" style="display:none; text-align:center;"><h1 class="main-title" style="font-size:2rem;">TIER TESTERS</h1><div id="testerList"></div></div>
 </div>
 
 <div id="profileModal" onclick="closeProfile()">
   <div class="modal-content" onclick="event.stopPropagation()">
-    <div id="pRank" style="color:var(--text-dim); font-size:1rem; letter-spacing:2px;">RANK #--</div>
+    <div id="pRank" style="color:var(--text-dim);">RANK #--</div>
     <div id="pName" class="p-name">PLAYER</div>
-    <div id="pPoints" style="color:var(--purple); font-size:1.2rem; margin-bottom:30px;">0 TOTAL PTS</div>
-    <div id="pGrids" style="display:flex; justify-content:center; gap:15px; flex-wrap:wrap;"></div>
+    <div id="pPoints" style="color:var(--purple); margin-bottom:20px;">0 TOTAL PTS</div>
+    <div id="pGrids" style="display:flex; justify-content:center; gap:10px; flex-wrap:wrap;"></div>
   </div>
 </div>
 
@@ -136,21 +128,17 @@ let DATA = {}, HOF = [], TESTERS = [], curKit = "Overall";
 const ICONS = { "Overall": "backgroundsword.png", "Emerald": "emerald.png", "Dragonhide KB": "dragonhide_kb.png", "Emerald OA": "emerald_oa.png", "Dragonhide KB OA": "kb_oa.png", "Wand": "wand.png" };
 
 async function load() {
-  try {
-    const get = async (f) => (await fetch(`https://raw.githubusercontent.com/multitiers/multitiers.github.io/refs/heads/main/${f}`)).json();
-    DATA = await get('rankings.json'); HOF = await get('hof.json'); TESTERS = await get('testers.json');
-    processOverall(); buildKits(); render(); spawnSpace(); startShootingStars();
-  } catch(e) { console.error("Load failed", e); }
+  const get = async (f) => (await fetch(`https://raw.githubusercontent.com/multitiers/multitiers.github.io/refs/heads/main/${f}`)).json();
+  DATA = await get('rankings.json'); HOF = await get('hof.json'); TESTERS = await get('testers.json');
+  processOverall(); buildKits(); render(); spawnSpace(); startShootingStars();
 }
 
 function processOverall() {
-  const pts = {"HT1":10,"LT1":10,"HT2":8,"LT2":8,"HT3":6,"LT3":6,"HT4":4,"LT4":4,"HT5":2,"LT5":2};
+  const pts = {"HT1":10,"LT1":9,"HT2":8,"LT2":7,"HT3":6,"LT3":5,"HT4":4,"LT4":3,"HT5":2,"LT5":1};
   let ov = {};
   for(let k in DATA) {
     if(k!=="Overall" && k!=="Players") {
-      for(let t in DATA[k]) {
-        if(Array.isArray(DATA[k][t])) DATA[k][t].forEach(n => ov[n] = (ov[n]||0) + (pts[t]||0));
-      }
+      for(let t in DATA[k]) if(Array.isArray(DATA[k][t])) DATA[k][t].forEach(n => ov[n] = (ov[n]||0) + (pts[t]||0));
     }
   }
   DATA["Overall"] = ov;
@@ -162,35 +150,39 @@ function buildKits() {
     const b = document.createElement('button');
     b.className = `kit-btn ${k===curKit?'active':''}`;
     b.innerText = k;
-    b.onclick = () => {
-      document.querySelectorAll('.kit-btn').forEach(x => x.classList.remove('active'));
-      b.classList.add('active'); curKit = k; render();
-    };
+    b.onclick = () => { document.querySelectorAll('.kit-btn').forEach(x => x.classList.remove('active')); b.classList.add('active'); curKit = k; render(); };
     bar.appendChild(b);
   });
 }
 
 function render() {
   const out = document.getElementById('displayList');
-  const query = document.getElementById('search').value.toLowerCase();
+  const q = document.getElementById('search').value.toLowerCase();
   out.innerHTML = "";
   let found = false;
 
   if(curKit === "Overall") {
     let s = Object.entries(DATA["Overall"]).sort((a,b) => b[1]-a[1]);
-    if(query) s = s.filter(x => x[0].toLowerCase().includes(query));
+    if(q) s = s.filter(x => x[0].toLowerCase().includes(q));
     if(s.length) found = true;
     s.forEach(([n, p], i) => {
-      out.innerHTML += `<div class="tier-card"><div class="player-row" onclick="openProfile('${n}')"><span><b style="color:var(--purple); margin-right:20px;">#${i+1}</b> ${n}</span><b>${p} PTS</b></div></div>`;
+      out.innerHTML += `<div class="tier-card"><div class="row" onclick="openProfile('${n}')"><span><b style="color:var(--purple); margin-right:15px;">#${i+1}</b> ${n} <span class="tag-box">NA</span></span><b>${p} PTS</b></div></div>`;
     });
   } else {
     [1,2,3,4,5].forEach(num => {
-      const players = [...(DATA[curKit][`HT${num}`] || []), ...(DATA[curKit][`LT${num}`] || [])]
-                      .filter(p => p.toLowerCase().includes(query));
+      const hts = (DATA[curKit][`HT${num}`] || []).map(name => ({name, rank: `HT${num}`}));
+      const lts = (DATA[curKit][`LT${num}`] || []).map(name => ({name, rank: `LT${num}`}));
+      const players = [...hts, ...lts].filter(p => p.name.toLowerCase().includes(q));
+
       if(players.length) {
         found = true;
-        let h = `<div class="tier-card"><div class="tier-header">TIER ${num}</div>`;
-        players.forEach(p => h += `<div class="player-row" onclick="openProfile('${p}')"><b>${p}</b> <span style="color:var(--text-dim); font-size:0.8rem;">NA</span></div>`);
+        let h = `<div class="tier-card"><div class="tier-header">T${num}</div>`;
+        players.forEach(p => {
+          h += `<div class="row" onclick="openProfile('${p.name}')">
+            <span><b>${p.name}</b> <span class="tag-box">NA</span> <span class="tag-box tag-rank">${p.rank}</span></span>
+            <span style="color:var(--text-dim); font-size:0.8rem;">VIEW</span>
+          </div>`;
+        });
         out.innerHTML += h + `</div>`;
       }
     });
@@ -207,7 +199,7 @@ function openProfile(name) {
   const grid = document.getElementById('pGrids'); grid.innerHTML = "";
   for(let k in ICONS) {
     if(k!=="Overall" && DATA[k]) {
-      for(let t in DATA[k]) if(DATA[k][t].includes(name)) grid.innerHTML += `<div style="background:rgba(255,255,255,0.05); padding:15px; border-radius:12px; border:1px solid var(--border);"><img src="${ICONS[k]}" style="width:25px;"><br><small style="font-size:0.6rem; color:var(--purple)">${t}</small></div>`;
+      for(let t in DATA[k]) if(DATA[k][t].includes(name)) grid.innerHTML += `<div style="background:rgba(255,255,255,0.05); padding:10px; border-radius:8px; border:1px solid var(--border);"><img src="${ICONS[k]}" style="width:20px;"><br><small style="font-size:0.6rem; color:var(--purple)">${t}</small></div>`;
     }
   }
   document.getElementById('profileModal').style.display = 'flex';
@@ -218,17 +210,15 @@ function tab(id) {
     document.getElementById('sec-'+t).style.display = t === id ? 'block' : 'none';
     document.getElementById('n-'+t).classList.toggle('active', t === id);
   });
-  if(id==='testers') document.getElementById('testerList').innerHTML = TESTERS.map(t => `<div style="background:rgba(168,85,247,0.1); border:1px solid var(--purple); padding:20px; border-radius:12px; text-align:center;">${t.name}</div>`).join('');
 }
 
 function spawnSpace() {
   const space = document.getElementById('space');
   const imgs = Object.values(ICONS);
-  for(let i=0; i<15; i++) {
+  for(let i=0; i<12; i++) {
     const s = document.createElement('div'); s.className = 'float-item';
     s.style.backgroundImage = `url(${imgs[i%imgs.length]})`;
     s.style.top = Math.random()*100+'vh'; s.style.left = Math.random()*100+'vw';
-    s.style.animationDelay = (Math.random()*-30)+'s';
     space.appendChild(s);
   }
 }
@@ -237,8 +227,8 @@ function startShootingStars() {
   setInterval(() => {
     const star = document.createElement('div');
     star.className = 'shooting-star';
-    star.style.top = Math.random() * 50 + 'vh';
-    star.style.left = '-300px';
+    star.style.top = Math.random() * 40 + 'vh';
+    star.style.left = '-350px';
     document.body.appendChild(star);
     star.style.animation = "shoot 3.5s ease-in forwards";
     setTimeout(() => star.remove(), 4000);

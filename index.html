@@ -171,26 +171,25 @@ function renderKit(kitName) {
     let html = `<div class="tier-header">GLOBAL RANKINGS</div>`;
     const sortedPoints = Object.keys(data).sort((a, b) => parseInt(b) - parseInt(a));
     
-    let currentRank = 1;
+    let displayRank = 1; // This strictly follows 1, 2, 3...
     sortedPoints.forEach(pts => {
       const players = data[pts];
-      const info = getTitleInfo(currentRank);
-      const rankClass = currentRank <= 3 ? `rank-${currentRank}` : '';
+      const info = getTitleInfo(displayRank);
+      const rankClass = displayRank <= 3 ? `rank-${displayRank}` : '';
       const combinedNames = players.join(' & ');
       
-      // JSON stringify for safe attribute passing
       const pData = JSON.stringify(players).replace(/"/g, '&quot;');
       
-      html += `<div class="player-row" onclick="showPlayerStatsGroup(${pData})">
+      html += `<div class="player-row" onclick="showPlayerStatsGroup(${pData}, ${displayRank})">
         <div style="display:flex; align-items:center; flex-wrap:wrap;">
-          <span class="rank-num ${rankClass}">#${currentRank}</span>
+          <span class="rank-num ${rankClass}">#${displayRank}</span>
           <span class="player-name"><b>${combinedNames}</b></span>
           <span class="list-title" style="color:${info.color}">${info.title}</span>
         </div>
         <span class="pts-tag">${pts} PTS</span>
       </div>`;
       
-      currentRank += players.length; // This handles the "next rank" correctly
+      displayRank++; // Increment by 1 every time to ensure #1, #2, #3 sequence
     });
     block.innerHTML = html;
     list.appendChild(block);
@@ -203,7 +202,7 @@ function renderKit(kitName) {
         block.className = 'tier-block';
         let html = `<div class="tier-header">${tier}</div>`;
         players.forEach(p => {
-          html += `<div class="player-row" onclick="showPlayerStatsGroup(['${p.name}'])">
+          html += `<div class="player-row" onclick="showPlayerStatsGroup(['${p.name}'], 0)">
             <span class="player-name"><b>${p.name}</b></span>
             <span class="tier-tag">${p.sub}</span>
           </div>`;
@@ -215,7 +214,7 @@ function renderKit(kitName) {
   }
 }
 
-function showPlayerStatsGroup(playerNames) {
+function showPlayerStatsGroup(playerNames, assignedRank) {
   const tabs = document.getElementById('tabContainer');
   tabs.innerHTML = '';
   if (playerNames.length > 1) {
@@ -228,24 +227,23 @@ function showPlayerStatsGroup(playerNames) {
         e.stopPropagation();
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
-        updateModalContent(name);
+        updateModalContent(name, assignedRank);
       };
       tabs.appendChild(btn);
     });
   } else {
     tabs.style.display = 'none';
   }
-  updateModalContent(playerNames[0]);
+  updateModalContent(playerNames[0], assignedRank);
   document.getElementById('playerModal').style.display = "block";
 }
 
-function updateModalContent(playerName) {
+function updateModalContent(playerName, assignedRank) {
   document.getElementById('modalPlayerName').textContent = playerName;
   const grid = document.getElementById('modalTiersGrid');
   grid.innerHTML = '';
   let totalPts = 0;
 
-  // Inventory logic
   Object.keys(KIT_ICONS).forEach(kit => {
     for (const tier in FULL_DATA[kit]) {
       if (FULL_DATA[kit][tier].includes(playerName)) {
@@ -258,20 +256,23 @@ function updateModalContent(playerName) {
     }
   });
 
-  // Ranking logic
-  const overallData = FULL_DATA["Overall"];
-  const sortedPoints = Object.keys(overallData).sort((a, b) => parseInt(b) - parseInt(a));
-  let globalRank = 0, runningRank = 1;
-  for (let pts of sortedPoints) {
-    if (overallData[pts].includes(playerName)) { globalRank = runningRank; break; }
-    runningRank += overallData[pts].length;
+  // Determine Rank for Modal
+  let finalRank = assignedRank;
+  if (assignedRank === 0) { // If coming from a kit list, find global rank
+      const overallData = FULL_DATA["Overall"];
+      const sortedPoints = Object.keys(overallData).sort((a, b) => parseInt(b) - parseInt(a));
+      let tempRank = 1;
+      for (let pts of sortedPoints) {
+          if (overallData[pts].includes(playerName)) { finalRank = tempRank; break; }
+          tempRank++;
+      }
   }
 
-  const info = getTitleInfo(globalRank);
+  const info = getTitleInfo(finalRank);
   const rankEl = document.getElementById('modalRankNum');
   const titleEl = document.getElementById('modalCombatTitle');
 
-  rankEl.textContent = globalRank > 0 ? `#${globalRank}` : '#--';
+  rankEl.textContent = finalRank > 0 ? `#${finalRank}` : '#--';
   rankEl.style.color = info.color;
   titleEl.textContent = info.title;
   titleEl.style.color = info.color;
@@ -280,7 +281,6 @@ function updateModalContent(playerName) {
 
 function closeModal() { document.getElementById('playerModal').style.display = "none"; }
 
-// Click outside to close
 window.onclick = function(event) {
   const modal = document.getElementById('playerModal');
   if (event.target == modal) closeModal();

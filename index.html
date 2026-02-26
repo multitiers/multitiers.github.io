@@ -9,83 +9,135 @@
     @font-face { font-family: 'MultiCraftFont'; src: url('MultiCraftFont.ttf') format('truetype'); }
     
     :root {
-      --bg: #030406; 
-      --bg-panel: rgba(12, 10, 20, 0.95);
+      /* Darker Background */
+      --bg: #010102; 
+      --bg-panel: rgba(5, 5, 8, 0.9);
       --purple: #a855f7; 
+      --purple-glow: rgba(168, 85, 247, 0.4);
       --white: #ffffff;
-      --gold: #ffd700;
-      --border: rgba(168, 85, 247, 0.2);
+      --gold: #ffd700; --silver: #c0c0c0; --bronze: #cd7f32;
+      --border: rgba(168, 85, 247, 0.15);
+      --gradient: linear-gradient(135deg, #a855f7 0%, #ffffff 100%);
+      --btn-gradient: linear-gradient(90deg, #a855f7, #6366f1);
     }
 
     body { 
       background: var(--bg); color: #fff; font-family: 'Courier New', monospace; margin: 0; padding-bottom: 50px;
-      background-image: radial-gradient(circle at 50% 50%, #0a0510 0%, #030406 100%);
+      overflow-x: hidden;
+      /* Deeper Purple Radial Voids */
+      background-image: 
+        radial-gradient(circle at 15% 25%, rgba(168, 85, 247, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 85% 75%, rgba(99, 102, 241, 0.05) 0%, transparent 40%);
       background-attachment: fixed;
     }
 
-    nav { display: flex; justify-content: center; gap: 25px; padding: 20px; background: rgba(0,0,0,0.85); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; backdrop-filter: blur(12px); }
-    .nav-link { color: #5a6474; text-decoration: none; font-weight: bold; cursor: pointer; transition: 0.3s; letter-spacing: 1px; }
-    .nav-link.active { color: #fff; text-shadow: 0 0 10px var(--purple); }
+    #space-container { position: fixed; inset: 0; z-index: -1; pointer-events: none; }
+    
+    /* Move, Spin, and Glow Space Items */
+    .space-star { 
+      position: absolute; width: 35px; height: 35px; background-size: contain; 
+      background-repeat: no-repeat; opacity: 0.25; 
+      filter: drop-shadow(0 0 8px var(--purple));
+      animation: spaceFloat 20s linear infinite, spin 10s linear infinite;
+    }
+    
+    @keyframes spaceFloat {
+      0% { transform: translate(0, 0); }
+      50% { transform: translate(20px, 20px); }
+      100% { transform: translate(0, 0); }
+    }
+    @keyframes spin { from { rotate: 0deg; } to { rotate: 360deg; } }
 
-    header { width: 100%; display: flex; justify-content: center; padding: 60px 0 30px; }
-    .header-content { display: flex; align-items: center; justify-content: center; gap: 20px; }
-    .main-title { font-family: 'MultiCraftFont', sans-serif; font-size: 3.8rem; margin: 0; letter-spacing: 5px; color: var(--white); }
+    .shooting-star {
+      position: absolute; width: 3px; height: 3px; background: #fff; border-radius: 50%;
+      box-shadow: 0 0 10px 2px #fff, 0 0 20px #a855f7; opacity: 0; z-index: -1;
+    }
+    @keyframes shoot {
+      0% { transform: translate(0, 0) rotate(45deg) scale(1); opacity: 1; }
+      100% { transform: translate(700px, 700px) rotate(45deg) scale(0); opacity: 0; }
+    }
 
-    .search-input { width: 100%; max-width: 450px; padding: 14px 22px; background: rgba(10, 12, 18, 0.9); border: 1px solid var(--border); border-radius: 25px; color: #fff; text-align: center; margin: 0 auto 30px; display: block; }
+    nav { display: flex; justify-content: center; gap: 25px; padding: 20px; background: rgba(0,0,0,0.9); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; backdrop-filter: blur(12px); }
+    .nav-link { color: #5a6474; text-decoration: none; font-weight: bold; cursor: pointer; transition: 0.3s; letter-spacing: 1px; font-family: 'MultiCraftFont'; }
+    .nav-link.active { color: #fff; text-shadow: 0 0 15px var(--purple); }
 
-    .kit-btn { background: #0a0c12; border: 1px solid var(--border); padding: 12px 22px; border-radius: 10px; color: #5a6474; font-weight: bold; cursor: pointer; }
-    .kit-btn.active { border-color: #fff; color: #fff; background: rgba(168, 85, 247, 0.15); }
+    header { text-align: center; padding: 60px 0 30px; }
+    .title-sword { width: 65px; animation: pulseSword 2s infinite ease-in-out; }
+    @keyframes pulseSword { 0%, 100% { transform: scale(1); filter: drop-shadow(0 0 10px var(--purple)); } 50% { transform: scale(1.1); filter: drop-shadow(0 0 20px var(--purple)); } }
+    .main-title { font-family: 'MultiCraftFont'; font-size: 4rem; margin: 0; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
-    .tier-card { background: var(--bg-panel); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 15px; overflow: hidden; }
-    .tier-header { padding: 12px 25px; background: rgba(255, 255, 255, 0.03); border-bottom: 1px solid var(--border); font-weight: bold; color: var(--purple); }
-    .row { display: flex; justify-content: space-between; align-items: center; padding: 18px 25px; cursor: pointer; transition: 0.3s; }
-    .row:hover { background: rgba(168, 85, 247, 0.08); }
+    .search-input { 
+      width: 100%; max-width: 450px; padding: 16px; background: rgba(0,0,0,0.8); 
+      border: 1px solid var(--border); border-radius: 12px; color: #fff; text-align: center; outline: none; 
+      margin: 0 auto 30px; display: block; font-family: 'MultiCraftFont';
+    }
+    .search-input:focus { border-color: var(--purple); box-shadow: 0 0 25px var(--purple-glow); }
 
-    /* Tags Styling */
-    .tag { font-size: 0.7rem; padding: 2px 6px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 4px; margin-left: 8px; color: #888; }
+    .kit-btn { 
+      background: #0a0a0f; border: 1px solid var(--border); padding: 10px 20px; border-radius: 8px; 
+      color: #5a6474; cursor: pointer; transition: 0.3s; font-family: 'MultiCraftFont';
+    }
+    .kit-btn.active { border-color: #fff; color: #fff; background: rgba(168, 85, 247, 0.2); box-shadow: 0 0 15px var(--purple-glow); }
+
+    .tier-card { background: var(--bg-panel); border: 1px solid var(--border); border-radius: 10px; margin-bottom: 15px; overflow: hidden; }
+    .tier-header { padding: 12px 25px; background: rgba(168, 85, 247, 0.1); color: var(--purple); font-weight: bold; font-family: 'MultiCraftFont'; border-bottom: 1px solid var(--border); }
+    .row { display: flex; justify-content: space-between; align-items: center; padding: 15px 25px; cursor: pointer; transition: 0.2s; }
+    .row:hover { background: rgba(168, 85, 247, 0.05); }
+
+    .tag { font-size: 0.7rem; padding: 2px 6px; border-radius: 4px; background: rgba(255,255,255,0.05); color: #888; margin-left: 8px; border: 1px solid rgba(255,255,255,0.1); }
     .tag-rank { border-color: var(--purple); color: var(--purple); }
+    .region-tag { color: #555; font-weight: bold; margin-left: 10px; font-size: 0.75rem; }
 
-    #profileModal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 1000; display: none; align-items: center; justify-content: center; }
-    .modal-content { background: #050608; border: 1px solid var(--border); border-radius: 16px; padding: 35px; text-align: center; width: 350px; }
+    #profileModal { position: fixed; inset: 0; background: rgba(0,0,0,0.98); z-index: 1000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(20px); }
+    .modal-content { background: #010102; border: 1px solid var(--purple); border-radius: 20px; padding: 40px; text-align: center; width: 400px; box-shadow: 0 0 50px var(--purple-glow); }
   </style>
 </head>
 <body>
 
+<div id="space-container"></div>
+
 <nav>
-  <div class="nav-link active" onclick="showSection('rankings')">RANKINGS</div>
-  <div class="nav-link" onclick="showSection('hof')">HALL OF FAME</div>
-  <div class="nav-link" onclick="showSection('testers')">TIER TESTERS</div>
+  <div class="nav-link active" id="nav-rankings" onclick="showSection('rankings')">RANKINGS</div>
+  <div class="nav-link" id="nav-hof" onclick="showSection('hof')">HALL OF FAME</div>
+  <div class="nav-link" id="nav-testers" onclick="showSection('testers')">TIER TESTERS</div>
 </nav>
 
 <header>
   <div class="header-content">
-    <h1 class="main-title">PVP TIERS</h1>
+    <h1 class="main-title">PvP</h1>
+    <img src="backgroundsword.png" class="title-sword">
+    <h1 class="main-title">TIERS</h1>
   </div>
 </header>
 
 <div class="container" style="max-width: 850px; margin: auto; padding: 0 25px;">
   <div id="rankings-sec">
-    <input type="text" id="playerSearch" class="search-input" placeholder="SEARCH PLAYER..." oninput="render()">
-    <div id="kitBar" style="display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; margin-bottom: 40px;"></div>
+    <input type="text" id="playerSearch" class="search-input" placeholder="SEARCH PLAYER..." oninput="handleSearch()">
+    <div id="kitBar" style="display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; margin-bottom: 40px;"></div>
     <div id="displayList"></div>
   </div>
+
+  <div id="hof-sec" style="display:none; text-align:center;"><h1 style="color:var(--gold); font-family:'MultiCraftFont';">HALL OF FAME</h1><div id="hofList"></div></div>
+  <div id="testers-sec" style="display:none; text-align:center;"><h1 style="color:var(--gold); font-family:'MultiCraftFont';">TIER TESTERS</h1><div id="testerList" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(200px, 1fr)); gap:20px;"></div></div>
 </div>
 
 <div id="profileModal" onclick="closeProfile()">
   <div class="modal-content" onclick="event.stopPropagation()">
-    <h2 id="pName" style="font-family: 'MultiCraftFont'; color: var(--purple); font-size: 2.5rem;">Player</h2>
-    <div id="pPoints" style="color: var(--gold); font-weight: bold; margin-bottom: 25px;">0 TOTAL PTS</div>
-    <div id="pGrids" style="display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;"></div>
+    <div id="pRank" style="font-size: 0.8rem; color: #555;">RANK #--</div>
+    <h2 id="pName" style="font-family:'MultiCraftFont'; font-size:3rem; color:var(--purple); margin:10px 0;">Player</h2>
+    <div id="pPoints" style="color:var(--gold); margin-bottom:25px;">0 TOTAL PTS</div>
+    <div id="pGrids" style="display: flex; justify-content: center; gap: 12px; flex-wrap: wrap;"></div>
   </div>
 </div>
 
 <script>
-let DATA = {}, curKit = "Overall";
+let DATA = {}; let currentKit = "Overall";
+const ICONS = { "Overall": "emerald.png", "Emerald": "emerald.png", "Dragonhide KB": "dragonhide_kb.png", "Emerald OA": "emerald_oa.png", "Dragonhide KB OA": "kb_oa.png", "Wand": "wand.png" };
 
 async function load() {
-  const r = await fetch('https://raw.githubusercontent.com/multitiers/multitiers.github.io/refs/heads/main/rankings.json');
-  DATA = await r.json();
-  processOverall(); buildKitBar(); render();
+  const get = async (f) => (await fetch(`https://raw.githubusercontent.com/multitiers/multitiers.github.io/refs/heads/main/${f}`)).json();
+  DATA = await get('rankings.json');
+  processOverall(); buildKitBar(); spawnSpaceStars(); startShootingStars(); render("Overall");
 }
 
 function processOverall() {
@@ -94,7 +146,7 @@ function processOverall() {
   for(let k in DATA) { 
     if(k!=="Overall" && k!=="Players") {
       for(let t in DATA[k]) {
-        if(Array.isArray(DATA[k][t])) DATA[k][t].forEach(p => totals[p] = (totals[p]||0) + (pts[t]||0));
+        if(Array.isArray(DATA[k][t])) DATA[k][t].forEach(p => { const name = typeof p === 'string' ? p : p.name; totals[name] = (totals[name]||0) + (pts[t]||0); });
       }
     }
   }
@@ -105,62 +157,93 @@ function buildKitBar() {
   const bar = document.getElementById('kitBar');
   Object.keys(DATA).filter(k => k !== "Players").forEach(k => {
     const btn = document.createElement('button');
-    btn.className = `kit-btn ${k===curKit?'active':''}`;
+    btn.className = `kit-btn ${k==='Overall'?'active':''}`;
     btn.innerText = k.toUpperCase();
-    btn.onclick = () => {
-      document.querySelectorAll('.kit-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active'); curKit = k; render();
-    };
+    btn.onclick = () => { document.querySelectorAll('.kit-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); currentKit = k; render(k); };
     bar.appendChild(btn);
   });
 }
 
-function render() {
-  const out = document.getElementById('displayList');
-  const filter = document.getElementById('playerSearch').value.toLowerCase();
-  out.innerHTML = "";
-  let found = false;
+function render(kit, filter = "") {
+  const out = document.getElementById('displayList'); out.innerHTML = "";
+  let foundAny = false;
 
-  if(curKit === "Overall") {
+  if(kit === "Overall") {
     let sorted = Object.entries(DATA["Overall"]).sort((a,b) => b[1]-a[1]);
     if(filter) sorted = sorted.filter(([n]) => n.toLowerCase().includes(filter));
-    if(sorted.length) found = true;
+    if(sorted.length) foundAny = true;
     sorted.forEach(([n, s], i) => {
-      out.innerHTML += `<div class="tier-card"><div class="row" onclick="openProfile('${n}')"><span><b style="color:var(--purple); margin-right:15px;">#${i+1}</b> ${n} <span class="tag">NA</span></span><b>${s} PTS</b></div></div>`;
+      out.innerHTML += `<div class="tier-card"><div class="row" onclick="openProfile('${n}')"><span><b style="color:var(--purple); margin-right:15px;">#${i+1}</b> ${n} <span class="region-tag">NA</span></span><b style="color:var(--gold)">${s} PTS</b></div></div>`;
     });
   } else {
+    // Grouping by T1, T2, etc.
     [1,2,3,4,5].forEach(num => {
-      const hts = (DATA[curKit][`HT${num}`] || []).map(n => ({name: n, tag: `HT${num}`}));
-      const lts = (DATA[curKit][`LT${num}`] || []).map(n => ({name: n, tag: `LT${num}`}));
+      const hts = (DATA[kit][`HT${num}`] || []).map(n => ({name: n, tag: `HT${num}`}));
+      const lts = (DATA[kit][`LT${num}`] || []).map(n => ({name: n, tag: `LT${num}`}));
       const players = [...hts, ...lts].filter(p => p.name.toLowerCase().includes(filter));
 
       if(players.length) {
-        found = true;
+        foundAny = true;
         let h = `<div class="tier-card"><div class="tier-header">T${num}</div>`;
         players.forEach(p => {
-          h += `<div class="row" onclick="openProfile('${p.name}')"><span><b>${p.name}</b> <span class="tag">NA</span> <span class="tag tag-rank">${p.tag}</span></span><span>VIEW</span></div>`;
+          h += `<div class="row" onclick="openProfile('${p.name}')"><span><b>${p.name}</b> <span class="region-tag">NA</span> <span class="tag tag-rank">${p.tag}</span></span><span>VIEW</span></div>`;
         });
         out.innerHTML += h + `</div>`;
       }
     });
   }
-  if(!found) out.innerHTML = `<div style="text-align:center; opacity:0.3; padding:50px;">NO PLAYERS FOUND</div>`;
+  if(!foundAny) out.innerHTML = `<div class="empty-msg">NO RANKED PLAYERS</div>`;
 }
 
 function openProfile(name) {
+  let sorted = Object.entries(DATA["Overall"]).sort((a,b) => b[1]-a[1]);
+  let r = sorted.findIndex(x => x[0] === name) + 1;
+  document.getElementById('pRank').innerText = `RANK #${r}`;
   document.getElementById('pName').innerText = name;
   document.getElementById('pPoints').innerText = (DATA["Overall"][name] || 0) + " TOTAL PTS";
   const grid = document.getElementById('pGrids'); grid.innerHTML = "";
-  for(let k in DATA) {
-    if(k!=="Overall" && k!=="Players") {
-      for(let t in DATA[k]) {
-        if(DATA[k][t].includes(name)) grid.innerHTML += `<div style="padding:10px; background:rgba(255,255,255,0.05); border-radius:5px; border:1px solid var(--border); font-size:12px;"><b>${k}</b><br><span style="color:var(--purple)">${t}</span></div>`;
+  for(let k in ICONS) {
+    if(k!=="Overall" && DATA[k]) {
+      for(let t in DATA[k]) if(Array.isArray(DATA[k][t]) && DATA[k][t].includes(name)) {
+        grid.innerHTML += `<div style="background:#0a0c12; padding:12px; border-radius:10px; border:1px solid var(--border); min-width:60px;"><img src="${ICONS[k]}" style="width:20px; margin-bottom:5px;"><br><small style="color:var(--purple); font-weight:bold;">${t}</small></div>`;
       }
     }
   }
   document.getElementById('profileModal').style.display = 'flex';
 }
 
+function showSection(id) {
+  ['rankings','hof','testers'].forEach(s => {
+    document.getElementById(s+'-sec').style.display = s===id ? 'block' : 'none';
+    document.getElementById('nav-'+s).classList.toggle('active', s===id);
+  });
+}
+
+function spawnSpaceStars() {
+  const container = document.getElementById('space-container');
+  const imgs = Object.values(ICONS);
+  for(let i=0; i<12; i++) {
+    const s = document.createElement('div'); s.className = 'space-star';
+    s.style.backgroundImage = `url(${imgs[i%imgs.length]})`;
+    s.style.top = Math.random()*100+'vh'; s.style.left = Math.random()*100+'vw';
+    s.style.animationDelay = (Math.random()*5)+'s';
+    container.appendChild(s);
+  }
+}
+
+function startShootingStars() {
+  setInterval(() => {
+    const star = document.createElement('div');
+    star.className = 'shooting-star';
+    star.style.left = Math.random() * window.innerWidth + 'px';
+    star.style.top = Math.random() * (window.innerHeight / 2) + 'px';
+    document.getElementById('space-container').appendChild(star);
+    star.style.animation = "shoot 1.5s linear forwards";
+    setTimeout(() => star.remove(), 1600);
+  }, 8000);
+}
+
+function handleSearch() { render(currentKit, document.getElementById('playerSearch').value.toLowerCase()); }
 function closeProfile() { document.getElementById('profileModal').style.display = 'none'; }
 load();
 </script>

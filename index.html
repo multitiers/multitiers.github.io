@@ -23,7 +23,7 @@
     .nav-link { color: #5a6474; text-decoration: none; font-weight: bold; cursor: pointer; font-family: 'MultiCraftFont'; font-size: 0.85rem; }
     .nav-link.active { color: #fff; text-shadow: 0 0 15px var(--purple); }
 
-    /* KIT BUTTON COLORS */
+    /* KIT BUTTONS */
     .kit-btn { transition: 0.3s ease; opacity: 0.6; color: #888; font-family: 'MultiCraftFont'; font-size: 0.8rem; background: #0a0a0f; border: 1px solid var(--border); padding: 10px 18px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 8px; }
     .kit-emerald.active { border-color: var(--green) !important; color: var(--green) !important; box-shadow: 0 0 15px rgba(46, 204, 113, 0.3); opacity: 1; }
     .kit-kb.active { border-color: var(--red) !important; color: var(--red) !important; box-shadow: 0 0 15px rgba(231, 76, 60, 0.3); opacity: 1; }
@@ -215,7 +215,10 @@ async function loadExtra(type, el) {
   } catch(e) { out.innerHTML = "Error loading."; }
 }
 
-function searchPlayer() { render(document.querySelector('.kit-btn.active').innerText.trim(), document.getElementById('globalSearch').value); }
+function searchPlayer() { 
+  const activeKit = document.querySelector('.kit-btn.active')?.innerText.trim() || "Overall";
+  render(activeKit, document.getElementById('globalSearch').value); 
+}
 function goHome() { location.reload(); }
 
 load();

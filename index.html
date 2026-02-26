@@ -43,13 +43,23 @@
     nav { display: flex; justify-content: center; align-items: center; gap: 35px; padding: 20px; background: rgba(0,0,0,0.9); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; backdrop-filter: blur(12px); }
     
     .admin-inputs { position: absolute; left: 15px; display: flex; gap: 8px; }
-    .admin-field { background: #0a0a0f; border: 1px solid var(--purple); color: var(--purple); padding: 6px; border-radius: 4px; font-family: 'MultiCraftFont'; font-size: 0.55rem; width: 90px; outline: none; }
+    .unreleased-field { 
+      background: #0a0a0f; border: 1px solid var(--purple); color: var(--purple); 
+      padding: 6px; border-radius: 4px; font-family: 'MultiCraftFont'; 
+      font-size: 0.55rem; width: 140px; outline: none; cursor: default;
+    }
 
     .nav-link { color: #5a6474; text-decoration: none; font-weight: bold; cursor: pointer; font-family: 'MultiCraftFont'; font-size: 0.85rem; transition: 0.3s; }
     .nav-link.active { color: #fff; text-shadow: 0 0 15px var(--purple); }
 
     .info-btn { position: absolute; right: 15px; background: none; border: 1px solid var(--gold); color: var(--gold); font-family: 'MultiCraftFont'; font-size: 0.7rem; padding: 8px 15px; border-radius: 4px; cursor: pointer; transition: 0.3s; }
     .info-btn:hover { background: rgba(255, 215, 0, 0.1); box-shadow: 0 0 10px var(--gold-glow); }
+
+    /* LOGO PULSE */
+    @keyframes glowPulse { 
+      0%, 100% { filter: drop-shadow(0 0 5px var(--purple)); transform: scale(1); } 
+      50% { filter: drop-shadow(0 0 20px var(--purple)); transform: scale(1.05); } 
+    }
 
     /* CARDS & GRIDS */
     .tier-card { 
@@ -81,8 +91,8 @@
 
 <nav>
   <div class="admin-inputs">
-    <input type="text" placeholder="SERVER CODE" class="admin-field">
-    <input type="text" placeholder="DISCORD" class="admin-field">
+    <input type="text" placeholder="SERVER CODE: UNRELEASED" class="unreleased-field" readonly>
+    <input type="text" placeholder="DISCORD: UNRELEASED" class="unreleased-field" readonly>
   </div>
 
   <div class="nav-link active" onclick="goHome()">RANKINGS</div>
@@ -222,6 +232,44 @@ function openProfile(name) {
   document.getElementById('profileModal').style.display = 'flex';
 }
 
+function goHome() {
+  document.getElementById('view-name').innerText = "OVERALL";
+  render("Overall");
+  document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+  document.querySelectorAll('.nav-link')[0].classList.add('active');
+}
+
+async function loadExtra(type, element) {
+  document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+  element.classList.add('active');
+  const out = document.getElementById('displayList');
+  out.className = "";
+  out.innerHTML = `<div style="text-align:center; padding:50px; font-family:'MultiCraftFont';">LOADING...</div>`;
+  try {
+    const fileName = (type === 'hof') ? 'hof.json' : 'testers.json';
+    const r = await fetch(`https://raw.githubusercontent.com/mtctiers/mtctiers.github.io/refs/heads/main/${fileName}?t=${Date.now()}`);
+    const extraData = await r.json();
+    document.getElementById('view-name').innerText = (type === 'hof') ? "HALL OF FAME" : "TIER TESTERS";
+    out.innerHTML = "";
+    extraData.forEach(item => {
+      out.innerHTML += `
+        <div class="tier-card" style="max-width:800px; margin:auto;">
+          <div class="card-inner">
+            <div class="row">
+              <span>
+                <b style="color:var(--purple); font-size:1.2rem;">${item.name}</b>
+                <span class="tag tag-dev">${item.role || item.title || 'MEMBER'}</span>
+              </span>
+              <span style="color:#666; font-size:0.8rem;">${item.description || ''}</span>
+            </div>
+          </div>
+        </div>`;
+    });
+  } catch (e) {
+    out.innerHTML = `<div style="text-align:center; padding:50px; color:red;">Error loading ${type}. Ensure ${type}.json exists.</div>`;
+  }
+}
+
 function spawnIcons() {
   const container = document.getElementById('space-container');
   const iconUrls = Object.values(ICONS);
@@ -233,6 +281,7 @@ function spawnIcons() {
     container.appendChild(s);
   }
 }
+
 load();
 </script>
 </body>

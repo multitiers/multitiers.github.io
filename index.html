@@ -39,13 +39,14 @@
     .kit-btn { background: #0a0a0f; border: 1px solid var(--border); padding: 10px 20px; border-radius: 8px; color: #5a6474; cursor: pointer; transition: 0.3s; font-family: 'MultiCraftFont'; display: flex; align-items: center; gap: 8px; font-size: 0.8rem; }
     .kit-btn.active { border-color: #fff; color: #fff; background: rgba(168, 85, 247, 0.2); box-shadow: 0 0 15px var(--purple-glow); }
     
-    .tier-card { background: var(--bg-panel); border: 1px solid var(--border); border-radius: 10px; margin-bottom: 15px; overflow: hidden; padding: 20px; }
-    .tier-header { padding: 12px 25px; background: rgba(168, 85, 247, 0.1); color: var(--purple); font-weight: bold; font-family: 'MultiCraftFont'; border-bottom: 1px solid var(--border); font-size: 0.9rem; margin: -20px -20px 10px -20px; }
-    .row { display: flex; justify-content: space-between; align-items: center; padding: 15px 5px; cursor: pointer; transition: 0.2s; border-bottom: 1px solid rgba(255,255,255,0.03); }
+    .tier-card { background: var(--bg-panel); border: 1px solid var(--border); border-radius: 10px; margin-bottom: 15px; overflow: hidden; padding: 0; }
+    .tier-header { padding: 12px 25px; background: rgba(168, 85, 247, 0.1); color: var(--purple); font-weight: bold; font-family: 'MultiCraftFont'; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+    .row { display: flex; justify-content: space-between; align-items: center; padding: 15px 25px; cursor: pointer; transition: 0.2s; border-bottom: 1px solid rgba(255,255,255,0.03); }
     .row:last-child { border: none; }
     
     .tag { font-size: 0.7rem; padding: 2px 6px; border-radius: 4px; background: rgba(255,255,255,0.05); color: #888; margin-left: 8px; border: 1px solid rgba(255,255,255,0.1); cursor: help; }
     .tag-rank { border-color: var(--purple); color: var(--purple); }
+    .region-tag { color: #555; font-weight: bold; margin-left: 10px; font-size: 0.75rem; }
     .combat-tag { font-family: 'MultiCraftFont'; font-size: 0.6rem; text-transform: uppercase; padding: 3px 8px; border-radius: 4px; margin-left: 10px; display: inline-block; vertical-align: middle; }
     
     .pts-table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 0.8rem; }
@@ -84,17 +85,17 @@
     <div id="displayList"></div>
   </div>
 
-  <div id="info-sec" style="display:none;">
-    <div class="tier-card">
-        <div class="tier-header">SERVER RULES</div>
+  <div id="info-sec" style="display:none; padding: 20px;">
+    <div class="tier-card" style="padding: 20px;">
+        <div class="tier-header" style="margin: -20px -20px 10px -20px;">SERVER RULES</div>
         <ul style="color:#aaa; line-height:1.8; margin-top: 10px;">
             <li>No hacking, client modification, or macros.</li>
             <li>Respect all Tier Testers and Staff members.</li>
             <li>Disruptive behavior during tests is not permitted.</li>
         </ul>
     </div>
-    <div class="tier-card">
-        <div class="tier-header">POINT SYSTEM</div>
+    <div class="tier-card" style="padding: 20px;">
+        <div class="tier-header" style="margin: -20px -20px 10px -20px;">POINT SYSTEM</div>
         <table class="pts-table">
             <tr style="color:var(--purple)"><td>TIER</td><td>POINTS</td><td>TIER</td><td>POINTS</td></tr>
             <tr><td>HT1</td><td>10</td><td>LT1</td><td>9</td></tr>
@@ -178,8 +179,9 @@ function render(kit) {
   if(kit === "Overall") {
     let sorted = Object.entries(DATA["Overall"]).sort((a,b) => b[1]-a[1]);
     sorted.forEach(([n, s], i) => {
+      const pData = getPlayerData(n);
       const title = getTitle(s);
-      out.innerHTML += `<div class="tier-card" style="padding:0;"><div class="row" style="padding:15px 25px;" onclick="openProfile('${n}')"><span><b style="color:var(--purple); margin-right:15px;">#${i+1}</b> ${n} <span class="combat-tag" style="background:${title.col}">${title.txt}</span></span><b style="color:var(--gold)">${s} PTS</b></div></div>`;
+      out.innerHTML += `<div class="tier-card"><div class="row" onclick="openProfile('${n}')"><span><b style="color:var(--purple); margin-right:15px;">#${i+1}</b> ${n} <span class="combat-tag" style="background:${title.col}">${title.txt}</span></span><b style="color:var(--gold)">${s} PTS</b></div></div>`;
     });
   } else {
     [1,2,3,4,5].forEach(num => {
@@ -187,11 +189,12 @@ function render(kit) {
       const lts = (DATA[kit][`LT${num}`] || []).map(n => ({name: n, tag: `LT${num}`}));
       const players = [...hts, ...lts];
       if(players.length) {
-        let h = `<div class="tier-card" style="padding:0;"><div class="tier-header">T${num}</div><div style="padding:0 20px;">`;
+        let h = `<div class="tier-card"><div class="tier-header">T${num}</div>`;
         players.forEach(p => {
-          h += `<div class="row" onclick="openProfile('${p.name}')"><span><b>${p.name}</b> <span class="tag tag-rank">${p.tag}</span></span><span>VIEW</span></div>`;
+          const pData = getPlayerData(p.name);
+          h += `<div class="row" onclick="openProfile('${p.name}')"><span><b>${p.name}</b> <span class="region-tag">${pData.region}</span> <span class="tag" title="${DEVICE_NAMES[pData.device]}">${pData.device}</span> <span class="tag tag-rank">${p.tag}</span></span><span>VIEW</span></div>`;
         });
-        out.innerHTML += h + `</div></div>`;
+        out.innerHTML += h + `</div>`;
       }
     });
   }
@@ -203,17 +206,18 @@ function handleSearch() {
   if (q.length < 1) { render(currentKit); return; }
   let allPlayers = Object.keys(DATA["Overall"]).filter(n => n.toLowerCase().includes(q));
   if (allPlayers.length > 0) {
-    list.innerHTML = `<div class="tier-card" style="padding:0;"><div class="tier-header">SEARCH RESULTS</div><div style="padding:0 20px;">`;
+    list.innerHTML = `<div class="tier-card"><div class="tier-header">SEARCH RESULTS</div>`;
     allPlayers.forEach(n => {
       list.innerHTML += `<div class="row" onclick="openProfile('${n}')"><span><b>${n}</b></span><span style="color:var(--purple)">CLICK TO VIEW</span></div>`;
     });
-    list.innerHTML += `</div></div>`;
+    list.innerHTML += `</div>`;
   } else { list.innerHTML = `<div class="empty-msg">NO PLAYER FOUND</div>`; }
 }
 
 function showSection(id) {
   ['rankings', 'hof', 'testers', 'info'].forEach(s => {
-    document.getElementById(s + '-sec').style.display = s === id ? 'block' : 'none';
+    const sec = document.getElementById(s + '-sec');
+    if (sec) sec.style.display = s === id ? 'block' : 'none';
     const navItem = document.getElementById('nav-' + s);
     if(navItem) navItem.classList.toggle('active', s === id);
   });
@@ -232,7 +236,7 @@ function openProfile(name) {
   document.getElementById('pName').innerText = name;
   document.getElementById('pTitle').innerHTML = `<span class="combat-tag" style="background:${title.col}; margin-bottom:10px; display:inline-block;">${title.txt}</span>`;
   document.getElementById('pRegion').innerText = `REGION: ${pData.region}`;
-  document.getElementById('pPoints').innerHTML = `${pts} TOTAL PTS <br><span class="tag" style="margin-top:10px; display:inline-block; border-color:var(--purple); color:var(--purple); cursor: help;" title="${DEVICE_NAMES[pData.device] || 'Mouse & Keyboard'}">DEVICE: ${pData.device}</span>`;
+  document.getElementById('pPoints').innerHTML = `${pts} TOTAL PTS <br><span class="tag" style="margin-top:10px; display:inline-block; border-color:var(--purple); color:var(--purple); cursor: help;" title="${DEVICE_NAMES[pData.device]}">DEVICE: ${pData.device}</span>`;
   
   const grid = document.getElementById('pGrids'); grid.innerHTML = "";
   for(let k in ICONS) {

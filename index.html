@@ -19,67 +19,60 @@
     body { 
       background: linear-gradient(-45deg, #010102, #0d011a, #010102, #05000d);
       background-size: 400% 400%;
-      animation: gradientMove 15s ease infinite; /* Unfrozen Gradient */
-      color: #fff; 
-      font-family: 'Courier New', monospace; 
-      margin: 0; 
-      padding-bottom: 50px;
+      animation: gradientMove 15s ease infinite;
+      color: #fff; font-family: 'Courier New', monospace; margin: 0; padding-bottom: 50px;
       overflow-x: hidden;
-      display: flex;
-      flex-direction: column;
-      align-items: center; /* Centering everything */
+      display: flex; flex-direction: column; align-items: center;
     }
 
     @keyframes gradientMove { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
 
-    header { padding: 40px 0; text-align: center; }
-    .header-flex { display: flex; align-items: center; justify-content: center; }
-    .title-sword { width: 45px; height: 45px; margin: 0 15px; animation: pulse 2s infinite ease-in-out; }
-    @keyframes pulse { 0%, 100% { transform: scale(1); filter: drop-shadow(0 0 5px var(--purple)); } 50% { transform: scale(1.1); filter: drop-shadow(0 0 15px var(--purple)); } }
-    .main-title { font-family: 'MultiCraftFont'; font-size: 2.5rem; margin: 0; background: linear-gradient(to right, #fff, var(--purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-
-    /* Animated Background Kits */
-    #space-container { position: fixed; inset: 0; z-index: -1; pointer-events: none; overflow: hidden; }
-    .space-star { position: absolute; width: 40px; height: 40px; background-size: contain; opacity: 0.2; animation: floatMove 25s linear infinite; }
+    /* Moving Kits in Background */
+    #space-container { position: fixed; inset: 0; z-index: -1; pointer-events: none; }
+    .space-star { position: absolute; width: 40px; height: 40px; background-size: contain; background-repeat: no-repeat; opacity: 0.12; animation: floatMove 25s linear infinite; }
     @keyframes floatMove { 
         0% { transform: translate(0, 0) rotate(0deg); } 
-        25% { transform: translate(100px, 150px) rotate(90deg); } 
-        50% { transform: translate(-50px, 300px) rotate(180deg); } 
-        75% { transform: translate(-150px, 150px) rotate(270deg); } 
+        50% { transform: translate(100px, 200px) rotate(180deg); } 
         100% { transform: translate(0, 0) rotate(360deg); } 
     }
 
-    nav { display: flex; justify-content: center; gap: 30px; padding: 20px; background: rgba(0,0,0,0.8); width: 100%; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; backdrop-filter: blur(10px); }
-    .nav-link { color: #5a6474; text-decoration: none; font-weight: bold; cursor: pointer; transition: 0.3s; font-family: 'MultiCraftFont'; font-size: 0.9rem; }
-    .nav-link.active { color: #fff; text-shadow: 0 0 10px var(--purple-glow); }
+    /* Absolute Centering for Header */
+    header { width: 100%; display: flex; justify-content: center; padding: 60px 0 20px; }
+    .header-container { display: flex; align-items: center; justify-content: center; gap: 15px; width: 100%; }
+    .title-sword { width: 50px; height: 50px; object-fit: contain; animation: pulse 2s infinite ease-in-out; }
+    @keyframes pulse { 0%, 100% { transform: scale(1); filter: drop-shadow(0 0 5px var(--purple)); } 50% { transform: scale(1.1); filter: drop-shadow(0 0 15px var(--purple)); } }
+    .main-title { font-family: 'MultiCraftFont'; font-size: 3.2rem; margin: 0; background: linear-gradient(to right, #fff, var(--purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 1; }
+
+    nav { display: flex; justify-content: center; gap: 40px; padding: 25px 0; background: rgba(0,0,0,0.85); width: 100%; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; backdrop-filter: blur(12px); }
+    .nav-link { color: #5a6474; text-decoration: none; font-weight: bold; cursor: pointer; transition: 0.3s; font-family: 'MultiCraftFont'; font-size: 0.95rem; letter-spacing: 1px; }
+    .nav-link.active { color: #fff; text-shadow: 0 0 15px var(--purple-glow); }
 
     .search-input { 
       width: 100%; max-width: 500px; padding: 18px; 
       background: rgba(0,0,0,0.9); border: 2px solid var(--border); 
       border-radius: 15px; color: #fff; text-align: center; outline: none; 
-      font-family: 'MultiCraftFont'; transition: 0.4s;
-      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+      font-family: 'MultiCraftFont'; transition: 0.4s; margin-top: 40px;
     }
-    .search-input:focus { border-color: var(--purple); box-shadow: 0 0 20px var(--purple-glow); } /* Glowing Search */
+    .search-input:focus { border-color: var(--purple); box-shadow: 0 0 25px var(--purple-glow); }
 
     .kit-btn { 
       background: rgba(10, 10, 15, 0.8); border: 1px solid var(--border); 
-      padding: 12px 20px; border-radius: 10px; color: #888; cursor: pointer; 
-      transition: 0.3s; font-family: 'MultiCraftFont'; font-size: 0.75rem; 
-      display: flex; align-items: center; gap: 8px; text-transform: uppercase;
+      padding: 12px 22px; border-radius: 10px; color: #888; cursor: pointer; 
+      transition: 0.3s; font-family: 'MultiCraftFont'; font-size: 0.8rem; 
+      display: flex; align-items: center; gap: 10px; text-transform: uppercase;
     }
-    .kit-btn.active { border-color: #fff; color: #fff; background: rgba(168, 85, 247, 0.3); box-shadow: 0 0 15px var(--purple-glow); }
+    .kit-btn.active { border-color: #fff; color: #fff; background: rgba(168, 85, 247, 0.3); box-shadow: 0 0 20px var(--purple-glow); }
 
-    .tier-card { width: 100%; max-width: 800px; background: rgba(5, 5, 8, 0.9); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 20px; overflow: hidden; }
-    .tier-header { padding: 15px; background: rgba(168, 85, 247, 0.15); color: var(--purple); font-family: 'MultiCraftFont'; text-align: center; border-bottom: 1px solid var(--border); }
+    .tier-card { width: 100%; max-width: 800px; background: rgba(5, 5, 8, 0.95); border: 1px solid var(--border); border-radius: 15px; margin-bottom: 25px; overflow: hidden; }
+    .tier-header { padding: 15px; background: rgba(168, 85, 247, 0.2); color: var(--purple); font-family: 'MultiCraftFont'; text-align: center; border-bottom: 1px solid var(--border); font-size: 1.1rem; }
     
-    .row { display: flex; justify-content: space-between; align-items: center; padding: 18px 30px; cursor: pointer; transition: 0.2s; }
+    .row { display: flex; justify-content: space-between; align-items: center; padding: 20px 35px; cursor: pointer; transition: 0.2s; border-bottom: 1px solid rgba(255,255,255,0.02); }
     .row:hover { background: rgba(168, 85, 247, 0.1); }
-    .player-name { font-weight: bold; transition: 0.3s; }
-    .row:hover .player-name { text-shadow: 0 0 10px var(--purple-glow); color: var(--purple); } /* Glowing Names */
+    .player-name { font-weight: bold; font-size: 1.1rem; transition: 0.3s; }
+    .row:hover .player-name { text-shadow: 0 0 15px var(--purple-glow); color: #fff; }
 
-    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 1000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(10px); }
-    .modal-content { background: #010102; border: 2px solid var(--purple); border-radius: 20px; padding: 40px; text-align: center; width: 400px; box-shadow: 0 0 40px var(--purple-glow); position: relative; }
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.96); z-index: 1000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(12px); }
+    .modal-content { background: #010102; border: 2px solid var(--purple); border-radius: 20px; padding: 45px; text-align: center; width: 420px; box-shadow: 0 0 50px var(--purple-glow); position: relative; }
   </style>
 </head>
 <body>
@@ -93,7 +86,7 @@
 </nav>
 
 <header>
-  <div class="header-flex">
+  <div class="header-container">
     <h1 class="main-title">MTC</h1>
     <img src="backgroundsword.png" class="title-sword">
     <h1 class="main-title">TIERS</h1>
@@ -102,53 +95,63 @@
 
 <div id="rankings-sec" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
     <input type="text" id="playerSearch" class="search-input" placeholder="SEARCH PLAYER..." oninput="handleSearch()">
-    <button class="info-btn" style="margin: 20px 0; background: none; border: 1px solid var(--purple); color: var(--purple); padding: 8px 15px; border-radius: 20px; cursor: pointer; font-family: 'MultiCraftFont';" onclick="togglePointsModal()">POINTS INFO</button>
-    <div id="kitBar" style="display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; margin-bottom: 40px; max-width: 900px;"></div>
+    <div id="kitBar" style="display: flex; justify-content: center; flex-wrap: wrap; gap: 15px; margin: 40px 0; max-width: 1000px;"></div>
     <div id="displayList" style="width: 100%; display: flex; flex-direction: column; align-items: center;"></div>
 </div>
 
-<div id="hof" style="display:none; text-align: center; padding-top: 50px;">
-    <h2 class="main-title">HALL OF FAME</h2>
-    <p style="color: #888;">Legends are recorded here...</p>
+<div id="hof-sec" style="display:none; width: 100%; max-width: 800px; padding-top: 40px;">
+    <div id="hofList" style="display: flex; flex-direction: column; align-items: center;"></div>
 </div>
 
-<div id="testers" style="display:none; text-align: center; padding-top: 50px;">
-    <h2 class="main-title">TIER TESTERS</h2>
-    <p style="color: #888;">The council that decides the ranks.</p>
+<div id="tester-sec" style="display:none; width: 100%; max-width: 800px; padding-top: 40px;">
+    <div id="testerList" style="display: flex; flex-direction: column; align-items: center;"></div>
 </div>
 
 <div id="profileModal" class="modal-overlay" onclick="closeProfile()">
     <div class="modal-content" onclick="event.stopPropagation()">
-        <span style="position:absolute; top:15px; right:20px; color:#555; cursor:pointer; font-size:24px;" onclick="closeProfile()">&times;</span>
-        <div id="pRank" style="font-size:0.8rem; color:#555;">RANK #--</div>
-        <h2 id="pName" style="font-family:'MultiCraftFont'; font-size:2.5rem; color:var(--purple); margin:10px 0;">Player</h2>
-        <div id="pTitle"></div>
-        <div id="pRegion" style="font-size:0.9rem; color:#fff; font-weight: bold;">REGION: --</div>
-        <div id="pPoints" style="color:var(--gold); margin: 20px 0;">0 TOTAL PTS</div>
-        <div id="pGrids" style="display:flex; justify-content:center; gap:10px; flex-wrap:wrap;"></div>
+        <span style="position:absolute; top:20px; right:25px; color:#666; cursor:pointer; font-size:28px;" onclick="closeProfile()">&times;</span>
+        <div id="pRank" style="font-size:0.9rem; color:#555; letter-spacing:2px;">RANK #--</div>
+        <h2 id="pName" style="font-family:'MultiCraftFont'; font-size:2.8rem; color:var(--purple); margin:15px 0;">Player</h2>
+        <div id="pPoints" style="color:var(--gold); font-size:1.2rem; margin-bottom:30px;">0 TOTAL PTS</div>
+        <div id="pGrids" style="display:flex; justify-content:center; gap:15px; flex-wrap:wrap;"></div>
     </div>
 </div>
 
 <script>
 let DATA = {};
 const ICONS = { 
-  "Overall":"emerald.png", 
-  "Emerald":"emerald.png", 
-  "Dragonhide KB":"dragonhide_kb.png", 
-  "Emerald OA":"emerald_oa.png", 
-  "Dragonhide KB OA":"kb_oa.png", 
-  "Wand":"wand.png",
-  "Emerald KB":"emerald_kb.png", 
-  "Diamond":"diamond.png" 
+  "Overall": "", // NO IMAGE FOR OVERALL
+  "Emerald": "emerald.png", 
+  "Dragonhide KB": "dragonhide_kb.png", 
+  "Emerald OA": "emerald_oa.png", 
+  "Dragonhide KB OA": "kb_oa.png", 
+  "Wand": "wand.png",
+  "Emerald KB": "emerald.png", // FALLBACK TO EMERALD
+  "Diamond": "emerald.png"     // FALLBACK TO EMERALD
 };
 
 async function load() {
-  const r = await fetch(`https://raw.githubusercontent.com/multitiers/multitiers.github.io/refs/heads/main/rankings.json?t=${Date.now()}`);
-  DATA = await r.json();
-  processOverall();
-  buildKitBar();
-  spawnSpaceStars();
-  render("Overall");
+  try {
+    const r = await fetch(`https://raw.githubusercontent.com/multitiers/multitiers.github.io/refs/heads/main/rankings.json?t=${Date.now()}`);
+    DATA = await r.json();
+    processOverall();
+    buildKitBar();
+    spawnSpaceStars();
+    render("Overall");
+  } catch(e) { console.error("Data failed to load"); }
+}
+
+async function loadExtra(file, elementId) {
+  const container = document.getElementById(elementId);
+  container.innerHTML = "<p>LOADING...</p>";
+  try {
+    const r = await fetch(`https://raw.githubusercontent.com/multitiers/multitiers.github.io/refs/heads/main/${file}?t=${Date.now()}`);
+    const json = await r.json();
+    container.innerHTML = "";
+    json.forEach(item => {
+      container.innerHTML += `<div class="tier-card"><div class="row"><span class="player-name">${item.name}</span><span style="color:var(--purple)">${item.role || 'LEGEND'}</span></div></div>`;
+    });
+  } catch(e) { container.innerHTML = `<p style="color:red">FAILED TO LOAD ${file}</p>`; }
 }
 
 function processOverall() {
@@ -169,12 +172,12 @@ function processOverall() {
 function buildKitBar() {
   const bar = document.getElementById('kitBar');
   bar.innerHTML = "";
-  // Ensure Overall is first
   const keys = ["Overall", ...Object.keys(DATA).filter(k => k !== "Players" && k !== "Overall")];
   keys.forEach(k => {
     const btn = document.createElement('button');
     btn.className = `kit-btn ${k==='Overall'?'active':''}`;
-    btn.innerHTML = `<img src="${ICONS[k] || 'emerald.png'}" style="width:16px;"> ${k}`;
+    const imgHtml = ICONS[k] ? `<img src="${ICONS[k]}" style="width:18px;">` : "";
+    btn.innerHTML = `${imgHtml} ${k}`;
     btn.onclick = () => {
       document.querySelectorAll('.kit-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
@@ -197,7 +200,7 @@ function render(kit) {
       if(DATA[kit] && DATA[kit][t] && DATA[kit][t].length > 0) {
         let h = `<div class="tier-card"><div class="tier-header">${t}</div>`;
         DATA[kit][t].forEach(p => {
-          h += `<div class="row" onclick="openProfile('${p}')"><span class="player-name">${p}</span><span>VIEW</span></div>`;
+          h += `<div class="row" onclick="openProfile('${p}')"><span class="player-name">${p}</span><span style="color:#555">VIEW</span></div>`;
         });
         out.innerHTML += h + `</div>`;
       }
@@ -205,18 +208,16 @@ function render(kit) {
   }
 }
 
-function spawnSpaceStars() {
-  const container = document.getElementById('space-container');
-  const imgs = Object.values(ICONS);
-  for(let i=0; i<20; i++) {
-    const s = document.createElement('div');
-    s.className = 'space-star';
-    s.style.backgroundImage = `url(${imgs[i % imgs.length]})`;
-    s.style.top = Math.random() * 100 + 'vh';
-    s.style.left = Math.random() * 100 + 'vw';
-    s.style.animationDuration = (15 + Math.random() * 20) + 's';
-    container.appendChild(s);
-  }
+function showSection(id) {
+    document.getElementById('rankings-sec').style.display = id === 'rankings' ? 'flex' : 'none';
+    document.getElementById('hof-sec').style.display = id === 'hof' ? 'flex' : 'none';
+    document.getElementById('tester-sec').style.display = id === 'testers' ? 'flex' : 'none';
+    
+    document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+    event.currentTarget.classList.add('active');
+
+    if(id === 'hof') loadExtra('hof.json', 'hofList');
+    if(id === 'testers') loadExtra('testers.json', 'testerList');
 }
 
 function handleSearch() {
@@ -226,14 +227,6 @@ function handleSearch() {
   });
 }
 
-function showSection(id) {
-    document.getElementById('rankings-sec').style.display = id === 'rankings' ? 'flex' : 'none';
-    document.getElementById('hof').style.display = id === 'hof' ? 'block' : 'none';
-    document.getElementById('testers').style.display = id === 'testers' ? 'block' : 'none';
-    document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
-    event.target.classList.add('active');
-}
-
 function openProfile(name) {
   document.getElementById('pName').innerText = name;
   document.getElementById('pPoints').innerText = (DATA["Overall"][name] || 0) + " TOTAL PTS";
@@ -241,6 +234,19 @@ function openProfile(name) {
 }
 function closeProfile() { document.getElementById('profileModal').style.display = 'none'; }
 
+function spawnSpaceStars() {
+  const container = document.getElementById('space-container');
+  const imgs = Object.values(ICONS).filter(i => i !== "");
+  for(let i=0; i<15; i++) {
+    const s = document.createElement('div');
+    s.className = 'space-star';
+    s.style.backgroundImage = `url(${imgs[i % imgs.length]})`;
+    s.style.top = Math.random() * 100 + 'vh';
+    s.style.left = Math.random() * 100 + 'vw';
+    s.style.animationDuration = (20 + Math.random() * 20) + 's';
+    container.appendChild(s);
+  }
+}
 load();
 </script>
 </body>

@@ -5,6 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>MTC TIERS</title>
   <link rel="icon" type="image/png" href="backgroundsword.png">
+  <meta property="og:title" content="MTC TIERS" />
+  <meta property="og:description" content="Tiertesting and Rankings for MultiCraft" />
+  <meta property="og:image" content="https://mtctiers.github.io/backgroundsword.png" />
+  <meta property="og:url" content="https://mtctiers.github.io/" />
   <style>
     @font-face { font-family: 'MultiCraftFont'; src: url('MultiCraftFont.ttf') format('truetype'); }
     :root {
@@ -132,7 +136,7 @@ const KIT_COLORS = { "Overall": "#ffd700", "Emerald": "#2ecc71", "Dragonhide KB"
 const ICONS = { "Overall":"backgroundsword.png", "Emerald":"emerald.png", "Dragonhide KB":"dragonhide_kb.png", "Emerald OA":"emerald_oa.png", "Dragonhide KB OA":"kb_oa.png", "Wand":"wand.png", "Emerald KB":"emerald_kb.png", "Diamond":"diamond.png" };
 
 async function load() {
-  const r = await fetch(`https://raw.githubusercontent.com/multitiers/multitiers.github.io/refs/heads/main/rankings.json?t=${Date.now()}`);
+  const r = await fetch(`https://raw.githubusercontent.com/mtctiers/mtctiers.github.io/refs/heads/main/rankings.json?t=${Date.now()}`);
   DATA = await r.json();
   processOverall(); buildKitBar(); spawnIcons(); render("Overall");
 }

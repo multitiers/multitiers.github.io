@@ -5,10 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>MTC TIERS</title>
   
-  <meta property="og:title" content="MTC TIERS" />
-  <meta property="og:description" content="Tiertesting and Rankings for MultiCraft" />
-  <meta property="og:image" content="https://mtctiers.github.io/backgroundsword.png" />
-  <meta property="og:url" content="https://mtctiers.github.io" />
+  <meta property="og:title" content="MTC TIERS">
+  <meta property="og:description" content="Tiertesting and Rankings for MultiCraft">
+  <meta property="og:image" content="https://mtctiers.github.io/backgroundsword.png">
+  <meta property="og:url" content="https://mtctiers.github.io">
   <meta name="theme-color" content="#a855f7">
 
   <link rel="icon" type="image/png" href="backgroundsword.png">
@@ -21,14 +21,12 @@
 
     body { background: var(--bg); color: #fff; font-family: 'Courier New', monospace; margin: 0; padding-bottom: 50px; overflow-x: hidden; }
 
-    /* LOGO PULSE */
     @keyframes glowPulse { 
       0%, 100% { filter: drop-shadow(0 0 10px var(--purple)); transform: scale(1); } 
       50% { filter: drop-shadow(0 0 45px var(--purple)) drop-shadow(0 0 15px #fff); transform: scale(1.15); } 
     }
     .main-logo { width: 65px; animation: glowPulse 1.8s infinite ease-in-out; }
 
-    /* BACKGROUND SWEEP */
     body::before {
       content: ""; position: fixed; top: 0; left: -100%; width: 50%; height: 100%;
       background: linear-gradient(to right, transparent, var(--purple-glow), transparent);
@@ -41,7 +39,6 @@
     .space-icon { position: absolute; width: 30px; height: 30px; background-size: contain; background-repeat: no-repeat; filter: drop-shadow(0 0 10px var(--purple)); opacity: 0.25; animation: float 18s infinite linear; }
     @keyframes float { 0% { transform: translateY(110vh) rotate(0deg); } 100% { transform: translateY(-110vh) rotate(360deg); } }
 
-    /* NAV */
     nav { display: flex; justify-content: center; align-items: center; gap: 35px; padding: 20px; background: rgba(0,0,0,0.9); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; backdrop-filter: blur(12px); }
     .admin-inputs { position: absolute; left: 15px; display: flex; gap: 8px; }
     .unreleased-badge { background: #0a0a0f; border: 1px solid var(--purple); color: var(--purple); padding: 6px; border-radius: 4px; font-family: 'MultiCraftFont'; font-size: 0.55rem; width: 145px; outline: none; cursor: default; text-align: center; }
@@ -50,11 +47,10 @@
     .nav-link.active { color: #fff; text-shadow: 0 0 15px var(--purple); }
     .info-btn { position: absolute; right: 15px; background: none; border: 1px solid var(--gold); color: var(--gold); font-family: 'MultiCraftFont'; font-size: 0.7rem; padding: 8px 15px; border-radius: 4px; cursor: pointer; }
 
-    /* KIT BUTTONS - BACK TO GREY/WHITE */
+    /* KIT BUTTONS - RESTORED COLORS */
     .kit-btn { transition: 0.3s ease; opacity: 0.6; color: #888; font-family: 'MultiCraftFont'; font-size: 0.8rem; background: #0a0a0f; border: 1px solid var(--border); padding: 10px 18px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 8px; }
     .kit-btn.active { opacity: 1; border-color: var(--purple) !important; box-shadow: 0 0 20px var(--purple-glow); color: #fff !important; }
 
-    /* CARDS */
     .tier-card { border-radius: 10px; position: relative; padding: 1.5px; margin-bottom: 12px; background: linear-gradient(90deg, transparent, var(--purple), transparent); background-size: 200% 100%; animation: cardSweep 3s linear infinite; overflow: hidden; }
     @keyframes cardSweep { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
     .card-inner { background: #050508; border-radius: 9px; width: 100%; height: 100%; position: relative; z-index: 2; }
@@ -64,12 +60,12 @@
     .tag { font-size: 0.65rem; padding: 3px 6px; border-radius: 4px; font-weight: bold; margin-left: 5px; font-family: 'MultiCraftFont'; display: inline-block; }
     .tag-tier { background: rgba(255, 215, 0, 0.1); color: var(--gold); border: 1px solid var(--gold); }
     
-    /* Region Tags */
+    /* Regions */
     .reg-eu { color: #3498db; border: 1px solid #3498db; background: rgba(52, 152, 219, 0.1); }
     .reg-na { color: #e74c3c; border: 1px solid #e74c3c; background: rgba(231, 76, 60, 0.1); }
     .reg-as { color: #f1c40f; border: 1px solid #f1c40f; background: rgba(241, 196, 15, 0.1); }
     
-    /* Device Tags */
+    /* Device tags - FIXED COLORS */
     .dev-ios { color: #a855f7; border: 1px solid #a855f7; background: rgba(168, 85, 247, 0.1); }
     .dev-and { color: #2ecc71; border: 1px solid #2ecc71; background: rgba(46, 204, 113, 0.1); }
     .dev-win { color: #00ffff; border: 1px solid #00ffff; background: rgba(0, 255, 255, 0.1); }
@@ -96,7 +92,7 @@
 </nav>
 
 <header style="text-align: center; padding: 30px 0 10px;">
-  <img src="backgroundsword.png" class="main-logo">
+  <img src="backgroundsword.png" class="main-logo" alt="Logo">
   <h1 style="font-family:'MultiCraftFont'; font-size: 3.2rem; margin: 0;">MTC TIERS</h1>
 </header>
 
@@ -130,7 +126,7 @@ async function load() {
     const pts = { "HT1":50, "LT1":40, "HT2":30, "LT2":20, "HT3":12, "LT3":8, "HT4":5, "LT4":3, "HT5":2, "LT5":1 };
     let ptsH = ""; for(let k in pts) ptsH += `<div style="display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px solid #1a1a1a;"><b style="color:var(--gold)">${k}</b> <span>${pts[k]} pts</span></div>`;
     document.getElementById('points-list').innerHTML = ptsH;
-  } catch(e) { console.error("Error loading JSON", e); }
+  } catch(e) { console.error(e); }
 }
 
 function processOverall() {
@@ -223,7 +219,7 @@ async function loadExtra(type, el) {
         ${i.role ? `<span class="tag dev-ios">${i.role}</span>` : ''}</span>
         <span style="color:#666; font-size:0.8rem;">${i.description || ''}</span></div></div></div>`;
     });
-  } catch(e) { out.innerHTML = "Error loading extra data."; }
+  } catch(e) { out.innerHTML = "Error loading."; }
 }
 
 function spawnIcons() {

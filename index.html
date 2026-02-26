@@ -20,7 +20,6 @@
     
     header { padding: 40px 0 20px; display: flex; flex-direction: column; align-items: center; }
     .header-flex { display: flex; align-items: center; justify-content: center; }
-    .title-mtc { margin-right: -8px; } 
     .title-sword { width: 42px; height: 42px; object-fit: contain; animation: pulseSword 2s infinite ease-in-out; margin: 0 12px 0 15px; } 
     @keyframes pulseSword { 0%, 100% { transform: scale(1); filter: drop-shadow(0 0 8px var(--purple)); } 50% { transform: scale(1.1); filter: drop-shadow(0 0 15px var(--purple)); } }
     .main-title { font-family: 'MultiCraftFont'; font-size: 2.2rem; margin: 0; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 1; }
@@ -50,8 +49,11 @@
     .tag { font-size: 0.7rem; padding: 2px 6px; border-radius: 4px; background: rgba(255,255,255,0.05); color: #888; margin-left: 8px; border: 1px solid rgba(255,255,255,0.1); }
     .combat-tag { font-family: 'MultiCraftFont'; font-size: 0.6rem; text-transform: uppercase; padding: 4px 10px; border-radius: 4px; margin-left: 12px; display: inline-block; vertical-align: middle; letter-spacing: 1px; color: #fff; }
 
-    #modalOverlay { position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 1000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(10px); }
-    .modal-content { background: #010102; border: 1px solid var(--purple); border-radius: 20px; padding: 30px; width: 90%; max-width: 400px; position: relative; }
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 1000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(15px); }
+    .modal-content { background: #010102; border: 1px solid var(--purple); border-radius: 20px; padding: 40px; text-align: center; width: 380px; box-shadow: 0 0 50px var(--purple-glow); position: relative; }
+    .p-grid-container { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin-top: 20px; }
+    .p-grid-item { background: #0a0c12; padding: 12px; border-radius: 10px; border: 1px solid var(--border); min-width: 65px; }
+
     .points-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px; }
     .points-item { background: rgba(168, 85, 247, 0.05); padding: 10px; border-radius: 8px; border: 1px solid var(--border); display: flex; justify-content: space-between; font-size: 0.8rem; }
   </style>
@@ -67,7 +69,7 @@
 
 <header>
   <div class="header-flex">
-    <h1 class="main-title title-mtc">MTC</h1>
+    <h1 class="main-title">MTC</h1>
     <img src="backgroundsword.png" class="title-sword">
     <h1 class="main-title">TIERS</h1>
   </div>
@@ -84,7 +86,7 @@
   </div>
 </div>
 
-<div id="modalOverlay" onclick="togglePointsModal()">
+<div id="pointsModal" class="modal-overlay" onclick="togglePointsModal()">
   <div class="modal-content" onclick="event.stopPropagation()">
     <h3 style="font-family:'MultiCraftFont'; color:var(--purple); text-align:center; margin-top:0;">POINT SYSTEM</h3>
     <div class="points-grid">
@@ -103,15 +105,15 @@
   </div>
 </div>
 
-<div id="profileModal" onclick="closeProfile()">
+<div id="profileModal" class="modal-overlay" onclick="closeProfile()">
   <div class="modal-content" onclick="event.stopPropagation()">
     <span style="position:absolute; top:15px; right:20px; color:#555; cursor:pointer; font-size:24px;" onclick="closeProfile()">&times;</span>
-    <div id="pRank" style="font-size:0.8rem; color:#555;">RANK #--</div>
+    <div id="pRank" style="font-size:0.8rem; color:#555; text-transform: uppercase;">RANK #--</div>
     <h2 id="pName" style="font-family:'MultiCraftFont'; font-size:2.5rem; color:var(--purple); margin:10px 0;">Player</h2>
     <div id="pTitle"></div>
-    <div id="pRegion" style="font-size:0.9rem; color:#fff; font-weight: bold; margin-bottom:10px;">REGION: --</div>
+    <div id="pRegion" style="font-size:0.9rem; color:#fff; font-weight: bold; margin-bottom:10px; text-transform: uppercase;">REGION: --</div>
     <div id="pPoints" style="color:var(--gold); margin-bottom:25px; font-size:0.9rem;">0 TOTAL PTS</div>
-    <div id="pGrids" style="display:flex; justify-content:center; gap:12px; flex-wrap:wrap;"></div>
+    <div id="pGrids" class="p-grid-container"></div>
   </div>
 </div>
 
@@ -155,14 +157,14 @@ function hasT1(name) {
 
 function getTitle(name, pts) {
     if(pts >= 280 && hasT1(name)) return {txt: "Combat Legend", col: "#ef4444"};
-    if(pts >= 211) return {txt: "Combat Master", col: "#f59e0b"};
-    if(pts >= 111) return {txt: "Combat Expert", col: "#a855f7"};
-    if(pts >= 36)  return {txt: "Combat Cadet", col: "#3b82f6"};
+    if(pts >= 121) return {txt: "Combat Master", col: "#f59e0b"};
+    if(pts >= 51)  return {txt: "Combat Expert", col: "#a855f7"};
+    if(pts >= 16)  return {txt: "Combat Cadet", col: "#3b82f6"};
     return {txt: "Combat Novice", col: "#6b7280"};
 }
 
 function togglePointsModal() {
-  const m = document.getElementById('modalOverlay');
+  const m = document.getElementById('pointsModal');
   m.style.display = (m.style.display === 'flex') ? 'none' : 'flex';
 }
 
@@ -209,6 +211,15 @@ function render(kit) {
   }
 }
 
+function handleSearch() {
+  const query = document.getElementById('playerSearch').value.toLowerCase();
+  const rows = document.querySelectorAll('.tier-card');
+  rows.forEach(row => {
+    const text = row.innerText.toLowerCase();
+    row.style.display = text.includes(query) ? 'block' : 'none';
+  });
+}
+
 function openProfile(name) {
   const pd = getPlayerData(name);
   const pts = DATA["Overall"][name] || 0;
@@ -226,7 +237,7 @@ function openProfile(name) {
   for(let k in ICONS) {
     if(k!=="Overall" && DATA[k]) {
       for(let t in DATA[k]) if(Array.isArray(DATA[k][t]) && DATA[k][t].includes(name)) {
-        grid.innerHTML += `<div style="background:#0a0c12; padding:12px; border-radius:10px; border:1px solid var(--border); min-width:65px;"><img src="${ICONS[k]}" style="width:20px; margin-bottom:5px;"><br><small style="color:var(--purple); font-weight:bold;">${t}</small></div>`;
+        grid.innerHTML += `<div class="p-grid-item"><img src="${ICONS[k]}" style="width:20px; margin-bottom:5px;"><br><small style="color:var(--purple); font-weight:bold;">${t}</small></div>`;
       }
     }
   }

@@ -1,5 +1,12 @@
 {
-  "Overall": {},
+  "Players": [
+    { "name": "Game1K", "region": "NA", "device": "MK" },
+    { "name": "sample", "region": "???", "device": "TP" },
+    { "name": "system1117", "region": "NA", "device": "MK" },
+    { "name": "V4n1shed", "region": "NA", "device": "TP" },
+    { "name": "Possessed_YT", "region": "NA", "device": "MK" },
+    { "name": "revan", "region": "NA", "device": "TP" }
+  ],
   "Emerald": {
     "HT1": ["Game1K"],
     "LT1": ["sample"],
@@ -14,10 +21,7 @@
     "HT3": ["V4n1shed", "Possessed_YT"],
     "LT3": ["revan"]
   },
-  "Emerald OA": {
-  },
-  "Dragonhide KB OA": {
-  },
-  "Wand": {
-  }
+  "Emerald OA": {},
+  "Dragonhide KB OA": {},
+  "Wand": {}
 }

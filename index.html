@@ -21,7 +21,7 @@
 
     body { background: var(--bg); color: #fff; font-family: 'Courier New', monospace; margin: 0; padding-bottom: 50px; overflow-x: hidden; }
 
-    /* BACKGROUND ANIMATIONS */
+    /* BACKGROUND ANIMATION */
     body::before {
       content: ""; position: fixed; top: 0; left: -100%; width: 50%; height: 100%;
       background: linear-gradient(to right, transparent, var(--purple-glow), transparent);
@@ -32,21 +32,21 @@
 
     #space-container { position: fixed; inset: 0; z-index: -2; pointer-events: none; }
     .space-icon { 
-      position: absolute; width: 30px; height: 30px; background-size: contain; background-repeat: no-repeat;
-      filter: drop-shadow(0 0 10px var(--purple)) drop-shadow(0 0 2px #fff);
-      opacity: 0.25; animation: float 18s infinite linear; 
+      position: absolute; width: 32px; height: 32px; background-size: contain; background-repeat: no-repeat;
+      filter: drop-shadow(0 0 8px var(--purple));
+      opacity: 0.2; animation: float 20s infinite linear; 
     }
     @keyframes float { 0% { transform: translateY(110vh) rotate(0deg); } 100% { transform: translateY(-110vh) rotate(360deg); } }
 
     /* NAV BAR */
     nav { display: flex; justify-content: center; align-items: center; gap: 35px; padding: 20px; background: rgba(0,0,0,0.9); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; backdrop-filter: blur(12px); }
     
-    .unreleased-suite { position: absolute; left: 15px; display: flex; gap: 10px; }
-    .unreleased-badge { 
-      background: rgba(168, 85, 247, 0.05); border: 1px solid rgba(168, 85, 247, 0.3); 
-      color: rgba(168, 85, 247, 0.6); padding: 6px 14px; border-radius: 4px; 
-      font-family: 'MultiCraftFont'; font-size: 0.55rem; min-width: 140px;
-      outline: none; cursor: default; text-transform: uppercase; letter-spacing: 1px;
+    .admin-suite { position: absolute; left: 15px; display: flex; gap: 10px; }
+    .unreleased-input {
+      background: rgba(168, 85, 247, 0.05); border: 1px solid rgba(168, 85, 247, 0.4); 
+      color: var(--purple); padding: 6px 12px; border-radius: 4px; 
+      font-family: 'MultiCraftFont'; font-size: 0.55rem; min-width: 145px;
+      outline: none; cursor: default; text-transform: uppercase;
     }
 
     .nav-link { color: #5a6474; text-decoration: none; font-weight: bold; cursor: pointer; font-family: 'MultiCraftFont'; font-size: 0.85rem; transition: 0.3s; }
@@ -55,26 +55,16 @@
     .info-btn { position: absolute; right: 15px; background: none; border: 1px solid var(--gold); color: var(--gold); font-family: 'MultiCraftFont'; font-size: 0.7rem; padding: 8px 15px; border-radius: 4px; cursor: pointer; transition: 0.3s; }
     .info-btn:hover { background: rgba(255, 215, 0, 0.1); box-shadow: 0 0 10px var(--gold-glow); }
 
-    /* CARDS */
-    .tier-card { 
-      border-radius: 10px; position: relative; padding: 1.5px; margin-bottom: 12px;
-      background: linear-gradient(90deg, transparent, var(--purple), transparent);
-      background-size: 200% 100%; animation: cardSweep 3s linear infinite; overflow: hidden; 
-    }
+    /* CARDS & GRIDS */
+    .tier-card { border-radius: 10px; position: relative; padding: 1.5px; margin-bottom: 12px; background: linear-gradient(90deg, transparent, var(--purple), transparent); background-size: 200% 100%; animation: cardSweep 3s linear infinite; overflow: hidden; }
     @keyframes cardSweep { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
     .card-inner { background: #050508; border-radius: 9px; width: 100%; height: 100%; position: relative; z-index: 2; }
-
-    .horizontal-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; padding: 20px; max-width: 1550px; margin: auto; }
-    .tier-label { font-family: 'MultiCraftFont'; color: var(--purple); text-align: center; font-size: 1.1rem; margin-bottom: 15px; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
-
     .row { display: flex; justify-content: space-between; align-items: center; padding: 14px 18px; cursor: pointer; }
-    .tag { font-size: 0.65rem; padding: 3px 6px; border-radius: 4px; background: rgba(255, 215, 0, 0.1); color: var(--gold); border: 1px solid var(--gold); margin-left: 5px; font-weight: bold; }
-    .tag-dev { background: rgba(255,255,255,0.05); color: #bbb; border: 1px solid #333; }
 
     /* MODALS */
-    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 2000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(15px); }
-    .modal-content { background: #010102; border: 2px solid var(--purple); border-radius: 20px; padding: 30px; width: 400px; box-shadow: 0 0 40px var(--purple-glow); }
-    .info-line { display: flex; justify-content: space-between; padding: 9px 0; border-bottom: 1px solid #1a1a1a; }
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 2000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(15px); }
+    .modal-content { background: #010102; border: 2px solid var(--purple); border-radius: 20px; padding: 30px; width: 360px; box-shadow: 0 0 40px var(--purple-glow); }
+    .info-line { display: flex; justify-content: space-between; padding: 9px 0; border-bottom: 1px solid #1a1a1a; font-size: 0.9rem; }
   </style>
 </head>
 <body>
@@ -82,9 +72,9 @@
 <div id="space-container"></div>
 
 <nav>
-  <div class="unreleased-suite">
-    <input type="text" value="CODE: UNRELEASED" class="unreleased-badge" readonly>
-    <input type="text" value="DISCORD: aa" class="unreleased-badge" readonly>
+  <div class="admin-suite">
+    <input type="text" value="CODE: UNRELEASED" class="unreleased-input" readonly>
+    <input type="text" value="DISCORD: aa" class="unreleased-input" readonly>
   </div>
 
   <div class="nav-link active" onclick="location.reload()">RANKINGS</div>
@@ -99,15 +89,7 @@
   <h1 style="font-family:'MultiCraftFont'; font-size: 3.2rem; margin: 0;">MTC TIERS</h1>
 </header>
 
-<div id="main-content">
-  <div style="display:flex; justify-content:center; margin: 20px 0;">
-    <input type="text" id="globalSearch" placeholder="SEARCH PLAYER..." style="width:100%; max-width:420px; padding:14px; background:rgba(0,0,0,0.8); border:1px solid var(--purple); border-radius:8px; color:#fff; text-align:center; font-family:'MultiCraftFont'; outline:none;">
-  </div>
-
-  <div id="view-name" style="text-align:center; font-family:'MultiCraftFont'; font-size: 2rem; margin-bottom:25px; color:var(--gold);">OVERALL</div>
-  <div id="kitBar" style="display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; margin-bottom: 35px;"></div>
-  <div id="displayList"></div>
-</div>
+<div id="displayList" style="max-width: 800px; margin: auto; padding: 20px;"></div>
 
 <div id="infoModal" class="modal-overlay" onclick="this.style.display='none'">
   <div class="modal-content" onclick="event.stopPropagation()">
@@ -127,14 +109,20 @@
 </div>
 
 <script>
-// Logic for loading data and rendering (unchanged from your original)
 let DATA = {};
-const ICONS = { "Overall":"backgroundsword.png", "Emerald":"emerald.png", "Dragonhide KB":"dragonhide_kb.png", "Wand":"wand.png" };
+const ICONS = { 
+  "Overall":"backgroundsword.png", 
+  "Emerald":"emerald.png", 
+  "Dragonhide KB":"dragonhide_kb.png", 
+  "Wand":"wand.png",
+  "Emerald KB":"emerald_kb.png",
+  "Diamond":"diamond.png"
+};
 
 async function load() {
   const r = await fetch(`https://raw.githubusercontent.com/mtctiers/mtctiers.github.io/refs/heads/main/rankings.json?t=${Date.now()}`);
   DATA = await r.json();
-  processOverall(); buildKitBar(); spawnIcons(); render("Overall");
+  processOverall(); spawnIcons(); render("Overall");
 }
 
 function processOverall() {
@@ -148,34 +136,25 @@ function processOverall() {
   DATA["Overall"] = totals;
 }
 
-function buildKitBar() {
-  const bar = document.getElementById('kitBar');
-  ["Overall", ...Object.keys(DATA).filter(k => k !== "Players" && k !== "Overall")].forEach(k => {
-    const btn = document.createElement('button');
-    btn.style.cssText = "background:#0a0a0f; border:1px solid var(--border); padding:10px 15px; border-radius:8px; color:#888; cursor:pointer; font-family:'MultiCraftFont';";
-    btn.innerText = k;
-    btn.onclick = () => render(k);
-    bar.appendChild(btn);
-  });
-}
-
 function render(kit) {
   const out = document.getElementById('displayList'); out.innerHTML = "";
-  if(kit === "Overall") {
-    Object.entries(DATA["Overall"]).sort((a,b)=>b[1]-a[1]).forEach(([n,s], i) => {
-      out.innerHTML += `<div class="tier-card" style="max-width:800px; margin:auto;"><div class="card-inner"><div class="row">
-        <span><b style="color:var(--purple); margin-right:15px;">#${i+1}</b><b>${n}</b></span>
-        <b style="color:var(--gold);">${s} PTS</b></div></div></div>`;
-    });
-  }
+  Object.entries(DATA["Overall"]).sort((a,b)=>b[1]-a[1]).forEach(([n,s], i) => {
+    out.innerHTML += `<div class="tier-card"><div class="card-inner"><div class="row">
+      <span><b style="color:var(--purple); margin-right:15px;">#${i+1}</b><b>${n}</b></span>
+      <b style="color:var(--gold);">${s} PTS</b></div></div></div>`;
+  });
 }
 
 function spawnIcons() {
   const container = document.getElementById('space-container');
-  for(let i=0; i<30; i++) {
+  const iconList = Object.values(ICONS); // This pulls ALL kit icons
+  for(let i=0; i<40; i++) {
     const s = document.createElement('div'); s.className = 'space-icon';
-    s.style.backgroundImage = `url('backgroundsword.png')`;
-    s.style.left = Math.random() * 100 + 'vw'; s.style.top = Math.random() * 100 + 'vh';
+    // Cycles through all icons in your ICONS list
+    const randomIcon = iconList[i % iconList.length];
+    s.style.backgroundImage = `url('${randomIcon}')`;
+    s.style.left = Math.random() * 100 + 'vw';
+    s.style.top = Math.random() * 100 + 'vh';
     s.style.animationDelay = (Math.random() * -20) + 's';
     container.appendChild(s);
   }

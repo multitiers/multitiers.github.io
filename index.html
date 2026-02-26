@@ -37,10 +37,7 @@
       animation: spaceFloat 20s linear infinite, spin 10s linear infinite;
     }
     
-    @keyframes spaceFloat {
-      0%, 100% { transform: translate(0, 0); }
-      50% { transform: translate(20px, 20px); }
-    }
+    @keyframes spaceFloat { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(20px, 20px); } }
     @keyframes spin { from { rotate: 0deg; } to { rotate: 360deg; } }
 
     .shooting-star {
@@ -112,49 +109,32 @@
     <div id="displayList"></div>
   </div>
 
-  <div id="hof-sec" style="display:none; text-align:center;">
-    <h1 class="main-title" style="font-size: 2.5rem; margin-bottom: 30px;">HALL OF FAME</h1>
-    <div id="hofList"></div>
-  </div>
-  
-  <div id="testers-sec" style="display:none; text-align:center;">
-    <h1 class="main-title" style="font-size: 2.5rem; margin-bottom: 30px;">TIER TESTERS</h1>
-    <div id="testerList" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(250px, 1fr)); gap:20px;"></div>
-  </div>
+  <div id="hof-sec" style="display:none; text-align:center;"><h1 class="main-title" style="font-size:2.5rem; margin-bottom:30px;">HALL OF FAME</h1><div id="hofList"></div></div>
+  <div id="testers-sec" style="display:none; text-align:center;"><h1 class="main-title" style="font-size:2.5rem; margin-bottom:30px;">TIER TESTERS</h1><div id="testerList" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(250px, 1fr)); gap:20px;"></div></div>
 </div>
 
 <div id="profileModal" onclick="closeProfile()">
   <div class="modal-content" onclick="event.stopPropagation()">
     <span style="position:absolute; top:15px; right:20px; color:#555; cursor:pointer; font-size:24px;" onclick="closeProfile()">&times;</span>
-    <div id="pRank" style="font-size: 0.8rem; color: #555;">RANK #--</div>
+    <div id="pRank" style="font-size:0.8rem; color:#555;">RANK #--</div>
     <h2 id="pName" style="font-family:'MultiCraftFont'; font-size:3rem; color:var(--purple); margin:10px 0;">Player</h2>
     <div id="pPoints" style="color:var(--gold); margin-bottom:25px;">0 TOTAL PTS</div>
-    <div id="pGrids" style="display: flex; justify-content: center; gap: 12px; flex-wrap: wrap;"></div>
+    <div id="pGrids" style="display:flex; justify-content:center; gap:12px; flex-wrap:wrap;"></div>
   </div>
 </div>
 
 <script>
 let DATA = {}; let HOF = []; let TESTERS = []; let currentKit = "Overall";
-const ICONS = { "Overall": "emerald.png", "Emerald": "emerald.png", "Dragonhide KB": "dragonhide_kb.png", "Emerald OA": "emerald_oa.png", "Dragonhide KB OA": "kb_oa.png", "Wand": "wand.png" };
+const ICONS = { "Overall":"emerald.png", "Emerald":"emerald.png", "Dragonhide KB":"dragonhide_kb.png", "Emerald OA":"emerald_oa.png", "Dragonhide KB OA":"kb_oa.png", "Wand":"wand.png" };
 
-const DEVICE_NAMES = {
-  "MK": "Mouse & Keyboard",
-  "TP": "Trackpad",
-  "CTRL": "Controller",
-  "MB": "Mobile"
-};
+const DEVICE_NAMES = { "MK":"Mouse & Keyboard", "TP":"Trackpad", "CTRL":"Controller", "MB":"Mobile" };
 
 async function load() {
   const get = async (f) => {
-    try {
-      const r = await fetch(`https://raw.githubusercontent.com/multitiers/multitiers.github.io/refs/heads/main/${f}`);
-      return await r.json();
-    } catch(e) { return f.endsWith('json') ? [] : {}; }
+    const r = await fetch(`https://raw.githubusercontent.com/multitiers/multitiers.github.io/refs/heads/main/${f}`);
+    return await r.json();
   };
-  DATA = await get('rankings.json'); 
-  HOF = await get('hof.json'); 
-  TESTERS = await get('testers.json');
-  
+  DATA = await get('rankings.json'); HOF = await get('hof.json'); TESTERS = await get('testers.json');
   processOverall(); buildKitBar(); spawnSpaceStars(); startShootingStars(); render("Overall");
 }
 
@@ -164,7 +144,7 @@ function processOverall() {
   for(let k in DATA) { 
     if(k!=="Overall" && k!=="Players") {
       for(let t in DATA[k]) {
-        if(Array.isArray(DATA[k][t])) DATA[k][t].forEach(p => { const name = typeof p === 'string' ? p : p.name; totals[name] = (totals[name]||0) + (pts[t]||0); });
+        if(Array.isArray(DATA[k][t])) DATA[k][t].forEach(p => { totals[p] = (totals[p]||0) + (pts[t]||0); });
       }
     }
   }
@@ -173,7 +153,7 @@ function processOverall() {
 
 function getPlayerData(name) {
   if (!DATA.Players) return { region: "NA", device: "MK" };
-  const p = DATA.Players.find(x => x.name === name);
+  const p = DATA.Players.find(x => x.name.toLowerCase() === name.toLowerCase());
   return p ? p : { region: "NA", device: "MK" };
 }
 
@@ -194,7 +174,7 @@ function render(kit) {
     let sorted = Object.entries(DATA["Overall"]).sort((a,b) => b[1]-a[1]);
     sorted.forEach(([n, s], i) => {
       const pData = getPlayerData(n);
-      out.innerHTML += `<div class="tier-card"><div class="row" onclick="openProfile('${n}')"><span><b style="color:var(--purple); margin-right:15px;">#${i+1}</b> ${n} <span class="region-tag">${pData.region}</span><span class="tag" title="${DEVICE_NAMES[pData.device]}">${pData.device}</span></span><b style="color:var(--gold)">${s} PTS</b></div></div>`;
+      out.innerHTML += `<div class="tier-card"><div class="row" onclick="openProfile('${n}')"><span><b style="color:var(--purple); margin-right:15px;">#${i+1}</b> ${n} <span class="region-tag">${pData.region}</span><span class="tag" title="${DEVICE_NAMES[pData.device] || 'MK'}">${pData.device || 'MK'}</span></span><b style="color:var(--gold)">${s} PTS</b></div></div>`;
     });
   } else {
     [1,2,3,4,5].forEach(num => {
@@ -205,7 +185,7 @@ function render(kit) {
         let h = `<div class="tier-card"><div class="tier-header">T${num}</div>`;
         players.forEach(p => {
           const pData = getPlayerData(p.name);
-          h += `<div class="row" onclick="openProfile('${p.name}')"><span><b>${p.name}</b> <span class="region-tag">${pData.region}</span><span class="tag" title="${DEVICE_NAMES[pData.device]}">${pData.device}</span> <span class="tag tag-rank">${p.tag}</span></span><span>VIEW</span></div>`;
+          h += `<div class="row" onclick="openProfile('${p.name}')"><span><b>${p.name}</b> <span class="region-tag">${pData.region}</span><span class="tag" title="${DEVICE_NAMES[pData.device] || 'MK'}">${pData.device || 'MK'}</span> <span class="tag tag-rank">${p.tag}</span></span><span>VIEW</span></div>`;
         });
         out.innerHTML += h + `</div>`;
       }
@@ -222,7 +202,7 @@ function handleSearch() {
     list.innerHTML = `<div class="tier-card"><div class="tier-header">SEARCH RESULTS</div>`;
     allPlayers.forEach(n => {
       const pData = getPlayerData(n);
-      list.innerHTML += `<div class="row" onclick="openProfile('${n}')"><span><b>${n}</b> <span class="region-tag">${pData.region}</span><span class="tag" title="${DEVICE_NAMES[pData.device]}">${pData.device}</span></span><span style="color:var(--purple)">CLICK TO VIEW</span></div>`;
+      list.innerHTML += `<div class="row" onclick="openProfile('${n}')"><span><b>${n}</b> <span class="region-tag">${pData.region}</span><span class="tag" title="${DEVICE_NAMES[pData.device] || 'MK'}">${pData.device || 'MK'}</span></span><span style="color:var(--purple)">CLICK TO VIEW</span></div>`;
     });
     list.innerHTML += `</div>`;
   } else { list.innerHTML = `<div class="empty-msg">NO PLAYER FOUND</div>`; }
@@ -233,12 +213,8 @@ function showSection(id) {
     document.getElementById(s + '-sec').style.display = s === id ? 'block' : 'none';
     document.getElementById('nav-' + s).classList.toggle('active', s === id);
   });
-  if (id === 'hof') {
-    document.getElementById('hofList').innerHTML = HOF.length ? HOF.map(h => `<div class="tier-card" style="padding:25px; margin-bottom:15px;"><h2 style="font-family:'MultiCraftFont'; color:var(--purple);">${h.name}</h2><p style="opacity:0.6;">${h.description}</p></div>`).join('') : '<div class="empty-msg">NO LEGENDS YET</div>';
-  }
-  if (id === 'testers') {
-    document.getElementById('testerList').innerHTML = TESTERS.length ? TESTERS.map(t => `<div class="tier-card" style="padding:20px; text-align:center;"><div style="font-weight:bold; font-size:1.2rem;">${t.name}</div><div style="color:var(--purple); font-size:0.8rem; margin-top:5px;">@${t.discord}</div></div>`).join('') : '<div class="empty-msg">NO TESTERS FOUND</div>';
-  }
+  if (id === 'hof') document.getElementById('hofList').innerHTML = HOF.map(h => `<div class="tier-card" style="padding:25px; margin-bottom:15px;"><h2 style="font-family:'MultiCraftFont'; color:var(--purple);">${h.name}</h2><p style="opacity:0.6;">${h.description}</p></div>`).join('');
+  if (id === 'testers') document.getElementById('testerList').innerHTML = TESTERS.map(t => `<div class="tier-card" style="padding:20px; text-align:center;"><div style="font-weight:bold; font-size:1.2rem;">${t.name}</div><div style="color:var(--purple); font-size:0.8rem; margin-top:5px;">@${t.discord}</div></div>`).join('');
 }
 
 function openProfile(name) {
@@ -247,7 +223,7 @@ function openProfile(name) {
   let r = sorted.findIndex(x => x[0] === name) + 1;
   document.getElementById('pRank').innerText = `RANK #${r}`;
   document.getElementById('pName').innerText = name;
-  document.getElementById('pPoints').innerHTML = `${DATA["Overall"][name] || 0} TOTAL PTS <br><span class="tag" style="margin-top:10px; display:inline-block; border-color:var(--purple); color:var(--purple);">DEVICE: ${DEVICE_NAMES[pData.device]}</span>`;
+  document.getElementById('pPoints').innerHTML = `${DATA["Overall"][name] || 0} TOTAL PTS <br><span class="tag" style="margin-top:10px; display:inline-block; border-color:var(--purple); color:var(--purple);">DEVICE: ${DEVICE_NAMES[pData.device] || 'Mouse & Keyboard'}</span>`;
   const grid = document.getElementById('pGrids'); grid.innerHTML = "";
   for(let k in ICONS) {
     if(k!=="Overall" && DATA[k]) {

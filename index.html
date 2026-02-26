@@ -22,34 +22,34 @@
     @keyframes spaceFloat { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(20px, 20px); } }
     @keyframes spin { from { rotate: 0deg; } to { rotate: 360deg; } }
     
-    nav { display: flex; justify-content: center; gap: 25px; padding: 20px; background: rgba(0,0,0,0.9); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; backdrop-filter: blur(12px); }
-    .nav-link { color: #5a6474; text-decoration: none; font-weight: bold; cursor: pointer; transition: 0.3s; letter-spacing: 1px; font-family: 'MultiCraftFont'; }
+    nav { display: flex; justify-content: center; gap: 20px; padding: 20px; background: rgba(0,0,0,0.9); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; backdrop-filter: blur(12px); flex-wrap: wrap; }
+    .nav-link { color: #5a6474; text-decoration: none; font-weight: bold; cursor: pointer; transition: 0.3s; letter-spacing: 1px; font-family: 'MultiCraftFont'; font-size: 0.9rem; }
     .nav-link.active { color: #fff; text-shadow: 0 0 15px var(--purple); }
     
     header { text-align: center; padding: 40px 0 20px; }
-    .header-flex { display: flex; align-items: center; justify-content: center; gap: 15px; }
-    .title-sword { width: 45px; animation: pulseSword 2s infinite ease-in-out; }
+    .header-flex { display: flex; align-items: center; justify-content: center; gap: 20px; }
+    .title-sword { width: 45px; height: 45px; object-fit: contain; animation: pulseSword 2s infinite ease-in-out; }
     @keyframes pulseSword { 0%, 100% { transform: scale(1); filter: drop-shadow(0 0 10px var(--purple)); } 50% { transform: scale(1.1); filter: drop-shadow(0 0 20px var(--purple)); } }
     
     .main-title { font-family: 'MultiCraftFont'; font-size: 2.2rem; margin: 0; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-    
     .status-bar { margin-top: 15px; display: flex; justify-content: center; gap: 15px; font-size: 0.7rem; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; }
     .status-item { padding: 4px 10px; border-radius: 20px; border: 1px solid var(--border); background: rgba(255,255,255,0.02); color: #666; }
 
     .search-input { width: 100%; max-width: 450px; padding: 16px; background: rgba(0,0,0,0.8); border: 1px solid var(--border); border-radius: 12px; color: #fff; text-align: center; outline: none; margin: 0 auto 30px; display: block; font-family: 'MultiCraftFont'; }
-    .search-input:focus { border-color: var(--purple); box-shadow: 0 0 25px var(--purple-glow); }
-    
     .kit-btn { background: #0a0a0f; border: 1px solid var(--border); padding: 10px 20px; border-radius: 8px; color: #5a6474; cursor: pointer; transition: 0.3s; font-family: 'MultiCraftFont'; display: flex; align-items: center; gap: 8px; font-size: 0.8rem; }
     .kit-btn.active { border-color: #fff; color: #fff; background: rgba(168, 85, 247, 0.2); box-shadow: 0 0 15px var(--purple-glow); }
     
-    .tier-card { background: var(--bg-panel); border: 1px solid var(--border); border-radius: 10px; margin-bottom: 15px; overflow: hidden; }
-    .tier-header { padding: 12px 25px; background: rgba(168, 85, 247, 0.1); color: var(--purple); font-weight: bold; font-family: 'MultiCraftFont'; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
-    .row { display: flex; justify-content: space-between; align-items: center; padding: 15px 25px; cursor: pointer; transition: 0.2s; }
-    .row:hover { background: rgba(168, 85, 247, 0.05); }
+    .tier-card { background: var(--bg-panel); border: 1px solid var(--border); border-radius: 10px; margin-bottom: 15px; overflow: hidden; padding: 20px; }
+    .tier-header { padding: 12px 25px; background: rgba(168, 85, 247, 0.1); color: var(--purple); font-weight: bold; font-family: 'MultiCraftFont'; border-bottom: 1px solid var(--border); font-size: 0.9rem; margin: -20px -20px 10px -20px; }
+    .row { display: flex; justify-content: space-between; align-items: center; padding: 15px 5px; cursor: pointer; transition: 0.2s; border-bottom: 1px solid rgba(255,255,255,0.03); }
+    .row:last-child { border: none; }
     
     .tag { font-size: 0.7rem; padding: 2px 6px; border-radius: 4px; background: rgba(255,255,255,0.05); color: #888; margin-left: 8px; border: 1px solid rgba(255,255,255,0.1); cursor: help; }
     .tag-rank { border-color: var(--purple); color: var(--purple); }
-    .region-tag { color: #555; font-weight: bold; margin-left: 10px; font-size: 0.75rem; }
+    .combat-tag { font-family: 'MultiCraftFont'; font-size: 0.6rem; text-transform: uppercase; padding: 3px 8px; border-radius: 4px; margin-left: 10px; display: inline-block; vertical-align: middle; }
+    
+    .pts-table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 0.8rem; }
+    .pts-table td { padding: 8px; border: 1px solid var(--border); text-align: center; }
 
     #profileModal { position: fixed; inset: 0; background: rgba(0,0,0,0.98); z-index: 1000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(20px); }
     .modal-content { background: #010102; border: 1px solid var(--purple); border-radius: 20px; padding: 40px; text-align: center; width: 380px; box-shadow: 0 0 50px var(--purple-glow); position: relative;}
@@ -62,6 +62,7 @@
   <div class="nav-link active" id="nav-rankings" onclick="showSection('rankings')">RANKINGS</div>
   <div class="nav-link" id="nav-hof" onclick="showSection('hof')">HALL OF FAME</div>
   <div class="nav-link" id="nav-testers" onclick="showSection('testers')">TIER TESTERS</div>
+  <div class="nav-link" id="nav-info" onclick="showSection('info')">INFO</div>
 </nav>
 
 <header>
@@ -83,6 +84,28 @@
     <div id="displayList"></div>
   </div>
 
+  <div id="info-sec" style="display:none;">
+    <div class="tier-card">
+        <div class="tier-header">SERVER RULES</div>
+        <ul style="color:#aaa; line-height:1.8; margin-top: 10px;">
+            <li>No hacking, client modification, or macros.</li>
+            <li>Respect all Tier Testers and Staff members.</li>
+            <li>Disruptive behavior during tests is not permitted.</li>
+        </ul>
+    </div>
+    <div class="tier-card">
+        <div class="tier-header">POINT SYSTEM</div>
+        <table class="pts-table">
+            <tr style="color:var(--purple)"><td>TIER</td><td>POINTS</td><td>TIER</td><td>POINTS</td></tr>
+            <tr><td>HT1</td><td>10</td><td>LT1</td><td>9</td></tr>
+            <tr><td>HT2</td><td>8</td><td>LT2</td><td>7</td></tr>
+            <tr><td>HT3</td><td>6</td><td>LT3</td><td>5</td></tr>
+            <tr><td>HT4</td><td>4</td><td>LT4</td><td>3</td></tr>
+            <tr><td>HT5</td><td>2</td><td>LT5</td><td>1</td></tr>
+        </table>
+    </div>
+  </div>
+
   <div id="hof-sec" style="display:none; text-align:center;"><h1 class="main-title" style="margin-bottom:30px;">HALL OF FAME</h1><div id="hofList"></div></div>
   <div id="testers-sec" style="display:none; text-align:center;"><h1 class="main-title" style="margin-bottom:30px;">TIER TESTERS</h1><div id="testerList" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(250px, 1fr)); gap:20px;"></div></div>
 </div>
@@ -92,6 +115,8 @@
     <span style="position:absolute; top:15px; right:20px; color:#555; cursor:pointer; font-size:24px;" onclick="closeProfile()">&times;</span>
     <div id="pRank" style="font-size:0.8rem; color:#555;">RANK #--</div>
     <h2 id="pName" style="font-family:'MultiCraftFont'; font-size:2.5rem; color:var(--purple); margin:10px 0;">Player</h2>
+    <div id="pTitle"></div>
+    <div id="pRegion" style="font-size:0.9rem; color:#fff; font-weight: bold; margin-bottom:10px;">REGION: --</div>
     <div id="pPoints" style="color:var(--gold); margin-bottom:25px; font-size:0.9rem;">0 TOTAL PTS</div>
     <div id="pGrids" style="display:flex; justify-content:center; gap:12px; flex-wrap:wrap;"></div>
   </div>
@@ -128,6 +153,15 @@ function getPlayerData(name) {
   return p ? p : { region: "NA", device: "MK" };
 }
 
+function getTitle(pts) {
+    if(pts >= 30) return {txt: "Combat Legend", col: "#ef4444"};
+    if(pts >= 25) return {txt: "Combat Master", col: "#f59e0b"};
+    if(pts >= 20) return {txt: "Combat Professional", col: "#a855f7"};
+    if(pts >= 15) return {txt: "Combat Expert", col: "#3b82f6"};
+    if(pts >= 10) return {txt: "Combat Proficient", col: "#10b981"};
+    return {txt: "Combat Novice", col: "#6b7280"};
+}
+
 function buildKitBar() {
   const bar = document.getElementById('kitBar');
   Object.keys(DATA).filter(k => k !== "Players").forEach(k => {
@@ -144,8 +178,8 @@ function render(kit) {
   if(kit === "Overall") {
     let sorted = Object.entries(DATA["Overall"]).sort((a,b) => b[1]-a[1]);
     sorted.forEach(([n, s], i) => {
-      const pData = getPlayerData(n);
-      out.innerHTML += `<div class="tier-card"><div class="row" onclick="openProfile('${n}')"><span><b style="color:var(--purple); margin-right:15px;">#${i+1}</b> ${n} <span class="region-tag">${pData.region}</span><span class="tag" title="${DEVICE_NAMES[pData.device] || 'MK'}">${pData.device || 'MK'}</span></span><b style="color:var(--gold)">${s} PTS</b></div></div>`;
+      const title = getTitle(s);
+      out.innerHTML += `<div class="tier-card" style="padding:0;"><div class="row" style="padding:15px 25px;" onclick="openProfile('${n}')"><span><b style="color:var(--purple); margin-right:15px;">#${i+1}</b> ${n} <span class="combat-tag" style="background:${title.col}">${title.txt}</span></span><b style="color:var(--gold)">${s} PTS</b></div></div>`;
     });
   } else {
     [1,2,3,4,5].forEach(num => {
@@ -153,12 +187,11 @@ function render(kit) {
       const lts = (DATA[kit][`LT${num}`] || []).map(n => ({name: n, tag: `LT${num}`}));
       const players = [...hts, ...lts];
       if(players.length) {
-        let h = `<div class="tier-card"><div class="tier-header">T${num}</div>`;
+        let h = `<div class="tier-card" style="padding:0;"><div class="tier-header">T${num}</div><div style="padding:0 20px;">`;
         players.forEach(p => {
-          const pData = getPlayerData(p.name);
-          h += `<div class="row" onclick="openProfile('${p.name}')"><span><b>${p.name}</b> <span class="region-tag">${pData.region}</span><span class="tag" title="${DEVICE_NAMES[pData.device] || 'MK'}">${pData.device || 'MK'}</span> <span class="tag tag-rank">${p.tag}</span></span><span>VIEW</span></div>`;
+          h += `<div class="row" onclick="openProfile('${p.name}')"><span><b>${p.name}</b> <span class="tag tag-rank">${p.tag}</span></span><span>VIEW</span></div>`;
         });
-        out.innerHTML += h + `</div>`;
+        out.innerHTML += h + `</div></div>`;
       }
     });
   }
@@ -170,31 +203,37 @@ function handleSearch() {
   if (q.length < 1) { render(currentKit); return; }
   let allPlayers = Object.keys(DATA["Overall"]).filter(n => n.toLowerCase().includes(q));
   if (allPlayers.length > 0) {
-    list.innerHTML = `<div class="tier-card"><div class="tier-header">SEARCH RESULTS</div>`;
+    list.innerHTML = `<div class="tier-card" style="padding:0;"><div class="tier-header">SEARCH RESULTS</div><div style="padding:0 20px;">`;
     allPlayers.forEach(n => {
-      const pData = getPlayerData(n);
-      list.innerHTML += `<div class="row" onclick="openProfile('${n}')"><span><b>${n}</b> <span class="region-tag">${pData.region}</span><span class="tag" title="${DEVICE_NAMES[pData.device] || 'MK'}">${pData.device || 'MK'}</span></span><span style="color:var(--purple)">CLICK TO VIEW</span></div>`;
+      list.innerHTML += `<div class="row" onclick="openProfile('${n}')"><span><b>${n}</b></span><span style="color:var(--purple)">CLICK TO VIEW</span></div>`;
     });
-    list.innerHTML += `</div>`;
+    list.innerHTML += `</div></div>`;
   } else { list.innerHTML = `<div class="empty-msg">NO PLAYER FOUND</div>`; }
 }
 
 function showSection(id) {
-  ['rankings', 'hof', 'testers'].forEach(s => {
+  ['rankings', 'hof', 'testers', 'info'].forEach(s => {
     document.getElementById(s + '-sec').style.display = s === id ? 'block' : 'none';
-    document.getElementById('nav-' + s).classList.toggle('active', s === id);
+    const navItem = document.getElementById('nav-' + s);
+    if(navItem) navItem.classList.toggle('active', s === id);
   });
-  if (id === 'hof') document.getElementById('hofList').innerHTML = HOF.map(h => `<div class="tier-card" style="padding:25px; margin-bottom:15px;"><h2 style="font-family:'MultiCraftFont'; color:var(--purple);">${h.name}</h2><p style="opacity:0.6;">${h.description}</p></div>`).join('');
+  if (id === 'hof') document.getElementById('hofList').innerHTML = HOF.map(h => `<div class="tier-card" style="padding:25px; margin-bottom:15px; text-align:center;"><h2 style="font-family:'MultiCraftFont'; color:var(--purple);">${h.name}</h2><p style="opacity:0.6;">${h.description}</p></div>`).join('');
   if (id === 'testers') document.getElementById('testerList').innerHTML = TESTERS.map(t => `<div class="tier-card" style="padding:20px; text-align:center;"><div style="font-weight:bold; font-size:1.1rem;">${t.name}</div><div style="color:var(--purple); font-size:0.8rem; margin-top:5px;">@${t.discord}</div></div>`).join('');
 }
 
 function openProfile(name) {
   const pData = getPlayerData(name);
+  const pts = DATA["Overall"][name] || 0;
+  const title = getTitle(pts);
   let sorted = Object.entries(DATA["Overall"]).sort((a,b) => b[1]-a[1]);
   let r = sorted.findIndex(x => x[0] === name) + 1;
+  
   document.getElementById('pRank').innerText = `RANK #${r}`;
   document.getElementById('pName').innerText = name;
-  document.getElementById('pPoints').innerHTML = `${DATA["Overall"][name] || 0} TOTAL PTS <br><span class="tag" style="margin-top:10px; display:inline-block; border-color:var(--purple); color:var(--purple);">DEVICE: ${DEVICE_NAMES[pData.device] || 'Mouse & Keyboard'}</span>`;
+  document.getElementById('pTitle').innerHTML = `<span class="combat-tag" style="background:${title.col}; margin-bottom:10px; display:inline-block;">${title.txt}</span>`;
+  document.getElementById('pRegion').innerText = `REGION: ${pData.region}`;
+  document.getElementById('pPoints').innerHTML = `${pts} TOTAL PTS <br><span class="tag" style="margin-top:10px; display:inline-block; border-color:var(--purple); color:var(--purple); cursor: help;" title="${DEVICE_NAMES[pData.device] || 'Mouse & Keyboard'}">DEVICE: ${pData.device}</span>`;
+  
   const grid = document.getElementById('pGrids'); grid.innerHTML = "";
   for(let k in ICONS) {
     if(k!=="Overall" && DATA[k]) {

@@ -7,72 +7,67 @@
   <link rel="icon" type="image/png" href="backgroundsword.png">
   <style>
     @font-face { font-family: 'MultiCraftFont'; src: url('MultiCraftFont.ttf') format('truetype'); }
-    
     :root {
-      --bg: #010102;
-      --purple: #a855f7;
-      --purple-glow: rgba(168, 85, 247, 0.6);
-      --border: rgba(168, 85, 247, 0.3);
-      --gold: #ffd700;
+      --bg: #010102; --purple: #a855f7; --purple-glow: rgba(168, 85, 247, 0.6);
+      --border: rgba(168, 85, 247, 0.3); --gold: #ffd700;
     }
 
+    /* Unfrozen Animated Gradient Background */
     body { 
       background: linear-gradient(-45deg, #010102, #0d011a, #010102, #05000d);
       background-size: 400% 400%;
       animation: gradientMove 15s ease infinite;
       color: #fff; font-family: 'Courier New', monospace; margin: 0; padding-bottom: 50px;
-      overflow-x: hidden;
-      display: flex; flex-direction: column; align-items: center;
+      overflow-x: hidden; display: flex; flex-direction: column; align-items: center;
     }
-
     @keyframes gradientMove { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
 
-    /* Moving Kits in Background */
+    /* Shooting Star Kits */
     #space-container { position: fixed; inset: 0; z-index: -1; pointer-events: none; }
-    .space-star { position: absolute; width: 40px; height: 40px; background-size: contain; background-repeat: no-repeat; opacity: 0.12; animation: floatMove 25s linear infinite; }
-    @keyframes floatMove { 
-        0% { transform: translate(0, 0) rotate(0deg); } 
-        50% { transform: translate(100px, 200px) rotate(180deg); } 
-        100% { transform: translate(0, 0) rotate(360deg); } 
+    .shooting-star { 
+      position: absolute; width: 40px; height: 40px; background-size: contain; background-repeat: no-repeat;
+      opacity: 0.15; animation: shoot 10s linear infinite; 
+    }
+    @keyframes shoot {
+      0% { transform: translate(-100px, -100px) rotate(0deg); opacity: 0; }
+      10% { opacity: 0.2; }
+      90% { opacity: 0.2; }
+      100% { transform: translate(120vw, 120vh) rotate(360deg); opacity: 0; }
     }
 
-    /* Absolute Centering for Header */
+    /* PERFECTLY CENTERED HEADER */
     header { width: 100%; display: flex; justify-content: center; padding: 60px 0 20px; }
-    .header-container { display: flex; align-items: center; justify-content: center; gap: 15px; width: 100%; }
-    .title-sword { width: 50px; height: 50px; object-fit: contain; animation: pulse 2s infinite ease-in-out; }
+    .header-container { display: flex; align-items: center; justify-content: center; width: 100%; }
+    .main-title { font-family: 'MultiCraftFont'; font-size: 3.2rem; margin: 0; background: linear-gradient(to right, #fff, var(--purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .title-sword { width: 50px; height: 50px; object-fit: contain; margin: 0 20px; animation: pulse 2s infinite ease-in-out; }
     @keyframes pulse { 0%, 100% { transform: scale(1); filter: drop-shadow(0 0 5px var(--purple)); } 50% { transform: scale(1.1); filter: drop-shadow(0 0 15px var(--purple)); } }
-    .main-title { font-family: 'MultiCraftFont'; font-size: 3.2rem; margin: 0; background: linear-gradient(to right, #fff, var(--purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 1; }
 
     nav { display: flex; justify-content: center; gap: 40px; padding: 25px 0; background: rgba(0,0,0,0.85); width: 100%; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; backdrop-filter: blur(12px); }
-    .nav-link { color: #5a6474; text-decoration: none; font-weight: bold; cursor: pointer; transition: 0.3s; font-family: 'MultiCraftFont'; font-size: 0.95rem; letter-spacing: 1px; }
+    .nav-link { color: #5a6474; text-decoration: none; font-weight: bold; cursor: pointer; transition: 0.3s; font-family: 'MultiCraftFont'; font-size: 0.95rem; }
     .nav-link.active { color: #fff; text-shadow: 0 0 15px var(--purple-glow); }
 
+    /* GLOWING SEARCH */
     .search-input { 
-      width: 100%; max-width: 500px; padding: 18px; 
-      background: rgba(0,0,0,0.9); border: 2px solid var(--border); 
-      border-radius: 15px; color: #fff; text-align: center; outline: none; 
-      font-family: 'MultiCraftFont'; transition: 0.4s; margin-top: 40px;
+      width: 100%; max-width: 500px; padding: 18px; background: rgba(0,0,0,0.9); border: 2px solid var(--border); 
+      border-radius: 15px; color: #fff; text-align: center; outline: none; font-family: 'MultiCraftFont'; 
+      margin-top: 40px; transition: 0.4s; box-shadow: 0 0 10px rgba(0,0,0,0.5);
     }
     .search-input:focus { border-color: var(--purple); box-shadow: 0 0 25px var(--purple-glow); }
 
-    .kit-btn { 
-      background: rgba(10, 10, 15, 0.8); border: 1px solid var(--border); 
-      padding: 12px 22px; border-radius: 10px; color: #888; cursor: pointer; 
-      transition: 0.3s; font-family: 'MultiCraftFont'; font-size: 0.8rem; 
-      display: flex; align-items: center; gap: 10px; text-transform: uppercase;
-    }
+    .kit-btn { background: rgba(10, 10, 15, 0.8); border: 1px solid var(--border); padding: 12px 22px; border-radius: 10px; color: #888; cursor: pointer; font-family: 'MultiCraftFont'; font-size: 0.8rem; display: flex; align-items: center; gap: 10px; }
     .kit-btn.active { border-color: #fff; color: #fff; background: rgba(168, 85, 247, 0.3); box-shadow: 0 0 20px var(--purple-glow); }
 
-    .tier-card { width: 100%; max-width: 800px; background: rgba(5, 5, 8, 0.95); border: 1px solid var(--border); border-radius: 15px; margin-bottom: 25px; overflow: hidden; }
-    .tier-header { padding: 15px; background: rgba(168, 85, 247, 0.2); color: var(--purple); font-family: 'MultiCraftFont'; text-align: center; border-bottom: 1px solid var(--border); font-size: 1.1rem; }
-    
-    .row { display: flex; justify-content: space-between; align-items: center; padding: 20px 35px; cursor: pointer; transition: 0.2s; border-bottom: 1px solid rgba(255,255,255,0.02); }
-    .row:hover { background: rgba(168, 85, 247, 0.1); }
-    .player-name { font-weight: bold; font-size: 1.1rem; transition: 0.3s; }
-    .row:hover .player-name { text-shadow: 0 0 15px var(--purple-glow); color: #fff; }
+    .tier-card { width: 100%; max-width: 800px; background: rgba(5, 5, 8, 0.95); border: 1px solid var(--border); border-radius: 15px; margin-bottom: 25px; }
+    .tier-header { padding: 15px; background: rgba(168, 85, 247, 0.2); color: var(--purple); font-family: 'MultiCraftFont'; text-align: center; border-bottom: 1px solid var(--border); }
+    .row { display: flex; justify-content: space-between; align-items: center; padding: 20px 35px; cursor: pointer; }
+    .player-name { font-weight: bold; font-size: 1.1rem; }
+    .row:hover .player-name { text-shadow: 0 0 15px var(--purple-glow); color: var(--purple); }
 
-    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.96); z-index: 1000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(12px); }
-    .modal-content { background: #010102; border: 2px solid var(--purple); border-radius: 20px; padding: 45px; text-align: center; width: 420px; box-shadow: 0 0 50px var(--purple-glow); position: relative; }
+    /* OLD GLOWY PROFILES */
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 1000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(15px); }
+    .modal-content { background: #010102; border: 2px solid var(--purple); border-radius: 20px; padding: 45px; text-align: center; width: 420px; box-shadow: 0 0 60px var(--purple-glow); position: relative; }
+    .tag { font-size: 0.7rem; padding: 4px 8px; border-radius: 5px; background: rgba(168, 85, 247, 0.1); color: var(--purple); border: 1px solid var(--border); font-weight: bold; margin-left: 10px; }
+    .p-grid-item { background: #0a0c12; padding: 12px; border-radius: 10px; border: 1px solid var(--border); min-width: 70px; }
   </style>
 </head>
 <body>
@@ -94,8 +89,8 @@
 </header>
 
 <div id="rankings-sec" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
-    <input type="text" id="playerSearch" class="search-input" placeholder="SEARCH PLAYER..." oninput="handleSearch()">
-    <div id="kitBar" style="display: flex; justify-content: center; flex-wrap: wrap; gap: 15px; margin: 40px 0; max-width: 1000px;"></div>
+    <input type="text" id="playerSearch" class="search-input" placeholder="SEARCH PLAYER OR PROFILE..." oninput="handleSearch()">
+    <div id="kitBar" style="display: flex; justify-content: center; flex-wrap: wrap; gap: 15px; margin: 40px 0;"></div>
     <div id="displayList" style="width: 100%; display: flex; flex-direction: column; align-items: center;"></div>
 </div>
 
@@ -109,49 +104,29 @@
 
 <div id="profileModal" class="modal-overlay" onclick="closeProfile()">
     <div class="modal-content" onclick="event.stopPropagation()">
-        <span style="position:absolute; top:20px; right:25px; color:#666; cursor:pointer; font-size:28px;" onclick="closeProfile()">&times;</span>
-        <div id="pRank" style="font-size:0.9rem; color:#555; letter-spacing:2px;">RANK #--</div>
-        <h2 id="pName" style="font-family:'MultiCraftFont'; font-size:2.8rem; color:var(--purple); margin:15px 0;">Player</h2>
-        <div id="pPoints" style="color:var(--gold); font-size:1.2rem; margin-bottom:30px;">0 TOTAL PTS</div>
-        <div id="pGrids" style="display:flex; justify-content:center; gap:15px; flex-wrap:wrap;"></div>
+        <span style="position:absolute; top:20px; right:25px; color:#555; cursor:pointer; font-size:28px;" onclick="closeProfile()">&times;</span>
+        <div id="pRank" style="font-size:0.9rem; color:#888; letter-spacing:2px; font-weight: bold;">RANK #--</div>
+        <h2 id="pName" style="font-family:'MultiCraftFont'; font-size:2.8rem; color:var(--purple); margin:15px 0; text-shadow: 0 0 20px var(--purple-glow);">Player</h2>
+        <div id="pRegion" style="font-weight: bold; margin-bottom: 5px;">REGION: --</div>
+        <div id="pDevice" style="color:var(--purple); font-size: 0.8rem; margin-bottom: 20px;">DEVICE: --</div>
+        <div id="pPoints" style="color:var(--gold); font-size:1.2rem; margin-bottom:30px; font-weight: bold;">0 TOTAL PTS</div>
+        <div id="pGrids" style="display:flex; justify-content:center; gap:12px; flex-wrap:wrap;"></div>
     </div>
 </div>
 
 <script>
 let DATA = {};
 const ICONS = { 
-  "Overall": "", // NO IMAGE FOR OVERALL
-  "Emerald": "emerald.png", 
-  "Dragonhide KB": "dragonhide_kb.png", 
-  "Emerald OA": "emerald_oa.png", 
-  "Dragonhide KB OA": "kb_oa.png", 
-  "Wand": "wand.png",
-  "Emerald KB": "emerald.png", // FALLBACK TO EMERALD
-  "Diamond": "emerald.png"     // FALLBACK TO EMERALD
+  "Overall": "", 
+  "Emerald": "emerald.png", "Dragonhide KB": "dragonhide_kb.png", 
+  "Emerald OA": "emerald_oa.png", "Dragonhide KB OA": "kb_oa.png", 
+  "Wand": "wand.png", "Emerald KB": "emerald.png", "Diamond": "emerald.png" 
 };
 
 async function load() {
-  try {
-    const r = await fetch(`https://raw.githubusercontent.com/multitiers/multitiers.github.io/refs/heads/main/rankings.json?t=${Date.now()}`);
-    DATA = await r.json();
-    processOverall();
-    buildKitBar();
-    spawnSpaceStars();
-    render("Overall");
-  } catch(e) { console.error("Data failed to load"); }
-}
-
-async function loadExtra(file, elementId) {
-  const container = document.getElementById(elementId);
-  container.innerHTML = "<p>LOADING...</p>";
-  try {
-    const r = await fetch(`https://raw.githubusercontent.com/multitiers/multitiers.github.io/refs/heads/main/${file}?t=${Date.now()}`);
-    const json = await r.json();
-    container.innerHTML = "";
-    json.forEach(item => {
-      container.innerHTML += `<div class="tier-card"><div class="row"><span class="player-name">${item.name}</span><span style="color:var(--purple)">${item.role || 'LEGEND'}</span></div></div>`;
-    });
-  } catch(e) { container.innerHTML = `<p style="color:red">FAILED TO LOAD ${file}</p>`; }
+  const r = await fetch(`https://raw.githubusercontent.com/multitiers/multitiers.github.io/refs/heads/main/rankings.json?t=${Date.now()}`);
+  DATA = await r.json();
+  processOverall(); buildKitBar(); spawnShootingStars(); render("Overall");
 }
 
 function processOverall() {
@@ -169,6 +144,16 @@ function processOverall() {
   DATA["Overall"] = totals;
 }
 
+function getHighestTier(name) {
+  for(let k in DATA) {
+    if(k !== "Overall" && k !== "Players") {
+      if(DATA[k]["HT1"]?.includes(name)) return "HT1";
+      if(DATA[k]["LT1"]?.includes(name)) return "LT1";
+    }
+  }
+  return null;
+}
+
 function buildKitBar() {
   const bar = document.getElementById('kitBar');
   bar.innerHTML = "";
@@ -176,48 +161,32 @@ function buildKitBar() {
   keys.forEach(k => {
     const btn = document.createElement('button');
     btn.className = `kit-btn ${k==='Overall'?'active':''}`;
-    const imgHtml = ICONS[k] ? `<img src="${ICONS[k]}" style="width:18px;">` : "";
-    btn.innerHTML = `${imgHtml} ${k}`;
+    btn.innerHTML = (ICONS[k] ? `<img src="${ICONS[k]}" style="width:18px;"> ` : "") + k;
     btn.onclick = () => {
       document.querySelectorAll('.kit-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      render(k);
+      btn.classList.add('active'); render(k);
     };
     bar.appendChild(btn);
   });
 }
 
 function render(kit) {
-  const out = document.getElementById('displayList');
-  out.innerHTML = "";
+  const out = document.getElementById('displayList'); out.innerHTML = "";
   if(kit === "Overall") {
     let sorted = Object.entries(DATA["Overall"]).sort((a,b) => b[1]-a[1]);
     sorted.forEach(([n, s], i) => {
-      out.innerHTML += `<div class="tier-card"><div class="row" onclick="openProfile('${n}')"><span class="player-name"><b style="color:var(--purple); margin-right:15px;">#${i+1}</b> ${n}</span><b style="color:var(--gold)">${s} PTS</b></div></div>`;
+      const t1 = getHighestTier(n);
+      out.innerHTML += `<div class="tier-card"><div class="row" onclick="openProfile('${n}')"><span class="player-name"><b style="color:var(--purple); margin-right:15px;">#${i+1}</b> ${n} ${t1 ? `<span class="tag">${t1}</span>`:''}</span><b style="color:var(--gold)">${s} PTS</b></div></div>`;
     });
   } else {
     ["HT1","LT1","HT2","LT2","HT3","LT3","HT4","LT4","HT5","LT5"].forEach(t => {
       if(DATA[kit] && DATA[kit][t] && DATA[kit][t].length > 0) {
         let h = `<div class="tier-card"><div class="tier-header">${t}</div>`;
-        DATA[kit][t].forEach(p => {
-          h += `<div class="row" onclick="openProfile('${p}')"><span class="player-name">${p}</span><span style="color:#555">VIEW</span></div>`;
-        });
+        DATA[kit][t].forEach(p => { h += `<div class="row" onclick="openProfile('${p}')"><span class="player-name">${p}</span><span style="color:#555">VIEW</span></div>`; });
         out.innerHTML += h + `</div>`;
       }
     });
   }
-}
-
-function showSection(id) {
-    document.getElementById('rankings-sec').style.display = id === 'rankings' ? 'flex' : 'none';
-    document.getElementById('hof-sec').style.display = id === 'hof' ? 'flex' : 'none';
-    document.getElementById('tester-sec').style.display = id === 'testers' ? 'flex' : 'none';
-    
-    document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
-    event.currentTarget.classList.add('active');
-
-    if(id === 'hof') loadExtra('hof.json', 'hofList');
-    if(id === 'testers') loadExtra('testers.json', 'testerList');
 }
 
 function handleSearch() {
@@ -228,22 +197,57 @@ function handleSearch() {
 }
 
 function openProfile(name) {
+  const pd = DATA.Players?.find(x => x.name.toLowerCase() === name.toLowerCase()) || { region: "???", device: "??" };
+  const pts = DATA["Overall"][name] || 0;
+  let sorted = Object.entries(DATA["Overall"]).sort((a,b) => b[1]-a[1]);
+  let r = sorted.findIndex(x => x[0] === name) + 1;
+
+  document.getElementById('pRank').innerText = `RANK #${r || '--'}`;
   document.getElementById('pName').innerText = name;
-  document.getElementById('pPoints').innerText = (DATA["Overall"][name] || 0) + " TOTAL PTS";
+  document.getElementById('pRegion').innerText = `REGION: ${pd.region}`;
+  document.getElementById('pDevice').innerText = `DEVICE: ${pd.device}`;
+  document.getElementById('pPoints').innerText = `${pts} TOTAL PTS`;
+  
+  const grid = document.getElementById('pGrids'); grid.innerHTML = "";
+  for(let k in ICONS) {
+    if(k!=="Overall" && DATA[k]) {
+      for(let t in DATA[k]) if(Array.isArray(DATA[k][t]) && DATA[k][t].includes(name)) {
+        grid.innerHTML += `<div class="p-grid-item"><img src="${ICONS[k]}" style="width:20px;"><br><small style="color:var(--purple); font-weight:bold;">${t}</small></div>`;
+      }
+    }
+  }
   document.getElementById('profileModal').style.display = 'flex';
 }
+
 function closeProfile() { document.getElementById('profileModal').style.display = 'none'; }
 
-function spawnSpaceStars() {
+function showSection(id) {
+    document.getElementById('rankings-sec').style.display = id === 'rankings' ? 'flex' : 'none';
+    document.getElementById('hof-sec').style.display = id === 'hof' ? 'flex' : 'none';
+    document.getElementById('tester-sec').style.display = id === 'testers' ? 'flex' : 'none';
+    document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+    event.currentTarget.classList.add('active');
+    if(id === 'hof') loadExtra('hof.json', 'hofList');
+    if(id === 'testers') loadExtra('testers.json', 'testerList');
+}
+
+async function loadExtra(file, elementId) {
+  const container = document.getElementById(elementId);
+  try {
+    const r = await fetch(`https://raw.githubusercontent.com/multitiers/multitiers.github.io/refs/heads/main/${file}?t=${Date.now()}`);
+    const json = await r.json();
+    container.innerHTML = "";
+    json.forEach(item => { container.innerHTML += `<div class="tier-card"><div class="row"><span class="player-name">${item.name}</span><span style="color:var(--purple)">${item.role || 'LEGEND'}</span></div></div>`; });
+  } catch(e) { container.innerHTML = `<p>Error loading ${file}</p>`; }
+}
+
+function spawnShootingStars() {
   const container = document.getElementById('space-container');
-  const imgs = Object.values(ICONS).filter(i => i !== "");
-  for(let i=0; i<15; i++) {
-    const s = document.createElement('div');
-    s.className = 'space-star';
-    s.style.backgroundImage = `url(${imgs[i % imgs.length]})`;
-    s.style.top = Math.random() * 100 + 'vh';
-    s.style.left = Math.random() * 100 + 'vw';
-    s.style.animationDuration = (20 + Math.random() * 20) + 's';
+  for(let i=0; i<10; i++) {
+    const s = document.createElement('div'); s.className = 'shooting-star';
+    s.style.backgroundImage = `url('backgroundsword.png')`;
+    s.style.top = Math.random() * 80 + 'vh'; s.style.left = Math.random() * 80 + 'vw';
+    s.style.animationDelay = (Math.random() * 15) + 's';
     container.appendChild(s);
   }
 }

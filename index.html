@@ -18,16 +18,21 @@
       background-image: radial-gradient(circle at 15% 25%, rgba(168, 85, 247, 0.08) 0%, transparent 40%), radial-gradient(circle at 85% 75%, rgba(99, 102, 241, 0.05) 0%, transparent 40%);
     }
     
-    /* Header & Sword Alignment - Pushed Sword further RIGHT */
     header { padding: 40px 0 20px; display: flex; flex-direction: column; align-items: center; }
-    .header-flex { display: flex; align-items: center; justify-content: center; position: relative; width: fit-content; }
-    .main-title { font-family: 'MultiCraftFont'; font-size: 2.2rem; margin: 0; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 1; }
-    .title-sword { width: 42px; height: 42px; object-fit: contain; animation: pulseSword 2s infinite ease-in-out; margin-left: 40px; margin-right: 15px; } 
-    
+    .header-flex { display: flex; align-items: center; justify-content: center; }
+    .title-mtc { margin-right: -8px; } 
+    .title-sword { width: 42px; height: 42px; object-fit: contain; animation: pulseSword 2s infinite ease-in-out; margin: 0 12px 0 15px; } 
     @keyframes pulseSword { 0%, 100% { transform: scale(1); filter: drop-shadow(0 0 8px var(--purple)); } 50% { transform: scale(1.1); filter: drop-shadow(0 0 15px var(--purple)); } }
+    .main-title { font-family: 'MultiCraftFont'; font-size: 2.2rem; margin: 0; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 1; }
 
     #space-container { position: fixed; inset: 0; z-index: -1; pointer-events: none; }
-    .space-star { position: absolute; width: 35px; height: 35px; background-size: contain; background-repeat: no-repeat; opacity: 0.25; filter: drop-shadow(0 0 8px var(--purple)); animation: spaceFloat 20s linear infinite, spin 10s linear infinite; }
+    .space-star { 
+        position: absolute; width: 35px; height: 35px; background-size: contain; 
+        background-repeat: no-repeat; opacity: 0.2; filter: drop-shadow(0 0 8px var(--purple)); 
+        animation: spaceFloat 20s linear infinite, spin 12s linear infinite; 
+    }
+    @keyframes spaceFloat { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(30px, 30px); } }
+    @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
     
     nav { display: flex; justify-content: center; gap: 20px; padding: 20px; background: rgba(0,0,0,0.9); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; backdrop-filter: blur(12px); flex-wrap: wrap; }
     .nav-link { color: #5a6474; text-decoration: none; font-weight: bold; cursor: pointer; transition: 0.3s; letter-spacing: 1px; font-family: 'MultiCraftFont'; font-size: 0.85rem; }
@@ -41,27 +46,22 @@
     .tier-header { padding: 12px 25px; background: rgba(168, 85, 247, 0.1); color: var(--purple); font-weight: bold; font-family: 'MultiCraftFont'; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
     .row { display: flex; justify-content: space-between; align-items: center; padding: 15px 25px; cursor: pointer; transition: 0.2s; border-bottom: 1px solid rgba(255,255,255,0.03); }
     
-    .tag { font-size: 0.7rem; padding: 2px 6px; border-radius: 4px; background: rgba(255,255,255,0.05); color: #888; margin-left: 8px; border: 1px solid rgba(255,255,255,0.1); cursor: help; }
-    .tag-rank { border-color: var(--purple); color: var(--purple); }
-    .region-tag { color: #555; font-weight: bold; margin-left: 10px; font-size: 0.75rem; }
-    .combat-tag { font-family: 'MultiCraftFont'; font-size: 0.6rem; text-transform: uppercase; padding: 4px 10px; border-radius: 4px; margin-left: 12px; display: inline-block; vertical-align: middle; letter-spacing: 1px; }
-    
-    #profileModal { position: fixed; inset: 0; background: rgba(0,0,0,0.98); z-index: 1000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(20px); }
-    .modal-content { background: #010102; border: 1px solid var(--purple); border-radius: 20px; padding: 40px; text-align: center; width: 380px; box-shadow: 0 0 50px var(--purple-glow); position: relative;}
+    .tag { font-size: 0.7rem; padding: 2px 6px; border-radius: 4px; background: rgba(255,255,255,0.05); color: #888; margin-left: 8px; border: 1px solid rgba(255,255,255,0.1); }
+    .combat-tag { font-family: 'MultiCraftFont'; font-size: 0.6rem; text-transform: uppercase; padding: 4px 10px; border-radius: 4px; margin-left: 12px; display: inline-block; vertical-align: middle; letter-spacing: 1px; color: #fff; }
   </style>
 </head>
 <body>
 
 <div id="space-container"></div>
 <nav>
-  <div class="nav-link active" id="nav-rankings" onclick="showSection('rankings')">RANKINGS</div>
-  <div class="nav-link" id="nav-hof" onclick="showSection('hof')">HALL OF FAME</div>
-  <div class="nav-link" id="nav-testers" onclick="showSection('testers')">TIER TESTERS</div>
+  <div class="nav-link active">RANKINGS</div>
+  <div class="nav-link">HALL OF FAME</div>
+  <div class="nav-link">TIER TESTERS</div>
 </nav>
 
 <header>
   <div class="header-flex">
-    <h1 class="main-title">MTC</h1>
+    <h1 class="main-title title-mtc">MTC</h1>
     <img src="backgroundsword.png" class="title-sword">
     <h1 class="main-title">TIERS</h1>
   </div>
@@ -75,23 +75,19 @@
   </div>
 </div>
 
-<div id="profileModal" onclick="closeProfile()">
-  <div class="modal-content" onclick="event.stopPropagation()">
-    <span style="position:absolute; top:15px; right:20px; color:#555; cursor:pointer; font-size:24px;" onclick="closeProfile()">&times;</span>
-    <div id="pRank" style="font-size:0.8rem; color:#555;">RANK #--</div>
-    <h2 id="pName" style="font-family:'MultiCraftFont'; font-size:2.5rem; color:var(--purple); margin:10px 0;">Player</h2>
-    <div id="pTitle"></div>
-    <div id="pRegion" style="font-size:0.9rem; color:#fff; font-weight: bold; margin-bottom:10px;">REGION: --</div>
-    <div id="pPoints" style="color:var(--gold); margin-bottom:25px; font-size:0.9rem;">0 TOTAL PTS</div>
-    <div id="pGrids" style="display:flex; justify-content:center; gap:12px; flex-wrap:wrap;"></div>
-  </div>
-</div>
-
 <script>
 let DATA = {}; let currentKit = "Overall";
-const ICONS = { "Overall":"emerald.png", "Emerald":"emerald.png", "Dragonhide KB":"dragonhide_kb.png", "Emerald OA":"emerald_oa.png", "Dragonhide KB OA":"kb_oa.png", "Wand":"wand.png" };
-const DEVICE_NAMES = { "MK":"Mouse & Keyboard", "TP":"Trackpad", "CTRL":"Controller", "MB":"Mobile" };
-const DEVICE_COLORS = { "MK":"#10b981", "TP":"#3b82f6", "CTRL":"#f59e0b", "MB":"#ef4444" };
+// Added Emerald KB and Diamond to Icons
+const ICONS = { 
+  "Overall":"emerald.png", 
+  "Emerald":"emerald.png", 
+  "Dragonhide KB":"dragonhide_kb.png", 
+  "Emerald OA":"emerald_oa.png", 
+  "Dragonhide KB OA":"kb_oa.png", 
+  "Wand":"wand.png",
+  "Emerald KB":"emerald_kb.png",
+  "Diamond":"diamond.png"
+};
 
 async function load() {
   const r = await fetch(`https://raw.githubusercontent.com/multitiers/multitiers.github.io/refs/heads/main/rankings.json?t=${Date.now()}`);
@@ -100,34 +96,32 @@ async function load() {
 }
 
 function processOverall() {
-  // New exponential point system
-  const ptsMap = {
-    "HT1":50, "LT1":40,
-    "HT2":30, "LT2":20,
-    "HT3":12, "LT3":8,
-    "HT4":5,  "LT4":3,
-    "HT5":2,  "LT5":1
-  };
+  const ptsMap = { "HT1":50, "LT1":40, "HT2":30, "LT2":20, "HT3":12, "LT3":8, "HT4":5, "LT4":3, "HT5":2, "LT5":1 };
   let totals = {};
   for(let k in DATA) { 
     if(k!=="Overall" && k!=="Players") {
-      for(let t in DATA[k]) if(Array.isArray(DATA[k][t])) DATA[k][t].forEach(p => { totals[p] = (totals[p]||0) + (ptsMap[t]||0); });
+      for(let t in DATA[k]) if(Array.isArray(DATA[k][t])) {
+        DATA[k][t].forEach(p => { totals[p] = (totals[p]||0) + (ptsMap[t]||0); });
+      }
     }
   }
   DATA["Overall"] = totals;
 }
 
-function getPlayerData(name) {
-  const p = DATA.Players?.find(x => x.name.toLowerCase() === name.toLowerCase());
-  return p || { region: "NA", device: "MK" };
+function hasT1(name) {
+  for(let k in DATA) {
+    if(k !== "Overall" && k !== "Players") {
+      if((DATA[k]["HT1"] && DATA[k]["HT1"].includes(name)) || (DATA[k]["LT1"] && DATA[k]["LT1"].includes(name))) return true;
+    }
+  }
+  return false;
 }
 
-function getTitle(pts) {
-    // Calibrated thresholds to match new point scale
-    if(pts >= 100) return {txt: "Combat Legend", col: "#ef4444"};
-    if(pts >= 60)  return {txt: "Combat Master", col: "#f59e0b"};
-    if(pts >= 30)  return {txt: "Combat Expert", col: "#a855f7"};
-    if(pts >= 10)  return {txt: "Combat Cadet", col: "#3b82f6"};
+function getTitle(name, pts) {
+    if(pts >= 500 && hasT1(name)) return {txt: "Combat Legend", col: "#ef4444"};
+    if(pts >= 250) return {txt: "Combat Master", col: "#f59e0b"};
+    if(pts >= 90)  return {txt: "Combat Expert", col: "#a855f7"};
+    if(pts >= 30)  return {txt: "Combat Recruit", col: "#3b82f6"};
     return {txt: "Combat Novice", col: "#6b7280"};
 }
 
@@ -137,7 +131,12 @@ function buildKitBar() {
     const btn = document.createElement('button');
     btn.className = `kit-btn ${k==='Overall'?'active':''}`;
     btn.innerHTML = `<img src="${ICONS[k]}" style="width:14px;"> ${k.toUpperCase()}`;
-    btn.onclick = () => { document.querySelectorAll('.kit-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); currentKit = k; render(k); };
+    btn.onclick = () => { 
+        document.querySelectorAll('.kit-btn').forEach(b => b.classList.remove('active')); 
+        btn.classList.add('active'); 
+        currentKit = k; 
+        render(k); 
+    };
     bar.appendChild(btn);
   });
 }
@@ -147,20 +146,18 @@ function render(kit) {
   if(kit === "Overall") {
     let sorted = Object.entries(DATA["Overall"]).sort((a,b) => b[1]-a[1]);
     sorted.forEach(([n, s], i) => {
-      const title = getTitle(s);
-      out.innerHTML += `<div class="tier-card"><div class="row" onclick="openProfile('${n}')"><span><b style="color:var(--purple); margin-right:15px;">#${i+1}</b> ${n} <span class="combat-tag" style="background:${title.col}">${title.txt}</span></span><b style="color:var(--gold)">${s} PTS</b></div></div>`;
+      const title = getTitle(n, s);
+      out.innerHTML += `<div class="tier-card"><div class="row"><span><b style="color:var(--purple); margin-right:15px;">#${i+1}</b> ${n} <span class="combat-tag" style="background:${title.col}">${title.txt}</span></span><b style="color:var(--gold)">${s} PTS</b></div></div>`;
     });
   } else {
     [1,2,3,4,5].forEach(num => {
-      const hts = (DATA[kit][`HT${num}`] || []).map(n => ({name: n, tag: `HT${num}`}));
-      const lts = (DATA[kit][`LT${num}`] || []).map(n => ({name: n, tag: `LT${num}`}));
+      const hts = (DATA[kit][`HT${num}`] || []).map(n => ({n, t: `HT${num}`}));
+      const lts = (DATA[kit][`LT${num}`] || []).map(n => ({n, t: `LT${num}`}));
       const players = [...hts, ...lts];
       if(players.length) {
         let h = `<div class="tier-card"><div class="tier-header">T${num}</div>`;
         players.forEach(p => {
-          const pData = getPlayerData(p.name);
-          const devCol = DEVICE_COLORS[pData.device] || "#888";
-          h += `<div class="row" onclick="openProfile('${p.name}')"><span><b>${p.name}</b> <span class="region-tag">${pData.region}</span> <span class="tag" style="border-color:${devCol}; color:${devCol}; font-weight:bold;">${pData.device}</span> <span class="tag tag-rank">${p.tag}</span></span><span>VIEW</span></div>`;
+          h += `<div class="row"><span><b>${p.n}</b> <span class="tag" style="color:var(--purple); border-color:var(--purple);">${p.t}</span></span></div>`;
         });
         out.innerHTML += h + `</div>`;
       }
@@ -168,42 +165,17 @@ function render(kit) {
   }
 }
 
-function openProfile(name) {
-  const pData = getPlayerData(name);
-  const pts = DATA["Overall"][name] || 0;
-  const title = getTitle(pts);
-  let sorted = Object.entries(DATA["Overall"]).sort((a,b) => b[1]-a[1]);
-  let r = sorted.findIndex(x => x[0] === name) + 1;
-  
-  document.getElementById('pRank').innerText = `RANK #${r}`;
-  document.getElementById('pName').innerText = name;
-  document.getElementById('pTitle').innerHTML = `<span class="combat-tag" style="background:${title.col}; margin-bottom:15px; display:inline-block;">${title.txt}</span>`;
-  document.getElementById('pRegion').innerText = `REGION: ${pData.region}`;
-  document.getElementById('pPoints').innerHTML = `${pts} TOTAL PTS <br><span class="tag" style="margin-top:10px; display:inline-block; border-color:var(--purple); color:var(--purple); cursor: help;" title="${DEVICE_NAMES[pData.device]}">DEVICE: ${pData.device}</span>`;
-  
-  const grid = document.getElementById('pGrids'); grid.innerHTML = "";
-  for(let k in ICONS) {
-    if(k!=="Overall" && DATA[k]) {
-      for(let t in DATA[k]) if(Array.isArray(DATA[k][t]) && DATA[k][t].includes(name)) {
-        grid.innerHTML += `<div style="background:#0a0c12; padding:12px; border-radius:10px; border:1px solid var(--border); min-width:65px;"><img src="${ICONS[k]}" style="width:20px; margin-bottom:5px;"><br><small style="color:var(--purple); font-weight:bold;">${t}</small></div>`;
-      }
-    }
-  }
-  document.getElementById('profileModal').style.display = 'flex';
-}
-
 function spawnSpaceStars() {
   const container = document.getElementById('space-container');
   const imgs = Object.values(ICONS);
-  for(let i=0; i<15; i++) {
+  for(let i=0; i<20; i++) {
     const s = document.createElement('div'); s.className = 'space-star';
     s.style.backgroundImage = `url(${imgs[i%imgs.length]})`;
     s.style.top = Math.random()*100+'vh'; s.style.left = Math.random()*100+'vw';
+    s.style.animationDelay = (Math.random() * -20) + 's';
     container.appendChild(s);
   }
 }
-
-function closeProfile() { document.getElementById('profileModal').style.display = 'none'; }
 load();
 </script>
 </body>

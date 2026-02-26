@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>MTC TIERS</title>
-  
   <link rel="icon" type="image/png" href="backgroundsword.png">
   <style>
     @font-face { font-family: 'MultiCraftFont'; src: url('MultiCraftFont.ttf') format('truetype'); }
@@ -21,10 +20,10 @@
     .admin-inputs { position: absolute; left: 15px; display: flex; gap: 8px; }
     .unreleased-badge { background: #0a0a0f; border: 1px solid var(--purple); color: var(--purple); padding: 6px; border-radius: 4px; font-family: 'MultiCraftFont'; font-size: 0.55rem; width: 145px; text-align: center; }
     
-    .nav-link { color: #5a6474; text-decoration: none; font-weight: bold; cursor: pointer; font-family: 'MultiCraftFont'; font-size: 0.85rem; }
+    .nav-link { color: #5a6474; text-decoration: none; font-weight: bold; cursor: pointer; font-family: 'MultiCraftFont'; font-size: 0.85rem; transition: 0.3s; }
     .nav-link.active { color: #fff; text-shadow: 0 0 15px var(--purple); }
 
-    /* KIT BUTTON COLORS */
+    /* KIT BUTTONS */
     .kit-btn { transition: 0.3s ease; opacity: 0.6; color: #888; font-family: 'MultiCraftFont'; font-size: 0.8rem; background: #0a0a0f; border: 1px solid var(--border); padding: 10px 18px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 8px; }
     
     .kit-emerald.active { border-color: var(--green) !important; color: var(--green) !important; opacity: 1; box-shadow: 0 0 15px rgba(46, 204, 113, 0.3); }
@@ -33,28 +32,28 @@
     .kit-diamond.active { border-color: var(--cyan) !important; color: var(--cyan) !important; opacity: 1; box-shadow: 0 0 15px rgba(0, 255, 255, 0.3); }
     .kit-overall.active { border-color: var(--purple) !important; color: #fff !important; opacity: 1; box-shadow: 0 0 15px var(--purple-glow); }
 
-    /* TAGS */
-    .tag { font-size: 0.65rem; padding: 3px 6px; border-radius: 4px; font-weight: bold; margin-left: 5px; font-family: 'MultiCraftFont'; display: inline-block; border: 1px solid transparent; }
+    /* REGION & TIER TAGS */
+    .tag { font-size: 0.65rem; padding: 3px 8px; border-radius: 4px; font-weight: bold; margin-left: 5px; font-family: 'MultiCraftFont'; display: inline-block; }
     .tag-tier { background: rgba(255, 215, 0, 0.1); color: var(--gold); border: 1px solid var(--gold); }
-    .reg-tag { background: rgba(90, 100, 116, 0.1); border: 1px solid #5a6474; color: #5a6474; }
+    .tag-reg { background: rgba(168, 85, 247, 0.1); border: 1px solid var(--purple); color: var(--purple); }
     
-    /* DEVICE TAGS [MK] STYLE */
+    /* DEVICE TAGS [MK] */
     .dev-tag { font-family: 'MultiCraftFont'; font-size: 0.75rem; font-weight: bold; margin-left: 8px; }
     .dev-ios { color: var(--purple); }
     .dev-and { color: var(--green); }
     .dev-win { color: var(--cyan); }
 
     /* CARDS */
-    .tier-card { border-radius: 10px; position: relative; padding: 1.5px; margin-bottom: 12px; background: linear-gradient(90deg, transparent, var(--purple), transparent); background-size: 200% 100%; animation: cardSweep 3s linear infinite; cursor: pointer; }
+    .tier-card { border-radius: 10px; position: relative; padding: 1.5px; margin-bottom: 12px; background: linear-gradient(90deg, transparent, var(--purple), transparent); background-size: 200% 100%; animation: cardSweep 3s linear infinite; cursor: pointer; overflow: hidden; }
     @keyframes cardSweep { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
-    .card-inner { background: #050508; border-radius: 9px; padding: 14px 18px; display: flex; justify-content: space-between; align-items: center; }
+    .card-inner { background: #050508; border-radius: 9px; padding: 14px 18px; display: flex; justify-content: space-between; align-items: center; position: relative; z-index: 2; }
 
     .horizontal-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; padding: 20px; max-width: 1550px; margin: auto; }
 
-    /* MODAL */
-    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 2000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(10px); }
-    .modal-content { background: #050508; border: 2px solid var(--purple); border-radius: 15px; padding: 30px; width: 380px; text-align: center; }
-    .prof-stat-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #1a1a1a; }
+    /* PROFILE POPUP */
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 2000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(10px); }
+    .modal-content { background: #050508; border: 2px solid var(--purple); border-radius: 15px; padding: 30px; width: 380px; text-align: center; box-shadow: 0 0 30px var(--purple-glow); }
+    .prof-stat-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #1a1a1a; font-size: 0.9rem; }
   </style>
 </head>
 <body>
@@ -64,19 +63,19 @@
     <div class="unreleased-badge">SERVER: UNRELEASED</div>
     <div class="unreleased-badge">DISCORD: UNRELEASED</div>
   </div>
-  <div class="nav-link active" onclick="goHome()">RANKINGS</div>
+  <div class="nav-link active" onclick="location.reload()">RANKINGS</div>
   <div class="nav-link" onclick="loadExtra('hof')">HALL OF FAME</div>
   <div class="nav-link" onclick="loadExtra('testers')">TESTERS</div>
 </nav>
 
-<header style="text-align: center; padding: 30px 0;">
+<header style="text-align: center; padding: 40px 0 20px;">
   <img src="backgroundsword.png" style="width:65px;">
   <h1 style="font-family:'MultiCraftFont'; font-size: 3rem; margin: 10px 0;">MTC TIERS</h1>
 </header>
 
 <div id="main-content">
-  <div style="display:flex; justify-content:center; margin-bottom: 25px;">
-    <input type="text" id="globalSearch" placeholder="SEARCH PLAYER..." oninput="searchPlayer()" style="width:100%; max-width:420px; padding:14px; background:#0a0a0f; border:1px solid var(--purple); border-radius:8px; color:#fff; font-family:'MultiCraftFont'; text-align:center; outline:none;">
+  <div style="display:flex; justify-content:center; margin-bottom: 30px;">
+    <input type="text" id="globalSearch" placeholder="SEARCH PLAYER PROFILE..." oninput="searchPlayer()" style="width:100%; max-width:420px; padding:15px; background:#0a0a0f; border:1px solid var(--purple); border-radius:10px; color:#fff; font-family:'MultiCraftFont'; text-align:center; outline:none;">
   </div>
   <div id="view-name" style="text-align:center; font-family:'MultiCraftFont'; font-size: 1.8rem; margin-bottom:20px; color:var(--gold);">OVERALL</div>
   <div id="kitBar" style="display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; margin-bottom: 30px;"></div>
@@ -85,11 +84,11 @@
 
 <div id="profileModal" class="modal-overlay" onclick="this.style.display='none'">
   <div class="modal-content" onclick="event.stopPropagation()">
-    <div style="font-family:'MultiCraftFont'; color:var(--purple); font-size:0.7rem; margin-bottom:5px;">VIEW PROFILE</div>
-    <h2 id="profName" style="font-family:'MultiCraftFont'; margin: 0; color:#fff;">PLAYER</h2>
-    <div id="profTags" style="margin-bottom:20px; margin-top:10px;"></div>
+    <div style="font-family:'MultiCraftFont'; color:var(--purple); font-size:0.7rem;">VIEWING PROFILE</div>
+    <h2 id="profName" style="font-family:'MultiCraftFont'; font-size: 2.2rem; margin: 10px 0; color:#fff;">PLAYER</h2>
+    <div id="profTags" style="margin-bottom:20px;"></div>
     <div id="profStats"></div>
-    <button onclick="document.getElementById('profileModal').style.display='none'" style="margin-top:20px; width:100%; padding:10px; background:var(--purple); border:none; color:#fff; font-family:'MultiCraftFont'; cursor:pointer; border-radius:5px;">CLOSE</button>
+    <button onclick="document.getElementById('profileModal').style.display='none'" style="margin-top:25px; width:100%; padding:12px; background:var(--purple); border:none; color:#fff; font-family:'MultiCraftFont'; cursor:pointer; border-radius:8px;">CLOSE</button>
   </div>
 </div>
 
@@ -114,7 +113,7 @@ function processOverall() {
   DATA["Overall"] = totals;
 }
 
-function getDeviceHTML(dev) {
+function getDevHTML(dev) {
   if(!dev) return "";
   const d = dev.toLowerCase();
   if(d.includes("ios")) return `<span class="dev-tag dev-ios">[iOS]</span>`;
@@ -126,7 +125,7 @@ function getDeviceHTML(dev) {
 function openProfile(name) {
   const pd = DATA.Players?.find(x => x.name === name) || {region:"??", device:""};
   document.getElementById('profName').innerText = name;
-  document.getElementById('profTags').innerHTML = `<span class="tag reg-tag">${pd.region}</span>${getDeviceHTML(pd.device)}`;
+  document.getElementById('profTags').innerHTML = `<span class="tag tag-reg">${pd.region}</span>${getDevHTML(pd.device)}`;
   let statsH = "";
   for(let kit in DATA) {
     if(kit === "Overall" || kit === "Players") continue;
@@ -144,15 +143,15 @@ function buildKitBar() {
     const btn = document.createElement('button');
     let type = "kit-overall";
     if(k.toLowerCase().includes("emerald")) type = "kit-emerald";
-    else if(k.toLowerCase().includes("dragonhide") || k.toLowerCase().includes("kb")) type = "kit-kb";
+    else if(k.toLowerCase().includes("kb") || k.toLowerCase().includes("dragonhide")) type = "kit-kb";
     else if(k.toLowerCase().includes("wand")) type = "kit-wand";
     else if(k.toLowerCase().includes("diamond")) type = "kit-diamond";
-
+    
     btn.className = `kit-btn ${type} ${k==='Overall'?'active':''}`;
     btn.innerHTML = (k === "Overall") ? k : `<img src="${ICONS[k] || 'emerald.png'}" style="width:16px;"> ${k}`;
     btn.onclick = () => { 
       document.querySelectorAll('.kit-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active'); render(k); 
+      btn.classList.add('active'); document.getElementById('view-name').innerText = k; render(k); 
     };
     bar.appendChild(btn);
   });
@@ -166,7 +165,7 @@ function render(kit, filter = "") {
       if(filter && !n.toLowerCase().includes(filter.toLowerCase())) return;
       const pd = DATA.Players?.find(x => x.name === n) || {region:"??", device:""};
       out.innerHTML += `<div class="tier-card" style="max-width:800px; margin:auto;" onclick="openProfile('${n}')"><div class="card-inner">
-        <span><b style="color:var(--purple); margin-right:15px;">#${i+1}</b><b>${n}</b> <span class="tag reg-tag">${pd.region}</span>${getDeviceHTML(pd.device)}</span>
+        <span><b style="color:var(--purple); margin-right:15px;">#${i+1}</b><b>${n}</b> <span class="tag tag-reg">${pd.region}</span>${getDevHTML(pd.device)}</span>
         <b style="color:var(--gold);">${s} PTS</b></div></div>`;
     });
   } else {
@@ -175,12 +174,12 @@ function render(kit, filter = "") {
       let players = [];
       [`H${group}`, `L${group}`].forEach(st => { if(DATA[kit][st]) players = [...players, ...DATA[kit][st].map(p=>({n:p, t:st}))]; });
       if(players.length > 0) {
-        let h = `<div style="display:flex; flex-direction:column;"><div style="color:var(--purple); text-align:center; font-family:'MultiCraftFont'; margin-bottom:10px;">${group}</div>`;
+        let h = `<div style="display:flex; flex-direction:column;"><div style="color:var(--purple); text-align:center; font-family:'MultiCraftFont'; margin-bottom:10px; border-bottom: 1px solid var(--border);">${group}</div>`;
         players.forEach(p => {
           if(filter && !p.n.toLowerCase().includes(filter.toLowerCase())) return;
           const pd = DATA.Players?.find(x => x.name === p.n) || {region:"??", device:""};
           h += `<div class="tier-card" onclick="openProfile('${p.n}')"><div class="card-inner">
-            <span><b>${p.n}</b> <span class="tag reg-tag">${pd.region}</span>${getDeviceHTML(pd.device)}</span>
+            <span><b>${p.n}</b> <span class="tag tag-reg">${pd.region}</span>${getDevHTML(pd.device)}</span>
             <span class="tag tag-tier">${p.t}</span></div></div>`;
         });
         out.innerHTML += h + "</div>";
@@ -189,8 +188,11 @@ function render(kit, filter = "") {
   }
 }
 
-function searchPlayer() { render(document.querySelector('.kit-btn.active').innerText.trim(), document.getElementById('globalSearch').value); }
-function goHome() { location.reload(); }
+function searchPlayer() {
+  const activeKit = document.querySelector('.kit-btn.active')?.innerText.trim() || "Overall";
+  render(activeKit, document.getElementById('globalSearch').value);
+}
+
 load();
 </script>
 </body>

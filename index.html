@@ -8,20 +8,18 @@
   <style>
     @font-face { font-family: 'MultiCraftFont'; src: url('MultiCraftFont.ttf') format('truetype'); }
     :root {
-      --bg: #010102; --purple: #a855f7; --purple-glow: rgba(168, 85, 247, 0.6);
-      --border: rgba(168, 85, 247, 0.3); --gold: #ffd700;
+      --bg: #010102; --bg-panel: rgba(5, 5, 8, 0.95); --purple: #a855f7; 
+      --purple-glow: rgba(168, 85, 247, 0.6); --white: #ffffff; --gold: #ffd700;
+      --border: rgba(168, 85, 247, 0.2);
     }
 
     body { 
-      background: linear-gradient(-45deg, #010102, #0d011a, #010102, #05000d);
-      background-size: 400% 400%;
-      animation: gradientMove 15s ease infinite;
-      color: #fff; font-family: 'Courier New', monospace; margin: 0; padding-bottom: 50px;
-      overflow-x: hidden; display: flex; flex-direction: column; align-items: center;
+      background: var(--bg); color: #fff; font-family: 'Courier New', monospace; margin: 0; padding-bottom: 50px;
+      overflow-x: hidden;
+      background-image: radial-gradient(circle at 50% 50%, rgba(168, 85, 247, 0.05) 0%, transparent 70%);
     }
-    @keyframes gradientMove { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
-
-    /* Space Background showing ALL Kit Icons */
+    
+    /* Shooting Star Background */
     #space-container { position: fixed; inset: 0; z-index: -1; pointer-events: none; }
     .shooting-star { 
       position: absolute; width: 40px; height: 40px; background-size: contain; background-repeat: no-repeat;
@@ -29,49 +27,62 @@
     }
     @keyframes shoot {
       0% { transform: translate(-100px, -100px) rotate(0deg); opacity: 0; }
-      10% { opacity: 0.15; }
-      90% { opacity: 0.15; }
+      10% { opacity: 0.3; }
+      90% { opacity: 0.3; }
       100% { transform: translate(110vw, 110vh) rotate(360deg); opacity: 0; }
     }
 
-    /* REDONE HEADER: Sword on top of text */
-    header { width: 100%; display: flex; flex-direction: column; align-items: center; padding: 50px 0 20px; }
-    .title-sword { width: 60px; height: 60px; object-fit: contain; margin-bottom: 10px; animation: pulse 2s infinite ease-in-out; }
-    .main-title { font-family: 'MultiCraftFont'; font-size: 3.5rem; margin: 0; background: linear-gradient(to bottom, #fff, var(--purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-    @keyframes pulse { 0%, 100% { transform: scale(1); filter: drop-shadow(0 0 5px var(--purple)); } 50% { transform: scale(1.1); filter: drop-shadow(0 0 15px var(--purple)); } }
+    /* PERFECTLY CENTERED HEADER */
+    header { padding: 60px 0 30px; display: flex; justify-content: center; }
+    .header-flex { display: flex; align-items: center; gap: 15px; }
+    .title-sword { width: 50px; height: 50px; object-fit: contain; animation: pulseSword 2s infinite ease-in-out; } 
+    @keyframes pulseSword { 0%, 100% { transform: scale(1); filter: drop-shadow(0 0 8px var(--purple)); } 50% { transform: scale(1.1); filter: drop-shadow(0 0 15px var(--purple)); } }
+    .main-title { font-family: 'MultiCraftFont'; font-size: 3rem; margin: 0; background: linear-gradient(to bottom, #fff, var(--purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 1; }
 
-    nav { display: flex; justify-content: center; gap: 40px; padding: 25px 0; background: rgba(0,0,0,0.85); width: 100%; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; backdrop-filter: blur(12px); }
-    .nav-link { color: #5a6474; text-decoration: none; font-weight: bold; cursor: pointer; transition: 0.3s; font-family: 'MultiCraftFont'; font-size: 0.95rem; }
-    .nav-link.active { color: #fff; text-shadow: 0 0 15px var(--purple-glow); }
-
-    .search-input { 
-      width: 100%; max-width: 500px; padding: 18px; background: rgba(0,0,0,0.9); border: 2px solid var(--border); 
-      border-radius: 15px; color: #fff; text-align: center; outline: none; font-family: 'MultiCraftFont'; 
-      margin-top: 40px; transition: 0.4s;
-    }
-    .search-input:focus { border-color: var(--purple); box-shadow: 0 0 25px var(--purple-glow); }
-
-    /* Button Fixes */
-    .kit-btn { background: rgba(10, 10, 15, 0.8); border: 1px solid var(--border); padding: 12px 22px; border-radius: 10px; color: #888; cursor: pointer; font-family: 'MultiCraftFont'; font-size: 0.8rem; display: flex; align-items: center; gap: 10px; transition: 0.3s; }
-    .kit-btn.active { border-color: #fff; color: #fff; background: rgba(168, 85, 247, 0.3); box-shadow: 0 0 20px var(--purple-glow); }
-    .kit-btn:hover { border-color: var(--purple); }
-
-    .tier-card { width: 100%; max-width: 800px; background: rgba(5, 5, 8, 0.95); border: 1px solid var(--border); border-radius: 15px; margin-bottom: 25px; overflow: hidden; }
-    .tier-header { padding: 15px; background: rgba(168, 85, 247, 0.2); color: var(--purple); font-family: 'MultiCraftFont'; text-align: center; border-bottom: 1px solid var(--border); }
-    .row { display: flex; justify-content: space-between; align-items: center; padding: 20px 35px; cursor: pointer; border-bottom: 1px solid rgba(255,255,255,0.02); }
+    nav { display: flex; justify-content: center; gap: 30px; padding: 25px; background: rgba(0,0,0,0.9); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; backdrop-filter: blur(12px); }
+    .nav-link { color: #5a6474; text-decoration: none; font-weight: bold; cursor: pointer; transition: 0.3s; font-family: 'MultiCraftFont'; font-size: 0.9rem; }
+    .nav-link.active { color: #fff; text-shadow: 0 0 15px var(--purple); }
     
-    .tag { font-size: 0.65rem; padding: 3px 7px; border-radius: 4px; background: rgba(255,255,255,0.05); color: #888; border: 1px solid rgba(255,255,255,0.1); margin-left: 8px; }
-    .t1-tag { color: var(--gold); border-color: var(--gold); font-weight: bold; background: rgba(255, 215, 0, 0.1); }
+    .controls-wrapper { display: flex; flex-direction: column; align-items: center; gap: 15px; margin-bottom: 30px; }
+    .search-input { width: 100%; max-width: 500px; padding: 18px; background: rgba(0,0,0,0.8); border: 2px solid var(--border); border-radius: 15px; color: #fff; text-align: center; outline: none; font-family: 'MultiCraftFont'; }
+    .search-input:focus { border-color: var(--purple); box-shadow: 0 0 20px var(--purple-glow); }
 
-    /* Old Points Modal Styling */
-    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.96); z-index: 1000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(15px); }
-    .modal-content { background: #010102; border: 2px solid var(--purple); border-radius: 20px; padding: 45px; text-align: center; width: 420px; box-shadow: 0 0 60px var(--purple-glow); position: relative; }
+    /* BUTTON FIXES */
+    .kit-btn { background: #0a0a0f; border: 1px solid var(--border); padding: 12px 20px; border-radius: 10px; color: #888; cursor: pointer; transition: 0.3s; font-family: 'MultiCraftFont'; display: flex; align-items: center; gap: 10px; font-size: 0.8rem; }
+    .kit-btn.active { border-color: #fff; color: #fff; background: rgba(168, 85, 247, 0.3); box-shadow: 0 0 25px var(--purple-glow); }
+    
+    /* ANIMATED GRADIENT BORDER "PURPLE THING" */
+    .tier-card { 
+      background: var(--bg-panel); 
+      border-radius: 12px; 
+      margin-bottom: 20px; 
+      position: relative;
+      padding: 1px; /* Space for the gradient border */
+      overflow: hidden;
+      background: linear-gradient(90deg, transparent, var(--purple), transparent);
+      background-size: 200% 100%;
+      animation: borderMove 4s linear infinite;
+    }
+    @keyframes borderMove {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+    .card-inner { background: var(--bg-panel); border-radius: 11px; width: 100%; height: 100%; }
+
+    .tier-header { padding: 12px 25px; background: rgba(168, 85, 247, 0.2); color: var(--purple); font-family: 'MultiCraftFont'; text-align: center; }
+    .row { display: flex; justify-content: space-between; align-items: center; padding: 20px 30px; cursor: pointer; }
+    
+    .tag { font-size: 0.65rem; padding: 3px 8px; border-radius: 4px; background: rgba(255,255,255,0.05); color: #aaa; border: 1px solid rgba(255,255,255,0.1); margin-left: 8px; }
+    .t1-tag { color: var(--gold); border-color: var(--gold); font-weight: bold; background: rgba(255, 215, 0, 0.1); }
+    .role-tag { color: var(--purple); font-family: 'MultiCraftFont'; font-size: 0.8rem; }
+
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 1000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(15px); }
+    .modal-content { background: #010102; border: 2px solid var(--purple); border-radius: 20px; padding: 40px; text-align: center; width: 400px; box-shadow: 0 0 60px var(--purple-glow); position: relative; }
   </style>
 </head>
 <body>
 
 <div id="space-container"></div>
-
 <nav>
   <div class="nav-link active" onclick="showSection('rankings')">RANKINGS</div>
   <div class="nav-link" onclick="showSection('hof')">HALL OF FAME</div>
@@ -79,64 +90,62 @@
 </nav>
 
 <header>
-  <img src="backgroundsword.png" class="title-sword">
-  <h1 class="main-title">MTC TIERS</h1>
+  <div class="header-flex">
+    <h1 class="main-title">MTC</h1>
+    <img src="backgroundsword.png" class="title-sword">
+    <h1 class="main-title">TIERS</h1>
+  </div>
 </header>
 
-<div id="rankings-sec" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
-    <input type="text" id="playerSearch" class="search-input" placeholder="SEARCH PLAYER..." oninput="handleSearch()">
-    <button class="kit-btn" style="margin-top: 20px; border-color: var(--purple); color: var(--purple);" onclick="togglePoints()">POINTS INFO</button>
-    <div id="kitBar" style="display: flex; justify-content: center; flex-wrap: wrap; gap: 15px; margin: 40px 0;"></div>
-    <div id="displayList" style="width: 100%; display: flex; flex-direction: column; align-items: center;"></div>
-</div>
-
-<div id="hof-sec" style="display:none; width: 100%; max-width: 800px; padding-top: 40px;">
-    <div id="hofList" style="display: flex; flex-direction: column; align-items: center;"></div>
-</div>
-<div id="tester-sec" style="display:none; width: 100%; max-width: 800px; padding-top: 40px;">
-    <div id="testerList" style="display: flex; flex-direction: column; align-items: center;"></div>
-</div>
-
-<div id="pointsModal" class="modal-overlay" onclick="togglePoints()">
-  <div class="modal-content" onclick="event.stopPropagation()">
-    <h3 style="font-family:'MultiCraftFont'; color:var(--purple); margin-top:0;">POINT SYSTEM</h3>
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px;">
-      <div style="background:rgba(168, 85, 247, 0.05); padding:10px; border-radius:8px; border:1px solid var(--border); display:flex; justify-content:space-between;"><span>HT1</span><b style="color:var(--gold)">50</b></div>
-      <div style="background:rgba(168, 85, 247, 0.05); padding:10px; border-radius:8px; border:1px solid var(--border); display:flex; justify-content:space-between;"><span>LT1</span><b style="color:var(--gold)">40</b></div>
-      <div style="background:rgba(168, 85, 247, 0.05); padding:10px; border-radius:8px; border:1px solid var(--border); display:flex; justify-content:space-between;"><span>HT2</span><b style="color:var(--gold)">30</b></div>
-      <div style="background:rgba(168, 85, 247, 0.05); padding:10px; border-radius:8px; border:1px solid var(--border); display:flex; justify-content:space-between;"><span>LT2</span><b style="color:var(--gold)">20</b></div>
-      <div style="background:rgba(168, 85, 247, 0.05); padding:10px; border-radius:8px; border:1px solid var(--border); display:flex; justify-content:space-between;"><span>HT3</span><b style="color:var(--gold)">12</b></div>
-      <div style="background:rgba(168, 85, 247, 0.05); padding:10px; border-radius:8px; border:1px solid var(--border); display:flex; justify-content:space-between;"><span>LT3</span><b style="color:var(--gold)">8</b></div>
-      <div style="background:rgba(168, 85, 247, 0.05); padding:10px; border-radius:8px; border:1px solid var(--border); display:flex; justify-content:space-between;"><span>HT4</span><b style="color:var(--gold)">5</b></div>
-      <div style="background:rgba(168, 85, 247, 0.05); padding:10px; border-radius:8px; border:1px solid var(--border); display:flex; justify-content:space-between;"><span>LT4</span><b style="color:var(--gold)">3</b></div>
+<div class="container" style="max-width: 850px; margin: auto; padding: 0 25px;">
+  <div id="rankings-sec">
+    <div class="controls-wrapper">
+      <input type="text" id="playerSearch" class="search-input" placeholder="SEARCH PLAYER..." oninput="handleSearch()">
+      <button class="info-btn" onclick="togglePointsModal()">POINTS INFO</button>
     </div>
-    <button class="kit-btn" style="width:100%; margin-top:20px; justify-content:center;" onclick="togglePoints()">CLOSE</button>
+    <div id="kitBar" style="display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; margin-bottom: 40px;"></div>
+    <div id="displayList"></div>
+  </div>
+
+  <div id="extra-sec" style="display:none;">
+    <div id="extraList"></div>
+  </div>
+</div>
+
+<div id="pointsModal" class="modal-overlay" onclick="togglePointsModal()">
+  <div class="modal-content" onclick="event.stopPropagation()">
+    <h3 style="font-family:'MultiCraftFont'; color:var(--purple); margin-bottom:20px;">POINT SYSTEM</h3>
+    <div class="points-grid">
+      <div class="points-item"><span>HT1</span><b style="color:var(--gold)">50</b></div>
+      <div class="points-item"><span>LT1</span><b style="color:var(--gold)">40</b></div>
+      <div class="points-item"><span>HT2</span><b style="color:var(--gold)">30</b></div>
+      <div class="points-item"><span>LT2</span><b style="color:var(--gold)">20</b></div>
+      <div class="points-item"><span>HT3</span><b style="color:var(--gold)">12</b></div>
+      <div class="points-item"><span>LT3</span><b style="color:var(--gold)">8</b></div>
+      <div class="points-item"><span>HT4</span><b style="color:var(--gold)">5</b></div>
+      <div class="points-item"><span>LT4</span><b style="color:var(--gold)">3</b></div>
+    </div>
+    <button class="info-btn" style="width:100%; margin-top:20px;" onclick="togglePointsModal()">CLOSE</button>
   </div>
 </div>
 
 <div id="profileModal" class="modal-overlay" onclick="closeProfile()">
-    <div class="modal-content" onclick="event.stopPropagation()">
-        <span style="position:absolute; top:20px; right:25px; color:#555; cursor:pointer; font-size:28px;" onclick="closeProfile()">&times;</span>
-        <div id="pRank" style="font-size:0.9rem; color:#888; font-weight: bold;">RANK #--</div>
-        <h2 id="pName" style="font-family:'MultiCraftFont'; font-size:2.8rem; color:var(--purple); margin:15px 0; text-shadow: 0 0 20px var(--purple-glow);">Player</h2>
-        <div id="pRegion" style="font-weight: bold;">REGION: --</div>
-        <div id="pDevice" style="color:var(--purple); font-size: 0.8rem; margin-bottom: 20px;">DEVICE: --</div>
-        <div id="pPoints" style="color:var(--gold); font-size:1.2rem; margin-bottom:30px; font-weight: bold;">0 TOTAL PTS</div>
-        <div id="pGrids" style="display:flex; justify-content:center; gap:12px; flex-wrap:wrap;"></div>
-    </div>
+  <div class="modal-content" onclick="event.stopPropagation()">
+    <span style="position:absolute; top:20px; right:25px; color:#555; cursor:pointer; font-size:28px;" onclick="closeProfile()">&times;</span>
+    <div id="pRank" style="font-size:0.8rem; color:#888; font-weight:bold;">RANK #--</div>
+    <h2 id="pName" style="font-family:'MultiCraftFont'; font-size:2.8rem; color:var(--purple); margin:15px 0;">Player</h2>
+    <div id="pRegion" style="font-weight:bold; margin-bottom:5px;">REGION: --</div>
+    <div id="pPoints" style="color:var(--gold); margin-bottom:25px; font-size:1.1rem;">0 TOTAL PTS</div>
+    <div id="pGrids" class="p-grid-container" style="display:flex; justify-content:center; gap:10px; flex-wrap:wrap;"></div>
+  </div>
 </div>
 
 <script>
 let DATA = {};
 const ICONS = { 
-  "Overall": "", 
-  "Emerald": "emerald.png", 
-  "Dragonhide KB": "dragonhide_kb.png", 
-  "Emerald OA": "emerald_oa.png", 
-  "Dragonhide KB OA": "kb_oa.png", 
-  "Wand": "wand.png", 
-  "Emerald KB": "emerald.png", 
-  "Diamond": "emerald.png" 
+  "Overall": "backgroundsword.png", "Emerald": "emerald.png", "Dragonhide KB": "dragonhide_kb.png", 
+  "Emerald OA": "emerald_oa.png", "Dragonhide KB OA": "kb_oa.png", "Wand": "wand.png",
+  "Emerald KB": "emerald_kb.png", "Diamond": "diamond.png" 
 };
 
 async function load() {
@@ -172,11 +181,10 @@ function getT1(name) {
 
 function buildKitBar() {
   const bar = document.getElementById('kitBar'); bar.innerHTML = "";
-  const keys = ["Overall", ...Object.keys(DATA).filter(k => k !== "Players" && k !== "Overall")];
-  keys.forEach(k => {
+  Object.keys(DATA).filter(k => k !== "Players").forEach(k => {
     const btn = document.createElement('button');
     btn.className = `kit-btn ${k==='Overall'?'active':''}`;
-    btn.innerHTML = (ICONS[k] ? `<img src="${ICONS[k]}" style="width:18px;"> ` : "") + k;
+    btn.innerHTML = `<img src="${ICONS[k] || 'emerald.png'}" style="width:16px;"> ${k}`;
     btn.onclick = () => { 
       document.querySelectorAll('.kit-btn').forEach(b => b.classList.remove('active')); 
       btn.classList.add('active'); render(k); 
@@ -191,21 +199,58 @@ function render(kit) {
     let sorted = Object.entries(DATA["Overall"]).sort((a,b) => b[1]-a[1]);
     sorted.forEach(([n, s], i) => {
       const pd = getPD(n); const t1 = getT1(n);
-      out.innerHTML += `<div class="tier-card"><div class="row" onclick="openProfile('${n}')">
-        <span><b style="color:var(--purple); margin-right:10px;">#${i+1}</b> ${n} ${t1?`<span class="tag t1-tag">${t1}</span>`:''} <span class="tag">${pd.region}</span> <span class="tag">${pd.device}</span></span>
-        <b style="color:var(--gold)">${s} PTS</b></div></div>`;
+      out.innerHTML += `<div class="tier-card"><div class="card-inner"><div class="row" onclick="openProfile('${n}')">
+        <span><b style="color:var(--purple); margin-right:15px;">#${i+1}</b> ${n} ${t1?`<span class="tag t1-tag">${t1}</span>`:''} <span class="tag">${pd.region}</span> <span class="tag">${pd.device}</span></span>
+        <b style="color:var(--gold)">${s} PTS</b></div></div></div>`;
     });
   } else {
     ["HT1","LT1","HT2","LT2","HT3","LT3","HT4","LT4","HT5","LT5"].forEach(t => {
       if(DATA[kit] && DATA[kit][t]?.length > 0) {
-        let h = `<div class="tier-card"><div class="tier-header">${t}</div>`;
+        let h = `<div class="tier-card"><div class="card-inner"><div class="tier-header">${t}</div>`;
         DATA[kit][t].forEach(p => {
           const pd = getPD(p);
           h += `<div class="row" onclick="openProfile('${p}')"><span>${p} <span class="tag">${pd.region}</span> <span class="tag">${pd.device}</span></span><span style="color:#555">VIEW PROFILE</span></div>`;
         });
-        out.innerHTML += h + `</div>`;
+        out.innerHTML += h + `</div></div></div>`;
       }
     });
+  }
+}
+
+function showSection(id) {
+  const rank = document.getElementById('rankings-sec');
+  const extra = document.getElementById('extra-sec');
+  document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+  event.target.classList.add('active');
+
+  if(id === 'rankings') { rank.style.display = 'block'; extra.style.display = 'none'; }
+  else {
+    rank.style.display = 'none'; extra.style.display = 'block';
+    loadExtra(id === 'hof' ? 'hof.json' : 'testers.json');
+  }
+}
+
+async function loadExtra(file) {
+  const out = document.getElementById('extraList');
+  const r = await fetch(`https://raw.githubusercontent.com/multitiers/multitiers.github.io/refs/heads/main/${file}?t=${Date.now()}`);
+  const json = await r.json(); out.innerHTML = "";
+  json.forEach(i => {
+    out.innerHTML += `<div class="tier-card"><div class="card-inner"><div class="row">
+      <b style="font-size:1.1rem">${i.name}</b>
+      <span class="role-tag">${i.description || i.role || 'MEMBER'}</span>
+    </div></div></div>`;
+  });
+}
+
+function spawnStars() {
+  const container = document.getElementById('space-container');
+  const icons = Object.values(ICONS);
+  for(let i=0; i<8; i++) {
+    const s = document.createElement('div'); s.className = 'shooting-star';
+    s.style.backgroundImage = `url('${icons[i % icons.length]}')`;
+    s.style.top = Math.random() * 80 + 'vh'; s.style.left = Math.random() * 80 + 'vw';
+    s.style.animationDelay = (i * 1.5) + 's';
+    container.appendChild(s);
   }
 }
 
@@ -216,25 +261,9 @@ function handleSearch() {
   });
 }
 
-function showSection(id) {
-    document.getElementById('rankings-sec').style.display = id === 'rankings' ? 'flex' : 'none';
-    document.getElementById('hof-sec').style.display = id === 'hof' ? 'flex' : 'none';
-    document.getElementById('tester-sec').style.display = id === 'testers' ? 'flex' : 'none';
-    document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
-    event.currentTarget.classList.add('active');
-    if(id === 'hof') loadExtra('hof.json', 'hofList');
-    if(id === 'testers') loadExtra('testers.json', 'testerList');
-}
-
-async function loadExtra(file, elementId) {
-  const container = document.getElementById(elementId);
-  try {
-    const r = await fetch(`https://raw.githubusercontent.com/multitiers/multitiers.github.io/refs/heads/main/${file}?t=${Date.now()}`);
-    const json = await r.json(); container.innerHTML = "";
-    json.forEach(item => {
-      container.innerHTML += `<div class="tier-card"><div class="row"><span><b class="player-name">${item.name}</b></span><span style="color:var(--purple)">${item.description || item.role || 'MEMBER'}</span></div></div>`;
-    });
-  } catch(e) { container.innerHTML = `<p>Error loading ${file}</p>`; }
+function togglePointsModal() {
+  const m = document.getElementById('pointsModal');
+  m.style.display = (m.style.display === 'flex') ? 'none' : 'flex';
 }
 
 function openProfile(name) {
@@ -244,32 +273,18 @@ function openProfile(name) {
   document.getElementById('pRank').innerText = `RANK #${r || '--'}`;
   document.getElementById('pName').innerText = name;
   document.getElementById('pRegion').innerText = `REGION: ${pd.region}`;
-  document.getElementById('pDevice').innerText = `DEVICE: ${pd.device}`;
-  document.getElementById('pPoints').innerText = `${pts} TOTAL PTS`;
+  document.getElementById('pPoints').innerHTML = `${pts} TOTAL PTS <br><span class="tag" style="margin-top:10px; border-color:var(--purple); color:var(--purple);">DEVICE: ${pd.device}</span>`;
   const grid = document.getElementById('pGrids'); grid.innerHTML = "";
   for(let k in ICONS) if(k!=="Overall" && DATA[k]) {
     for(let t in DATA[k]) if(Array.isArray(DATA[k][t]) && DATA[k][t].includes(name)) {
-      grid.innerHTML += `<div class="p-grid-item"><img src="${ICONS[k]}" style="width:20px;"><br><small style="color:var(--purple); font-weight:bold;">${t}</small></div>`;
+      grid.innerHTML += `<div class="p-grid-item" style="background:#0a0c12; border:1px solid var(--border); padding:10px; border-radius:10px;">
+        <img src="${ICONS[k]}" style="width:20px;"><br><small style="color:var(--purple); font-weight:bold;">${t}</small></div>`;
     }
   }
   document.getElementById('profileModal').style.display = 'flex';
 }
-
 function closeProfile() { document.getElementById('profileModal').style.display = 'none'; }
-function togglePoints() { const m = document.getElementById('pointsModal'); m.style.display = (m.style.display === 'flex') ? 'none' : 'flex'; }
 
-function spawnStars() {
-  const container = document.getElementById('space-container');
-  const kitIcons = Object.values(ICONS).filter(src => src !== "");
-  kitIcons.push('backgroundsword.png'); // Add sword to rotation
-  
-  for(let i=0; i<8; i++) {
-    const s = document.createElement('div'); s.className = 'shooting-star';
-    s.style.backgroundImage = `url('${kitIcons[i % kitIcons.length]}')`;
-    s.style.top = Math.random() * 80 + 'vh'; s.style.left = Math.random() * 80 + 'vw';
-    s.style.animationDelay = (i * 1.5) + 's'; container.appendChild(s);
-  }
-}
 load();
 </script>
 </body>

@@ -23,10 +23,10 @@
 
     /* STRONGER PULSE EFFECT */
     @keyframes glowPulse { 
-      0%, 100% { filter: drop-shadow(0 0 10px var(--purple)); transform: scale(1); } 
-      50% { filter: drop-shadow(0 0 35px var(--purple)) drop-shadow(0 0 10px #fff); transform: scale(1.15); } 
+      0%, 100% { filter: drop-shadow(0 0 12px var(--purple)); transform: scale(1); } 
+      50% { filter: drop-shadow(0 0 45px var(--purple)) drop-shadow(0 0 15px #fff); transform: scale(1.15); } 
     }
-    .main-logo { width: 65px; animation: glowPulse 2s infinite ease-in-out; }
+    .main-logo { width: 65px; animation: glowPulse 1.8s infinite ease-in-out; }
 
     /* BACKGROUND SWEEP */
     body::before {
@@ -41,19 +41,20 @@
     .space-icon { position: absolute; width: 30px; height: 30px; background-size: contain; background-repeat: no-repeat; filter: drop-shadow(0 0 10px var(--purple)); opacity: 0.25; animation: float 18s infinite linear; }
     @keyframes float { 0% { transform: translateY(110vh) rotate(0deg); } 100% { transform: translateY(-110vh) rotate(360deg); } }
 
-    /* NAV & INPUTS */
+    /* NAV */
     nav { display: flex; justify-content: center; align-items: center; gap: 35px; padding: 20px; background: rgba(0,0,0,0.9); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; backdrop-filter: blur(12px); }
     .admin-inputs { position: absolute; left: 15px; display: flex; gap: 8px; }
-    .unreleased-badge { background: #0a0a0f; border: 1px solid var(--purple); color: var(--purple); padding: 6px; border-radius: 4px; font-family: 'MultiCraftFont'; font-size: 0.55rem; width: 145px; outline: none; cursor: default; }
+    .unreleased-badge { background: #0a0a0f; border: 1px solid var(--purple); color: var(--purple); padding: 6px; border-radius: 4px; font-family: 'MultiCraftFont'; font-size: 0.55rem; width: 145px; outline: none; cursor: default; text-align: center; }
+    /* Style placeholders to look like the purple text you want */
+    .unreleased-badge::placeholder { color: var(--purple); opacity: 0.8; }
     
     .nav-link { color: #5a6474; text-decoration: none; font-weight: bold; cursor: pointer; font-family: 'MultiCraftFont'; font-size: 0.85rem; transition: 0.3s; }
     .nav-link.active { color: #fff; text-shadow: 0 0 15px var(--purple); }
-
     .info-btn { position: absolute; right: 15px; background: none; border: 1px solid var(--gold); color: var(--gold); font-family: 'MultiCraftFont'; font-size: 0.7rem; padding: 8px 15px; border-radius: 4px; cursor: pointer; }
 
     /* KIT BUTTONS GLOW */
-    .kit-btn { transition: 0.3s ease; opacity: 0.6; }
-    .kit-btn.active { opacity: 1; border-color: var(--purple) !important; box-shadow: 0 0 15px var(--purple-glow); color: #fff !important; }
+    .kit-btn { transition: 0.3s ease; opacity: 0.6; font-family: 'MultiCraftFont'; font-size: 0.8rem; }
+    .kit-btn.active { opacity: 1; border-color: var(--purple) !important; box-shadow: 0 0 20px var(--purple-glow); color: #fff !important; }
 
     /* CARDS */
     .tier-card { border-radius: 10px; position: relative; padding: 1.5px; margin-bottom: 12px; background: linear-gradient(90deg, transparent, var(--purple), transparent); background-size: 200% 100%; animation: cardSweep 3s linear infinite; overflow: hidden; }
@@ -61,21 +62,18 @@
     .card-inner { background: #050508; border-radius: 9px; width: 100%; height: 100%; position: relative; z-index: 2; }
     .row { display: flex; justify-content: space-between; align-items: center; padding: 14px 18px; cursor: pointer; }
 
-    /* COLORED TAGS */
+    /* TAG COLORS */
     .tag { font-size: 0.65rem; padding: 3px 6px; border-radius: 4px; font-weight: bold; margin-left: 5px; font-family: 'MultiCraftFont'; }
     .tag-tier { background: rgba(255, 215, 0, 0.1); color: var(--gold); border: 1px solid var(--gold); }
-    
-    /* Region Colors */
     .reg-eu { color: #3498db; border: 1px solid #3498db; background: rgba(52, 152, 219, 0.1); }
     .reg-na { color: #e74c3c; border: 1px solid #e74c3c; background: rgba(231, 76, 60, 0.1); }
     .reg-as { color: #f1c40f; border: 1px solid #f1c40f; background: rgba(241, 196, 15, 0.1); }
-    
-    /* Device Colors */
     .dev-ios { color: #a855f7; border: 1px solid #a855f7; background: rgba(168, 85, 247, 0.1); }
     .dev-and { color: #2ecc71; border: 1px solid #2ecc71; background: rgba(46, 204, 113, 0.1); }
     .dev-win { color: #00ffff; border: 1px solid #00ffff; background: rgba(0, 255, 255, 0.1); }
 
     .horizontal-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; padding: 20px; max-width: 1550px; margin: auto; }
+    .tier-label { font-family: 'MultiCraftFont'; color: var(--purple); text-align: center; font-size: 1.1rem; margin-bottom: 15px; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
     .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.98); z-index: 2000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(15px); }
     .modal-content { background: #010102; border: 2px solid var(--purple); border-radius: 20px; padding: 30px; width: 440px; box-shadow: 0 0 40px var(--purple-glow); }
   </style>
@@ -122,13 +120,15 @@ let DATA = {};
 const ICONS = { "Overall":"backgroundsword.png", "Emerald":"emerald.png", "Dragonhide KB":"dragonhide_kb.png", "Emerald OA":"emerald_oa.png", "Dragonhide KB OA":"kb_oa.png", "Wand":"wand.png", "Emerald KB":"emerald_kb.png", "Diamond":"diamond.png" };
 
 async function load() {
-  const r = await fetch(`https://raw.githubusercontent.com/mtctiers/mtctiers.github.io/refs/heads/main/rankings.json?t=${Date.now()}`);
-  DATA = await r.json();
-  processOverall(); buildKitBar(); spawnIcons(); render("Overall");
-  
-  const pts = { "HT1":50, "LT1":40, "HT2":30, "LT2":20, "HT3":12, "LT3":8, "HT4":5, "LT4":3, "HT5":2, "LT5":1 };
-  let ptsH = ""; for(let k in pts) ptsH += `<div style="display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px solid #1a1a1a;"><b style="color:var(--gold)">${k}</b> <span>${pts[k]} pts</span></div>`;
-  document.getElementById('points-list').innerHTML = ptsH;
+  try {
+    const r = await fetch(`https://raw.githubusercontent.com/mtctiers/mtctiers.github.io/refs/heads/main/rankings.json?t=${Date.now()}`);
+    DATA = await r.json();
+    processOverall(); buildKitBar(); spawnIcons(); render("Overall");
+    
+    const pts = { "HT1":50, "LT1":40, "HT2":30, "LT2":20, "HT3":12, "LT3":8, "HT4":5, "LT4":3, "HT5":2, "LT5":1 };
+    let ptsH = ""; for(let k in pts) ptsH += `<div style="display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px solid #1a1a1a;"><b style="color:var(--gold)">${k}</b> <span>${pts[k]} pts</span></div>`;
+    document.getElementById('points-list').innerHTML = ptsH;
+  } catch(e) { console.error(e); }
 }
 
 function processOverall() {
@@ -143,6 +143,7 @@ function processOverall() {
 }
 
 function getTagClass(val) {
+  if(!val) return "tag-dev";
   val = val.toLowerCase();
   if(val.includes("eu")) return "reg-eu"; if(val.includes("na")) return "reg-na"; if(val.includes("as")) return "reg-as";
   if(val.includes("ios")) return "dev-ios"; if(val.includes("and")) return "dev-and"; if(val.includes("win")) return "dev-win";
@@ -154,7 +155,7 @@ function buildKitBar() {
   ["Overall", ...Object.keys(DATA).filter(k => k !== "Players" && k !== "Overall")].forEach(k => {
     const btn = document.createElement('button');
     btn.className = `kit-btn ${k==='Overall'?'active':''}`;
-    btn.style.cssText = "background:#0a0a0f; border:1px solid var(--border); padding:10px 18px; border-radius:8px; color:#888; cursor:pointer; font-family:'MultiCraftFont'; display:flex; align-items:center; gap:8px;";
+    btn.style.cssText = "background:#0a0a0f; border:1px solid var(--border); padding:10px 18px; border-radius:8px; color:#888; cursor:pointer; display:flex; align-items:center; gap:8px;";
     btn.innerHTML = (k === "Overall") ? k : `<img src="${ICONS[k] || 'emerald.png'}" style="width:16px;"> ${k}`;
     btn.onclick = () => { 
       document.querySelectorAll('.kit-btn').forEach(b => b.classList.remove('active'));
@@ -221,7 +222,7 @@ async function loadExtra(type, el) {
         ${i.role ? `<span class="tag dev-ios">${i.role}</span>` : ''}</span>
         <span style="color:#666; font-size:0.8rem;">${i.description || ''}</span></div></div></div>`;
     });
-  } catch(e) { out.innerHTML = "Error loading extra data."; }
+  } catch(e) { out.innerHTML = "Error loading."; }
 }
 
 function spawnIcons() {

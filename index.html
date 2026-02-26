@@ -34,7 +34,11 @@
     .nav-link { color: #5a6474; text-decoration: none; font-weight: bold; cursor: pointer; transition: 0.3s; letter-spacing: 1px; font-family: 'MultiCraftFont'; font-size: 0.85rem; }
     .nav-link.active { color: #fff; text-shadow: 0 0 15px var(--purple); }
     
-    .search-input { width: 100%; max-width: 450px; padding: 16px; background: rgba(0,0,0,0.8); border: 1px solid var(--border); border-radius: 12px; color: #fff; text-align: center; outline: none; margin: 0 auto 30px; display: block; font-family: 'MultiCraftFont'; }
+    .controls-wrapper { display: flex; flex-direction: column; align-items: center; gap: 15px; margin-bottom: 30px; }
+    .search-input { width: 100%; max-width: 450px; padding: 16px; background: rgba(0,0,0,0.8); border: 1px solid var(--border); border-radius: 12px; color: #fff; text-align: center; outline: none; font-family: 'MultiCraftFont'; }
+    .info-btn { background: none; border: 1px solid var(--purple); color: var(--purple); padding: 8px 16px; border-radius: 20px; cursor: pointer; font-family: 'MultiCraftFont'; font-size: 0.7rem; transition: 0.3s; }
+    .info-btn:hover { background: var(--purple); color: #fff; box-shadow: 0 0 15px var(--purple-glow); }
+
     .kit-btn { background: #0a0a0f; border: 1px solid var(--border); padding: 10px 18px; border-radius: 8px; color: #5a6474; cursor: pointer; transition: 0.3s; font-family: 'MultiCraftFont'; display: flex; align-items: center; gap: 8px; font-size: 0.75rem; text-transform: uppercase;}
     .kit-btn.active { border-color: #fff; color: #fff; background: rgba(168, 85, 247, 0.2); box-shadow: 0 0 15px var(--purple-glow); }
     
@@ -46,8 +50,10 @@
     .tag { font-size: 0.7rem; padding: 2px 6px; border-radius: 4px; background: rgba(255,255,255,0.05); color: #888; margin-left: 8px; border: 1px solid rgba(255,255,255,0.1); }
     .combat-tag { font-family: 'MultiCraftFont'; font-size: 0.6rem; text-transform: uppercase; padding: 4px 10px; border-radius: 4px; margin-left: 12px; display: inline-block; vertical-align: middle; letter-spacing: 1px; color: #fff; }
 
-    #profileModal { position: fixed; inset: 0; background: rgba(0,0,0,0.98); z-index: 1000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(20px); }
-    .modal-content { background: #010102; border: 1px solid var(--purple); border-radius: 20px; padding: 40px; text-align: center; width: 380px; box-shadow: 0 0 50px var(--purple-glow); position: relative;}
+    #modalOverlay { position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 1000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(10px); }
+    .modal-content { background: #010102; border: 1px solid var(--purple); border-radius: 20px; padding: 30px; width: 90%; max-width: 400px; position: relative; }
+    .points-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px; }
+    .points-item { background: rgba(168, 85, 247, 0.05); padding: 10px; border-radius: 8px; border: 1px solid var(--border); display: flex; justify-content: space-between; font-size: 0.8rem; }
   </style>
 </head>
 <body>
@@ -69,9 +75,31 @@
 
 <div class="container" style="max-width: 850px; margin: auto; padding: 0 25px;">
   <div id="rankings-sec">
-    <input type="text" id="playerSearch" class="search-input" placeholder="SEARCH PLAYER..." oninput="handleSearch()">
+    <div class="controls-wrapper">
+      <input type="text" id="playerSearch" class="search-input" placeholder="SEARCH PLAYER..." oninput="handleSearch()">
+      <button class="info-btn" onclick="togglePointsModal()">POINTS INFO</button>
+    </div>
     <div id="kitBar" style="display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; margin-bottom: 40px;"></div>
     <div id="displayList"></div>
+  </div>
+</div>
+
+<div id="modalOverlay" onclick="togglePointsModal()">
+  <div class="modal-content" onclick="event.stopPropagation()">
+    <h3 style="font-family:'MultiCraftFont'; color:var(--purple); text-align:center; margin-top:0;">POINT SYSTEM</h3>
+    <div class="points-grid">
+      <div class="points-item"><span>HT1</span><b style="color:var(--gold)">50</b></div>
+      <div class="points-item"><span>LT1</span><b style="color:var(--gold)">40</b></div>
+      <div class="points-item"><span>HT2</span><b style="color:var(--gold)">30</b></div>
+      <div class="points-item"><span>LT2</span><b style="color:var(--gold)">20</b></div>
+      <div class="points-item"><span>HT3</span><b style="color:var(--gold)">12</b></div>
+      <div class="points-item"><span>LT3</span><b style="color:var(--gold)">8</b></div>
+      <div class="points-item"><span>HT4</span><b style="color:var(--gold)">5</b></div>
+      <div class="points-item"><span>LT4</span><b style="color:var(--gold)">3</b></div>
+      <div class="points-item"><span>HT5</span><b style="color:var(--gold)">2</b></div>
+      <div class="points-item"><span>LT5</span><b style="color:var(--gold)">1</b></div>
+    </div>
+    <button class="info-btn" style="width:100%; margin-top:20px;" onclick="togglePointsModal()">CLOSE</button>
   </div>
 </div>
 
@@ -126,12 +154,16 @@ function hasT1(name) {
 }
 
 function getTitle(name, pts) {
-    // New Thresholds Applied Here
     if(pts >= 280 && hasT1(name)) return {txt: "Combat Legend", col: "#ef4444"};
     if(pts >= 211) return {txt: "Combat Master", col: "#f59e0b"};
     if(pts >= 111) return {txt: "Combat Expert", col: "#a855f7"};
     if(pts >= 36)  return {txt: "Combat Cadet", col: "#3b82f6"};
     return {txt: "Combat Novice", col: "#6b7280"};
+}
+
+function togglePointsModal() {
+  const m = document.getElementById('modalOverlay');
+  m.style.display = (m.style.display === 'flex') ? 'none' : 'flex';
 }
 
 function getPlayerData(name) {
@@ -144,7 +176,6 @@ function buildKitBar() {
   Object.keys(DATA).filter(k => k !== "Players").forEach(k => {
     const btn = document.createElement('button');
     btn.className = `kit-btn ${k==='Overall'?'active':''}`;
-    // Fallback icon check
     const iconSrc = ICONS[k] || "emerald.png";
     btn.innerHTML = `<img src="${iconSrc}" style="width:14px;"> ${k}`;
     btn.onclick = () => { 

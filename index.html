@@ -3,91 +3,69 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PvPTiers</title>
+  <title>MTC TIERS</title>
   <link rel="icon" type="image/png" href="backgroundsword.png">
   <style>
     @font-face { font-family: 'MultiCraftFont'; src: url('MultiCraftFont.ttf') format('truetype'); }
-    
     :root {
-      --bg: #010102; 
-      --bg-panel: rgba(5, 5, 8, 0.95);
-      --purple: #a855f7; 
-      --purple-glow: rgba(168, 85, 247, 0.4);
-      --white: #ffffff;
-      --gold: #ffd700;
-      --border: rgba(168, 85, 247, 0.15);
-      --gradient: linear-gradient(135deg, #a855f7 0%, #ffffff 100%);
+      --bg: #010102; --bg-panel: rgba(5, 5, 8, 0.95); --purple: #a855f7; 
+      --purple-glow: rgba(168, 85, 247, 0.4); --white: #ffffff; --gold: #ffd700;
+      --border: rgba(168, 85, 247, 0.15); --gradient: linear-gradient(135deg, #a855f7 0%, #ffffff 100%);
     }
-
     body { 
       background: var(--bg); color: #fff; font-family: 'Courier New', monospace; margin: 0; padding-bottom: 50px;
-      overflow-x: hidden;
-      background-image: 
-        radial-gradient(circle at 15% 25%, rgba(168, 85, 247, 0.08) 0%, transparent 40%),
-        radial-gradient(circle at 85% 75%, rgba(99, 102, 241, 0.05) 0%, transparent 40%);
-      background-attachment: fixed;
+      overflow-x: hidden; background-attachment: fixed;
+      background-image: radial-gradient(circle at 15% 25%, rgba(168, 85, 247, 0.08) 0%, transparent 40%), radial-gradient(circle at 85% 75%, rgba(99, 102, 241, 0.05) 0%, transparent 40%);
     }
-
     #space-container { position: fixed; inset: 0; z-index: -1; pointer-events: none; }
-    
-    .space-star { 
-      position: absolute; width: 35px; height: 35px; background-size: contain; 
-      background-repeat: no-repeat; opacity: 0.25; 
-      filter: drop-shadow(0 0 8px var(--purple));
-      animation: spaceFloat 20s linear infinite, spin 10s linear infinite;
-    }
-    
+    .space-star { position: absolute; width: 35px; height: 35px; background-size: contain; background-repeat: no-repeat; opacity: 0.25; filter: drop-shadow(0 0 8px var(--purple)); animation: spaceFloat 20s linear infinite, spin 10s linear infinite; }
     @keyframes spaceFloat { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(20px, 20px); } }
     @keyframes spin { from { rotate: 0deg; } to { rotate: 360deg; } }
-
-    .shooting-star {
-      position: absolute; width: 3px; height: 3px; background: #fff; border-radius: 50%;
-      box-shadow: 0 0 10px 2px #fff, 0 0 20px #a855f7; opacity: 0; z-index: -1;
-    }
-    @keyframes shoot {
-      0% { transform: translate(0, 0) rotate(45deg) scale(1); opacity: 1; }
-      100% { transform: translate(700px, 700px) rotate(45deg) scale(0); opacity: 0; }
-    }
-
+    
     nav { display: flex; justify-content: center; gap: 25px; padding: 20px; background: rgba(0,0,0,0.9); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; backdrop-filter: blur(12px); }
     .nav-link { color: #5a6474; text-decoration: none; font-weight: bold; cursor: pointer; transition: 0.3s; letter-spacing: 1px; font-family: 'MultiCraftFont'; }
     .nav-link.active { color: #fff; text-shadow: 0 0 15px var(--purple); }
-
-    header { text-align: center; padding: 60px 0 30px; }
-    .title-sword { width: 65px; animation: pulseSword 2s infinite ease-in-out; }
+    
+    header { text-align: center; padding: 40px 0 20px; }
+    .title-sword { width: 45px; animation: pulseSword 2s infinite ease-in-out; vertical-align: middle; margin: 0 10px; }
     @keyframes pulseSword { 0%, 100% { transform: scale(1); filter: drop-shadow(0 0 10px var(--purple)); } 50% { transform: scale(1.1); filter: drop-shadow(0 0 20px var(--purple)); } }
-    .main-title { font-family: 'MultiCraftFont'; font-size: 4rem; margin: 0; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    
+    /* Smaller MTC TIERS text */
+    .main-title { font-family: 'MultiCraftFont'; font-size: 2.2rem; margin: 0; display: inline-block; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    
+    .status-bar { margin-top: 10px; display: flex; justify-content: center; gap: 15px; font-size: 0.7rem; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; }
+    .status-item { padding: 4px 10px; border-radius: 20px; border: 1px solid var(--border); background: rgba(255,255,255,0.02); color: #666; }
 
-    .search-input { 
-      width: 100%; max-width: 450px; padding: 16px; background: rgba(0,0,0,0.8); 
-      border: 1px solid var(--border); border-radius: 12px; color: #fff; text-align: center; outline: none; 
-      margin: 0 auto 30px; display: block; font-family: 'MultiCraftFont';
-    }
+    .search-input { width: 100%; max-width: 450px; padding: 16px; background: rgba(0,0,0,0.8); border: 1px solid var(--border); border-radius: 12px; color: #fff; text-align: center; outline: none; margin: 0 auto 30px; display: block; font-family: 'MultiCraftFont'; }
     .search-input:focus { border-color: var(--purple); box-shadow: 0 0 25px var(--purple-glow); }
-
-    .kit-btn { 
-      background: #0a0a0f; border: 1px solid var(--border); padding: 10px 20px; border-radius: 8px; 
-      color: #5a6474; cursor: pointer; transition: 0.3s; font-family: 'MultiCraftFont'; display: flex; align-items: center; gap: 8px;
-    }
+    
+    .kit-btn { background: #0a0a0f; border: 1px solid var(--border); padding: 10px 20px; border-radius: 8px; color: #5a6474; cursor: pointer; transition: 0.3s; font-family: 'MultiCraftFont'; display: flex; align-items: center; gap: 8px; font-size: 0.8rem; }
     .kit-btn.active { border-color: #fff; color: #fff; background: rgba(168, 85, 247, 0.2); box-shadow: 0 0 15px var(--purple-glow); }
-
+    
     .tier-card { background: var(--bg-panel); border: 1px solid var(--border); border-radius: 10px; margin-bottom: 15px; overflow: hidden; }
-    .tier-header { padding: 12px 25px; background: rgba(168, 85, 247, 0.1); color: var(--purple); font-weight: bold; font-family: 'MultiCraftFont'; border-bottom: 1px solid var(--border); }
+    .tier-header { padding: 12px 25px; background: rgba(168, 85, 247, 0.1); color: var(--purple); font-weight: bold; font-family: 'MultiCraftFont'; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
     .row { display: flex; justify-content: space-between; align-items: center; padding: 15px 25px; cursor: pointer; transition: 0.2s; }
     .row:hover { background: rgba(168, 85, 247, 0.05); }
-
+    
     .tag { font-size: 0.7rem; padding: 2px 6px; border-radius: 4px; background: rgba(255,255,255,0.05); color: #888; margin-left: 8px; border: 1px solid rgba(255,255,255,0.1); cursor: help; }
     .tag-rank { border-color: var(--purple); color: var(--purple); }
     .region-tag { color: #555; font-weight: bold; margin-left: 10px; font-size: 0.75rem; }
+    
+    .discord-card { 
+      background: #0a0a0f; border: 1px solid var(--border); border-radius: 15px; padding: 20px; 
+      display: flex; align-items: center; gap: 20px; margin-top: 50px; text-decoration: none; color: white;
+      transition: 0.3s;
+    }
+    .discord-card:hover { border-color: var(--purple); box-shadow: 0 0 25px var(--purple-glow); }
+    .discord-logo { width: 50px; height: 50px; border-radius: 10px; }
 
     #profileModal { position: fixed; inset: 0; background: rgba(0,0,0,0.98); z-index: 1000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(20px); }
-    .modal-content { background: #010102; border: 1px solid var(--purple); border-radius: 20px; padding: 40px; text-align: center; width: 400px; box-shadow: 0 0 50px var(--purple-glow); position: relative;}
+    .modal-content { background: #010102; border: 1px solid var(--purple); border-radius: 20px; padding: 40px; text-align: center; width: 380px; box-shadow: 0 0 50px var(--purple-glow); position: relative;}
   </style>
 </head>
 <body>
 
 <div id="space-container"></div>
-
 <nav>
   <div class="nav-link active" id="nav-rankings" onclick="showSection('rankings')">RANKINGS</div>
   <div class="nav-link" id="nav-hof" onclick="showSection('hof')">HALL OF FAME</div>
@@ -95,10 +73,14 @@
 </nav>
 
 <header>
-  <div class="header-content">
-    <h1 class="main-title">PvP</h1>
+  <div>
+    <h1 class="main-title">MTC</h1>
     <img src="backgroundsword.png" class="title-sword">
     <h1 class="main-title">TIERS</h1>
+  </div>
+  <div class="status-bar">
+    <div class="status-item">Server Code: <span style="color:var(--purple)">Unreleased</span></div>
+    <div class="status-item">Discord: <span style="color:var(--purple)">Unreleased</span></div>
   </div>
 </header>
 
@@ -107,18 +89,27 @@
     <input type="text" id="playerSearch" class="search-input" placeholder="SEARCH PLAYER..." oninput="handleSearch()">
     <div id="kitBar" style="display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; margin-bottom: 40px;"></div>
     <div id="displayList"></div>
+    
+    <div class="discord-card">
+      <img src="backgroundsword.png" class="discord-logo">
+      <div style="text-align: left;">
+        <div style="font-family: 'MultiCraftFont'; font-size: 1.2rem; color: var(--purple);">MTC TIERS</div>
+        <div style="font-size: 0.8rem; opacity: 0.5;">MultiCraft Tiertesting and Ranking</div>
+      </div>
+      <div style="margin-left: auto; background: #1a1a1a; padding: 6px 12px; border-radius: 6px; font-weight: bold; font-size: 0.7rem; color: #444;">UNRELEASED</div>
+    </div>
   </div>
 
-  <div id="hof-sec" style="display:none; text-align:center;"><h1 class="main-title" style="font-size:2.5rem; margin-bottom:30px;">HALL OF FAME</h1><div id="hofList"></div></div>
-  <div id="testers-sec" style="display:none; text-align:center;"><h1 class="main-title" style="font-size:2.5rem; margin-bottom:30px;">TIER TESTERS</h1><div id="testerList" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(250px, 1fr)); gap:20px;"></div></div>
+  <div id="hof-sec" style="display:none; text-align:center;"><h1 class="main-title" style="margin-bottom:30px;">HALL OF FAME</h1><div id="hofList"></div></div>
+  <div id="testers-sec" style="display:none; text-align:center;"><h1 class="main-title" style="margin-bottom:30px;">TIER TESTERS</h1><div id="testerList" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(250px, 1fr)); gap:20px;"></div></div>
 </div>
 
 <div id="profileModal" onclick="closeProfile()">
   <div class="modal-content" onclick="event.stopPropagation()">
     <span style="position:absolute; top:15px; right:20px; color:#555; cursor:pointer; font-size:24px;" onclick="closeProfile()">&times;</span>
     <div id="pRank" style="font-size:0.8rem; color:#555;">RANK #--</div>
-    <h2 id="pName" style="font-family:'MultiCraftFont'; font-size:3rem; color:var(--purple); margin:10px 0;">Player</h2>
-    <div id="pPoints" style="color:var(--gold); margin-bottom:25px;">0 TOTAL PTS</div>
+    <h2 id="pName" style="font-family:'MultiCraftFont'; font-size:2.5rem; color:var(--purple); margin:10px 0;">Player</h2>
+    <div id="pPoints" style="color:var(--gold); margin-bottom:25px; font-size:0.9rem;">0 TOTAL PTS</div>
     <div id="pGrids" style="display:flex; justify-content:center; gap:12px; flex-wrap:wrap;"></div>
   </div>
 </div>
@@ -126,16 +117,15 @@
 <script>
 let DATA = {}; let HOF = []; let TESTERS = []; let currentKit = "Overall";
 const ICONS = { "Overall":"emerald.png", "Emerald":"emerald.png", "Dragonhide KB":"dragonhide_kb.png", "Emerald OA":"emerald_oa.png", "Dragonhide KB OA":"kb_oa.png", "Wand":"wand.png" };
-
 const DEVICE_NAMES = { "MK":"Mouse & Keyboard", "TP":"Trackpad", "CTRL":"Controller", "MB":"Mobile" };
 
 async function load() {
   const get = async (f) => {
-    const r = await fetch(`https://raw.githubusercontent.com/multitiers/multitiers.github.io/refs/heads/main/${f}`);
+    const r = await fetch(`https://raw.githubusercontent.com/multitiers/multitiers.github.io/refs/heads/main/${f}?t=${Date.now()}`);
     return await r.json();
   };
   DATA = await get('rankings.json'); HOF = await get('hof.json'); TESTERS = await get('testers.json');
-  processOverall(); buildKitBar(); spawnSpaceStars(); startShootingStars(); render("Overall");
+  processOverall(); buildKitBar(); spawnSpaceStars(); render("Overall");
 }
 
 function processOverall() {
@@ -143,9 +133,7 @@ function processOverall() {
   let totals = {};
   for(let k in DATA) { 
     if(k!=="Overall" && k!=="Players") {
-      for(let t in DATA[k]) {
-        if(Array.isArray(DATA[k][t])) DATA[k][t].forEach(p => { totals[p] = (totals[p]||0) + (pts[t]||0); });
-      }
+      for(let t in DATA[k]) if(Array.isArray(DATA[k][t])) DATA[k][t].forEach(p => { totals[p] = (totals[p]||0) + (pts[t]||0); });
     }
   }
   DATA["Overall"] = totals;
@@ -162,7 +150,7 @@ function buildKitBar() {
   Object.keys(DATA).filter(k => k !== "Players").forEach(k => {
     const btn = document.createElement('button');
     btn.className = `kit-btn ${k==='Overall'?'active':''}`;
-    btn.innerHTML = `<img src="${ICONS[k]}" style="width:18px;"> ${k.toUpperCase()}`;
+    btn.innerHTML = `<img src="${ICONS[k]}" style="width:16px;"> ${k.toUpperCase()}`;
     btn.onclick = () => { document.querySelectorAll('.kit-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); currentKit = k; render(k); };
     bar.appendChild(btn);
   });
@@ -214,7 +202,7 @@ function showSection(id) {
     document.getElementById('nav-' + s).classList.toggle('active', s === id);
   });
   if (id === 'hof') document.getElementById('hofList').innerHTML = HOF.map(h => `<div class="tier-card" style="padding:25px; margin-bottom:15px;"><h2 style="font-family:'MultiCraftFont'; color:var(--purple);">${h.name}</h2><p style="opacity:0.6;">${h.description}</p></div>`).join('');
-  if (id === 'testers') document.getElementById('testerList').innerHTML = TESTERS.map(t => `<div class="tier-card" style="padding:20px; text-align:center;"><div style="font-weight:bold; font-size:1.2rem;">${t.name}</div><div style="color:var(--purple); font-size:0.8rem; margin-top:5px;">@${t.discord}</div></div>`).join('');
+  if (id === 'testers') document.getElementById('testerList').innerHTML = TESTERS.map(t => `<div class="tier-card" style="padding:20px; text-align:center;"><div style="font-weight:bold; font-size:1.1rem;">${t.name}</div><div style="color:var(--purple); font-size:0.8rem; margin-top:5px;">@${t.discord}</div></div>`).join('');
 }
 
 function openProfile(name) {
@@ -244,18 +232,6 @@ function spawnSpaceStars() {
     s.style.top = Math.random()*100+'vh'; s.style.left = Math.random()*100+'vw';
     container.appendChild(s);
   }
-}
-
-function startShootingStars() {
-  setInterval(() => {
-    const star = document.createElement('div');
-    star.className = 'shooting-star';
-    star.style.left = Math.random() * window.innerWidth + 'px';
-    star.style.top = Math.random() * (window.innerHeight / 2) + 'px';
-    document.getElementById('space-container').appendChild(star);
-    star.style.animation = "shoot 1.5s linear forwards";
-    setTimeout(() => star.remove(), 1600);
-  }, 8000);
 }
 
 function closeProfile() { document.getElementById('profileModal').style.display = 'none'; }

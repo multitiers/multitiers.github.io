@@ -12,7 +12,7 @@
       --border: rgba(168, 85, 247, 0.3); --gold: #ffd700;
     }
 
-    /* Unfrozen Animated Gradient Background */
+    /* Unfrozen Global Background */
     body { 
       background: linear-gradient(-45deg, #010102, #0d011a, #010102, #05000d);
       background-size: 400% 400%;
@@ -22,52 +22,52 @@
     }
     @keyframes gradientMove { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
 
-    /* Shooting Star Kits */
+    /* Shooting Star Background Kit (Every 9s) */
     #space-container { position: fixed; inset: 0; z-index: -1; pointer-events: none; }
     .shooting-star { 
-      position: absolute; width: 40px; height: 40px; background-size: contain; background-repeat: no-repeat;
-      opacity: 0.15; animation: shoot 10s linear infinite; 
+      position: absolute; width: 45px; height: 45px; background: url('backgroundsword.png') no-repeat center;
+      background-size: contain; opacity: 0; animation: shoot 9s linear infinite; 
     }
     @keyframes shoot {
       0% { transform: translate(-100px, -100px) rotate(0deg); opacity: 0; }
-      10% { opacity: 0.2; }
-      90% { opacity: 0.2; }
-      100% { transform: translate(120vw, 120vh) rotate(360deg); opacity: 0; }
+      10% { opacity: 0.3; }
+      90% { opacity: 0.3; }
+      100% { transform: translate(110vw, 110vh) rotate(360deg); opacity: 0; }
     }
 
-    /* PERFECTLY CENTERED HEADER */
+    /* REDONE CENTERED TITLE */
     header { width: 100%; display: flex; justify-content: center; padding: 60px 0 20px; }
-    .header-container { display: flex; align-items: center; justify-content: center; width: 100%; }
-    .main-title { font-family: 'MultiCraftFont'; font-size: 3.2rem; margin: 0; background: linear-gradient(to right, #fff, var(--purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-    .title-sword { width: 50px; height: 50px; object-fit: contain; margin: 0 20px; animation: pulse 2s infinite ease-in-out; }
+    .title-wrapper { display: flex; align-items: center; justify-content: center; gap: 20px; }
+    .main-title { font-family: 'MultiCraftFont'; font-size: 3.5rem; margin: 0; background: linear-gradient(to bottom, #fff, var(--purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .title-sword { width: 55px; height: 55px; object-fit: contain; animation: pulse 2s infinite ease-in-out; }
     @keyframes pulse { 0%, 100% { transform: scale(1); filter: drop-shadow(0 0 5px var(--purple)); } 50% { transform: scale(1.1); filter: drop-shadow(0 0 15px var(--purple)); } }
 
     nav { display: flex; justify-content: center; gap: 40px; padding: 25px 0; background: rgba(0,0,0,0.85); width: 100%; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; backdrop-filter: blur(12px); }
     .nav-link { color: #5a6474; text-decoration: none; font-weight: bold; cursor: pointer; transition: 0.3s; font-family: 'MultiCraftFont'; font-size: 0.95rem; }
     .nav-link.active { color: #fff; text-shadow: 0 0 15px var(--purple-glow); }
 
-    /* GLOWING SEARCH */
     .search-input { 
       width: 100%; max-width: 500px; padding: 18px; background: rgba(0,0,0,0.9); border: 2px solid var(--border); 
       border-radius: 15px; color: #fff; text-align: center; outline: none; font-family: 'MultiCraftFont'; 
-      margin-top: 40px; transition: 0.4s; box-shadow: 0 0 10px rgba(0,0,0,0.5);
+      margin-top: 40px; transition: 0.4s;
     }
     .search-input:focus { border-color: var(--purple); box-shadow: 0 0 25px var(--purple-glow); }
 
     .kit-btn { background: rgba(10, 10, 15, 0.8); border: 1px solid var(--border); padding: 12px 22px; border-radius: 10px; color: #888; cursor: pointer; font-family: 'MultiCraftFont'; font-size: 0.8rem; display: flex; align-items: center; gap: 10px; }
     .kit-btn.active { border-color: #fff; color: #fff; background: rgba(168, 85, 247, 0.3); box-shadow: 0 0 20px var(--purple-glow); }
 
-    .tier-card { width: 100%; max-width: 800px; background: rgba(5, 5, 8, 0.95); border: 1px solid var(--border); border-radius: 15px; margin-bottom: 25px; }
+    .tier-card { width: 100%; max-width: 800px; background: rgba(5, 5, 8, 0.95); border: 1px solid var(--border); border-radius: 15px; margin-bottom: 25px; overflow: hidden; }
     .tier-header { padding: 15px; background: rgba(168, 85, 247, 0.2); color: var(--purple); font-family: 'MultiCraftFont'; text-align: center; border-bottom: 1px solid var(--border); }
-    .row { display: flex; justify-content: space-between; align-items: center; padding: 20px 35px; cursor: pointer; }
-    .player-name { font-weight: bold; font-size: 1.1rem; }
-    .row:hover .player-name { text-shadow: 0 0 15px var(--purple-glow); color: var(--purple); }
+    .row { display: flex; justify-content: space-between; align-items: center; padding: 20px 35px; cursor: pointer; border-bottom: 1px solid rgba(255,255,255,0.02); }
+    .row:hover { background: rgba(168, 85, 247, 0.05); }
 
-    /* OLD GLOWY PROFILES */
-    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 1000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(15px); }
+    .tag { font-size: 0.65rem; padding: 3px 7px; border-radius: 4px; background: rgba(255,255,255,0.05); color: #888; border: 1px solid rgba(255,255,255,0.1); margin-left: 8px; vertical-align: middle; }
+    .t1-tag { color: var(--gold); border-color: var(--gold); font-weight: bold; }
+
+    /* Modal Styling */
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.96); z-index: 1000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(15px); }
     .modal-content { background: #010102; border: 2px solid var(--purple); border-radius: 20px; padding: 45px; text-align: center; width: 420px; box-shadow: 0 0 60px var(--purple-glow); position: relative; }
-    .tag { font-size: 0.7rem; padding: 4px 8px; border-radius: 5px; background: rgba(168, 85, 247, 0.1); color: var(--purple); border: 1px solid var(--border); font-weight: bold; margin-left: 10px; }
-    .p-grid-item { background: #0a0c12; padding: 12px; border-radius: 10px; border: 1px solid var(--border); min-width: 70px; }
+    .p-grid-item { background: #0a0c12; padding: 12px; border-radius: 10px; border: 1px solid var(--border); min-width: 75px; }
   </style>
 </head>
 <body>
@@ -81,7 +81,7 @@
 </nav>
 
 <header>
-  <div class="header-container">
+  <div class="title-wrapper">
     <h1 class="main-title">MTC</h1>
     <img src="backgroundsword.png" class="title-sword">
     <h1 class="main-title">TIERS</h1>
@@ -89,7 +89,8 @@
 </header>
 
 <div id="rankings-sec" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
-    <input type="text" id="playerSearch" class="search-input" placeholder="SEARCH PLAYER OR PROFILE..." oninput="handleSearch()">
+    <input type="text" id="playerSearch" class="search-input" placeholder="SEARCH PLAYER..." oninput="handleSearch()">
+    <button class="kit-btn" style="margin-top: 20px; border-color: var(--purple); color: var(--purple);" onclick="togglePoints()">POINTS INFO</button>
     <div id="kitBar" style="display: flex; justify-content: center; flex-wrap: wrap; gap: 15px; margin: 40px 0;"></div>
     <div id="displayList" style="width: 100%; display: flex; flex-direction: column; align-items: center;"></div>
 </div>
@@ -97,17 +98,27 @@
 <div id="hof-sec" style="display:none; width: 100%; max-width: 800px; padding-top: 40px;">
     <div id="hofList" style="display: flex; flex-direction: column; align-items: center;"></div>
 </div>
-
 <div id="tester-sec" style="display:none; width: 100%; max-width: 800px; padding-top: 40px;">
     <div id="testerList" style="display: flex; flex-direction: column; align-items: center;"></div>
+</div>
+
+<div id="pointsModal" class="modal-overlay" onclick="togglePoints()">
+  <div class="modal-content" onclick="event.stopPropagation()">
+    <h2 style="font-family:'MultiCraftFont'; color:var(--purple);">POINT SYSTEM</h2>
+    <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 20px 0;">
+      <div style="background:rgba(255,255,255,0.05); padding:10px;">HT1: 50</div><div style="background:rgba(255,255,255,0.05); padding:10px;">LT1: 40</div>
+      <div style="background:rgba(255,255,255,0.05); padding:10px;">HT2: 30</div><div style="background:rgba(255,255,255,0.05); padding:10px;">LT2: 20</div>
+    </div>
+    <button class="kit-btn" style="width:100%; justify-content:center;" onclick="togglePoints()">CLOSE</button>
+  </div>
 </div>
 
 <div id="profileModal" class="modal-overlay" onclick="closeProfile()">
     <div class="modal-content" onclick="event.stopPropagation()">
         <span style="position:absolute; top:20px; right:25px; color:#555; cursor:pointer; font-size:28px;" onclick="closeProfile()">&times;</span>
-        <div id="pRank" style="font-size:0.9rem; color:#888; letter-spacing:2px; font-weight: bold;">RANK #--</div>
+        <div id="pRank" style="font-size:0.9rem; color:#888; font-weight: bold;">RANK #--</div>
         <h2 id="pName" style="font-family:'MultiCraftFont'; font-size:2.8rem; color:var(--purple); margin:15px 0; text-shadow: 0 0 20px var(--purple-glow);">Player</h2>
-        <div id="pRegion" style="font-weight: bold; margin-bottom: 5px;">REGION: --</div>
+        <div id="pRegion" style="font-weight: bold;">REGION: --</div>
         <div id="pDevice" style="color:var(--purple); font-size: 0.8rem; margin-bottom: 20px;">DEVICE: --</div>
         <div id="pPoints" style="color:var(--gold); font-size:1.2rem; margin-bottom:30px; font-weight: bold;">0 TOTAL PTS</div>
         <div id="pGrids" style="display:flex; justify-content:center; gap:12px; flex-wrap:wrap;"></div>
@@ -117,8 +128,7 @@
 <script>
 let DATA = {};
 const ICONS = { 
-  "Overall": "", 
-  "Emerald": "emerald.png", "Dragonhide KB": "dragonhide_kb.png", 
+  "Overall": "", "Emerald": "emerald.png", "Dragonhide KB": "dragonhide_kb.png", 
   "Emerald OA": "emerald_oa.png", "Dragonhide KB OA": "kb_oa.png", 
   "Wand": "wand.png", "Emerald KB": "emerald.png", "Diamond": "emerald.png" 
 };
@@ -126,7 +136,7 @@ const ICONS = {
 async function load() {
   const r = await fetch(`https://raw.githubusercontent.com/multitiers/multitiers.github.io/refs/heads/main/rankings.json?t=${Date.now()}`);
   DATA = await r.json();
-  processOverall(); buildKitBar(); spawnShootingStars(); render("Overall");
+  processOverall(); buildKitBar(); spawnStars(); render("Overall");
 }
 
 function processOverall() {
@@ -134,38 +144,34 @@ function processOverall() {
   let totals = {};
   for(let k in DATA) { 
     if(k!=="Overall" && k!=="Players") {
-      for(let t in DATA[k]) {
-        if(Array.isArray(DATA[k][t])) {
-          DATA[k][t].forEach(p => { totals[p] = (totals[p]||0) + (ptsMap[t]||0); });
-        }
+      for(let t in DATA[k]) if(Array.isArray(DATA[k][t])) {
+        DATA[k][t].forEach(p => { totals[p] = (totals[p]||0) + (ptsMap[t]||0); });
       }
     }
   }
   DATA["Overall"] = totals;
 }
 
-function getHighestTier(name) {
-  for(let k in DATA) {
-    if(k !== "Overall" && k !== "Players") {
-      if(DATA[k]["HT1"]?.includes(name)) return "HT1";
-      if(DATA[k]["LT1"]?.includes(name)) return "LT1";
-    }
+function getPD(name) {
+  return DATA.Players?.find(x => x.name.toLowerCase() === name.toLowerCase()) || { region: "??", device: "??" };
+}
+
+function getT1(name) {
+  for(let k in DATA) if(k!=="Overall" && k!=="Players") {
+    if(DATA[k]["HT1"]?.includes(name)) return "HT1";
+    if(DATA[k]["LT1"]?.includes(name)) return "LT1";
   }
   return null;
 }
 
 function buildKitBar() {
-  const bar = document.getElementById('kitBar');
-  bar.innerHTML = "";
+  const bar = document.getElementById('kitBar'); bar.innerHTML = "";
   const keys = ["Overall", ...Object.keys(DATA).filter(k => k !== "Players" && k !== "Overall")];
   keys.forEach(k => {
     const btn = document.createElement('button');
     btn.className = `kit-btn ${k==='Overall'?'active':''}`;
     btn.innerHTML = (ICONS[k] ? `<img src="${ICONS[k]}" style="width:18px;"> ` : "") + k;
-    btn.onclick = () => {
-      document.querySelectorAll('.kit-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active'); render(k);
-    };
+    btn.onclick = () => { document.querySelectorAll('.kit-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); render(k); };
     bar.appendChild(btn);
   });
 }
@@ -175,14 +181,19 @@ function render(kit) {
   if(kit === "Overall") {
     let sorted = Object.entries(DATA["Overall"]).sort((a,b) => b[1]-a[1]);
     sorted.forEach(([n, s], i) => {
-      const t1 = getHighestTier(n);
-      out.innerHTML += `<div class="tier-card"><div class="row" onclick="openProfile('${n}')"><span class="player-name"><b style="color:var(--purple); margin-right:15px;">#${i+1}</b> ${n} ${t1 ? `<span class="tag">${t1}</span>`:''}</span><b style="color:var(--gold)">${s} PTS</b></div></div>`;
+      const pd = getPD(n); const t1 = getT1(n);
+      out.innerHTML += `<div class="tier-card"><div class="row" onclick="openProfile('${n}')">
+        <span><b style="color:var(--purple); margin-right:10px;">#${i+1}</b> ${n} ${t1?`<span class="tag t1-tag">${t1}</span>`:''} <span class="tag">${pd.region}</span> <span class="tag">${pd.device}</span></span>
+        <b style="color:var(--gold)">${s} PTS</b></div></div>`;
     });
   } else {
     ["HT1","LT1","HT2","LT2","HT3","LT3","HT4","LT4","HT5","LT5"].forEach(t => {
-      if(DATA[kit] && DATA[kit][t] && DATA[kit][t].length > 0) {
+      if(DATA[kit] && DATA[kit][t]?.length > 0) {
         let h = `<div class="tier-card"><div class="tier-header">${t}</div>`;
-        DATA[kit][t].forEach(p => { h += `<div class="row" onclick="openProfile('${p}')"><span class="player-name">${p}</span><span style="color:#555">VIEW</span></div>`; });
+        DATA[kit][t].forEach(p => {
+          const pd = getPD(p);
+          h += `<div class="row" onclick="openProfile('${p}')"><span>${p} <span class="tag">${pd.region}</span> <span class="tag">${pd.device}</span></span><span style="color:#555">VIEW PROFILE</span></div>`;
+        });
         out.innerHTML += h + `</div>`;
       }
     });
@@ -195,31 +206,6 @@ function handleSearch() {
     c.style.display = c.innerText.toLowerCase().includes(q) ? 'block' : 'none';
   });
 }
-
-function openProfile(name) {
-  const pd = DATA.Players?.find(x => x.name.toLowerCase() === name.toLowerCase()) || { region: "???", device: "??" };
-  const pts = DATA["Overall"][name] || 0;
-  let sorted = Object.entries(DATA["Overall"]).sort((a,b) => b[1]-a[1]);
-  let r = sorted.findIndex(x => x[0] === name) + 1;
-
-  document.getElementById('pRank').innerText = `RANK #${r || '--'}`;
-  document.getElementById('pName').innerText = name;
-  document.getElementById('pRegion').innerText = `REGION: ${pd.region}`;
-  document.getElementById('pDevice').innerText = `DEVICE: ${pd.device}`;
-  document.getElementById('pPoints').innerText = `${pts} TOTAL PTS`;
-  
-  const grid = document.getElementById('pGrids'); grid.innerHTML = "";
-  for(let k in ICONS) {
-    if(k!=="Overall" && DATA[k]) {
-      for(let t in DATA[k]) if(Array.isArray(DATA[k][t]) && DATA[k][t].includes(name)) {
-        grid.innerHTML += `<div class="p-grid-item"><img src="${ICONS[k]}" style="width:20px;"><br><small style="color:var(--purple); font-weight:bold;">${t}</small></div>`;
-      }
-    }
-  }
-  document.getElementById('profileModal').style.display = 'flex';
-}
-
-function closeProfile() { document.getElementById('profileModal').style.display = 'none'; }
 
 function showSection(id) {
     document.getElementById('rankings-sec').style.display = id === 'rankings' ? 'flex' : 'none';
@@ -235,20 +221,39 @@ async function loadExtra(file, elementId) {
   const container = document.getElementById(elementId);
   try {
     const r = await fetch(`https://raw.githubusercontent.com/multitiers/multitiers.github.io/refs/heads/main/${file}?t=${Date.now()}`);
-    const json = await r.json();
-    container.innerHTML = "";
-    json.forEach(item => { container.innerHTML += `<div class="tier-card"><div class="row"><span class="player-name">${item.name}</span><span style="color:var(--purple)">${item.role || 'LEGEND'}</span></div></div>`; });
+    const json = await r.json(); container.innerHTML = "";
+    json.forEach(item => {
+      container.innerHTML += `<div class="tier-card"><div class="row"><span><b class="player-name">${item.name}</b></span><span style="color:var(--purple)">${item.description || item.role || 'MEMBER'}</span></div></div>`;
+    });
   } catch(e) { container.innerHTML = `<p>Error loading ${file}</p>`; }
 }
 
-function spawnShootingStars() {
+function openProfile(name) {
+  const pd = getPD(name); const pts = DATA["Overall"][name] || 0;
+  let sorted = Object.entries(DATA["Overall"]).sort((a,b) => b[1]-a[1]);
+  let r = sorted.findIndex(x => x[0] === name) + 1;
+  document.getElementById('pRank').innerText = `RANK #${r || '--'}`;
+  document.getElementById('pName').innerText = name;
+  document.getElementById('pRegion').innerText = `REGION: ${pd.region}`;
+  document.getElementById('pDevice').innerText = `DEVICE: ${pd.device}`;
+  document.getElementById('pPoints').innerText = `${pts} TOTAL PTS`;
+  const grid = document.getElementById('pGrids'); grid.innerHTML = "";
+  for(let k in ICONS) if(k!=="Overall" && DATA[k]) {
+    for(let t in DATA[k]) if(Array.isArray(DATA[k][t]) && DATA[k][t].includes(name)) {
+      grid.innerHTML += `<div class="p-grid-item"><img src="${ICONS[k]}" style="width:20px;"><br><small style="color:var(--purple); font-weight:bold;">${t}</small></div>`;
+    }
+  }
+  document.getElementById('profileModal').style.display = 'flex';
+}
+function closeProfile() { document.getElementById('profileModal').style.display = 'none'; }
+function togglePoints() { const m = document.getElementById('pointsModal'); m.style.display = (m.style.display === 'flex') ? 'none' : 'flex'; }
+
+function spawnStars() {
   const container = document.getElementById('space-container');
-  for(let i=0; i<10; i++) {
+  for(let i=0; i<6; i++) {
     const s = document.createElement('div'); s.className = 'shooting-star';
-    s.style.backgroundImage = `url('backgroundsword.png')`;
     s.style.top = Math.random() * 80 + 'vh'; s.style.left = Math.random() * 80 + 'vw';
-    s.style.animationDelay = (Math.random() * 15) + 's';
-    container.appendChild(s);
+    s.style.animationDelay = (i * 1.5) + 's'; container.appendChild(s);
   }
 }
 load();

@@ -3,237 +3,162 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PVP TIERS</title>
+  <title>PvPTiers</title>
   <link rel="icon" type="image/png" href="backgroundsword.png">
   <style>
     @font-face { font-family: 'MultiCraftFont'; src: url('MultiCraftFont.ttf') format('truetype'); }
     
     :root {
-      --bg: #020204;
-      --purple: #a855f7;
-      --purple-glow: rgba(168, 85, 247, 0.4);
+      --bg: #030406; 
+      --bg-panel: rgba(12, 10, 20, 0.95);
+      --purple: #a855f7; 
+      --white: #ffffff;
+      --gold: #ffd700;
       --border: rgba(168, 85, 247, 0.2);
-      --text-dim: #6b7280;
-      --grad: linear-gradient(180deg, #ffffff 0%, #a855f7 100%);
     }
 
     body { 
-      background: var(--bg); color: #fff; font-family: 'MultiCraftFont', monospace; margin: 0; padding-bottom: 50px;
-      overflow-x: hidden;
-      /* Deep Dark Cozy Background */
-      background-image: 
-        radial-gradient(circle at 15% 25%, rgba(168, 85, 247, 0.1) 0%, transparent 40%),
-        radial-gradient(circle at 85% 75%, rgba(168, 85, 247, 0.08) 0%, transparent 40%);
+      background: var(--bg); color: #fff; font-family: 'Courier New', monospace; margin: 0; padding-bottom: 50px;
+      background-image: radial-gradient(circle at 50% 50%, #0a0510 0%, #030406 100%);
       background-attachment: fixed;
     }
 
-    /* Floating Items (No Spin) */
-    #space { position: fixed; inset: 0; z-index: -1; pointer-events: none; }
-    .float-item { position: absolute; width: 40px; height: 40px; background-size: contain; opacity: 0.15; animation: floatMove 25s linear infinite; }
-    @keyframes floatMove { from { transform: translate(110vw, 10vh); } to { transform: translate(-10vw, 30vh); } }
+    nav { display: flex; justify-content: center; gap: 25px; padding: 20px; background: rgba(0,0,0,0.85); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; backdrop-filter: blur(12px); }
+    .nav-link { color: #5a6474; text-decoration: none; font-weight: bold; cursor: pointer; transition: 0.3s; letter-spacing: 1px; }
+    .nav-link.active { color: #fff; text-shadow: 0 0 10px var(--purple); }
 
-    /* Noticeable Long Shooting Star */
-    .shooting-star {
-      position: absolute; width: 300px; height: 2px;
-      background: linear-gradient(90deg, transparent, #fff, var(--purple), transparent);
-      box-shadow: 0 0 20px var(--purple); z-index: -1; opacity: 0;
-    }
-    @keyframes shoot {
-      0% { transform: translate(-350px, 0) rotate(10deg); opacity: 0; }
-      20% { opacity: 1; }
-      100% { transform: translate(120vw, 40vh) rotate(10deg); opacity: 0; }
-    }
+    header { width: 100%; display: flex; justify-content: center; padding: 60px 0 30px; }
+    .header-content { display: flex; align-items: center; justify-content: center; gap: 20px; }
+    .main-title { font-family: 'MultiCraftFont', sans-serif; font-size: 3.8rem; margin: 0; letter-spacing: 5px; color: var(--white); }
 
-    /* Top Left Nav - Text Only */
-    nav { position: fixed; top: 30px; left: 30px; z-index: 1000; display: flex; flex-direction: column; gap: 15px; }
-    .nav-link { 
-      font-family: 'MultiCraftFont'; color: var(--text-dim); text-decoration: none; 
-      font-size: 1.1rem; cursor: pointer; transition: 0.3s; background: none; border: none; text-align: left; 
-    }
-    .nav-link:hover, .nav-link.active { color: #fff; text-shadow: 0 0 15px var(--purple); }
+    .search-input { width: 100%; max-width: 450px; padding: 14px 22px; background: rgba(10, 12, 18, 0.9); border: 1px solid var(--border); border-radius: 25px; color: #fff; text-align: center; margin: 0 auto 30px; display: block; }
 
-    header { text-align: center; padding: 100px 0 30px; }
-    .title-sword { width: 60px; animation: pulse 1.8s infinite ease-in-out; filter: drop-shadow(0 0 15px var(--purple)); }
-    @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
-    .main-title { font-size: 4.5rem; margin: 0; background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: 8px; }
+    .kit-btn { background: #0a0c12; border: 1px solid var(--border); padding: 12px 22px; border-radius: 10px; color: #5a6474; font-weight: bold; cursor: pointer; }
+    .kit-btn.active { border-color: #fff; color: #fff; background: rgba(168, 85, 247, 0.15); }
 
-    .container { max-width: 800px; margin: auto; padding: 0 20px; }
+    .tier-card { background: var(--bg-panel); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 15px; overflow: hidden; }
+    .tier-header { padding: 12px 25px; background: rgba(255, 255, 255, 0.03); border-bottom: 1px solid var(--border); font-weight: bold; color: var(--purple); }
+    .row { display: flex; justify-content: space-between; align-items: center; padding: 18px 25px; cursor: pointer; transition: 0.3s; }
+    .row:hover { background: rgba(168, 85, 247, 0.08); }
 
-    /* Glowy Search */
-    .search-input { 
-      width: 100%; padding: 18px; background: rgba(0,0,0,0.6); border: 1px solid var(--border);
-      border-radius: 10px; color: #fff; text-align: center; outline: none; transition: 0.3s;
-      margin-bottom: 40px; font-family: 'MultiCraftFont'; font-size: 1rem;
-    }
-    .search-input:focus { border-color: var(--purple); box-shadow: 0 0 20px var(--purple-glow); }
-
-    /* Slanting Kit Buttons */
-    .kit-btn { 
-      background: transparent; border: 1px solid var(--border); padding: 8px 18px;
-      color: var(--text-dim); cursor: pointer; transition: 0.3s; font-family: 'MultiCraftFont';
-      clip-path: polygon(10% 0, 100% 0, 90% 100%, 0 100%); margin: 0 4px;
-    }
-    .kit-btn.active { color: #fff; border-color: var(--purple); background: rgba(168, 85, 247, 0.15); box-shadow: 0 0 15px var(--purple-glow); }
-
-    /* Tier Structure */
-    .tier-card { background: rgba(15, 15, 25, 0.75); border: 1px solid var(--border); border-radius: 8px; margin-bottom: 15px; overflow: hidden; }
-    .tier-header { padding: 10px 25px; background: rgba(168, 85, 247, 0.1); color: var(--purple); font-size: 1.2rem; }
-    .row { display: flex; justify-content: space-between; align-items: center; padding: 14px 25px; cursor: pointer; border-top: 1px solid rgba(255,255,255,0.03); }
-    .row:hover { background: rgba(168, 85, 247, 0.05); }
-
-    .tag { font-size: 0.7rem; padding: 2px 6px; border-radius: 4px; margin-left: 8px; background: rgba(255,255,255,0.05); color: var(--text-dim); border: 1px solid rgba(255,255,255,0.1); }
+    /* Tags Styling */
+    .tag { font-size: 0.7rem; padding: 2px 6px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 4px; margin-left: 8px; color: #888; }
     .tag-rank { border-color: var(--purple); color: var(--purple); }
 
-    /* Modal */
-    #profileModal { position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 2000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(10px); }
-    .modal-content { background: #050508; border: 1px solid var(--purple); padding: 40px; border-radius: 15px; text-align: center; width: 380px; }
-    .p-name { font-size: 2.8rem; background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 10px 0; }
+    #profileModal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 1000; display: none; align-items: center; justify-content: center; }
+    .modal-content { background: #050608; border: 1px solid var(--border); border-radius: 16px; padding: 35px; text-align: center; width: 350px; }
   </style>
 </head>
 <body>
 
-<div id="space"></div>
-
 <nav>
-  <button class="nav-link active" id="n-rankings" onclick="tab('rankings')">RANKINGS</button>
-  <button class="nav-link" id="n-hof" onclick="tab('hof')">HALL OF FAME</button>
-  <button class="nav-link" id="n-testers" onclick="tab('testers')">TIER TESTERS</button>
+  <div class="nav-link active" onclick="showSection('rankings')">RANKINGS</div>
+  <div class="nav-link" onclick="showSection('hof')">HALL OF FAME</div>
+  <div class="nav-link" onclick="showSection('testers')">TIER TESTERS</div>
 </nav>
 
 <header>
-  <img src="backgroundsword.png" class="title-sword">
-  <h1 class="main-title">PVP TIERS</h1>
+  <div class="header-content">
+    <h1 class="main-title">PVP TIERS</h1>
+  </div>
 </header>
 
-<div class="container">
-  <div id="sec-rankings">
-    <input type="text" id="search" class="search-input" placeholder="SEARCH PLAYER..." oninput="render()">
-    <div id="kitBar" style="display:flex; justify-content:center; flex-wrap:wrap; margin-bottom:30px;"></div>
+<div class="container" style="max-width: 850px; margin: auto; padding: 0 25px;">
+  <div id="rankings-sec">
+    <input type="text" id="playerSearch" class="search-input" placeholder="SEARCH PLAYER..." oninput="render()">
+    <div id="kitBar" style="display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; margin-bottom: 40px;"></div>
     <div id="displayList"></div>
   </div>
-  <div id="sec-hof" style="display:none; text-align:center;"><h1 class="main-title" style="font-size:2rem;">HALL OF FAME</h1><div id="hofList"></div></div>
-  <div id="sec-testers" style="display:none; text-align:center;"><h1 class="main-title" style="font-size:2rem;">TIER TESTERS</h1><div id="testerList"></div></div>
 </div>
 
 <div id="profileModal" onclick="closeProfile()">
   <div class="modal-content" onclick="event.stopPropagation()">
-    <div id="pRank" style="color:var(--text-dim); font-size: 0.8rem;">RANK #--</div>
-    <div id="pName" class="p-name">PLAYER</div>
-    <div id="pPoints" style="color:var(--purple); font-weight:bold; margin-bottom:20px;">0 TOTAL PTS</div>
-    <div id="pGrids" style="display:flex; justify-content:center; gap:8px; flex-wrap:wrap;"></div>
+    <h2 id="pName" style="font-family: 'MultiCraftFont'; color: var(--purple); font-size: 2.5rem;">Player</h2>
+    <div id="pPoints" style="color: var(--gold); font-weight: bold; margin-bottom: 25px;">0 TOTAL PTS</div>
+    <div id="pGrids" style="display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;"></div>
   </div>
 </div>
 
 <script>
 let DATA = {}, curKit = "Overall";
-const ICONS = { "Overall": "backgroundsword.png", "Emerald": "emerald.png", "Dragonhide KB": "dragonhide_kb.png", "Emerald OA": "emerald_oa.png", "Dragonhide KB OA": "kb_oa.png", "Wand": "wand.png" };
 
 async function load() {
-  const get = async (f) => (await fetch(`https://raw.githubusercontent.com/multitiers/multitiers.github.io/refs/heads/main/${f}`)).json();
-  DATA = await get('rankings.json');
-  processOverall(); buildKits(); render(); spawnSpace(); startShootingStars();
+  const r = await fetch('https://raw.githubusercontent.com/multitiers/multitiers.github.io/refs/heads/main/rankings.json');
+  DATA = await r.json();
+  processOverall(); buildKitBar(); render();
 }
 
 function processOverall() {
   const pts = {"HT1":10,"LT1":9,"HT2":8,"LT2":7,"HT3":6,"LT3":5,"HT4":4,"LT4":3,"HT5":2,"LT5":1};
-  let ov = {};
-  for(let k in DATA) {
+  let totals = {};
+  for(let k in DATA) { 
     if(k!=="Overall" && k!=="Players") {
-      for(let t in DATA[k]) if(Array.isArray(DATA[k][t])) DATA[k][t].forEach(n => ov[n] = (ov[n]||0) + (pts[t]||0));
+      for(let t in DATA[k]) {
+        if(Array.isArray(DATA[k][t])) DATA[k][t].forEach(p => totals[p] = (totals[p]||0) + (pts[t]||0));
+      }
     }
   }
-  DATA["Overall"] = ov;
+  DATA["Overall"] = totals;
 }
 
-function buildKits() {
+function buildKitBar() {
   const bar = document.getElementById('kitBar');
-  Object.keys(DATA).filter(k => k!=="Players").forEach(k => {
-    const b = document.createElement('button');
-    b.className = `kit-btn ${k===curKit?'active':''}`;
-    b.innerText = k;
-    b.onclick = () => { document.querySelectorAll('.kit-btn').forEach(x => x.classList.remove('active')); b.classList.add('active'); curKit = k; render(); };
-    bar.appendChild(b);
+  Object.keys(DATA).filter(k => k !== "Players").forEach(k => {
+    const btn = document.createElement('button');
+    btn.className = `kit-btn ${k===curKit?'active':''}`;
+    btn.innerText = k.toUpperCase();
+    btn.onclick = () => {
+      document.querySelectorAll('.kit-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active'); curKit = k; render();
+    };
+    bar.appendChild(btn);
   });
 }
 
 function render() {
   const out = document.getElementById('displayList');
-  const q = document.getElementById('search').value.toLowerCase();
+  const filter = document.getElementById('playerSearch').value.toLowerCase();
   out.innerHTML = "";
   let found = false;
 
   if(curKit === "Overall") {
-    let s = Object.entries(DATA["Overall"]).sort((a,b) => b[1]-a[1]);
-    if(q) s = s.filter(x => x[0].toLowerCase().includes(q));
-    if(s.length) found = true;
-    s.forEach(([n, p], i) => {
-      out.innerHTML += `<div class="tier-card"><div class="row" onclick="openProfile('${n}')"><span><b style="color:var(--purple); margin-right:15px;">#${i+1}</b> ${n} <span class="tag">NA</span></span><b>${p} PTS</b></div></div>`;
+    let sorted = Object.entries(DATA["Overall"]).sort((a,b) => b[1]-a[1]);
+    if(filter) sorted = sorted.filter(([n]) => n.toLowerCase().includes(filter));
+    if(sorted.length) found = true;
+    sorted.forEach(([n, s], i) => {
+      out.innerHTML += `<div class="tier-card"><div class="row" onclick="openProfile('${n}')"><span><b style="color:var(--purple); margin-right:15px;">#${i+1}</b> ${n} <span class="tag">NA</span></span><b>${s} PTS</b></div></div>`;
     });
   } else {
     [1,2,3,4,5].forEach(num => {
-      const hts = (DATA[curKit][`HT${num}`] || []).map(name => ({name, rank: `HT${num}`}));
-      const lts = (DATA[curKit][`LT${num}`] || []).map(name => ({name, rank: `LT${num}`}));
-      const players = [...hts, ...lts].filter(p => p.name.toLowerCase().includes(q));
+      const hts = (DATA[curKit][`HT${num}`] || []).map(n => ({name: n, tag: `HT${num}`}));
+      const lts = (DATA[curKit][`LT${num}`] || []).map(n => ({name: n, tag: `LT${num}`}));
+      const players = [...hts, ...lts].filter(p => p.name.toLowerCase().includes(filter));
 
       if(players.length) {
         found = true;
         let h = `<div class="tier-card"><div class="tier-header">T${num}</div>`;
         players.forEach(p => {
-          h += `<div class="row" onclick="openProfile('${p.name}')">
-            <span><b>${p.name}</b> <span class="tag">NA</span> <span class="tag tag-rank">${p.rank}</span></span>
-            <span style="color:var(--text-dim); font-size:0.7rem;">VIEW</span>
-          </div>`;
+          h += `<div class="row" onclick="openProfile('${p.name}')"><span><b>${p.name}</b> <span class="tag">NA</span> <span class="tag tag-rank">${p.tag}</span></span><span>VIEW</span></div>`;
         });
         out.innerHTML += h + `</div>`;
       }
     });
   }
-  if(!found) out.innerHTML = `<div class="empty-msg">NO RANKED PLAYERS</div>`;
+  if(!found) out.innerHTML = `<div style="text-align:center; opacity:0.3; padding:50px;">NO PLAYERS FOUND</div>`;
 }
 
 function openProfile(name) {
-  let s = Object.entries(DATA["Overall"]).sort((a,b) => b[1]-a[1]);
-  let r = s.findIndex(x => x[0] === name) + 1;
-  document.getElementById('pRank').innerText = `RANK #${r}`;
   document.getElementById('pName').innerText = name;
-  document.getElementById('pPoints').innerText = `${DATA["Overall"][name] || 0} TOTAL PTS`;
+  document.getElementById('pPoints').innerText = (DATA["Overall"][name] || 0) + " TOTAL PTS";
   const grid = document.getElementById('pGrids'); grid.innerHTML = "";
-  for(let k in ICONS) {
-    if(k!=="Overall" && DATA[k]) {
-      for(let t in DATA[k]) if(DATA[k][t].includes(name)) grid.innerHTML += `<div style="background:rgba(255,255,255,0.05); padding:8px; border-radius:6px; border:1px solid var(--border);"><img src="${ICONS[k]}" style="width:18px;"><br><small style="font-size:0.5rem; color:var(--purple)">${t}</small></div>`;
+  for(let k in DATA) {
+    if(k!=="Overall" && k!=="Players") {
+      for(let t in DATA[k]) {
+        if(DATA[k][t].includes(name)) grid.innerHTML += `<div style="padding:10px; background:rgba(255,255,255,0.05); border-radius:5px; border:1px solid var(--border); font-size:12px;"><b>${k}</b><br><span style="color:var(--purple)">${t}</span></div>`;
+      }
     }
   }
   document.getElementById('profileModal').style.display = 'flex';
-}
-
-function tab(id) {
-  ['rankings','hof','testers'].forEach(t => {
-    document.getElementById('sec-'+t).style.display = t === id ? 'block' : 'none';
-    document.getElementById('n-'+t).classList.toggle('active', t === id);
-  });
-}
-
-function spawnSpace() {
-  const space = document.getElementById('space');
-  const imgs = Object.values(ICONS);
-  for(let i=0; i<12; i++) {
-    const s = document.createElement('div'); s.className = 'float-item';
-    s.style.backgroundImage = `url(${imgs[i%imgs.length]})`;
-    s.style.top = Math.random()*100+'vh'; s.style.left = Math.random()*100+'vw';
-    space.appendChild(s);
-  }
-}
-
-function startShootingStars() {
-  setInterval(() => {
-    const star = document.createElement('div');
-    star.className = 'shooting-star';
-    star.style.top = Math.random() * 40 + 'vh';
-    star.style.left = '-350px';
-    document.body.appendChild(star);
-    star.style.animation = "shoot 3.5s ease-in forwards";
-    setTimeout(() => star.remove(), 4000);
-  }, 9000);
 }
 
 function closeProfile() { document.getElementById('profileModal').style.display = 'none'; }

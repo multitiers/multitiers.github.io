@@ -1,5 +1,6 @@
 {
   "Players": [
+    { "name": "ImTheGOAT", "region": "NA", "device": "SAMSUNG REFRIDGERATOR" },
     { "name": "Game1K", "region": "NA", "device": "MK" },
     { "name": "sample", "region": "???", "device": "TP" },
     { "name": "system1117", "region": "NA", "device": "MK" },
@@ -12,8 +13,8 @@
     { "name": "TQMEN", "region": "AS", "device": "MB" },
     { "name": "revan", "region": "NA", "device": "TP" }
   ],
-  "Emerald": {
-    "HT1": ["Game1K"],
+  "Emerald": {    
+    "HT1": ["Game1K", "ImTheGOAT"],
     "LT1": ["sample"],
     "HT2": ["system1117"],
     "RHT2": ["TimmyLoal"],
@@ -22,7 +23,7 @@
     "HT4": ["TQMEN"]
   },
   "Dragonhide KB": {
-    "HT1": ["Game1K"],
+    "HT1": ["Game1K", "ImTheGOAT"],
     "LT1": ["system1117", "DivyamGamerYT"],
     "HT2": ["sample", "skibidi1234"],
     "RHT2": ["TimmyLoal"],

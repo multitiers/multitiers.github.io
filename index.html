@@ -23,6 +23,9 @@
   --green:#2ecc71;
   --cyan:#00ffff;
   --sa:#00ff88;
+  --as:#ff9900;
+  --oc:#ff33cc;
+  --unknown:#888888;
 }
 * { font-family:'MultiCraftFont' !important; box-sizing:border-box; }
 body { margin:0; background:var(--bg); color:#fff; overflow-x:hidden; }
@@ -60,12 +63,15 @@ header{text-align:center; padding:40px 0 20px;}
 .tag{font-size:0.6rem; padding:2px 6px; border:1px solid #444; border-radius:4px; margin-left:6px; cursor:pointer;}
 .reg-na{color:var(--red); border-color:var(--red);}
 .reg-eu{color:var(--blue); border-color:var(--blue);}
-.reg-as{color:var(--yellow); border-color:var(--yellow);}
 .reg-sa{color:var(--sa); border-color:var(--sa);}
+.reg-as{color:var(--as); border-color:var(--as);}
+.reg-oc{color:var(--oc); border-color:var(--oc);}
+.reg-unknown{color:var(--unknown); border-color:var(--unknown);}
 .dev-mk{color:var(--cyan); border-color:var(--cyan);}
 .dev-mb{color:var(--green); border-color:var(--green);}
 .dev-tp{color:#fff; border-color:#fff;}
-.dev-ct{color:#f1c40f; border-color:var(--f1c40f);}
+.dev-ct{color:var(--yellow); border-color:var(--yellow);}
+.dev-unknown{color:var(--unknown); border-color:var(--unknown);}
 
 .modal-overlay{position:fixed; inset:0; background:rgba(0,0,0,0.95); display:none; align-items:center; justify-content:center;}
 .modal-content{background:#000; border:1.5px solid var(--purple); padding:30px; border-radius:12px; width:400px; text-align:center;}
@@ -73,6 +79,9 @@ header{text-align:center; padding:40px 0 20px;}
 .tiers-container{display:flex; flex-wrap:wrap; justify-content:center; gap:12px; margin-top:15px;}
 .tier-circle{width:50px; height:50px; border:2px solid var(--purple); border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; transition:0.2s; font-size:0.8rem; color:#fff;}
 .tier-circle:hover{background:rgba(168,85,247,0.2); transform:scale(1.1);}
+.overall-player{display:flex; flex-direction:column; align-items:center; margin:10px;}
+.overall-icon{width:40px;height:40px;margin-bottom:5px;}
+.overall-tier{width:30px;height:30px;border:2px solid var(--purple);border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:5px;font-size:0.7rem;color:#fff;}
 </style>
 </head>
 <body>
@@ -102,16 +111,15 @@ header{text-align:center; padding:40px 0 20px;}
 <script>
 const FULL_DEV={MK:"Mouse & Keyboard",MB:"Mobile",TP:"Trackpad",CT:"Controller"};
 const PTS={HT1:50,LT1:40,HT2:30,LT2:20,HT3:12,LT3:8,HT4:5,LT4:3,HT5:2,LT5:1};
+const KIT_MAP={ "Overall":"backgroundsword.png","Emerald":"emerald.png","Dragonhide KB":"dragonhide.png","Emerald OA":"emerald.png","Dragonhide KB OA":"dragonhide.png","Wand":"wand.png","Emerald KB":"emerald.png","Diamond":"diamond.png"};
 let DATA={};
 
-// Load data
 async function load(){
   const r=await fetch("rankings.json?t="+Date.now());
   DATA=await r.json();
   processPoints(); buildKitBar(); initSpace(); render("Overall");
 }
 
-// Calculate points
 function processPoints(){
   let totals={};
   for(let kit in DATA){
@@ -124,43 +132,46 @@ function processPoints(){
   DATA.Overall=totals;
 }
 
-// Kit bar
 function buildKitBar(){
-  const bar=document.getElementById("kitBar");
-  bar.innerHTML="";
-  Object.keys(DATA).forEach(k=>{
-    if(k==="Players") return;
+  const bar=document.getElementById("kitBar"); bar.innerHTML="";
+  Object.keys(KIT_MAP).forEach(k=>{
     const btn=document.createElement("button");
-    btn.className="kit-btn";
+    btn.className="kit-btn "+(k==="Overall"?"active":"");
     btn.innerText=k;
     btn.onclick=()=>{document.querySelectorAll(".kit-btn").forEach(b=>b.classList.remove("active")); btn.classList.add("active"); document.getElementById("view-name").innerText=k.toUpperCase(); render(k);};
-    if(k==="Overall") btn.classList.add("active");
     bar.appendChild(btn);
   });
 }
 
-// Player helper
 function getPlayer(name){return DATA.Players.find(p=>p.name===name)||{region:"??",device:"??"};}
 
-// Clickable tags
 function getTags(name){
   const p=getPlayer(name);
-  const rClass="reg-"+p.region.toLowerCase();
-  const dClass="dev-"+p.device.toLowerCase();
+  const rClass=p.region.toLowerCase();
+  const dClass=p.device.toLowerCase();
   const fullDevice=FULL_DEV[p.device]||p.device;
-  return `<span class="tag ${rClass}">${p.region}</span>
-          <span class="tag ${dClass}" onclick="alert('${fullDevice}')">${p.device}</span>`;
+  return `<span class="tag reg-${rClass}">${p.region}</span>
+          <span class="tag dev-${dClass}" onclick="alert('${fullDevice}')">${p.device}</span>`;
 }
 
-// Render rankings
 function render(kit){
   const out=document.getElementById("displayList");
   out.innerHTML="";
   if(kit==="Overall"){
+    out.style.display="flex"; out.style.flexWrap="wrap"; out.style.justifyContent="center";
     Object.entries(DATA.Overall).sort((a,b)=>b[1]-a[1]).forEach(([n,pts],i)=>{
-      out.innerHTML+=`<div class="tier-card" style="max-width:600px;margin:10px auto;" onclick="openProfile('${n}')">
-        <div class="row"><span><b style="color:var(--purple);margin-right:10px;">#${i+1}</b>${n} ${getTags(n)}</span><b style="color:var(--gold)">${pts} PTS</b></div></div>`;
-    }); return;
+      let topKit=""; let topTier="";
+      for(let k in DATA){ if(k==="Players"||k==="Overall") continue; for(let t in DATA[k]){ if(DATA[k][t].includes(n)){ topKit=k; topTier=t.replace("R",""); break; } } }
+      out.innerHTML+=`<div class="overall-player" onclick="openProfile('${n}')">
+        <img class="overall-icon" src="${KIT_MAP[topKit]||'backgroundsword.png'}">
+        <div class="overall-tier">${topTier||""}</div>
+        <b style="color:var(--purple); margin-bottom:5px;">#${i+1}</b>
+        <span>${n}</span>
+        ${getTags(n)}
+        <b style="color:var(--gold); margin-top:3px;">${pts} PTS</b>
+      </div>`;
+    });
+    return;
   }
   out.className="horizontal-grid";
   ["T1","T2","T3","T4","T5"].forEach(level=>{
@@ -181,15 +192,12 @@ function render(kit){
   });
 }
 
-// Open profile modal
 function openProfile(name){
   const p=getPlayer(name);
   document.getElementById("pName").innerText=name;
   document.getElementById("pMeta").innerHTML=`${getTags(name)} <div style="margin-top:6px;font-size:0.85rem;opacity:0.85;">${FULL_DEV[p.device]||p.device}</div>`;
   document.getElementById("pPoints").innerText=(DATA.Overall[name]||0)+" TOTAL PTS";
-
-  const container=document.getElementById("pTiers");
-  container.innerHTML="";
+  const container=document.getElementById("pTiers"); container.innerHTML="";
   for(let kit in DATA){
     if(kit==="Players"||kit==="Overall") continue;
     for(let t in DATA[kit]){
@@ -197,8 +205,7 @@ function openProfile(name){
         const points=PTS[t.replace("R","")]||0;
         const retired=t.startsWith("R");
         const circle=document.createElement("div");
-        circle.className="tier-circle";
-        if(retired) circle.style.opacity="0.5";
+        circle.className="tier-circle"; if(retired) circle.style.opacity="0.5";
         circle.title=`${kit}: ${points} pts`;
         circle.innerText=t.replace("R","");
         circle.onclick=()=>{alert(`${kit}: ${points} PTS`);};
@@ -209,25 +216,17 @@ function openProfile(name){
   document.getElementById("profileModal").style.display="flex";
 }
 
-// Floating kits
 function initSpace(){
-  const sc=document.getElementById("spaceContainer");
-  const COUNT=window.innerWidth<768?12:18;
+  const sc=document.getElementById("spaceContainer"); const COUNT=18;
   for(let i=0;i<COUNT;i++){
-    const img=document.createElement("img");
-    img.src="backgroundsword.png";
-    img.className="floating-kit";
-    img.style.left=Math.random()*100+"%";
-    img.style.top=Math.random()*100+"%";
-    img.style.setProperty('--tw',(Math.random()*400-200)+'vw');
-    img.style.setProperty('--th',(Math.random()*400-200)+'vh');
-    img.style.animationDuration=(20+Math.random()*20)+'s';
-    sc.appendChild(img);
+    const img=document.createElement("img"); img.src="backgroundsword.png"; img.className="floating-kit";
+    img.style.left=Math.random()*100+"%"; img.style.top=Math.random()*100+"%";
+    img.style.setProperty('--tw',(Math.random()*400-200)+'vw'); img.style.setProperty('--th',(Math.random()*400-200)+'vh');
+    img.style.animationDuration=(20+Math.random()*20)+'s'; sc.appendChild(img);
   }
 }
 
 load();
 </script>
-
 </body>
 </html>

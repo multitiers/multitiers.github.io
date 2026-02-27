@@ -8,67 +8,68 @@
   <style>
     @font-face { font-family: 'MultiCraftFont'; src: url('MultiCraftFont.ttf') format('truetype'); }
     :root {
-      --bg: #010102; --purple: #a855f7; --purple-glow: rgba(168, 85, 247, 0.7);
+      --bg: #1a1a1d; /* 10% lighter space bg */
+      --purple: #a855f7; --purple-glow: rgba(168, 85, 247, 0.7);
       --border: rgba(168, 85, 247, 0.2); --gold: #ffd700; --green: #2ecc71; 
       --red: #e74c3c; --blue: #3498db; --cyan: #00ffff; --yellow: #f1c40f;
-      --sa-region: #00ff88; --mb-device: #ff7f50; --retired: #555;
+      --sa-region: #00ff88; --oc-region: #ff00ff; --mb-device: #ff7f50; --retired: #555;
     }
 
     body { background: var(--bg); color: #fff; font-family: 'Courier New', monospace; margin: 0; padding-bottom: 40px; overflow-x: hidden; }
 
-    /* --- TOP BAR (MAX UP) --- */
+    /* --- TOP BAR --- */
     .top-left-badges { position: absolute; top: 5px; left: 10px; display: flex; gap: 15px; z-index: 110; }
-    .badge-label { color: #555; font-family: 'MultiCraftFont'; font-size: 0.6rem; letter-spacing: 1px; }
-
+    .badge-label { color: #777; font-family: 'MultiCraftFont'; font-size: 0.6rem; letter-spacing: 1px; }
     .top-right-btns { position: absolute; top: 5px; right: 10px; z-index: 110; }
 
     header { padding: 10px 0 5px; display: flex; flex-direction: column; align-items: center; }
     .title-sword { width: 40px; height: 40px; object-fit: contain; margin-bottom: 2px; }
-    .main-title { font-family: 'MultiCraftFont'; font-size: 2rem; margin: 0; letter-spacing: 2px; }
+    .main-title { font-family: 'MultiCraftFont'; font-size: 2rem; margin: 0; letter-spacing: 2px; text-shadow: 0 0 10px var(--purple); }
 
-    /* --- TAGS --- */
-    .tag { font-size: 0.55rem; padding: 2px 5px; border-radius: 4px; border: 1px solid #444; margin-left: 4px; font-weight: bold; font-family: 'MultiCraftFont'; display: inline-block; }
-    
-    .tag-device:hover .short-text, .tag-device.active-hold .short-text { display: none; }
-    .tag-device:hover::after, .tag-device.active-hold::after { content: attr(data-full); }
+    /* --- TAGS & HOVER FIX --- */
+    .tag { font-size: 0.55rem; padding: 2px 5px; border-radius: 4px; border: 1px solid #444; margin-left: 4px; font-weight: bold; font-family: 'MultiCraftFont'; display: inline-block; position: relative; pointer-events: auto; }
+    .tag-device { cursor: help; }
+    .tag-device:hover .short-text { display: none; }
+    .tag-device:hover::after { content: attr(data-full); display: inline-block; }
 
     .reg-eu { color: var(--blue) !important; border-color: var(--blue) !important; }
     .reg-na { color: var(--red) !important; border-color: var(--red) !important; }
     .reg-as { color: var(--yellow) !important; border-color: var(--yellow) !important; }
     .reg-sa { color: var(--sa-region) !important; border-color: var(--sa-region) !important; }
+    .reg-oc { color: var(--oc-region) !important; border-color: var(--oc-region) !important; }
     
     .dev-tp { color: #fff !important; border-color: #fff !important; }
     .dev-mk { color: var(--cyan) !important; border-color: var(--cyan) !important; }
     .dev-ct { color: var(--green) !important; border-color: var(--green) !important; }
     .dev-mb { color: var(--mb-device) !important; border-color: var(--mb-device) !important; }
-
     .tag-tier { border-color: var(--gold); color: var(--gold); }
     .tag-retired { border-color: var(--retired) !important; color: var(--retired) !important; }
 
-    nav { display: flex; justify-content: center; gap: 25px; padding: 10px; background: rgba(0,0,0,0.9); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; backdrop-filter: blur(10px); }
+    nav { display: flex; justify-content: center; gap: 25px; padding: 10px; background: rgba(0,0,0,0.8); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; backdrop-filter: blur(10px); }
     .nav-link { color: #5a6474; text-decoration: none; font-weight: bold; cursor: pointer; font-family: 'MultiCraftFont'; font-size: 0.75rem; transition: 0.3s; }
     .nav-link.active { color: #fff; text-shadow: 0 0 10px var(--purple); }
 
-    .kit-btn { background: #0a0a0f; border: 1px solid var(--border); padding: 8px 14px; border-radius: 6px; color: #888; cursor: pointer; font-family: 'MultiCraftFont'; font-size: 0.7rem; transition: 0.2s; position: relative; z-index: 105; }
-    .kit-btn.active { border-color: var(--purple); color: #fff; transform: scale(1.05); }
+    /* --- KIT BUTTONS WITH SPINNING STARS --- */
+    .kit-btn { background: #0a0a0f; border: 1px solid var(--border); padding: 8px 14px; border-radius: 6px; color: #888; cursor: pointer; font-family: 'MultiCraftFont'; font-size: 0.7rem; transition: 0.2s; display: flex; align-items: center; gap: 8px; }
+    .kit-btn.active { border-color: var(--purple); color: #fff; transform: scale(1.05); box-shadow: 0 0 10px rgba(168, 85, 247, 0.4); }
+    .star-icon { display: inline-block; animation: starSpin 4s linear infinite; filter: drop-shadow(0 0 5px currentColor); }
 
-    /* --- PULSE & GRID --- */
+    @keyframes starSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+    /* --- GRID & CARDS --- */
     .horizontal-grid { display: flex; flex-direction: row; gap: 15px; padding: 20px; overflow-x: auto; align-items: flex-start; justify-content: center; }
     .tier-card { border-radius: 8px; position: relative; padding: 1.5px; margin-bottom: 8px; background: linear-gradient(90deg, transparent, var(--purple), transparent); background-size: 200% 100%; animation: cardSweep 3s linear infinite; transition: transform 0.2s; cursor: pointer; z-index: 5; }
     .tier-card:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(168, 85, 247, 0.3); }
     
     .card-inner { background: #050508; border-radius: 7px; width: 100%; height: 100%; position: relative; z-index: 2; pointer-events: none; }
-    .row { display: flex; justify-content: space-between; align-items: center; padding: 10px 15px; }
+    .row { display: flex; justify-content: space-between; align-items: center; padding: 10px 15px; pointer-events: auto; }
     
     .retired-card { opacity: 0.55; filter: grayscale(0.7); background: linear-gradient(90deg, transparent, var(--retired), transparent) !important; }
 
     .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.92); z-index: 2000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-    .modal-content { background: #010102; border: 2px solid var(--purple); border-radius: 12px; padding: 20px; width: 340px; }
+    .modal-content { background: #010102; border: 2px solid var(--purple); border-radius: 12px; padding: 20px; width: 340px; box-shadow: 0 0 20px var(--purple-glow); }
 
-    @keyframes cardSweep { 
-      0% { background-position: 200% 0; } 
-      100% { background-position: -200% 0; } 
-    }
+    @keyframes cardSweep { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
   </style>
 </head>
 <body>
@@ -83,9 +84,9 @@
 </div>
 
 <nav id="topNav">
-  <div class="nav-link active" onclick="location.reload()">RANKINGS</div>
-  <div class="nav-link">HALL OF FAME</div>
-  <div class="nav-link">TIER TESTERS</div>
+  <div id="nav-rankings" class="nav-link active" onclick="switchMainTab('rankings')">RANKINGS</div>
+  <div id="nav-hof" class="nav-link" onclick="switchMainTab('hof')">HALL OF FAME</div>
+  <div id="nav-testers" class="nav-link" onclick="switchMainTab('testers')">TIER TESTERS</div>
 </nav>
 
 <header>
@@ -119,6 +120,7 @@
 let DATA = {};
 const DEV_NAMES = { "MK": "Mouse & Keyboard", "MB": "Mobile", "CT": "Controller", "TP": "Trackpad" };
 const KIT_COLORS = { "Overall": "#ffd700", "Emerald": "#2ecc71", "Dragonhide KB": "#e74c3c", "Emerald OA": "#2ecc71", "Dragonhide KB OA": "#e74c3c", "Wand": "#3498db", "Emerald KB": "#2ecc71", "Diamond": "#00ffff" };
+const KIT_STARS = { "Overall": "✨", "Emerald": "🟢", "Dragonhide KB": "🔴", "Emerald OA": "🟢", "Dragonhide KB OA": "🔴", "Wand": "🪄", "Emerald KB": "🟢", "Diamond": "💎" };
 const PTS_MAP = { "HT1":50, "LT1":40, "HT2":30, "LT2":20, "HT3":12, "LT3":8, "HT4":5, "LT4":3, "HT5":2, "LT5":1 };
 
 function getDeviceTag(d) {
@@ -136,6 +138,7 @@ function getRegClass(r) {
   if(!r) return ""; r=r.toLowerCase(); 
   if(r.includes("eu")) return "reg-eu"; if(r.includes("na")) return "reg-na";
   if(r.includes("as")) return "reg-as"; if(r.includes("sa")) return "reg-sa";
+  if(r.includes("oc")) return "reg-oc";
   return ""; 
 }
 
@@ -144,6 +147,35 @@ async function load() {
   DATA = await r.json();
   processOverall(); buildKitBar(); render("Overall");
   document.getElementById('infoValues').innerHTML = Object.entries(PTS_MAP).map(([t,p])=>`<div style="display:flex; justify-content:space-between; padding:6px; border-bottom:1px solid #1a1a1a; font-family:'MultiCraftFont'; font-size:0.75rem;"><span>${t}</span><span style="color:var(--gold);">${p} PTS</span></div>`).join('');
+}
+
+async function switchMainTab(tab) {
+    document.querySelectorAll('.nav-link').forEach(n => n.classList.remove('active'));
+    document.getElementById('nav-' + tab).classList.add('active');
+    const out = document.getElementById('displayList');
+    
+    if(tab === 'rankings') {
+        buildKitBar();
+        render("Overall");
+    } else {
+        document.getElementById('kitBar').innerHTML = "";
+        const r = await fetch(`https://raw.githubusercontent.com/multitiers/multitiers.github.io/refs/heads/main/${tab}.json?t=${Date.now()}`);
+        const otherData = await r.json();
+        renderOther(otherData, tab === 'hof' ? 'HALL OF FAME' : 'TIER TESTERS');
+    }
+}
+
+function renderOther(otherData, title) {
+    const out = document.getElementById('displayList'); out.innerHTML = "";
+    document.getElementById('view-name').innerText = title;
+    document.getElementById('view-name').style.color = "var(--purple)";
+    out.className = "";
+    for(let cat in otherData) {
+        out.innerHTML += `<h3 style="text-align:center; color:var(--gold); font-family:'MultiCraftFont'; margin:20px 0 10px;">${cat}</h3>`;
+        otherData[cat].forEach(n => {
+            out.innerHTML += `<div class="tier-card" style="max-width:500px; margin:5px auto;"><div class="card-inner"><div class="row"><span><b>${n}</b></span></div></div></div>`;
+        });
+    }
 }
 
 function processOverall() {
@@ -162,8 +194,8 @@ function buildKitBar() {
   ["Overall", "Emerald", "Dragonhide KB", "Emerald OA", "Dragonhide KB OA", "Wand", "Emerald KB", "Diamond"].forEach(k => {
     const btn = document.createElement('button');
     btn.className = `kit-btn ${k==='Overall'?'active':''}`;
-    btn.innerText = k;
-    btn.onclick = (e) => {
+    btn.innerHTML = `<span class="star-icon" style="color:${KIT_COLORS[k]}">${KIT_STARS[k]}</span> ${k}`;
+    btn.onclick = () => {
       document.querySelectorAll('.kit-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       document.getElementById('view-name').innerText = k;
@@ -206,7 +238,6 @@ function openProfile(name) {
   document.getElementById('pName').innerText = name;
   document.getElementById('pMeta').innerHTML = `<span class="tag ${getRegClass(pd.region)}">${pd.region}</span> ${getDeviceTag(pd.device)}`;
   document.getElementById('pPoints').innerText = (DATA["Overall"][name] || 0) + " TOTAL PTS";
-  
   let tierList = "";
   for(let kit in DATA) {
     if(kit === "Overall" || kit === "Players") continue;

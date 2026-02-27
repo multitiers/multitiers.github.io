@@ -1,6 +1,5 @@
 {
-  "Players": [
-    { "name": "BESTPVPEROFALLTIME", "region": "NA", "device": "MK" },
+  "Players": {
     { "name": "Game1K", "region": "NA", "device": "MK" },
     { "name": "sample", "region": "???", "device": "TP" },
     { "name": "system1117", "region": "NA", "device": "MK" },

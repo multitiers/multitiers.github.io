@@ -34,6 +34,10 @@
     .dev-ct { color: var(--green) !important; border-color: var(--green) !important; }
     .dev-mb { color: var(--mb-device) !important; border-color: var(--mb-device) !important; }
 
+    /* Hover Interaction for Devices */
+    .tag { font-size: 0.55rem; padding: 2px 5px; border-radius: 4px; border: 1px solid #444; margin-left: 4px; font-weight: bold; font-family: 'MultiCraftFont'; transition: 0.2s ease; cursor: default; }
+    .tag[title]:hover { filter: brightness(1.4); box-shadow: 0 0 8px currentColor; cursor: help; }
+
     nav { display: flex; justify-content: center; gap: 20px; padding: 10px; background: rgba(0,0,0,0.9); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; backdrop-filter: blur(10px); }
     .nav-link { color: #5a6474; text-decoration: none; font-weight: bold; cursor: pointer; font-family: 'MultiCraftFont'; font-size: 0.75rem; transition: 0.3s; }
     .nav-link.active { color: #fff; text-shadow: 0 0 10px var(--purple); }
@@ -46,7 +50,6 @@
     @media (max-width: 800px) {
       .horizontal-grid { flex-direction: column; align-items: center; overflow-x: hidden; }
       .grid-column { width: 100%; max-width: 380px; margin-bottom: 20px; }
-      .main-title { font-size: 1.5rem; }
     }
 
     .grid-column { min-width: 260px; flex: 1; max-width: 320px; }
@@ -56,10 +59,7 @@
     
     /* --- RETIRED SYSTEM --- */
     .retired-card { opacity: 0.5; filter: grayscale(1); background: linear-gradient(90deg, transparent, #333, transparent) !important; }
-    .tag { font-size: 0.55rem; padding: 2px 5px; border-radius: 4px; border: 1px solid #444; margin-left: 4px; font-weight: bold; font-family: 'MultiCraftFont'; cursor: help; }
-    .tag-tier { border-color: var(--gold); color: var(--gold); }
-    
-    /* Force Gray Tiers */
+    .tag-tier { border-color: var(--gold); color: var(--gold); cursor: default !important; }
     .retired-card .tag-tier, .tag-retired { color: var(--retired-gray) !important; border-color: var(--retired-gray) !important; }
 
     .tier-header { color: var(--purple); text-align: center; font-family: 'MultiCraftFont'; margin-bottom: 12px; font-size: 1.2rem; letter-spacing: 2px; border-bottom: 2px solid var(--border); padding-bottom: 5px; }
@@ -128,13 +128,13 @@ function getDevClass(d) {
 }
 
 function formatDev(d) { 
-  if(!d) return "??"; d=d.toUpperCase(); 
+  if(!d) return ""; d=d.toUpperCase(); 
   if(d.includes("MOB")) return "MB";
   if(d.includes("CT") || d.includes("CTRL")) return "CT";
   return d; 
 }
 
-function getTooltip(d) { return DEV_FULL[formatDev(d)] || "Unknown Device"; }
+function getTooltip(d) { return DEV_FULL[formatDev(d)] || ""; }
 
 function formatTierLabel(t) { return t.startsWith('R') ? "Retired " + t.substring(1) : t; }
 
@@ -178,9 +178,9 @@ function render(kit) {
   if(kit === "Overall") {
     out.className = "";
     Object.entries(DATA["Overall"]).sort((a,b)=>b[1]-a[1]).forEach(([n,s], i) => {
-      const pd = DATA.Players?.find(x => x.name === n) || {region:"??", device:"??"};
+      const pd = DATA.Players?.find(x => x.name === n) || {region:"", device:""};
       out.innerHTML += `<div class="tier-card" style="max-width:700px; margin:auto;" onclick="openProfile('${n}')"><div class="card-inner"><div class="row">
-        <span><b style="color:var(--purple); font-size:0.8rem; margin-right:10px;">#${i+1}</b><b style="font-size:0.9rem;">${n}</b> <span class="tag ${getRegClass(pd.region)}">${pd.region}</span><span class="tag ${getDevClass(pd.device)}" title="${getTooltip(pd.device)}">${formatDev(pd.device)}</span></span>
+        <span><b style="color:var(--purple); font-size:0.8rem; margin-right:10px;">#${i+1}</b><b style="font-size:0.9rem;">${n}</b> ${pd.region?`<span class="tag ${getRegClass(pd.region)}">${pd.region}</span>`:''} ${pd.device?`<span class="tag ${getDevClass(pd.device)}" title="${getTooltip(pd.device)}">${formatDev(pd.device)}</span>`:''}</span>
         <b style="color:var(--gold); font-size:0.85rem;">${s} PTS</b></div></div></div>`;
     });
   } else {
@@ -194,11 +194,11 @@ function render(kit) {
       if(entries.length > 0) {
         let h = `<div class="grid-column"><div class="tier-header">${group}</div>`;
         entries.forEach(p => {
-          const pd = DATA.Players?.find(x => x.name === p.n) || {region:"??", device:"??"};
+          const pd = DATA.Players?.find(x => x.name === p.n) || {region:"", device:""};
           h += `<div class="tier-card ${p.r?'retired-card':''}" onclick="openProfile('${p.n}')"><div class="card-inner"><div class="row">
             <span><b style="font-size:0.85rem;">${p.n}</b> <span class="tag tag-tier">${formatTierLabel(p.t)}</span>
-            <span class="tag ${getRegClass(pd.region)}">${pd.region}</span>
-            <span class="tag ${getDevClass(pd.device)}" title="${getTooltip(pd.device)}">${formatDev(pd.device)}</span></span>
+            ${pd.region?`<span class="tag ${getRegClass(pd.region)}">${pd.region}</span>`:''}
+            ${pd.device?`<span class="tag ${getDevClass(pd.device)}" title="${getTooltip(pd.device)}">${formatDev(pd.device)}</span>`:''}</span>
             </div></div></div>`;
         });
         out.innerHTML += h + "</div>";
@@ -208,12 +208,12 @@ function render(kit) {
 }
 
 function openProfile(name) {
-  const pd = DATA.Players?.find(x => x.name === name) || {region:"??", device:"??"};
+  const pd = DATA.Players?.find(x => x.name === name) || {region:"", device:""};
   const sorted = Object.entries(DATA["Overall"]).sort((a,b)=>b[1]-a[1]);
   const rIdx = sorted.findIndex(x => x[0] === name);
   document.getElementById('pRank').innerText = rIdx >= 0 ? "RANK #" + (rIdx + 1) : "UNRANKED";
   document.getElementById('pName').innerText = name;
-  document.getElementById('pMeta').innerHTML = `<span class="tag ${getRegClass(pd.region)}">${pd.region}</span> <span class="tag ${getDevClass(pd.device)}" title="${getTooltip(pd.device)}">${formatDev(pd.device)}</span>`;
+  document.getElementById('pMeta').innerHTML = `${pd.region?`<span class="tag ${getRegClass(pd.region)}">${pd.region}</span>`:''} ${pd.device?`<span class="tag ${getDevClass(pd.device)}" title="${getTooltip(pd.device)}">${formatDev(pd.device)}</span>`:''}`;
   document.getElementById('pPoints').innerText = (DATA["Overall"][name] || 0) + " TOTAL PTS";
   let h = "";
   for(let k in DATA) if(k!=="Overall" && k!=="Players") {

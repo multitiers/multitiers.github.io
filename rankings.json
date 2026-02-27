@@ -1,5 +1,5 @@
 {
-  "Players": {
+  "Players": [
     { "name": "Game1K", "region": "NA", "device": "MK" },
     { "name": "sample", "region": "???", "device": "TP" },
     { "name": "system1117", "region": "NA", "device": "MK" },
@@ -11,7 +11,7 @@
     { "name": "DivyamGamerYT", "region": "AS", "device": "MK" },
     { "name": "TQMEN", "region": "AS", "device": "MB" },
     { "name": "revan", "region": "NA", "device": "TP" }
-  },
+  ],
   "Emerald": {
     "HT1": ["Game1K"],
     "LT1": ["sample"],

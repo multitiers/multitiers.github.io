@@ -8,33 +8,30 @@
 <style>
 @font-face { font-family:'MultiCraftFont'; src:url('MultiCraftFont.ttf') format('truetype'); }
 :root{
---bg:#000;--purple:#a855f7;--gold:#ffd700;--silver:#c0c0c0;--bronze:#cd7f32;
---red:#e74c3c;--blue:#3498db;--yellow:#f1c40f;--green:#2ecc71;--cyan:#00ffff;
---sa:#00ff88;--as:#ff9900;--oc:#ff33cc;--unknown:#888888;
+--bg:#0a0a14;--purple:#a855f7;--blue:#3b82f6;--gold:#ffd700;--silver:#c0c0c0;--bronze:#cd7f32;
+--red:#e74c3c;--green:#2ecc71;--yellow:#f1c40f;--cyan:#00ffff;--sa:#00ff88;--as:#ff9900;--oc:#ff33cc;--unknown:#888888;
 }
 *{font-family:'MultiCraftFont';margin:0;padding:0;box-sizing:border-box;}
-body{background:var(--bg);color:#eee;min-height:100vh;overflow-x:hidden;}
-nav{display:flex;justify-content:center;gap:40px;padding:20px;background:rgba(0,0,0,0.9);border-bottom:1px solid #222;position:sticky;top:0;z-index:500;}
-.nav-link{opacity:0.7;cursor:pointer;transition:0.3s;}
-.nav-link.active{opacity:1;text-shadow:0 0 10px var(--purple);}
-header{text-align:center;padding:40px 0 20px;}
-.main-title{font-size:3rem;letter-spacing:6px;text-shadow:0 0 15px var(--purple);}
+body{background:var(--bg);color:#fff;overflow-x:hidden;min-height:100vh;}
+.top-meta{display:flex;justify-content:flex-end;gap:20px;padding:10px 20px;font-size:0.8rem;color:#eee;}
+header{text-align:center;padding:40px 20px 10px;}
+.main-title{font-size:3rem;letter-spacing:5px;text-shadow:0 0 15px var(--purple);}
+#searchContainer{text-align:center;margin:15px;}
+#searchInput{padding:8px 12px;width:300px;border-radius:6px;border:1px solid #444;background:#111;color:#fff;font-size:0.9rem;}
+nav{display:flex;justify-content:center;gap:30px;padding:15px;background:rgba(0,0,0,0.85);border-bottom:1px solid #222;position:sticky;top:0;backdrop-filter:blur(10px);z-index:500;}
+.nav-link{color:#aaa;text-decoration:none;cursor:pointer;transition:0.3s;}
+.nav-link.active{color:#fff;text-shadow:0 0 10px var(--purple);}
 #kitBar{display:flex;justify-content:center;flex-wrap:wrap;gap:12px;margin:20px 0;}
-.kit-btn{background:#111;border:1px solid #333;padding:8px 16px;border-radius:6px;cursor:pointer;color:#eee;transition:0.2s;}
+.kit-btn{background:#111;border:1px solid #333;padding:8px 16px;border-radius:6px;color:#eee;cursor:pointer;transition:0.2s;}
 .kit-btn.active{border-color:var(--purple);box-shadow:0 0 12px rgba(168,85,247,0.4);}
-.overall-table{display:flex;flex-direction:column;width:95%;margin:0 auto;}
-.overall-row{display:flex;justify-content:flex-start;align-items:center;padding:6px 12px;border-bottom:1px solid #222;transition:0.2s;cursor:pointer;}
-.overall-row:hover{background:rgba(255,255,255,0.05);}
-.overall-rank{width:40px;text-align:center;font-weight:bold;}
-.overall-name{flex:1;min-width:120px;padding-left:10px;color:#fff;}
-.overall-kit-icon{width:30px;height:30px;margin-right:8px;}
-.overall-tier{width:35px;height:35px;border:2px solid #fff;border-radius:50%;display:flex;align-items:center;justify-content:center;margin-right:8px;font-size:0.8rem;color:#fff;transition:0.2s;cursor:pointer;}
-.overall-tier:hover{background:rgba(168,85,247,0.2);}
-.rank-1 .overall-rank,.rank-1 .overall-tier{box-shadow:0 0 20px var(--gold);animation:shine 2s infinite alternate;}
-.rank-2 .overall-rank,.rank-2 .overall-tier{box-shadow:0 0 20px var(--silver);animation:shine 2s infinite alternate;}
-.rank-3 .overall-rank,.rank-3 .overall-tier{box-shadow:0 0 20px var(--bronze);animation:shine 2s infinite alternate;}
-@keyframes shine{0%{box-shadow:0 0 10px currentColor;}50%{box-shadow:0 0 25px currentColor;}100%{box-shadow:0 0 10px currentColor;}}
-.tag{font-size:0.6rem;padding:2px 6px;border:1px solid #444;border-radius:4px;margin-left:6px;opacity:0.9;cursor:pointer;}
+.horizontal-grid{display:flex;flex-direction:row;gap:25px;padding:25px;overflow-x:auto;align-items:flex-start;}
+.tier-column{min-width:250px;flex-shrink:0;}
+.tier-label{text-align:center;color:var(--purple);margin-bottom:15px;font-size:1.1rem;}
+.tier-card{background:rgba(5,5,5,0.95);border:1px solid #222;border-radius:8px;margin-bottom:10px;transition:0.3s;cursor:pointer;}
+.tier-card:hover{border-color:var(--purple);transform:translateY(-3px);}
+.row{padding:10px 14px;display:flex;justify-content:space-between;align-items:center;}
+.retired-card{opacity:0.45;filter:grayscale(1);border-style:dashed !important;}
+.tag{font-size:0.65rem;padding:2px 6px;border-radius:4px;border:1px solid #444;margin-left:5px;cursor:pointer;}
 .reg-na{color:var(--red);border-color:var(--red);}
 .reg-eu{color:var(--blue);border-color:var(--blue);}
 .reg-sa{color:var(--sa);border-color:var(--sa);}
@@ -46,18 +43,39 @@ header{text-align:center;padding:40px 0 20px;}
 .dev-tp{color:#fff;border-color:#fff;}
 .dev-ct{color:var(--yellow);border-color:var(--yellow);}
 .dev-unknown{color:var(--unknown);border-color:var(--unknown);}
-.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.95);display:none;align-items:center;justify-content:center;}
-.modal-content{background:#000;border:1.5px solid var(--purple);padding:30px;border-radius:12px;width:400px;text-align:center;color:#eee;}
+.overall-table{display:flex;flex-direction:column;width:95%;margin:0 auto;}
+.overall-row{display:flex;justify-content:space-between;align-items:center;padding:6px 12px;border-bottom:1px solid #222;transition:0.2s;cursor:pointer;}
+.overall-row:hover{background:rgba(255,255,255,0.05);}
+.left-info{display:flex;align-items:center;gap:10px;}
+.overall-rank{width:40px;text-align:center;font-weight:bold;}
+.overall-name{min-width:120px;color:#fff;display:flex;align-items:center;gap:6px;}
+.overall-kit-tier{display:flex;flex-direction:column;align-items:center;margin-left:12px;}
+.overall-kit-icon{width:28px;height:28px;margin-bottom:4px;}
+.overall-tier{width:32px;height:32px;border:2px solid #fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.8rem;color:#fff;cursor:pointer;}
+.rank-1 .overall-rank,.rank-1 .overall-tier{box-shadow:0 0 18px var(--gold);animation:shine 2s infinite alternate;}
+.rank-2 .overall-rank,.rank-2 .overall-tier{box-shadow:0 0 18px var(--silver);animation:shine 2s infinite alternate;}
+.rank-3 .overall-rank,.rank-3 .overall-tier{box-shadow:0 0 18px var(--bronze);animation:shine 2s infinite alternate;}
+@keyframes shine{0%{box-shadow:0 0 8px currentColor;}50%{box-shadow:0 0 20px currentColor;}100%{box-shadow:0 0 8px currentColor;}}
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.95);display:none;align-items:center;justify-content:center;z-index:2000;}
+.modal-content{background:#111;border:1.5px solid var(--purple);padding:30px;border-radius:12px;width:450px;text-align:center;color:#eee;}
 .tiers-container{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:15px;}
-.tier-circle{width:50px;height:50px;border:2px solid var(--purple);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:0.2s;font-size:0.8rem;color:#fff;}
+.tier-circle{width:50px;height:50px;border:2px solid var(--purple);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:0.8rem;}
 .tier-circle:hover{background:rgba(168,85,247,0.2);transform:scale(1.1);}
 </style>
 </head>
 <body>
-<nav>
-<div id="nav-rankings" class="nav-link active">RANKINGS</div>
-</nav>
+<div class="top-meta">
+<span id="infoBtn">INFO</span>
+<span id="discordBtn">DISCORD: UNRELEASED</span>
+<span id="serverBtn">SERVER CODE: UNRELEASED</span>
+</div>
 <header><h1 class="main-title">MTC TIERS</h1></header>
+<div id="searchContainer"><input id="searchInput" placeholder="Search player..."></div>
+<nav>
+<div id="nav-rankings" class="nav-link active" onclick="switchMainTab('rankings')">RANKINGS</div>
+<div id="nav-hof" class="nav-link" onclick="switchMainTab('hof')">HALL OF FAME</div>
+<div id="nav-testers" class="nav-link" onclick="switchMainTab('testers')">TIER TESTERS</div>
+</nav>
 <div id="kitBar"></div>
 <div id="displayList"></div>
 <div id="profileModal" class="modal-overlay" onclick="this.style.display='none'">
@@ -69,95 +87,123 @@ header{text-align:center;padding:40px 0 20px;}
 </div>
 </div>
 <script>
-const FULL_DEV={MK:"Mouse & Keyboard",MB:"Mobile",TP:"Trackpad",CT:"Controller"};
-const PTS={HT1:50,LT1:40,HT2:30,LT2:20,HT3:12,LT3:8,HT4:5,LT4:3,HT5:2,LT5:1};
-const KIT_MAP={"Overall":"backgroundsword.png","Emerald":"emerald.png","Dragonhide KB":"dragonhide.png","Emerald OA":"emerald.png","Dragonhide KB OA":"dragonhide.png","Wand":"wand.png","Emerald KB":"emerald.png","Diamond":"diamond.png"};
 let DATA={};
+const FULL_DEV={MK:"Mouse & Keyboard",MB:"Mobile",TP:"Trackpad",CT:"Controller"};
+const KIT_MAP={"Overall":"backgroundsword.png","Emerald":"emerald.png","Dragonhide KB":"dragonhide.png","Emerald OA":"emerald.png","Dragonhide KB OA":"dragonhide.png","Wand":"wand.png","Emerald KB":"emerald.png","Diamond":"diamond.png"};
+const PTS={HT1:50,LT1:40,HT2:30,LT2:20,HT3:12,LT3:8,HT4:5,LT4:3,HT5:2,LT5:1};
+
 async function load(){
-  const r=await fetch("rankings.json?t="+Date.now());
-  DATA=await r.json();
-  processPoints(); buildKitBar(); render("Overall");
+try{
+const r=await fetch("rankings.json?t="+Date.now());
+DATA=await r.json();
+processPoints(); buildKitBar(); render("Overall");
+}catch(e){console.error(e);}
 }
+
 function processPoints(){
-  let totals={};
-  for(let kit in DATA){
-    if(kit==="Players") continue;
-    for(let tier in DATA[kit]){
-      if(tier.startsWith("R")) continue;
-      (DATA[kit][tier]||[]).forEach(p=>totals[p]=(totals[p]||0)+(PTS[tier]||0));
-    }
-  }
-  DATA.Overall=totals;
+let totals={};
+for(let k in DATA){
+if(k==="Players")continue;
+for(let t in DATA[k]){
+if(t.startsWith("R"))continue;
+(DATA[k][t]||[]).forEach(p=>totals[p]=(totals[p]||0)+(PTS[t]||0));
 }
+}
+DATA["Overall"]=totals;
+}
+
 function buildKitBar(){
-  const bar=document.getElementById("kitBar"); bar.innerHTML="";
-  Object.keys(KIT_MAP).forEach(k=>{
-    const btn=document.createElement("button");
-    btn.className="kit-btn "+(k==="Overall"?"active":"");
-    btn.innerText=k;
-    btn.onclick=()=>{document.querySelectorAll(".kit-btn").forEach(b=>b.classList.remove("active")); btn.classList.add("active"); render(k);};
-    bar.appendChild(btn);
-  });
+const bar=document.getElementById("kitBar"); bar.innerHTML="";
+Object.keys(KIT_MAP).forEach(k=>{
+const btn=document.createElement("button");
+btn.className="kit-btn "+(k==="Overall"?"active":"");
+btn.innerText=k;
+btn.onclick=()=>{document.querySelectorAll(".kit-btn").forEach(b=>b.classList.remove("active"));btn.classList.add("active");render(k);};
+bar.appendChild(btn);
+});
 }
+
 function getPlayer(name){return DATA.Players.find(p=>p.name===name)||{region:"??",device:"??"};}
+
 function getTags(name){
-  const p=getPlayer(name);
-  const rClass=p.region.toLowerCase()||"unknown";
-  const dClass=p.device.toLowerCase()||"unknown";
-  return `<span class="tag reg-${rClass}">${p.region}</span><span class="tag dev-${dClass}" onclick="alert('${FULL_DEV[p.device]||p.device}')">${p.device}</span>`;
+const p=getPlayer(name);
+let rClass=p.region.toLowerCase()||"unknown";
+let dClass=p.device.toLowerCase()||"unknown";
+return `<div class="overall-tags"><span class="tag reg-${rClass}">${p.region}</span><span class="tag dev-${dClass}" onclick="alert('${FULL_DEV[p.device]||p.device}')">${p.device}</span></div>`;
 }
+
 function render(kit){
-  const out=document.getElementById("displayList"); out.innerHTML="";
-  if(kit==="Overall"){
-    out.innerHTML='<div class="overall-table"></div>';
-    const table=document.querySelector(".overall-table");
-    Object.entries(DATA.Overall).sort((a,b)=>b[1]-a[1]).forEach(([n,pts],i)=>{
-      let topKit=""; let topTier="";
-      for(let k in DATA){ if(k==="Players"||k==="Overall") continue; for(let t in DATA[k]){ if(DATA[k][t].includes(n)){ topKit=k; topTier=t.replace("R",""); break; } } }
-      let rankClass=""; if(i===0) rankClass="rank-1"; else if(i===1) rankClass="rank-2"; else if(i===2) rankClass="rank-3";
-      const row=document.createElement("div");
-      row.className="overall-row "+rankClass; row.onclick=()=>openProfile(n);
-      row.innerHTML=`<div class="overall-rank">#${i+1}</div><img class="overall-kit-icon" src="${KIT_MAP[topKit]||'backgroundsword.png'}"><div class="overall-tier">${topTier||""}</div><div class="overall-name">${n}</div><div style="width:60px;text-align:right;color:#ffd700;font-weight:bold;">${pts} PTS</div>${getTags(n)}`;
-      table.appendChild(row);
-    });
-    return;
-  }
-  // Horizontal tiers left to right
-  const outGrid=document.createElement("div"); outGrid.className="horizontal-grid";
-  ["T1","T2","T3","T4","T5"].forEach(level=>{
-    let col=document.createElement("div"); col.style.display="flex"; col.style.flexDirection="column"; col.style.marginRight="12px";
-    const label=document.createElement("div"); label.innerText=level; label.style.color="var(--purple)"; label.style.textAlign="center"; col.appendChild(label);
-    for(let t in DATA[kit]){
-      if(t.endsWith(level)){
-        (DATA[kit][t]||[]).forEach(name=>{
-          const retired=t.startsWith("R");
-          const card=document.createElement("div"); card.className="tier-card "+(retired?'retired-card':''); card.onclick=()=>openProfile(name);
-          card.innerHTML=`<div class="row"><span>${name} ${getTags(name)}</span><span class="tag">${t.replace("R","")}</span></div>`;
-          col.appendChild(card);
-        });
-      }
-    }
-    outGrid.appendChild(col);
-  });
-  out.appendChild(outGrid);
+const out=document.getElementById("displayList"); out.innerHTML="";
+if(kit==="Overall"){
+out.innerHTML='<div class="overall-table"></div>';
+const table=document.querySelector(".overall-table");
+Object.entries(DATA.Overall).sort((a,b)=>b[1]-a[1]).forEach(([n,pts],i)=>{
+let topKit="",topTier="";
+for(let k in DATA){if(k==="Players"||k==="Overall")continue;for(let t in DATA[k]){if(DATA[k][t].includes(n)){topKit=k;topTier=t.replace("R","");break;}}}
+let rankClass=""; if(i===0)rankClass="rank-1";else if(i===1)rankClass="rank-2";else if(i===2)rankClass="rank-3";
+const row=document.createElement("div"); row.className="overall-row "+rankClass; row.onclick=()=>openProfile(n);
+row.innerHTML=`<div class="left-info"><div class="overall-rank">#${i+1}</div><div class="overall-name">${n}${getTags(n)}</div></div><div class="overall-kit-tier"><img class="overall-kit-icon" src="${KIT_MAP[topKit]||'backgroundsword.png'}"><div class="overall-tier">${topTier||""}</div></div><div style="width:60px;text-align:right;color:#ffd700;font-weight:bold;">${pts} PTS</div>`;
+table.appendChild(row);
+});
+return;
+}else{
+// Horizontal kit tiers view
+out.className="horizontal-grid";
+["T1","T2","T3","T4","T5"].forEach(lvl=>{
+let col=`<div class="tier-column"><div class="tier-label">${lvl}</div>`;
+let found=false;
+for(let t in DATA[kit]){
+if(t.includes(lvl)){
+(DATA[kit][t]||[]).forEach(name=>{
+found=true;
+col+=`<div class="tier-card ${t.startsWith('R')?'retired-card':''}" onclick="openProfile('${name}')"><div class="row"><span><b>${name}</b> ${getTags(name)}</span><span class="tag" style="border-color:var(--purple)">${t.replace('R','')}</span></div></div>`;
+});
+}}
+if(found) out.innerHTML+=col+"</div>";
+});
 }
+}
+
+async function switchMainTab(tab){
+document.querySelectorAll('.nav-link').forEach(n=>n.classList.remove('active'));
+document.getElementById('nav-'+tab).classList.add('active');
+const out=document.getElementById('displayList');
+out.className="";
+if(tab==='rankings'){
+document.getElementById('kitBar').style.display="flex"; render("Overall");
+}else{
+document.getElementById('kitBar').style.display="none";
+out.innerHTML="<p style='text-align:center;'>Loading Cosmic Data...</p>";
+try{
+const r=await fetch(tab+".json?t="+Date.now());
+const listData=await r.json();
+out.innerHTML="";
+for(let cat in listData){
+out.innerHTML+=`<h3 style="text-align:center;color:var(--gold);margin:35px 0 15px;font-family:'MultiCraftFont';">${cat}</h3>`;
+listData[cat].forEach(name=>{
+out.innerHTML+=`<div class="tier-card" style="max-width:500px;cursor:default;"><div class="row"><span>${name}</span></div></div>`;
+});
+}
+}catch(e){out.innerHTML="<p style='text-align:center;'>No Data Found.</p>";}
+}
+}
+
 function openProfile(name){
-  const p=getPlayer(name);
-  document.getElementById("pName").innerText=name;
-  document.getElementById("pMeta").innerHTML=getTags(name);
-  document.getElementById("pPoints").innerText=(DATA.Overall[name]||0)+" TOTAL PTS";
-  const container=document.getElementById("pTiers"); container.innerHTML="";
-  for(let kit in DATA){ if(kit==="Players"||kit==="Overall") continue;
-    for(let t in DATA[kit]){ if((DATA[kit][t]||[]).includes(name)){
-      const points=PTS[t.replace("R","")]||0; const retired=t.startsWith("R");
-      const circle=document.createElement("div"); circle.className="tier-circle"; if(retired) circle.style.opacity="0.5";
-      circle.title=`${kit}: ${points} pts`; circle.innerText=t.replace("R","");
-      circle.onclick=()=>alert(`${kit}: ${points} PTS`);
-      container.appendChild(circle);
-    }}
-  }
-  document.getElementById("profileModal").style.display="flex";
+const p=getPlayer(name);
+document.getElementById('pName').innerText=name;
+document.getElementById('pMeta').innerHTML=getTags(name);
+document.getElementById('pPoints').innerText=(DATA.Overall[name]||0)+" TOTAL PTS";
+const container=document.getElementById('pTiers'); container.innerHTML="";
+for(let kit in DATA){if(kit==="Players"||kit==="Overall")continue;
+for(let t in DATA[kit]){if((DATA[kit][t]||[]).includes(name)){
+const points=PTS[t.replace("R","")]||0; const retired=t.startsWith("R");
+const circle=document.createElement("div"); circle.className="tier-circle"; if(retired)circle.style.opacity="0.5";
+circle.title=`${kit}: ${points} pts`; circle.innerText=t.replace("R","");
+circle.onclick=()=>alert(`${kit}: ${points} PTS`); container.appendChild(circle);
+}}}
+document.getElementById('profileModal').style.display='flex';
 }
+
 load();
 </script>
 </body>

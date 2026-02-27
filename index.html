@@ -17,7 +17,6 @@
   font-family: 'MultiCraftFont';
   src: url('MultiCraftFont.ttf') format('truetype');
 }
-
 :root {
   --bg:#000;
   --purple:#a855f7;
@@ -29,12 +28,10 @@
   --cyan:#00ffff;
   --sa:#00ff88;
 }
-
 * {
   font-family:'MultiCraftFont' !important;
   box-sizing:border-box;
 }
-
 body{
   margin:0;
   background:#000;
@@ -42,7 +39,7 @@ body{
   overflow-x:hidden;
 }
 
-/* Cosmic glow */
+/* Purple blobs background */
 .blob-layer{
   position:fixed;
   inset:0;
@@ -58,12 +55,12 @@ body{
 }
 .blob1{width:600px;height:600px;top:-20%;left:-20%;}
 .blob2{width:500px;height:500px;bottom:-20%;right:-20%;animation-delay:-8s;}
-
 @keyframes float{
   0%{transform:translate(0,0) scale(1);}
   100%{transform:translate(200px,150px) scale(1.2);}
 }
 
+/* Floating kits */
 .space-container{
   position:fixed;
   inset:0;
@@ -81,6 +78,7 @@ body{
   to{transform:translate(var(--tw),var(--th)) rotate(360deg);}
 }
 
+/* Navigation */
 nav{
   display:flex;
   justify-content:center;
@@ -92,7 +90,6 @@ nav{
   top:0;
   z-index:500;
 }
-
 .nav-link{
   opacity:0.6;
   cursor:pointer;
@@ -103,6 +100,7 @@ nav{
   text-shadow:0 0 10px var(--purple);
 }
 
+/* Header */
 header{
   padding:40px 0 20px;
   text-align:center;
@@ -113,6 +111,7 @@ header{
   text-shadow:0 0 15px var(--purple);
 }
 
+/* Kit selector */
 #kitBar{
   display:flex;
   justify-content:center;
@@ -120,7 +119,6 @@ header{
   gap:12px;
   margin:20px 0;
 }
-
 .kit-btn{
   background:#111;
   border:1px solid #333;
@@ -134,13 +132,13 @@ header{
   box-shadow:0 0 12px rgba(168,85,247,0.4);
 }
 
+/* Horizontal grid */
 .horizontal-grid{
   display:flex;
   gap:25px;
   padding:25px;
   overflow-x:auto;
 }
-
 .tier-column{min-width:280px;}
 .tier-label{
   text-align:center;
@@ -149,6 +147,7 @@ header{
   font-size:1.2rem;
 }
 
+/* Cards */
 .tier-card{
   background:#080808;
   border:1px solid #222;
@@ -166,7 +165,6 @@ header{
   opacity:0.4;
   border-style:dashed;
 }
-
 .row{
   padding:12px 16px;
   display:flex;
@@ -174,6 +172,7 @@ header{
   align-items:center;
 }
 
+/* Tags */
 .tag{
   font-size:0.6rem;
   padding:2px 6px;
@@ -181,16 +180,16 @@ header{
   border-radius:4px;
   margin-left:6px;
 }
-
 .reg-na{color:var(--red);border-color:var(--red);}
 .reg-eu{color:var(--blue);border-color:var(--blue);}
 .reg-as{color:var(--yellow);border-color:var(--yellow);}
 .reg-sa{color:var(--sa);border-color:var(--sa);}
-
 .dev-mk{color:var(--cyan);border-color:var(--cyan);}
 .dev-mb{color:var(--green);border-color:var(--green);}
 .dev-tp{color:#fff;border-color:#fff;}
+.dev-ct{color:#f1c40f;border-color:#f1c40f;}
 
+/* Modal */
 .modal-overlay{
   position:fixed;
   inset:0;
@@ -240,137 +239,155 @@ header{
 </div>
 
 <script>
-let DATA={};
+// Device full names mapping
+const FULL_DEV = {
+  MK: "Mouse & Keyboard",
+  MB: "Mobile",
+  TP: "Trackpad",
+  CT: "Controller"
+};
+
+// Points system
 const PTS={HT1:50,LT1:40,HT2:30,LT2:20,HT3:12,LT3:8,HT4:5,LT4:3,HT5:2,LT5:1};
 
+let DATA={};
+
+// Fetch and initialize
 async function load(){
-const r=await fetch("rankings.json?t="+Date.now());
-DATA=await r.json();
-processPoints();
-buildKitBar();
-initSpace();
-render("Overall");
+  const r=await fetch("rankings.json?t="+Date.now());
+  DATA=await r.json();
+  processPoints();
+  buildKitBar();
+  initSpace();
+  render("Overall");
 }
 
+// Calculate total points for "Overall"
 function processPoints(){
-let totals={};
-for(let kit in DATA){
-if(kit==="Players")continue;
-for(let tier in DATA[kit]){
-if(tier.startsWith("R"))continue;
-let base=tier;
-(DATA[kit][tier]||[]).forEach(p=>{
-totals[p]=(totals[p]||0)+(PTS[base]||0);
-});
-}
-}
-DATA.Overall=totals;
+  let totals={};
+  for(let kit in DATA){
+    if(kit==="Players") continue;
+    for(let tier in DATA[kit]){
+      if(tier.startsWith("R")) continue;
+      (DATA[kit][tier]||[]).forEach(p=>{
+        totals[p]=(totals[p]||0)+(PTS[tier]||0);
+      });
+    }
+  }
+  DATA.Overall=totals;
 }
 
+// Build kit buttons
 function buildKitBar(){
-const bar=document.getElementById("kitBar");
-bar.innerHTML="";
-Object.keys(DATA).forEach(k=>{
-if(k==="Players")return;
-const btn=document.createElement("button");
-btn.className="kit-btn";
-btn.innerText=k;
-btn.onclick=()=>{
-document.querySelectorAll(".kit-btn").forEach(b=>b.classList.remove("active"));
-btn.classList.add("active");
-document.getElementById("view-name").innerText=k.toUpperCase();
-render(k);
-};
-if(k==="Overall")btn.classList.add("active");
-bar.appendChild(btn);
-});
+  const bar=document.getElementById("kitBar");
+  bar.innerHTML="";
+  Object.keys(DATA).forEach(k=>{
+    if(k==="Players") return;
+    const btn=document.createElement("button");
+    btn.className="kit-btn";
+    btn.innerText=k;
+    btn.onclick=()=>{
+      document.querySelectorAll(".kit-btn").forEach(b=>b.classList.remove("active"));
+      btn.classList.add("active");
+      document.getElementById("view-name").innerText=k.toUpperCase();
+      render(k);
+    };
+    if(k==="Overall") btn.classList.add("active");
+    bar.appendChild(btn);
+  });
 }
 
+// Get player object
 function getPlayer(name){
-return DATA.Players.find(p=>p.name===name)||{region:"??",device:"??"};
+  return DATA.Players.find(p=>p.name===name)||{region:"??",device:"??"};
 }
 
+// Generate region/device tags
 function getTags(name){
-const p=getPlayer(name);
-let rClass="reg-"+p.region.toLowerCase();
-let dClass="dev-"+p.device.toLowerCase();
-return `<span class="tag ${rClass}">${p.region}</span><span class="tag ${dClass}">${p.device}</span>`;
+  const p=getPlayer(name);
+  const rClass="reg-"+p.region.toLowerCase();
+  const dClass="dev-"+p.device.toLowerCase();
+  return `<span class="tag ${rClass}">${p.region}</span><span class="tag ${dClass}">${p.device}</span>`;
 }
 
+// Render tier list
 function render(kit){
-const out=document.getElementById("displayList");
-out.innerHTML="";
-if(kit==="Overall"){
-Object.entries(DATA.Overall).sort((a,b)=>b[1]-a[1]).forEach(([n,pts],i)=>{
-let glow=i===0?"box-shadow:0 0 25px rgba(255,215,0,0.6);":"";
-out.innerHTML+=`
-<div class="tier-card" style="max-width:600px;margin:10px auto;${glow}" onclick="openProfile('${n}')">
-<div class="row">
-<span><b style="color:var(--purple);margin-right:10px;">#${i+1}</b>${n} ${getTags(n)}</span>
-<b style="color:var(--gold)">${pts} PTS</b>
-</div>
-</div>`;
-});
-return;
+  const out=document.getElementById("displayList");
+  out.innerHTML="";
+  if(kit==="Overall"){
+    Object.entries(DATA.Overall).sort((a,b)=>b[1]-a[1]).forEach(([n,pts],i)=>{
+      out.innerHTML+=`
+      <div class="tier-card" style="max-width:600px;margin:10px auto;" onclick="openProfile('${n}')">
+        <div class="row">
+          <span><b style="color:var(--purple);margin-right:10px;">#${i+1}</b>${n} ${getTags(n)}</span>
+          <b style="color:var(--gold)">${pts} PTS</b>
+        </div>
+      </div>`;
+    });
+    return;
+  }
+  out.className="horizontal-grid";
+  ["T1","T2","T3","T4","T5"].forEach(level=>{
+    let col=`<div class="tier-column"><div class="tier-label">${level}</div>`;
+    let found=false;
+    for(let tier in DATA[kit]){
+      if(tier.endsWith(level)){
+        const retired=tier.startsWith("R");
+        (DATA[kit][tier]||[]).forEach(name=>{
+          found=true;
+          col+=`
+          <div class="tier-card ${retired?'retired-card':''}" onclick="openProfile('${name}')">
+            <div class="row">
+              <span>${name} ${getTags(name)}</span>
+              <span class="tag">${tier.replace("R","")}</span>
+            </div>
+          </div>`;
+        });
+      }
+    }
+    if(found) out.innerHTML+=col+"</div>";
+  });
 }
 
-out.className="horizontal-grid";
-["T1","T2","T3","T4","T5"].forEach(level=>{
-let col=`<div class="tier-column"><div class="tier-label">${level}</div>`;
-let found=false;
-
-for(let tier in DATA[kit]){
-if(tier.endsWith(level)){
-let retired=tier.startsWith("R");
-(DATA[kit][tier]||[]).forEach(name=>{
-found=true;
-col+=`
-<div class="tier-card ${retired?'retired-card':''}" onclick="openProfile('${name}')">
-<div class="row">
-<span>${name} ${getTags(name)}</span>
-<span class="tag">${tier.replace("R","")}</span>
-</div>
-</div>`;
-});
-}
-}
-if(found)out.innerHTML+=col+"</div>";
-});
-}
-
+// Open player profile modal
 function openProfile(name){
-const p=getPlayer(name);
-document.getElementById("pName").innerText=name;
-document.getElementById("pMeta").innerHTML=getTags(name);
-document.getElementById("pPoints").innerText=(DATA.Overall[name]||0)+" TOTAL PTS";
+  const player=getPlayer(name);
+  const fullDevice = FULL_DEV[player.device] || player.device;
+  document.getElementById("pName").innerText=name;
+  document.getElementById("pMeta").innerHTML=`
+    ${getTags(name)}
+    <div style="margin-top:6px;font-size:0.85rem;opacity:0.85;">${fullDevice}</div>
+  `;
+  document.getElementById("pPoints").innerText=(DATA.Overall[name]||0)+" TOTAL PTS";
 
-let tiers="";
-for(let kit in DATA){
-if(kit==="Players"||kit==="Overall")continue;
-for(let t in DATA[kit]){
-if((DATA[kit][t]||[]).includes(name)){
-tiers+=`<div>${kit}: <span style="color:var(--purple)">${t}</span></div>`;
-}
-}
-}
-document.getElementById("pTiers").innerHTML=tiers||"No Rankings";
-document.getElementById("profileModal").style.display="flex";
+  let tiers="";
+  for(let kit in DATA){
+    if(kit==="Players"||kit==="Overall") continue;
+    for(let t in DATA[kit]){
+      if((DATA[kit][t]||[]).includes(name)){
+        tiers+=`<div>${kit}: <span style="color:var(--purple)">${t.startsWith("R")?"Retired ":""}${t.replace("R","")}</span></div>`;
+      }
+    }
+  }
+  document.getElementById("pTiers").innerHTML=tiers||"No Rankings";
+  document.getElementById("profileModal").style.display="flex";
 }
 
+// Floating cosmic kits
 function initSpace(){
-const sc=document.getElementById("spaceContainer");
-const COUNT=window.innerWidth<768?12:18;
-for(let i=0;i<COUNT;i++){
-const img=document.createElement("img");
-img.src="backgroundsword.png";
-img.className="floating-kit";
-img.style.left=Math.random()*100+"%";
-img.style.top=Math.random()*100+"%";
-img.style.setProperty('--tw',(Math.random()*400-200)+'vw');
-img.style.setProperty('--th',(Math.random()*400-200)+'vh');
-img.style.animationDuration=(20+Math.random()*20)+'s';
-sc.appendChild(img);
-}
+  const sc=document.getElementById("spaceContainer");
+  const COUNT=window.innerWidth<768?12:18;
+  for(let i=0;i<COUNT;i++){
+    const img=document.createElement("img");
+    img.src="backgroundsword.png";
+    img.className="floating-kit";
+    img.style.left=Math.random()*100+"%";
+    img.style.top=Math.random()*100+"%";
+    img.style.setProperty('--tw',(Math.random()*400-200)+'vw');
+    img.style.setProperty('--th',(Math.random()*400-200)+'vh');
+    img.style.animationDuration=(20+Math.random()*20)+'s';
+    sc.appendChild(img);
+  }
 }
 
 load();

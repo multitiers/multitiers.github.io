@@ -1,2 +1,2 @@
-# multitiers.github.io
+# mtctiers.github.io
 MultiCraft Tiers Website

@@ -11,32 +11,30 @@
       --bg: #010102; --purple: #a855f7; --purple-glow: rgba(168, 85, 247, 0.7);
       --border: rgba(168, 85, 247, 0.2); --gold: #ffd700; --green: #2ecc71; 
       --red: #e74c3c; --blue: #3498db; --cyan: #00ffff; --yellow: #f1c40f;
-      --sa-region: #00ff88; --retired: #555;
+      --sa-region: #00ff88; --mb-device: #ff7f50; --retired: #555;
     }
 
     body { background: var(--bg); color: #fff; font-family: 'Courier New', monospace; margin: 0; padding-bottom: 40px; overflow-x: hidden; }
 
     /* --- TOP BAR --- */
     .top-left-badges { position: absolute; top: 8px; left: 10px; display: flex; gap: 6px; z-index: 110; }
-    
-    /* Move INFO button higher */
     .top-right-btns { position: absolute; top: 4px; right: 10px; z-index: 110; }
-    
     .badge-placeholder { background: rgba(168, 85, 247, 0.1); border: 1px solid var(--purple); color: var(--purple); padding: 3px 6px; border-radius: 3px; font-family: 'MultiCraftFont'; font-size: 0.5rem; }
 
     header { padding: 15px 0 5px; display: flex; flex-direction: column; align-items: center; }
     .title-sword { width: 45px; height: 45px; object-fit: contain; margin-bottom: 2px; }
     .main-title { font-family: 'MultiCraftFont'; font-size: 2.2rem; margin: 0; letter-spacing: 2px; }
 
-    /* --- TAGS --- */
+    /* --- TAG COLORS --- */
     .reg-eu { color: var(--blue) !important; border-color: var(--blue) !important; }
     .reg-na { color: var(--red) !important; border-color: var(--red) !important; }
     .reg-as { color: var(--yellow) !important; border-color: var(--yellow) !important; }
     .reg-sa { color: var(--sa-region) !important; border-color: var(--sa-region) !important; }
+    
     .dev-tp { color: #ff00ff !important; border-color: #ff00ff !important; }
     .dev-mk { color: var(--cyan) !important; border-color: var(--cyan) !important; }
     .dev-ctrl { color: var(--green) !important; border-color: var(--green) !important; }
-    .dev-mb { color: var(--yellow) !important; border-color: var(--yellow) !important; }
+    .dev-mb { color: var(--mb-device) !important; border-color: var(--mb-device) !important; }
 
     nav { display: flex; justify-content: center; gap: 25px; padding: 10px; background: rgba(0,0,0,0.9); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; backdrop-filter: blur(10px); }
     .nav-link { color: #5a6474; text-decoration: none; font-weight: bold; cursor: pointer; font-family: 'MultiCraftFont'; font-size: 0.75rem; transition: 0.3s; }
@@ -47,7 +45,7 @@
     .kit-btn { background: #0a0a0f; border: 1px solid var(--border); padding: 8px 14px; border-radius: 6px; color: #888; cursor: pointer; font-family: 'MultiCraftFont'; display: flex; align-items: center; gap: 8px; font-size: 0.7rem; transition: 0.2s; }
     .kit-btn.active { border-color: var(--purple); color: #fff; transform: scale(1.05); }
 
-    /* --- BIGGER GRID & CARDS --- */
+    /* --- BIGGER CARDS & GRID --- */
     .horizontal-grid { display: flex; flex-direction: row; gap: 15px; padding: 20px; overflow-x: auto; align-items: flex-start; justify-content: center; }
     .grid-column { min-width: 260px; flex: 1; max-width: 320px; }
 
@@ -63,10 +61,13 @@
     
     .tier-header { color: var(--purple); text-align: center; font-family: 'MultiCraftFont'; margin-bottom: 12px; font-size: 1rem; letter-spacing: 2px; border-bottom: 2px solid var(--border); padding-bottom: 5px; }
 
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.92); z-index: 2000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
     .modal-content { background: #010102; border: 2px solid var(--purple); border-radius: 12px; padding: 20px; width: 340px; box-shadow: 0 0 25px var(--purple-glow); }
 
     #space-container { position: fixed; inset: 0; z-index: -2; pointer-events: none; }
     .space-icon { position: absolute; width: 22px; height: 22px; background-size: contain; opacity: 0.15; animation: float 15s infinite linear; }
+    @keyframes cardSweep { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+    @keyframes float { 0% { transform: translateY(110vh); } 100% { transform: translateY(-110vh); } }
   </style>
 </head>
 <body>
@@ -102,14 +103,14 @@
   <div id="displayList"></div>
 </div>
 
-<div id="infoModal" class="modal-overlay" onclick="this.style.display='none'" style="position: fixed; inset: 0; background: rgba(0,0,0,0.92); z-index: 2000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(8px);">
+<div id="infoModal" class="modal-overlay" onclick="this.style.display='none'">
   <div class="modal-content" onclick="event.stopPropagation()">
     <h3 style="font-family:'MultiCraftFont'; color:var(--gold); margin:0 0 15px; text-align:center; font-size:1.1rem;">POINT VALUES</h3>
     <div id="infoValues"></div>
   </div>
 </div>
 
-<div id="profileModal" class="modal-overlay" onclick="this.style.display='none'" style="position: fixed; inset: 0; background: rgba(0,0,0,0.92); z-index: 2000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(8px);">
+<div id="profileModal" class="modal-overlay" onclick="this.style.display='none'">
   <div class="modal-content" onclick="event.stopPropagation()">
     <div id="pRank" style="color:#666; font-size: 0.65rem; font-weight:bold;">RANK #--</div>
     <h2 id="pName" style="font-family:'MultiCraftFont'; font-size:1.6rem; color:var(--purple); margin:5px 0;">Player</h2>
@@ -202,7 +203,9 @@ function render(kit) {
           const pd = DATA.Players?.find(x => x.name === p.n) || {region:"??", device:"??"};
           const isR = p.t.startsWith('R');
           h += `<div class="tier-card ${isR?'retired-card':''}" onclick="openProfile('${p.n}')"><div class="card-inner"><div class="row">
-            <span><b style="font-size:0.85rem;">${p.n}</b> <span class="tag tag-tier">${p.t}</span><span class="tag ${getRegClass(pd.region)}">${pd.region}</span></span>
+            <span><b style="font-size:0.85rem;">${p.n}</b> <span class="tag tag-tier">${p.t}</span>
+            <span class="tag ${getRegClass(pd.region)}">${pd.region}</span>
+            <span class="tag ${getDevClass(pd.device)}">${formatDev(pd.device)}</span></span>
             </div></div></div>`;
         });
         out.innerHTML += h + "</div>";

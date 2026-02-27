@@ -6,233 +6,219 @@
 <title>MTC TIERS</title>
 <link rel="icon" type="image/png" href="backgroundsword.png">
 
+<meta property="og:title" content="MTC TIERS" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://multitiers.github.io/" />
+<meta property="og:image" content="https://multitiers.github.io/backgroundsword.png" />
+<meta property="og:description" content="Official MultiCraft Tier Rankings." />
+<meta name="theme-color" content="#a855f7">
+
 <style>
 @font-face { font-family: 'MultiCraftFont'; src: url('MultiCraftFont.ttf') format('truetype'); }
 
 :root {
-  --bg: #000000;
-  --purple: #a855f7;
-  --purple-glow: rgba(168, 85, 247, 0.7);
-  --border: rgba(168, 85, 247, 0.2);
-  --gold: #ffd700;
-  --green: #2ecc71; 
-  --red: #e74c3c;
-  --blue: #3498db;
-  --cyan: #00ffff;
-  --yellow: #f1c40f;
-  --sa-region: #00ff88;
-  --oc-region: #ff00ff;
-  --mb-device: #ff7f50;
-  --retired: #555;
+  --bg:#000;
+  --purple:#a855f7;
+  --gold:#ffd700;
 }
 
-body { 
-  background: var(--bg); 
-  color: #fff; 
-  font-family: 'Courier New', monospace; 
-  margin: 0; 
-  padding-bottom: 40px; 
-  overflow-x: hidden;
-  background-image: 
-    radial-gradient(white, rgba(255,255,255,.3) 1px, transparent 3px),
-    radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 2px),
-    radial-gradient(rgba(168, 85, 247, 0.25) 0%, transparent 60%);
-  background-size: 550px 550px, 350px 350px, 100% 100%;
-  background-position: 0 0, 40px 60px, 0 0;
-  animation: spaceDrift 100s linear infinite;
+body{
+  background:#000;
+  color:#fff;
+  font-family:'Courier New',monospace;
+  margin:0;
+  padding-bottom:40px;
 }
 
-@keyframes spaceDrift {
-  from { background-position: 0 0, 40px 60px, 0 0; }
-  to { background-position: 550px 1100px, 390px 1160px, 0 0; }
+/* ---------------- TOP BAR ---------------- */
+
+.top-left-badges{
+  position:absolute;
+  top:5px;
+  left:15px;
+  display:flex;
+  gap:20px;
+  z-index:1000;
 }
 
-/* ---------------- TOP 3 MEDAL TABLES ---------------- */
-
-.first-place {
-  background: linear-gradient(120deg, #ffd700 0%, #fff3a0 40%, #ffd700 60%);
-  background-size: 300% 100%;
-  animation: medalShine 3s linear infinite;
-  color: #000 !important;
+.badge-label{
+  color:#888;
+  font-family:'MultiCraftFont';
+  font-size:0.6rem;
 }
 
-.second-place {
-  background: linear-gradient(120deg, #c0c0c0 0%, #f0f0f0 40%, #c0c0c0 60%);
-  background-size: 300% 100%;
-  animation: medalShine 3s linear infinite;
-  color: #000 !important;
+.top-right-btns{
+  position:absolute;
+  top:5px;
+  right:15px;
+  z-index:1000;
 }
 
-.third-place {
-  background: linear-gradient(120deg, #cd7f32 0%, #f0b77a 40%, #cd7f32 60%);
-  background-size: 300% 100%;
-  animation: medalShine 3s linear infinite;
-  color: #000 !important;
+/* ---------------- NAV ---------------- */
+
+nav{
+  display:flex;
+  justify-content:center;
+  gap:30px;
+  padding:12px;
+  background:#05050a;
+  border-bottom:1px solid rgba(168,85,247,0.3);
+  position:sticky;
+  top:0;
+  z-index:500;
 }
 
-@keyframes medalShine {
-  0% { background-position: -300% 0; }
-  100% { background-position: 300% 0; }
+.nav-link{
+  color:#5a6474;
+  font-weight:bold;
+  cursor:pointer;
+  font-family:'MultiCraftFont';
+  font-size:0.8rem;
+}
+
+.nav-link.active{
+  color:#fff;
+  text-shadow:0 0 12px var(--purple);
+}
+
+/* ---------------- TABLE STYLE (UNCHANGED SHAPE) ---------------- */
+
+.tier-card{
+  border-radius:10px;
+  padding:1.5px;
+  margin-bottom:10px;
+  background:linear-gradient(90deg,transparent,var(--purple),transparent);
+  background-size:200% 100%;
+  animation:galaxySweep 4s linear infinite;
+  transition:0.2s;
+  cursor:pointer;
+}
+
+.tier-card:hover{ transform:translateY(-4px); }
+
+.card-inner{
+  background:rgba(5,5,8,0.9);
+  border-radius:9px;
+}
+
+.row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:12px 20px;
+}
+
+@keyframes galaxySweep{
+  0%{background-position:200% 0;}
+  100%{background-position:-200% 0;}
+}
+
+/* ---------------- TOP 3 MEDAL COLORS (NO SHAPE CHANGE) ---------------- */
+
+.first-place{
+  background:linear-gradient(120deg,#ffd700 0%,#fff3a0 40%,#ffd700 60%);
+  background-size:300% 100%;
+  animation:medalShine 3s linear infinite;
+}
+
+.second-place{
+  background:linear-gradient(120deg,#c0c0c0 0%,#f0f0f0 40%,#c0c0c0 60%);
+  background-size:300% 100%;
+  animation:medalShine 3s linear infinite;
+}
+
+.third-place{
+  background:linear-gradient(120deg,#cd7f32 0%,#f0b77a 40%,#cd7f32 60%);
+  background-size:300% 100%;
+  animation:medalShine 3s linear infinite;
+}
+
+@keyframes medalShine{
+  0%{background-position:-300% 0;}
+  100%{background-position:300% 0;}
 }
 
 .first-place .card-inner,
 .second-place .card-inner,
-.third-place .card-inner {
-  background: transparent !important;
+.third-place .card-inner{
+  background:transparent!important;
+  color:#000!important;
 }
 
-/* ---------------- TIER CIRCLE ---------------- */
+/* ---------------- PROFILE CIRCLES ONLY ---------------- */
 
-.tier-circle-wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 10px;
+.profile-tiers{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:20px;
+  margin-top:10px;
 }
 
-.tier-icon {
-  font-size: 1.3rem;
-  margin-bottom: 6px;
+.tier-circle{
+  width:70px;
+  height:70px;
+  border-radius:50%;
+  border:3px solid var(--purple);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family:'MultiCraftFont';
+  background:#111;
 }
-
-.tier-circle {
-  width: 70px;
-  height: 70px;
-  border-radius: 50%;
-  border: 3px solid var(--purple);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: 'MultiCraftFont';
-  font-size: 0.85rem;
-  background: rgba(10,10,15,0.9);
-}
-
-/* ---------------- ORIGINAL STYLES (UNCHANGED CORE) ---------------- */
-
-nav {
-  display: flex;
-  justify-content: center;
-  gap: 30px;
-  padding: 12px;
-  background: rgba(5,5,10,0.95);
-  border-bottom: 1px solid rgba(168,85,247,0.3);
-  position: sticky;
-  top: 0;
-  z-index: 500;
-  backdrop-filter: blur(15px);
-}
-
-.nav-link {
-  color: #5a6474;
-  font-weight: bold;
-  cursor: pointer;
-  font-family: 'MultiCraftFont';
-  font-size: 0.8rem;
-}
-
-.nav-link.active {
-  color: #fff;
-  text-shadow: 0 0 12px var(--purple);
-}
-
-.horizontal-grid {
-  display: flex;
-  flex-direction: row;
-  gap: 20px;
-  padding: 20px;
-  overflow-x: auto;
-  justify-content: center;
-}
-
-.tier-card {
-  border-radius: 10px;
-  padding: 1.5px;
-  margin-bottom: 10px;
-  background: linear-gradient(90deg, transparent, var(--purple), transparent);
-  background-size: 200% 100%;
-  animation: galaxySweep 4s linear infinite;
-  transition: transform 0.2s;
-  cursor: pointer;
-}
-
-.tier-card:hover {
-  transform: translateY(-4px);
-}
-
-.card-inner {
-  background: rgba(5,5,8,0.9);
-  border-radius: 9px;
-  padding: 12px 20px;
-}
-
-@keyframes galaxySweep {
-  0% { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
-}
-
 </style>
 </head>
 <body>
 
+<div class="top-left-badges">
+  <div class="badge-label">DISCORD: UNRELEASED</div>
+  <div class="badge-label">SERVER CODE: UNRELEASED</div>
+</div>
+
+<div class="top-right-btns">
+  <button>INFO</button>
+</div>
+
 <nav>
-<div class="nav-link active" onclick="render('Overall')">RANKINGS</div>
+  <div class="nav-link active">RANKINGS</div>
 </nav>
 
-<header style="text-align:center; padding:30px 0;">
-<h1 style="font-family:'MultiCraftFont'; letter-spacing:3px;">MTC TIERS</h1>
+<header style="text-align:center;padding:30px 0;">
+  <img src="backgroundsword.png" width="45">
+  <h1 style="font-family:'MultiCraftFont';">MTC TIERS</h1>
 </header>
 
 <div id="displayList"></div>
 
 <script>
-let DATA = {};
-const PTS_MAP = { "HT1":50,"LT1":40,"HT2":30,"LT2":20,"HT3":12,"LT3":8,"HT4":5,"LT4":3,"HT5":2,"LT5":1 };
+let DATA={};
 
-async function load() {
-  const r = await fetch("rankings.json");
-  DATA = await r.json();
-  processOverall();
-  render("Overall");
+async function load(){
+  const r=await fetch("rankings.json");
+  DATA=await r.json();
+  render();
 }
 
-function processOverall() {
-  let totals = {};
-  for(let k in DATA) if(k!=="Overall" && k!=="Players") {
-    for(let t in DATA[k]) {
-      const base = t.startsWith('R') ? t.substring(1) : t;
-      DATA[k][t].forEach(p => totals[p] = (totals[p]||0) + (PTS_MAP[base]||0));
-    }
-  }
-  DATA["Overall"] = totals;
-}
+function render(){
+  const out=document.getElementById("displayList");
+  out.innerHTML="";
 
-function render(kit) {
-  const out = document.getElementById("displayList");
-  out.innerHTML = "";
-
-  Object.entries(DATA["Overall"])
+  Object.entries(DATA.Overall||{})
     .sort((a,b)=>b[1]-a[1])
-    .forEach(([n,s], i) => {
+    .forEach(([n,s],i)=>{
 
-      let medalClass =
-        i===0 ? "first-place" :
-        i===1 ? "second-place" :
-        i===2 ? "third-place" : "";
+      let medal=
+        i===0?"first-place":
+        i===1?"second-place":
+        i===2?"third-place":"";
 
-      out.innerHTML += `
-      <div class="tier-card ${medalClass}" style="max-width:700px;margin:auto;">
+      out.innerHTML+=`
+      <div class="tier-card ${medal}" style="max-width:700px;margin:auto;">
         <div class="card-inner">
-          <div style="display:flex;justify-content:space-between;">
+          <div class="row">
             <span><b>#${i+1}</b> ${n}</span>
             <b>${s} PTS</b>
           </div>
-
-          <div class="tier-circle-wrapper">
-            <div class="tier-icon">✨</div>
-            <div class="tier-circle">HT1</div>
-          </div>
-
         </div>
       </div>`;
     });

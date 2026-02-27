@@ -11,7 +11,7 @@
       --bg: #010102; --purple: #a855f7; --purple-glow: rgba(168, 85, 247, 0.7);
       --border: rgba(168, 85, 247, 0.2); --gold: #ffd700; --green: #2ecc71; 
       --red: #e74c3c; --blue: #3498db; --cyan: #00ffff; --yellow: #f1c40f;
-      --sa-region: #00ff88; --oc-region: #ff00ff; --mb-device: #ff7f50; --retired-gray: #777;
+      --sa-region: #00ff88; --oc-region: #ff00ff; --mb-device: #ff7f50; --retired-gray: #888;
     }
 
     body { background: var(--bg); color: #fff; font-family: 'Courier New', monospace; margin: 0; padding-bottom: 40px; overflow-x: hidden; }
@@ -20,52 +20,44 @@
     .tag { 
       font-size: 0.55rem; padding: 2px 6px; border-radius: 4px; border: 1px solid #444; 
       margin-left: 4px; font-weight: bold; font-family: 'MultiCraftFont'; 
-      transition: all 0.2s ease-in-out; display: inline-block; white-space: nowrap;
-      cursor: default; position: relative;
+      transition: all 0.2s ease; display: inline-block; white-space: nowrap; cursor: default;
     }
     
-    /* When hovering, swap text content and add glow */
-    .tag-device:hover {
-      filter: brightness(1.2);
-      box-shadow: 0 0 10px currentColor;
-    }
+    .tag-device:hover { filter: brightness(1.2); box-shadow: 0 0 8px currentColor; }
     .tag-device:hover .tag-text { display: none; }
     .tag-device:hover::after { content: attr(data-full); }
 
-    /* --- COLORS --- */
+    /* Colors */
     .reg-eu { color: var(--blue) !important; border-color: var(--blue) !important; }
     .reg-na { color: var(--red) !important; border-color: var(--red) !important; }
     .reg-as { color: var(--yellow) !important; border-color: var(--yellow) !important; }
     .reg-sa { color: var(--sa-region) !important; border-color: var(--sa-region) !important; }
     .reg-oc { color: var(--oc-region) !important; border-color: var(--oc-region) !important; }
-    
     .dev-tp { color: #fff !important; border-color: #fff !important; }
     .dev-mk { color: var(--cyan) !important; border-color: var(--cyan) !important; }
     .dev-ct { color: var(--green) !important; border-color: var(--green) !important; }
     .dev-mb { color: var(--mb-device) !important; border-color: var(--mb-device) !important; }
 
-    /* --- LAYOUT --- */
+    /* Retired Tier Styling */
+    .tag-tier { border-color: var(--gold); color: var(--gold); }
+    .tag-retired { color: var(--retired-gray) !important; border-color: var(--retired-gray) !important; }
+    .retired-card { opacity: 0.5; filter: grayscale(1); }
+
+    /* Layout */
     nav { display: flex; justify-content: center; gap: 20px; padding: 10px; background: rgba(0,0,0,0.9); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; backdrop-filter: blur(10px); }
-    .nav-link { color: #5a6474; text-decoration: none; font-weight: bold; cursor: pointer; font-family: 'MultiCraftFont'; font-size: 0.75rem; transition: 0.3s; }
+    .nav-link { color: #5a6474; text-decoration: none; font-weight: bold; cursor: pointer; font-family: 'MultiCraftFont'; font-size: 0.75rem; }
     .nav-link.active { color: #fff; text-shadow: 0 0 10px var(--purple); }
     header { padding: 15px 0 5px; display: flex; flex-direction: column; align-items: center; }
-    .main-title { font-family: 'MultiCraftFont'; font-size: 2.2rem; margin: 0; letter-spacing: 2px; text-align: center; }
-
-    .horizontal-grid { display: flex; flex-direction: row; gap: 15px; padding: 20px; overflow-x: auto; align-items: flex-start; justify-content: center; }
+    .main-title { font-family: 'MultiCraftFont'; font-size: 2.2rem; margin: 0; letter-spacing: 2px; }
+    .horizontal-grid { display: flex; flex-direction: row; gap: 15px; padding: 20px; overflow-x: auto; justify-content: center; }
     @media (max-width: 800px) { .horizontal-grid { flex-direction: column; align-items: center; } }
-
-    .tier-card { border-radius: 8px; position: relative; padding: 1.5px; margin-bottom: 8px; background: linear-gradient(90deg, transparent, var(--purple), transparent); background-size: 200% 100%; animation: cardSweep 4s linear infinite; }
-    .card-inner { background: #050508; border-radius: 7px; width: 100%; height: 100%; position: relative; z-index: 2; }
+    .tier-card { border-radius: 8px; padding: 1.5px; margin-bottom: 8px; background: linear-gradient(90deg, transparent, var(--purple), transparent); background-size: 200% 100%; animation: sweep 4s linear infinite; }
+    .card-inner { background: #050508; border-radius: 7px; }
     .row { display: flex; justify-content: space-between; align-items: center; padding: 12px 15px; cursor: pointer; }
-    
-    /* --- RETIRED SYSTEM --- */
-    .retired-card { opacity: 0.5; filter: grayscale(1); background: linear-gradient(90deg, transparent, #333, transparent) !important; }
-    .tag-tier { border-color: var(--gold); color: var(--gold); }
-    .retired-card .tag-tier, .tag-retired { color: var(--retired-gray) !important; border-color: var(--retired-gray) !important; }
+    @keyframes sweep { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
 
-    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.92); z-index: 2000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 2000; display: none; align-items: center; justify-content: center; }
     .modal-content { background: #010102; border: 2px solid var(--purple); border-radius: 12px; padding: 20px; width: 90%; max-width: 340px; }
-    @keyframes cardSweep { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
   </style>
 </head>
 <body>
@@ -86,41 +78,41 @@
 
 <div id="profileModal" class="modal-overlay" onclick="this.style.display='none'">
   <div class="modal-content" onclick="event.stopPropagation()">
-    <h2 id="pName" style="font-family:'MultiCraftFont'; color:var(--purple);">Player</h2>
-    <div id="pMeta"></div>
-    <div id="pPoints" style="color:var(--gold); margin:10px 0;">0 TOTAL PTS</div>
-    <div id="pTiers" style="border-top:1px solid #1a1a1a; padding-top:10px;"></div>
+    <h2 id="pName" style="font-family:'MultiCraftFont'; color:var(--purple); margin:0;">Player</h2>
+    <div id="pMeta" style="margin: 10px 0;"></div>
+    <div id="pPoints" style="color:var(--gold); font-weight:bold; margin-bottom:10px;">0 PTS</div>
+    <div id="pTiers" style="border-top:1px solid #222; padding-top:10px; max-height:200px; overflow-y:auto;"></div>
   </div>
 </div>
 
 <script>
 let DATA = {};
+const DEV_INFO = { "MK": "Mouse & Keyboard", "MB": "Mobile", "CT": "Controller", "TP": "Trackpad" };
 const KIT_COLORS = { "Overall": "#ffd700", "Emerald": "#2ecc71", "Dragonhide KB": "#e74c3c", "Wand": "#3498db", "Diamond": "#00ffff" };
-const DEV_MAP = { "MK": "Mouse & Keyboard", "MB": "Mobile", "CT": "Controller", "TP": "Trackpad" };
 
-function formatDev(d) {
-  if(!d) return ""; d=d.toUpperCase();
+function formatDevCode(d) {
+  if(!d) return ""; d = d.toUpperCase();
   if(d.includes("CTRL") || d === "CT") return "CT";
-  if(d.includes("MOB")) return "MB";
+  if(d.includes("MOB") || d === "MB") return "MB";
   return d;
 }
 
-function getDevHTML(d) {
-  if(!d) return "";
-  const code = formatDev(d);
-  const fullName = DEV_MAP[code] || code;
-  return `<span class="tag tag-device ${getDevClass(d)}" data-full="${fullName}"><span class="tag-text">${code}</span></span>`;
+function getDevTag(device) {
+  if(!device) return "";
+  const code = formatDevCode(device);
+  const full = DEV_INFO[code] || code;
+  const colorClass = "dev-" + code.toLowerCase();
+  return `<span class="tag tag-device ${colorClass}" data-full="${full}"><span class="tag-text">${code}</span></span>`;
 }
 
-function getDevClass(d) {
-  const code = formatDev(d);
-  if(code === "TP") return "dev-tp"; if(code === "MK") return "dev-mk";
-  if(code === "CT") return "dev-ct"; if(code === "MB") return "dev-mb";
-  return "";
+function getTierTag(tier) {
+  const isR = tier.startsWith('R');
+  const label = isR ? "Retired " + tier.substring(1) : tier;
+  return `<span class="tag tag-tier ${isR ? 'tag-retired' : ''}">${label}</span>`;
 }
 
 function getRegClass(r) {
-  if(!r) return ""; r=r.toLowerCase();
+  if(!r) return ""; r = r.toLowerCase();
   if(r.includes("eu")) return "reg-eu"; if(r.includes("na")) return "reg-na";
   if(r.includes("as")) return "reg-as"; if(r.includes("sa")) return "reg-sa";
   if(r.includes("oc")) return "reg-oc";
@@ -137,11 +129,11 @@ async function load() {
 
 function processOverall() {
   let totals = {};
-  const pts = { "HT1":50, "LT1":40, "HT2":30, "LT2":20, "HT3":12, "LT3":8, "HT4":5, "LT4":3, "HT5":2, "LT5":1 };
+  const ptsMap = { "HT1":50, "LT1":40, "HT2":30, "LT2":20, "HT3":12, "LT3":8, "HT4":5, "LT4":3, "HT5":2, "LT5":1 };
   for(let k in DATA) if(k!=="Overall" && k!=="Players") {
     for(let t in DATA[k]) {
       const base = t.startsWith('R') ? t.substring(1) : t;
-      if(Array.isArray(DATA[k][t])) DATA[k][t].forEach(p => totals[p] = (totals[p]||0) + (pts[base]||0));
+      if(Array.isArray(DATA[k][t])) DATA[k][t].forEach(p => totals[p] = (totals[p]||0) + (ptsMap[base]||0));
     }
   }
   DATA["Overall"] = totals;
@@ -152,7 +144,7 @@ function buildKitBar() {
   ["Overall", ...Object.keys(DATA).filter(k => k!=="Players" && k!=="Overall")].forEach(k => {
     const btn = document.createElement('button');
     btn.innerText = k;
-    btn.style.cssText = "background:#0a0a0f; border:1px solid #333; color:#888; padding:8px; cursor:pointer; font-family:'MultiCraftFont'; font-size:0.7rem;";
+    btn.style.cssText = "background:#0a0a0f; border:1px solid #333; color:#888; padding:8px 12px; cursor:pointer; font-family:'MultiCraftFont'; font-size:0.7rem; border-radius:4px;";
     btn.onclick = () => { render(k); document.getElementById('view-name').innerText = k; document.getElementById('view-name').style.color = KIT_COLORS[k] || "#fff"; };
     bar.appendChild(btn);
   });
@@ -165,7 +157,7 @@ function render(kit) {
     Object.entries(DATA["Overall"]).sort((a,b)=>b[1]-a[1]).forEach(([n,s], i) => {
       const pd = DATA.Players?.find(x => x.name === n) || {};
       out.innerHTML += `<div class="tier-card" onclick="openProfile('${n}')"><div class="card-inner"><div class="row">
-        <span><b>#${i+1} ${n}</b> ${pd.region?`<span class="tag ${getRegClass(pd.region)}">${pd.region}</span>`:''} ${getDevHTML(pd.device)}</span>
+        <span><b>#${i+1} ${n}</b> ${pd.region?`<span class="tag ${getRegClass(pd.region)}">${pd.region}</span>`:''} ${getDevTag(pd.device)}</span>
         <b style="color:var(--gold);">${s} PTS</b></div></div></div>`;
     });
   } else {
@@ -176,14 +168,13 @@ function render(kit) {
         if((tk.startsWith('R')?tk.substring(1):tk).includes(group)) {
           DATA[kit][tk].forEach(n => {
             const pd = DATA.Players?.find(x => x.name === n) || {};
-            const isR = tk.startsWith('R');
-            entries += `<div class="tier-card ${isR?'retired-card':''}" onclick="openProfile('${n}')"><div class="card-inner"><div class="row">
-              <span><b>${n}</b> <span class="tag tag-tier">${isR?'Retired ':''}${isR?tk.substring(1):tk}</span> ${getDevHTML(pd.device)}</span>
+            entries += `<div class="tier-card ${tk.startsWith('R')?'retired-card':''}" onclick="openProfile('${n}')"><div class="card-inner"><div class="row">
+              <span><b>${n}</b> ${getTierTag(tk)} ${getDevTag(pd.device)}</span>
             </div></div></div>`;
           });
         }
       }
-      if(entries) out.innerHTML += `<div style="min-width:250px;"><div style="text-align:center; color:var(--purple); font-family:'MultiCraftFont'; margin-bottom:10px;">${group}</div>${entries}</div>`;
+      if(entries) out.innerHTML += `<div style="min-width:260px;"><div style="text-align:center; color:var(--purple); font-family:'MultiCraftFont'; margin-bottom:10px; border-bottom:1px solid var(--border);">${group}</div>${entries}</div>`;
     });
   }
 }
@@ -191,19 +182,17 @@ function render(kit) {
 function openProfile(name) {
   const pd = DATA.Players?.find(x => x.name === name) || {};
   document.getElementById('pName').innerText = name;
-  document.getElementById('pMeta').innerHTML = `${pd.region?`<span class="tag ${getRegClass(pd.region)}">${pd.region}</span>`:''} ${getDevHTML(pd.device)}`;
+  document.getElementById('pMeta').innerHTML = `${pd.region?`<span class="tag ${getRegClass(pd.region)}">${pd.region}</span>`:''} ${getDevTag(pd.device)}`;
   document.getElementById('pPoints').innerText = (DATA["Overall"][name] || 0) + " TOTAL PTS";
   let h = "";
   for(let k in DATA) if(k!=="Overall" && k!=="Players") {
     for(let t in DATA[k]) if(DATA[k][t].includes(name)) {
-      const isR = t.startsWith('R');
-      h += `<div style="display:flex; justify-content:space-between; padding:5px; font-size:0.8rem;">
-        <span style="color:${KIT_COLORS[k]}">${k}</span>
-        <span class="tag tag-tier ${isR?'tag-retired':''}">${isR?'Retired ':''}${isR?t.substring(1):t}</span>
+      h += `<div style="display:flex; justify-content:space-between; padding:6px; border-bottom:1px solid #111;">
+        <span style="color:${KIT_COLORS[k]||'#fff'}">${k}</span> ${getTierTag(t)}
       </div>`;
     }
   }
-  document.getElementById('pTiers').innerHTML = h || "No rankings found.";
+  document.getElementById('pTiers').innerHTML = h || "No rankings.";
   document.getElementById('profileModal').style.display = 'flex';
 }
 load();

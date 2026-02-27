@@ -54,7 +54,6 @@
     .tag-device:hover .short-text { display: none; }
     .tag-device:hover .full-text { display: inline; }
 
-    /* Colors */
     .reg-na { color: var(--red); border-color: var(--red); }
     .reg-eu { color: var(--blue); border-color: var(--blue); }
     .reg-as { color: var(--yellow); border-color: var(--yellow); }
@@ -65,17 +64,14 @@
     .dev-ct { color: var(--green); border-color: var(--green); }
     .dev-tp { color: var(--tp-color); border-color: var(--tp-color); }
 
-    /* Kit Type Colors */
     .clr-emerald { color: var(--green) !important; }
     .clr-dragonhide { color: var(--red) !important; }
     .clr-wand { color: var(--blue) !important; }
     .clr-diamond { color: var(--cyan) !important; }
 
-    /* Board State Colors */
     .rank-active { color: var(--gold); border-color: var(--gold); text-shadow: 0 0 5px rgba(255,215,0,0.4); }
     .rank-retired { color: var(--grey); border-color: var(--grey); text-shadow: none; }
 
-    /* --- CARD GLOW EFFECT --- */
     .tier-card { 
       background: #050508; border: 1px solid var(--border); border-radius: 12px; 
       margin-bottom: 10px; cursor: pointer; transition: all 0.3s ease; 
@@ -90,8 +86,9 @@
 
     #kitBar { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; margin: 20px 0; }
     .kit-btn { background: rgba(0,0,0,0.8); border: 1px solid var(--border); padding: 8px 16px; border-radius: 10px; color: #666; cursor: pointer; font-family: 'MultiCraftFont'; font-size: 0.7rem; display: flex; align-items: center; gap: 8px; transition: 0.2s; }
-    .kit-btn:hover { color: #aaa; border-color: #888; }
     .kit-btn.active { border-color: var(--purple); color: #fff !important; background: rgba(168,85,247,0.2); box-shadow: 0 0 10px var(--purple-glow); }
+
+    .no-players { text-align: center; color: var(--grey); font-family: 'MultiCraftFont'; font-size: 0.8rem; padding: 20px; opacity: 0.6; letter-spacing: 1px; }
 
     .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.97); z-index: 2000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(15px); }
     .modal-content { background: #000; border: 2px solid var(--purple); border-radius: 20px; padding: 35px; width: 380px; text-align: center; box-shadow: 0 0 40px var(--purple-glow); animation: modalPop 0.3s ease-out; }
@@ -210,19 +207,28 @@ function buildKitBar() {
 
 function render(kit) {
   const out = document.getElementById('displayList'); out.innerHTML = "";
+  
   if(kit === "Overall") {
-    Object.entries(DATA["Overall"]).sort((a,b)=>b[1]-a[1]).forEach(([n,s], i) => {
+    const players = Object.entries(DATA["Overall"]);
+    if(players.length === 0) {
+      out.innerHTML = `<div class="no-players">NO RANKED PLAYERS</div>`;
+      return;
+    }
+    players.sort((a,b)=>b[1]-a[1]).forEach(([n,s], i) => {
       out.innerHTML += `<div class="tier-card" style="max-width:750px; margin:auto;" onclick="openProfile('${n}')"><div class="card-inner">
         <span><b style="color:var(--purple); margin-right:20px;">#${i+1}</b><b>${n}</b> ${getTags(n)}</span>
         <b style="color:var(--gold);">${s} PTS</b></div></div>`;
     });
   } else {
     const grid = document.createElement('div'); grid.style.display="flex"; grid.style.gap="25px"; grid.style.justifyContent="center";
+    let kitHasPlayers = false;
+
     ["T1","T2","T3","T4","T5"].forEach(lvl => {
       let entries = "";
       for(let t in DATA[kit]) if(t.includes(lvl)) {
         const isR = t.startsWith('R');
         DATA[kit][t].forEach(n => {
+          kitHasPlayers = true;
           entries += `<div class="tier-card" style="min-width:280px;" onclick="openProfile('${n}')"><div class="card-inner" style="${isR?'opacity:0.5':''}">
             <span><b>${n}</b> ${getTags(n)}</span>
             <span class="tag ${isR?'rank-retired':'rank-active'}" style="margin-left:10px;">${isR?'Retired '+t.substring(1):t}</span>
@@ -231,7 +237,12 @@ function render(kit) {
       }
       if(entries) grid.innerHTML += `<div><div style="text-align:center; color:var(--purple); font-family:'MultiCraftFont'; margin-bottom:12px;">${lvl}</div>${entries}</div>`;
     });
-    out.appendChild(grid);
+
+    if(!kitHasPlayers) {
+      out.innerHTML = `<div class="no-players">NO RANKED PLAYERS</div>`;
+    } else {
+      out.appendChild(grid);
+    }
   }
 }
 
@@ -246,17 +257,20 @@ async function switchTab(tab) {
   title.className = "";
   if(tab === 'rankings') render("Overall");
   else {
-    const r = await fetch(`https://raw.githubusercontent.com/mtctiers/mtctiers.github.io/refs/heads/main/${tab}.json?t=${Date.now()}`);
-    const list = await r.json();
-    list.forEach(item => {
-      out.innerHTML += `<div class="tier-card" style="max-width:650px; margin:10px auto;"><div class="card-inner" style="flex-direction:column; align-items:flex-start;">
-        <div style="width:100%; display:flex; justify-content:space-between; align-items:center;">
-          <b style="font-size:1.1rem;">${item.name}</b>
-          <span style="color:var(--purple); font-size:0.8rem;">${item.discord?'@'+item.discord:''}</span>
-        </div>
-        <div style="padding-top:10px; font-size:0.8rem; color:#888;">${item.description||''}</div>
-      </div></div>`;
-    });
+    try {
+      const r = await fetch(`https://raw.githubusercontent.com/mtctiers/mtctiers.github.io/refs/heads/main/${tab}.json?t=${Date.now()}`);
+      const list = await r.json();
+      if(list.length === 0) throw new Error("Empty");
+      list.forEach(item => {
+        out.innerHTML += `<div class="tier-card" style="max-width:650px; margin:10px auto;"><div class="card-inner" style="flex-direction:column; align-items:flex-start;">
+          <div style="width:100%; display:flex; justify-content:space-between; align-items:center;">
+            <b style="font-size:1.1rem;">${item.name}</b>
+            <span style="color:var(--purple); font-size:0.8rem;">${item.discord?'@'+item.discord:''}</span>
+          </div>
+          <div style="padding-top:10px; font-size:0.8rem; color:#888;">${item.description||''}</div>
+        </div></div>`;
+      });
+    } catch(e) { out.innerHTML = `<div class="no-players">NO DATA FOUND</div>`; }
   }
 }
 
@@ -281,7 +295,7 @@ function openProfile(name) {
       }
     }
   }
-  document.getElementById('pTiers').innerHTML = tiers || "<p style='color:#444'>No rankings recorded.</p>";
+  document.getElementById('pTiers').innerHTML = tiers || "<p style='color:#444; text-align:center;'>No rankings recorded.</p>";
   document.getElementById('profileModal').style.display = 'flex';
 }
 

@@ -1,5 +1,6 @@
 {
   "Players": [
+    /* copy and paste this template for easy use boys: { "name": "", "region": "", "device": "" }, */
     { "name": "Game1K", "region": "NA", "device": "MK" },
     { "name": "sample", "region": "???", "device": "TP" },
     { "name": "system1117", "region": "NA", "device": "MK" },

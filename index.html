@@ -1,92 +1,350 @@
 <!DOCTYPE html>
 <html lang="en" translate="no">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MTC TIERS</title>
-  <link rel="icon" type="image/png" href="backgroundsword.png">
-  
-  <meta property="og:title" content="MTC TIERS" />
-  <meta property="og:description" content="The MultiCraft PvP Tierlist. Used by top players like Game1K and more well-known players. Owned and operated by NotMythxc4l and the MTC Tiers Team." />
-  <meta property="og:image" content="https://multitiers.github.io/backgroundsword.png" />
-  <meta name="theme-color" content="#a855f7">
-  <meta name="twitter:card" content="summary_large_image">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MTC TIERS</title>
+<link rel="icon" type="image/png" href="backgroundsword.png">
 
-  <style>
-    @font-face { font-family: 'MultiCraftFont'; src: url('MultiCraftFont.ttf') format('truetype'); }
-    
-    :root {
-      --bg: #000;
-      --purple: #a855f7;
-      --gold: #ffd700; --green: #2ecc71; --red: #e74c3c; 
-      --blue: #3498db; --cyan: #00ffff; --yellow: #f1c40f;
-      --mb-device: #ff7f50; --sa-region: #00ff88;
-      --retired: #555;
-    }
+<meta property="og:title" content="MTC TIERS" />
+<meta property="og:description" content="The MultiCraft PvP Tierlist." />
+<meta property="og:image" content="https://multitiers.github.io/backgroundsword.png" />
+<meta name="theme-color" content="#a855f7">
+<meta name="twitter:card" content="summary_large_image">
 
-    body { 
-      background: var(--bg); 
-      color: #fff; 
-      font-family: 'Courier New', monospace; 
-      margin: 0; 
-      overflow-x: hidden;
-      min-height: 100vh;
-    }
+<style>
+@font-face {
+  font-family: 'MultiCraftFont';
+  src: url('MultiCraftFont.ttf') format('truetype');
+}
 
-    /* --- SPACE KITS BACKGROUND --- */
-    .space-container { position: fixed; inset: 0; z-index: -1; pointer-events: none; overflow: hidden; }
-    .floating-kit {
-      position: absolute; width: 35px; opacity: 0.4;
-      animation: driftKit 25s linear infinite;
-    }
-    @keyframes driftKit {
-      from { transform: translate(0, 0) rotate(0deg); }
-      to { transform: translate(var(--tw), var(--th)) rotate(360deg); }
-    }
+:root {
+  --bg:#000;
+  --purple:#a855f7;
+  --gold:#ffd700;
+  --red:#e74c3c;
+  --blue:#3498db;
+  --yellow:#f1c40f;
+  --sa-region:#00ff88;
+  --cyan:#00ffff;
+  --green:#2ecc71;
+  --mb-device:#ff7f50;
+}
 
-    /* --- PURPLE LAVA LAMP BLOB --- */
-    .blob-layer { position: fixed; inset: 0; z-index: -2; filter: blur(90px); opacity: 0.25; }
-    .blob { position: absolute; background: var(--purple); border-radius: 50%; animation: blobDrift 20s infinite alternate ease-in-out; }
-    .blob1 { width: 500px; height: 500px; top: -10%; left: -10%; }
-    .blob2 { width: 400px; height: 400px; bottom: 5%; right: -5%; animation-delay: -5s; }
-    @keyframes blobDrift { from { transform: translate(0,0); } to { transform: translate(150px, 100px); } }
+* {
+  font-family:'MultiCraftFont' !important;
+  box-sizing:border-box;
+}
 
-    /* --- TOP INFO BAR --- */
-    .top-meta { position: absolute; top: 12px; left: 15px; display: flex; gap: 20px; z-index: 1000; font-family: 'MultiCraftFont'; font-size: 0.65rem; color: #fff; }
+body{
+  background:var(--bg);
+  color:#fff;
+  margin:0;
+  overflow-x:hidden;
+  min-height:100vh;
+}
 
-    header { padding: 45px 0 10px; display: flex; flex-direction: column; align-items: center; }
-    .main-title { font-family: 'MultiCraftFont'; font-size: 2.8rem; letter-spacing: 5px; text-shadow: 0 0 15px var(--purple); }
+/* COSMIC BLOBS */
+.blob-layer{
+  position:fixed;
+  inset:0;
+  z-index:-2;
+  overflow:hidden;
+}
+.blob{
+  position:absolute;
+  background:radial-gradient(circle at 30% 30%, #c084fc, #7e22ce);
+  border-radius:50%;
+  filter:blur(120px);
+  opacity:0.35;
+  animation:blobDrift 18s infinite alternate ease-in-out;
+}
+.blob1{width:600px;height:600px;top:-15%;left:-15%;}
+.blob2{width:500px;height:500px;bottom:-10%;right:-10%;animation-delay:-6s;}
 
-    nav { display: flex; justify-content: center; gap: 40px; padding: 18px; background: rgba(0,0,0,0.85); border-bottom: 1px solid #222; position: sticky; top: 0; z-index: 500; backdrop-filter: blur(12px); }
-    .nav-link { color: #fff; text-decoration: none; font-family: 'MultiCraftFont'; font-size: 0.9rem; cursor: pointer; transition: 0.3s; }
-    .nav-link.active { color: #fff; text-shadow: 0 0 10px var(--purple); }
+@keyframes blobDrift{
+  0%{transform:translate(0,0) scale(1);}
+  100%{transform:translate(200px,150px) scale(1.2);}
+}
 
-    /* --- KIT SELECTOR --- */
-    #kitBar { display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; margin: 25px 0; }
-    .kit-btn { 
-      background: rgba(15, 15, 20, 0.9); border: 1px solid #333; padding: 10px 18px; border-radius: 8px; 
-      color: #fff; cursor: pointer; font-family: 'MultiCraftFont'; font-size: 0.75rem; 
-      display: flex; align-items: center; gap: 10px; transition: 0.2s;
-    }
-    .kit-btn.active { border-color: var(--purple); color: #fff; box-shadow: 0 0 12px rgba(168, 85, 247, 0.4); }
-    .kit-icon { width: 22px; height: 22px; object-fit: contain; }
+/* FLOATING KITS */
+.space-container{
+  position:fixed;
+  inset:0;
+  z-index:-1;
+  pointer-events:none;
+  overflow:hidden;
+}
+.floating-kit{
+  position:absolute;
+  width:35px;
+  opacity:0.35;
+  animation:driftKit linear infinite;
+}
+@keyframes driftKit{
+  from{transform:translate(0,0) rotate(0deg);}
+  to{transform:translate(var(--tw),var(--th)) rotate(360deg);}
+}
 
-    /* --- HORIZONTAL GRID --- */
-    .horizontal-grid { display: flex; flex-direction: row; gap: 25px; padding: 25px; overflow-x: auto; align-items: flex-start; }
-    .tier-column { min-width: 300px; flex-shrink: 0; }
-    .tier-label { text-align: center; font-family: 'MultiCraftFont'; color: var(--purple); margin-bottom: 15px; font-size: 1.2rem; }
+/* TOP META */
+.top-meta{
+  position:absolute;
+  top:12px;
+  left:15px;
+  display:flex;
+  gap:20px;
+  font-size:0.75rem;
+  color:#fff;
+  z-index:1000;
+}
 
-    /* --- CARDS & TAGS --- */
-    .tier-card { background: rgba(5, 5, 5, 0.95); border: 1px solid #222; border-radius: 10px; margin-bottom: 10px; transition: 0.3s; cursor: pointer; }
-    .tier-card:hover { border-color: var(--purple); transform: translateY(-4px); }
-    .row { padding: 14px 18px; display: flex; justify-content: space-between; align-items: center; }
-    
-    .retired-card { opacity: 0.45; filter: grayscale(1); border-style: dashed !important; }
+header{
+  padding:45px 0 10px;
+  display:flex;
+  justify-content:center;
+}
+.main-title{
+  font-size:2.8rem;
+  letter-spacing:5px;
+  text-shadow:0 0 15px var(--purple);
+}
 
-    .tag { font-family: 'MultiCraftFont'; font-size: 0.6rem; padding: 3px 6px; border-radius: 4px; border: 1px solid #444; margin-left: 6px; }
+/* NAV */
+nav{
+  display:flex;
+  justify-content:center;
+  gap:40px;
+  padding:18px;
+  background:rgba(0,0,0,0.85);
+  border-bottom:1px solid #222;
+  position:sticky;
+  top:0;
+  z-index:500;
+  backdrop-filter:blur(12px);
+}
+.nav-link{
+  color:#fff;
+  opacity:0.6;
+  cursor:pointer;
+  transition:0.3s;
+}
+.nav-link.active{
+  opacity:1;
+  text-shadow:0 0 10px var(--purple);
+}
 
-    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.92); z-index: 2000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(10px); }
-    .modal-content { background: #000; border: 1.5px solid var(--purple); padding: 35px; border-radius: 15px; width: 350px; text-align: center; }
-  </style>
+/* KIT BAR */
+#kitBar{
+  display:flex;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:12px;
+  margin:25px 0;
+}
+.kit-btn{
+  background:rgba(15,15,20,0.9);
+  border:1px solid #333;
+  padding:10px 18px;
+  border-radius:8px;
+  color:#fff;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  transition:0.2s;
+}
+.kit-btn.active{
+  border-color:var(--purple);
+  box-shadow:0 0 12px rgba(168,85,247,0.4);
+}
+.kit-icon{width:22px;height:22px;object-fit:contain;}
+
+/* GRID */
+.horizontal-grid{
+  display:flex;
+  gap:25px;
+  padding:25px;
+  overflow-x:auto;
+  align-items:flex-start;
+}
+.tier-column{min-width:300px;}
+.tier-label{
+  text-align:center;
+  color:var(--purple);
+  margin-bottom:15px;
+  font-size:1.2rem;
+}
+
+/* CARDS */
+.tier-card{
+  background:rgba(5,5,5,0.95);
+  border:1px solid #222;
+  border-radius:10px;
+  margin-bottom:10px;
+  transition:all 0.25s ease;
+  cursor:pointer;
+  backdrop-filter:blur(6px);
+}
+.tier-card:hover{
+  border-color:var(--purple);
+  transform:translateY(-6px) scale(1.02);
+  box-shadow:0 0 25px rgba(168,85,247,0.35);
+}
+.retired-card{
+  opacity:0.45;
+  filter:grayscale(1);
+  border-style:dashed !important;
+}
+.row{
+  padding:14px 18px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+/* TAGS */
+.tag{
+  font-size:0.6rem;
+  padding:3px 6px;
+  border-radius:4px;
+  border:1px solid #444;
+  margin-left:6px;
+}
+.reg-na{color:var(--red);border-color:var(--red);}
+.reg-eu{color:var(--blue);border-color:var(--blue);}
+.reg-as{color:var(--yellow);border-color:var(--yellow);}
+.reg-sa{color:var(--sa-region);border-color:var(--sa-region);}
+.dev-mk{color:var(--cyan);border-color:var(--cyan);}
+.dev-mb{color:var(--mb-device);border-color:var(--mb-device);}
+.dev-ct{color:var(--green);border-color:var(--green);}
+
+/* MODAL */
+.modal-overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.92);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  backdrop-filter:blur(10px);
+  z-index:2000;
+}
+.modal-content{
+  background:#000;
+  border:1.5px solid var(--purple);
+  padding:35px;
+  border-radius:15px;
+  width:350px;
+  text-align:center;
+}
+</style>
 </head>
 <body>
+
+<div class="top-meta">
+<span>DISCORD: UNRELEASED</span>
+<span>SERVER CODE: UNRELEASED</span>
+</div>
+
+<div class="blob-layer">
+<div class="blob blob1"></div>
+<div class="blob blob2"></div>
+</div>
+
+<div class="space-container" id="spaceContainer"></div>
+
+<nav>
+<div id="nav-rankings" class="nav-link active" onclick="switchMainTab('rankings')">RANKINGS</div>
+<div id="nav-hof" class="nav-link" onclick="switchMainTab('hof')">HALL OF FAME</div>
+<div id="nav-testers" class="nav-link" onclick="switchMainTab('testers')">TIER TESTERS</div>
+</nav>
+
+<header>
+<h1 class="main-title">MTC TIERS</h1>
+</header>
+
+<div id="main-content">
+<div id="view-name" style="text-align:center;font-size:1.3rem;color:var(--gold);margin-bottom:15px;">OVERALL</div>
+<div id="kitBar"></div>
+<div id="displayList"></div>
+</div>
+
+<div id="profileModal" class="modal-overlay" onclick="this.style.display='none'">
+<div class="modal-content" onclick="event.stopPropagation()">
+<h2 id="pName" style="color:var(--purple);margin-bottom:10px;">Player</h2>
+<div id="pMeta" style="margin-bottom:15px;"></div>
+<div id="pPoints" style="color:var(--gold);margin-bottom:20px;font-size:1.1rem;"></div>
+<div id="pTiers" style="text-align:left;font-size:0.85rem;border-top:1px solid #222;padding-top:15px;"></div>
+</div>
+</div>
+
+<script>
+let DATA = {};
+const FULL_DEV = {MK:"Mouse & Keyboard",MB:"Mobile",CT:"Controller",TP:"Trackpad"};
+const KIT_MAP = {
+"Overall":"backgroundsword.png",
+"Emerald":"emerald.png",
+"Dragonhide KB":"dragonhide.png",
+"Emerald OA":"emerald.png",
+"Dragonhide KB OA":"dragonhide.png",
+"Wand":"wand.png",
+"Emerald KB":"emerald.png",
+"Diamond":"diamond.png"
+};
+const PTS = {HT1:50,LT1:40,HT2:30,LT2:20,HT3:12,LT3:8,HT4:5,LT4:3,HT5:2,LT5:1};
+
+function initSpace(){
+const sc=document.getElementById('spaceContainer');
+const imgs=Object.values(KIT_MAP);
+const COUNT=window.innerWidth<768?12:18;
+for(let i=0;i<COUNT;i++){
+const img=document.createElement('img');
+img.src=imgs[Math.floor(Math.random()*imgs.length)];
+img.className='floating-kit';
+img.style.left=Math.random()*100+"%";
+img.style.top=Math.random()*100+"%";
+img.style.setProperty('--tw',(Math.random()*400-200)+'vw');
+img.style.setProperty('--th',(Math.random()*400-200)+'vh');
+img.style.animationDuration=(20+Math.random()*20)+'s';
+sc.appendChild(img);
+}
+}
+
+function processPoints(){
+let totals={};
+for(let k in DATA){
+if(k==="Players"||k==="Overall")continue;
+for(let t in DATA[k]){
+const isRetired=t.startsWith("R");
+const base=isRetired?t.substring(1):t;
+if(!isRetired){
+DATA[k][t].forEach(p=>{
+totals[p]=(totals[p]||0)+(PTS[base]||0);
+});
+}
+}
+}
+DATA["Overall"]={...totals};
+}
+
+function render(kit){
+const out=document.getElementById('displayList');
+out.innerHTML="";
+if(kit==="Overall"){
+Object.entries(DATA["Overall"]).sort((a,b)=>b[1]-a[1]).forEach(([name,pts],i)=>{
+const glow=i===0?"box-shadow:0 0 25px rgba(255,215,0,0.6);":"";
+out.innerHTML+=`<div class="tier-card" style="max-width:650px;margin:10px auto;${glow}">
+<div class="row">
+<span><b style="color:var(--purple);margin-right:15px;">#${i+1}</b><b>${name}</b></span>
+<b style="color:var(--gold);">${pts} PTS</b>
+</div>
+</div>`;
+});
+}
+}
+
+load();
+</script>
+
+</body>
+</html>

@@ -11,7 +11,7 @@
       --bg: #010102; --purple: #a855f7; --purple-glow: rgba(168, 85, 247, 0.7);
       --border: rgba(168, 85, 247, 0.2); --gold: #ffd700; --green: #2ecc71; 
       --red: #e74c3c; --blue: #3498db; --cyan: #00ffff; --yellow: #f1c40f;
-      --sa-region: #00ff88; --mb-device: #ff7f50; --retired: #555;
+      --sa-region: #00ff88; --oc-region: #ff00ff; --mb-device: #ff7f50; --retired: #555;
     }
 
     body { background: var(--bg); color: #fff; font-family: 'Courier New', monospace; margin: 0; padding-bottom: 40px; overflow-x: hidden; }
@@ -25,12 +25,15 @@
     .title-sword { width: 45px; height: 45px; object-fit: contain; margin-bottom: 2px; }
     .main-title { font-family: 'MultiCraftFont'; font-size: 2.2rem; margin: 0; letter-spacing: 2px; text-align: center; }
 
-    /* --- TAG COLORS --- */
+    /* --- REGION COLORS --- */
     .reg-eu { color: var(--blue) !important; border-color: var(--blue) !important; }
     .reg-na { color: var(--red) !important; border-color: var(--red) !important; }
     .reg-as { color: var(--yellow) !important; border-color: var(--yellow) !important; }
     .reg-sa { color: var(--sa-region) !important; border-color: var(--sa-region) !important; }
-    .dev-tp { color: #ff00ff !important; border-color: #ff00ff !important; }
+    .reg-oc { color: var(--oc-region) !important; border-color: var(--oc-region) !important; }
+    
+    /* --- DEVICE COLORS --- */
+    .dev-tp { color: #ffffff !important; border-color: #ffffff !important; } /* White for TP/Touchpad */
     .dev-mk { color: var(--cyan) !important; border-color: var(--cyan) !important; }
     .dev-ctrl { color: var(--green) !important; border-color: var(--green) !important; }
     .dev-mb { color: var(--mb-device) !important; border-color: var(--mb-device) !important; }
@@ -47,13 +50,12 @@
     /* --- RESPONSIVE GRID --- */
     .horizontal-grid { display: flex; flex-direction: row; gap: 15px; padding: 20px; overflow-x: auto; align-items: flex-start; justify-content: center; }
     
-    /* MOBILE FIX: Stack columns vertically if screen is small */
     @media (max-width: 800px) {
       .horizontal-grid { flex-direction: column; align-items: center; overflow-x: hidden; }
       .grid-column { width: 100%; max-width: 380px; margin-bottom: 20px; }
       .main-title { font-size: 1.5rem; }
-      .nav-link { font-size: 0.6rem; gap: 10px; }
-      .top-left-badges { display: none; } /* Hide clutter on mobile */
+      .nav-link { font-size: 0.6rem; }
+      .top-left-badges { display: none; }
     }
 
     .grid-column { min-width: 260px; flex: 1; max-width: 320px; }
@@ -125,7 +127,6 @@
 </div>
 
 <script>
-// ... (Script remains largely the same as before, ensures device/region tags show in both Overall and Kit views)
 let DATA = {};
 const KIT_COLORS = { "Overall": "#ffd700", "Emerald": "#2ecc71", "Dragonhide KB": "#e74c3c", "Emerald OA": "#2ecc71", "Dragonhide KB OA": "#e74c3c", "Wand": "#3498db", "Emerald KB": "#2ecc71", "Diamond": "#00ffff" };
 const ICONS = { "Overall":"backgroundsword.png", "Emerald":"emerald.png", "Dragonhide KB":"dragonhide_kb.png", "Emerald OA":"emerald_oa.png", "Dragonhide KB OA":"kb_oa.png", "Wand":"wand.png", "Emerald KB":"emerald_kb.png", "Diamond":"diamond.png" };
@@ -135,6 +136,7 @@ function getRegClass(r) {
   if(!r) return ""; r=r.toLowerCase(); 
   if(r.includes("eu")) return "reg-eu"; if(r.includes("na")) return "reg-na";
   if(r.includes("as")) return "reg-as"; if(r.includes("sa")) return "reg-sa";
+  if(r.includes("oc")) return "reg-oc";
   return ""; 
 }
 function getDevClass(d) { 

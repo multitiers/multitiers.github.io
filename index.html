@@ -58,7 +58,7 @@ header{text-align:center; padding:40px 0 20px;}
 .tier-card{background:#080808; border:1px solid #222; border-radius:10px; margin-bottom:10px; transition:0.25s; cursor:pointer;}
 .tier-card:hover{border-color:var(--purple); transform:translateY(-4px); box-shadow:0 0 20px rgba(168,85,247,0.35);}
 .retired-card{opacity:0.4; border-style:dashed;}
-.row{padding:12px 16px; display:flex; justify-content:space-between; align-items:center;}
+.row{padding:12px 16px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap;}
 
 .tag{font-size:0.6rem; padding:2px 6px; border:1px solid #444; border-radius:4px; margin-left:6px; cursor:pointer;}
 .reg-na{color:var(--red); border-color:var(--red);}
@@ -79,7 +79,7 @@ header{text-align:center; padding:40px 0 20px;}
 .tiers-container{display:flex; flex-wrap:wrap; justify-content:center; gap:12px; margin-top:15px;}
 .tier-circle{width:50px; height:50px; border:2px solid var(--purple); border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; transition:0.2s; font-size:0.8rem; color:#fff;}
 .tier-circle:hover{background:rgba(168,85,247,0.2); transform:scale(1.1);}
-.overall-player{display:flex; flex-direction:column; align-items:center; margin:10px;}
+.overall-player{display:flex; flex-direction:column; align-items:center; margin:10px; width:140px;}
 .overall-icon{width:40px;height:40px;margin-bottom:5px;}
 .overall-tier{width:30px;height:30px;border:2px solid var(--purple);border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:5px;font-size:0.7rem;color:#fff;}
 </style>
@@ -149,16 +149,15 @@ function getTags(name){
   const p=getPlayer(name);
   const rClass=p.region.toLowerCase();
   const dClass=p.device.toLowerCase();
-  const fullDevice=FULL_DEV[p.device]||p.device;
   return `<span class="tag reg-${rClass}">${p.region}</span>
-          <span class="tag dev-${dClass}" onclick="alert('${fullDevice}')">${p.device}</span>`;
+          <span class="tag dev-${dClass}" onclick="alert('${FULL_DEV[p.device]||p.device}')">${p.device}</span>`;
 }
 
 function render(kit){
   const out=document.getElementById("displayList");
   out.innerHTML="";
   if(kit==="Overall"){
-    out.style.display="flex"; out.style.flexWrap="wrap"; out.style.justifyContent="center";
+    out.style.display="flex"; out.style.flexDirection="column"; out.style.alignItems="center";
     Object.entries(DATA.Overall).sort((a,b)=>b[1]-a[1]).forEach(([n,pts],i)=>{
       let topKit=""; let topTier="";
       for(let k in DATA){ if(k==="Players"||k==="Overall") continue; for(let t in DATA[k]){ if(DATA[k][t].includes(n)){ topKit=k; topTier=t.replace("R",""); break; } } }
@@ -195,7 +194,7 @@ function render(kit){
 function openProfile(name){
   const p=getPlayer(name);
   document.getElementById("pName").innerText=name;
-  document.getElementById("pMeta").innerHTML=`${getTags(name)} <div style="margin-top:6px;font-size:0.85rem;opacity:0.85;">${FULL_DEV[p.device]||p.device}</div>`;
+  document.getElementById("pMeta").innerHTML=getTags(name);
   document.getElementById("pPoints").innerText=(DATA.Overall[name]||0)+" TOTAL PTS";
   const container=document.getElementById("pTiers"); container.innerHTML="";
   for(let kit in DATA){

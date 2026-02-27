@@ -23,46 +23,51 @@
 
     header { padding: 15px 0 5px; display: flex; flex-direction: column; align-items: center; }
     .title-sword { width: 45px; height: 45px; object-fit: contain; margin-bottom: 2px; }
-    .main-title { font-family: 'MultiCraftFont'; font-size: 2.2rem; margin: 0; letter-spacing: 2px; }
+    .main-title { font-family: 'MultiCraftFont'; font-size: 2.2rem; margin: 0; letter-spacing: 2px; text-align: center; }
 
     /* --- TAG COLORS --- */
     .reg-eu { color: var(--blue) !important; border-color: var(--blue) !important; }
     .reg-na { color: var(--red) !important; border-color: var(--red) !important; }
     .reg-as { color: var(--yellow) !important; border-color: var(--yellow) !important; }
     .reg-sa { color: var(--sa-region) !important; border-color: var(--sa-region) !important; }
-    
     .dev-tp { color: #ff00ff !important; border-color: #ff00ff !important; }
     .dev-mk { color: var(--cyan) !important; border-color: var(--cyan) !important; }
     .dev-ctrl { color: var(--green) !important; border-color: var(--green) !important; }
     .dev-mb { color: var(--mb-device) !important; border-color: var(--mb-device) !important; }
 
-    nav { display: flex; justify-content: center; gap: 25px; padding: 10px; background: rgba(0,0,0,0.9); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; backdrop-filter: blur(10px); }
+    nav { display: flex; justify-content: center; gap: 20px; padding: 10px; background: rgba(0,0,0,0.9); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; backdrop-filter: blur(10px); }
     .nav-link { color: #5a6474; text-decoration: none; font-weight: bold; cursor: pointer; font-family: 'MultiCraftFont'; font-size: 0.75rem; transition: 0.3s; }
     .nav-link.active { color: #fff; text-shadow: 0 0 10px var(--purple); }
 
-    .search-input { width: 100%; max-width: 350px; padding: 10px; background: rgba(0,0,0,0.8); border: 1px solid var(--purple); border-radius: 6px; color: #fff; text-align: center; font-family: 'MultiCraftFont'; font-size: 0.8rem; outline: none; }
+    .search-input { width: 90%; max-width: 350px; padding: 10px; background: rgba(0,0,0,0.8); border: 1px solid var(--purple); border-radius: 6px; color: #fff; text-align: center; font-family: 'MultiCraftFont'; font-size: 0.8rem; outline: none; }
     
     .kit-btn { background: #0a0a0f; border: 1px solid var(--border); padding: 8px 14px; border-radius: 6px; color: #888; cursor: pointer; font-family: 'MultiCraftFont'; display: flex; align-items: center; gap: 8px; font-size: 0.7rem; transition: 0.2s; }
-    .kit-btn.active { border-color: var(--purple); color: #fff; transform: scale(1.05); }
+    .kit-btn.active { border-color: var(--purple); color: #fff; }
 
-    /* --- BIGGER CARDS & GRID --- */
+    /* --- RESPONSIVE GRID --- */
     .horizontal-grid { display: flex; flex-direction: row; gap: 15px; padding: 20px; overflow-x: auto; align-items: flex-start; justify-content: center; }
-    .grid-column { min-width: 260px; flex: 1; max-width: 320px; }
-
-    .tier-card { border-radius: 8px; position: relative; padding: 1.5px; margin-bottom: 8px; background: linear-gradient(90deg, transparent, var(--purple), transparent); background-size: 200% 100%; animation: cardSweep 4s linear infinite; transition: transform 0.2s; }
-    .tier-card:hover { transform: translateY(-2px); }
     
+    /* MOBILE FIX: Stack columns vertically if screen is small */
+    @media (max-width: 800px) {
+      .horizontal-grid { flex-direction: column; align-items: center; overflow-x: hidden; }
+      .grid-column { width: 100%; max-width: 380px; margin-bottom: 20px; }
+      .main-title { font-size: 1.5rem; }
+      .nav-link { font-size: 0.6rem; gap: 10px; }
+      .top-left-badges { display: none; } /* Hide clutter on mobile */
+    }
+
+    .grid-column { min-width: 260px; flex: 1; max-width: 320px; }
+    .tier-card { border-radius: 8px; position: relative; padding: 1.5px; margin-bottom: 8px; background: linear-gradient(90deg, transparent, var(--purple), transparent); background-size: 200% 100%; animation: cardSweep 4s linear infinite; }
     .card-inner { background: #050508; border-radius: 7px; width: 100%; height: 100%; position: relative; z-index: 2; }
     .row { display: flex; justify-content: space-between; align-items: center; padding: 10px 15px; cursor: pointer; }
     
     .retired-card { opacity: 0.55; filter: grayscale(0.7); background: linear-gradient(90deg, transparent, var(--retired), transparent) !important; }
     .tag { font-size: 0.55rem; padding: 2px 5px; border-radius: 4px; border: 1px solid #444; margin-left: 4px; font-weight: bold; font-family: 'MultiCraftFont'; }
     .tag-tier { border-color: var(--gold); color: var(--gold); }
-    
-    .tier-header { color: var(--purple); text-align: center; font-family: 'MultiCraftFont'; margin-bottom: 12px; font-size: 1rem; letter-spacing: 2px; border-bottom: 2px solid var(--border); padding-bottom: 5px; }
+    .tier-header { color: var(--purple); text-align: center; font-family: 'MultiCraftFont'; margin-bottom: 12px; font-size: 1.1rem; letter-spacing: 2px; border-bottom: 2px solid var(--border); padding-bottom: 5px; }
 
     .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.92); z-index: 2000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-    .modal-content { background: #010102; border: 2px solid var(--purple); border-radius: 12px; padding: 20px; width: 340px; box-shadow: 0 0 25px var(--purple-glow); }
+    .modal-content { background: #010102; border: 2px solid var(--purple); border-radius: 12px; padding: 20px; width: 90%; max-width: 340px; box-shadow: 0 0 25px var(--purple-glow); }
 
     #space-container { position: fixed; inset: 0; z-index: -2; pointer-events: none; }
     .space-icon { position: absolute; width: 22px; height: 22px; background-size: contain; opacity: 0.15; animation: float 15s infinite linear; }
@@ -74,7 +79,6 @@
 
 <div class="top-left-badges">
   <div class="badge-placeholder">DISCORD: UNRELEASED</div>
-  <div class="badge-placeholder">SERVER CODE: UNRELEASED</div>
 </div>
 
 <div class="top-right-btns">
@@ -96,10 +100,10 @@
 <div id="main-content">
   <div style="display: flex; justify-content: center; margin: 15px 0; position: relative;">
     <input type="text" id="globalSearch" class="search-input" placeholder="SEARCH PLAYER..." oninput="searchPlayer()">
-    <div id="search-popup" style="position:absolute; top:45px; background:#0a0a0f; border:1px solid var(--purple); border-radius:6px; width:350px; display:none; z-index:1000;"></div>
+    <div id="search-popup" style="position:absolute; top:45px; background:#0a0a0f; border:1px solid var(--purple); border-radius:6px; width:90%; max-width:350px; display:none; z-index:1000;"></div>
   </div>
   <div id="view-name" style="text-align:center; font-family:'MultiCraftFont'; font-size: 1.3rem; margin-bottom:15px; color:var(--gold);">OVERALL</div>
-  <div id="kitBar" style="display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; margin-bottom: 20px;"></div>
+  <div id="kitBar" style="display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; padding: 0 10px;"></div>
   <div id="displayList"></div>
 </div>
 
@@ -121,6 +125,7 @@
 </div>
 
 <script>
+// ... (Script remains largely the same as before, ensures device/region tags show in both Overall and Kit views)
 let DATA = {};
 const KIT_COLORS = { "Overall": "#ffd700", "Emerald": "#2ecc71", "Dragonhide KB": "#e74c3c", "Emerald OA": "#2ecc71", "Dragonhide KB OA": "#e74c3c", "Wand": "#3498db", "Emerald KB": "#2ecc71", "Diamond": "#00ffff" };
 const ICONS = { "Overall":"backgroundsword.png", "Emerald":"emerald.png", "Dragonhide KB":"dragonhide_kb.png", "Emerald OA":"emerald_oa.png", "Dragonhide KB OA":"kb_oa.png", "Wand":"wand.png", "Emerald KB":"emerald_kb.png", "Diamond":"diamond.png" };
@@ -132,18 +137,13 @@ function getRegClass(r) {
   if(r.includes("as")) return "reg-as"; if(r.includes("sa")) return "reg-sa";
   return ""; 
 }
-
 function getDevClass(d) { 
   if(!d) return ""; d=d.toUpperCase(); 
   if(d.includes("TP")) return "dev-tp"; if(d.includes("MK")) return "dev-mk";
   if(d.includes("CTRL")) return "dev-ctrl"; if(d.includes("MB") || d.includes("MOB")) return "dev-mb";
   return ""; 
 }
-
-function formatDev(d) {
-  if(!d) return ""; d=d.toUpperCase();
-  return d.includes("MOB") ? "MB" : d;
-}
+function formatDev(d) { if(!d) return ""; d=d.toUpperCase(); return d.includes("MOB") ? "MB" : d; }
 
 async function load() {
   const r = await fetch(`https://raw.githubusercontent.com/multitiers/multitiers.github.io/refs/heads/main/rankings.json?t=${Date.now()}`);
@@ -214,17 +214,6 @@ function render(kit) {
   }
 }
 
-async function loadExtra(type, el) {
-  document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
-  el.classList.add('active');
-  const vn = document.getElementById('view-name'); vn.innerText = type==='hof'?"HALL OF FAME":"TIER TESTERS"; vn.style.color = "#fff";
-  document.getElementById('kitBar').innerHTML = "";
-  const out = document.getElementById('displayList'); out.className = "";
-  const r = await fetch(`https://raw.githubusercontent.com/multitiers/multitiers.github.io/refs/heads/main/${type}.json`);
-  const json = await r.json();
-  out.innerHTML = json.map(p => `<div class="tier-card" style="max-width:600px; margin:auto;" onclick="openProfile('${p.name}')"><div class="card-inner"><div class="row"><b style="font-size:0.9rem;">${p.name}</b><span style="color:var(--purple); font-size:0.65rem;">${p.discord || p.description}</span></div></div></div>`).join('');
-}
-
 function openProfile(name) {
   const pd = DATA.Players?.find(x => x.name === name) || {region:"??", device:"??"};
   const sorted = Object.entries(DATA["Overall"]).sort((a,b)=>b[1]-a[1]);
@@ -251,12 +240,23 @@ function searchPlayer() {
   pop.style.display = matches.length ? 'block' : 'none';
 }
 
+async function loadExtra(type, el) {
+  document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+  el.classList.add('active');
+  const vn = document.getElementById('view-name'); vn.innerText = type==='hof'?"HALL OF FAME":"TIER TESTERS"; vn.style.color = "#fff";
+  document.getElementById('kitBar').innerHTML = "";
+  const out = document.getElementById('displayList'); out.className = "";
+  const r = await fetch(`https://raw.githubusercontent.com/multitiers/multitiers.github.io/refs/heads/main/${type}.json`);
+  const json = await r.json();
+  out.innerHTML = json.map(p => `<div class="tier-card" style="max-width:600px; margin:auto;" onclick="openProfile('${p.name}')"><div class="card-inner"><div class="row"><b style="font-size:0.9rem;">${p.name}</b><span style="color:var(--purple); font-size:0.65rem;">${p.discord || p.description}</span></div></div></div>`).join('');
+}
+
 function openInfo() { document.getElementById('infoModal').style.display = 'flex'; }
 function goHome() { location.reload(); }
 function spawnIcons() {
   const container = document.getElementById('space-container');
   const iconUrls = Object.values(ICONS);
-  for(let i=0; i<25; i++) {
+  for(let i=0; i<20; i++) {
     const s = document.createElement('div'); s.className = 'space-icon';
     s.style.backgroundImage = `url('${iconUrls[i%iconUrls.length]}')`;
     s.style.left = Math.random() * 100 + 'vw'; s.style.top = Math.random() * 100 + 'vh';

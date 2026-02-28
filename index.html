@@ -51,22 +51,22 @@
     .nav-link.active { color: #fff; text-shadow: 0 0 10px var(--purple); }
 
     /* --- TAGS & GLOWS --- */
-    .player-name { text-shadow: 0 0 10px rgba(255,255,255,0.6); }
-    .name-retired { color: var(--grey) !important; text-shadow: 0 0 10px rgba(136,136,136,0.5) !important; }
+    .player-name { text-shadow: 0 0 10px rgba(255, 255, 255, 0.7); }
+    .name-retired { color: var(--grey) !important; text-shadow: 0 0 10px rgba(136, 136, 136, 0.5) !important; }
 
-    .tag { font-family: 'MultiCraftFont'; font-size: 0.55rem; padding: 2px 6px; border-radius: 4px; border: 1px solid #444; display: inline-flex; align-items: center; vertical-align: middle; height: 16px; box-sizing: border-box; }
+    .tag { font-family: 'MultiCraftFont'; font-size: 0.55rem; padding: 2px 6px; border-radius: 4px; border: 1px solid #444; display: inline-flex; align-items: center; vertical-align: middle; height: 18px; }
     
     .tag-device { 
-      width: 32px; 
+      max-width: 32px; 
       justify-content: center; 
       margin-left: 6px; 
       cursor: pointer; 
-      transition: width 0.4s ease, border-color 0.3s; 
+      transition: max-width 0.4s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.3s; 
       overflow: hidden; 
       white-space: nowrap;
       display: inline-flex;
     }
-    .tag-device:hover { width: 150px; border-color: var(--purple); }
+    .tag-device:hover { max-width: 180px; border-color: var(--purple); }
     .tag-device .full-text { display: none; margin-left: 4px; }
     .tag-device:hover .short-text { display: none; }
     .tag-device:hover .full-text { display: inline; }
@@ -84,24 +84,31 @@
     .rank-active { color: var(--gold); border-color: var(--gold); }
     .rank-retired { color: var(--grey); border-color: var(--grey); }
 
+    /* KIT COLORS */
+    .clr-emerald { color: var(--green) !important; }
+    .clr-dragonhide { color: var(--red) !important; }
+    .clr-wand { color: var(--blue) !important; }
+    .clr-diamond { color: var(--cyan) !important; }
+
+    /* --- CARDS --- */
     .tier-card { background: #050508; border: 1px solid var(--border); border-radius: 10px; margin-bottom: 8px; cursor: pointer; transition: 0.3s; width: 100%; box-sizing: border-box; }
     .tier-card:hover { transform: scale(1.02); border-color: var(--purple); box-shadow: 0 0 20px var(--purple-glow); }
     .card-inner { padding: 12px 18px; display: flex; justify-content: space-between; align-items: center; }
 
+    #main-content { width: 90%; max-width: 1200px; display: flex; flex-direction: column; align-items: center; }
     #displayList { width: 100%; display: flex; flex-direction: column; align-items: center; padding-bottom: 50px; }
-    .empty-msg { font-family: 'MultiCraftFont'; color: #333; font-size: 1.2rem; margin-top: 50px; letter-spacing: 2px; }
 
-    /* --- KIT BAR --- */
     #kitBar { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; margin: 25px 0; }
     .kit-btn { background: #000; border: 1px solid var(--border); padding: 8px 16px; border-radius: 8px; color: #666; cursor: pointer; font-family: 'MultiCraftFont'; font-size: 0.7rem; display: flex; align-items: center; gap: 8px; }
     .kit-btn.active { border-color: var(--purple); color: #fff !important; background: rgba(168, 85, 247, 0.15); box-shadow: 0 0 10px var(--purple-glow); }
+    .kit-btn img { width: 24px; height: 24px; object-fit: contain; }
+
+    .empty-msg { font-family: 'MultiCraftFont'; color: #333; font-size: 1.2rem; margin-top: 50px; letter-spacing: 2px; }
 
     /* --- SEARCH --- */
     .search-wrap { position: relative; width: 350px; margin: 20px auto; z-index: 1100; text-align: center; }
     #playerSearch { width: 100%; background: #08080a; border: 1px solid var(--border); border-radius: 20px; padding: 12px; color: #fff; font-family: 'MultiCraftFont'; font-size: 0.7rem; text-align: center; outline: none; transition: 0.3s; box-sizing: border-box; }
     #playerSearch:focus { border-color: var(--purple); box-shadow: 0 0 15px var(--purple-glow); }
-    #searchResults { position: absolute; top: 110%; left: 0; right: 0; background: #08080a; border: 1px solid var(--purple); border-radius: 10px; max-height: 200px; overflow-y: auto; display: none; box-shadow: 0 10px 30px rgba(0,0,0,0.8); }
-    .search-item { padding: 12px 15px; border-bottom: 1px solid #111; cursor: pointer; font-size: 0.8rem; display: flex; justify-content: space-between; align-items: center; }
 
     .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.96); z-index: 2000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(10px); }
     .modal-content { background: #000; border: 2px solid var(--purple); border-radius: 15px; padding: 35px; width: 380px; text-align: center; box-shadow: 0 0 40px var(--purple-glow); }
@@ -122,7 +129,13 @@
 <div class="info-trigger" onclick="toggleInfo()">INFO</div>
 <div id="infoGui" class="info-gui">
     <h4 style="font-family:'MultiCraftFont'; color:var(--gold); font-size:0.8rem; margin:0 0 15px 0; text-align:center;">POINT SYSTEM</h4>
-    <div style="font-size:0.7rem; color:#ccc;">T1: 50/40 | T2: 30/20 | T3: 12/8 | T4: 5/3 | T5: 2/1</div>
+    <div style="font-size:0.7rem; color:#ccc; display:flex; flex-direction:column; gap:4px;">
+        <div style="display:flex; justify-content:space-between;"><span>T1 (H/L)</span><b>50 / 40</b></div>
+        <div style="display:flex; justify-content:space-between;"><span>T2 (H/L)</span><b>30 / 20</b></div>
+        <div style="display:flex; justify-content:space-between;"><span>T3 (H/L)</span><b>12 / 8</b></div>
+        <div style="display:flex; justify-content:space-between;"><span>T4 (H/L)</span><b>5 / 3</b></div>
+        <div style="display:flex; justify-content:space-between;"><span>T5 (H/L)</span><b>2 / 1</b></div>
+    </div>
 </div>
 
 <header>
@@ -132,7 +145,7 @@
 
 <div class="search-wrap">
     <input type="text" id="playerSearch" placeholder="SEARCH PLAYER..." oninput="handleSearch()">
-    <div id="searchResults"></div>
+    <div id="searchResults" style="position: absolute; top: 110%; left: 0; right: 0; background: #08080a; border: 1px solid var(--purple); border-radius: 10px; max-height: 200px; overflow-y: auto; display: none;"></div>
 </div>
 
 <nav>
@@ -141,7 +154,7 @@
   <div id="nav-testers" class="nav-link" onclick="switchTab('testers')">TIER TESTERS</div>
 </nav>
 
-<div id="main-content" style="width: 90%; max-width: 1200px; display: flex; flex-direction: column; align-items: center;">
+<div id="main-content">
   <div id="view-name" style="text-align:center; font-family:'MultiCraftFont'; font-size: 1.5rem; margin:25px 0; color:var(--gold);">OVERALL</div>
   <div id="kitBar"></div>
   <div id="displayList"></div>
@@ -167,6 +180,13 @@ const KIT_MAP = {
 };
 
 function formatTier(t) { return t.startsWith('R') ? "Retired " + t.substring(1) : t; }
+function getKitClass(k) {
+  if(k.includes("Emerald")) return "clr-emerald";
+  if(k.includes("Dragonhide")) return "clr-dragonhide";
+  if(k.includes("Wand")) return "clr-wand";
+  if(k.includes("Diamond")) return "clr-diamond";
+  return "";
+}
 
 function getTags(name) {
   const p = DATA.Players?.find(x => x.name === name) || {region:"NA", device:"MK"};
@@ -196,12 +216,15 @@ function buildKitBar() {
   const bar = document.getElementById('kitBar'); bar.innerHTML = "";
   Object.keys(KIT_MAP).forEach(k => {
     const btn = document.createElement('button');
-    btn.className = `kit-btn ${k==='Overall'?'active':''}`;
-    btn.innerHTML = (k==="Overall") ? k : `<img src="${KIT_MAP[k]}" style="width:14px;"> ${k}`;
+    const c = getKitClass(k);
+    btn.className = `kit-btn ${c} ${k==='Overall'?'active':''}`;
+    btn.innerHTML = (k==="Overall") ? k : `<img src="${KIT_MAP[k]}"> ${k}`;
     btn.onclick = () => {
       document.querySelectorAll('.kit-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
-      document.getElementById('view-name').innerText = k.toUpperCase();
+      const title = document.getElementById('view-name');
+      title.innerText = k.toUpperCase();
+      title.className = c;
       render(k);
     };
     bar.appendChild(btn);
@@ -212,10 +235,10 @@ function render(kit) {
   const out = document.getElementById('displayList'); out.innerHTML = "";
   if(kit === "Overall") {
     const entries = Object.entries(DATA["Overall"]);
-    if(entries.length === 0) { out.innerHTML = `<div class="empty-msg">NO RANKED PLAYERS</div>`; return; }
+    if(!entries.length) { out.innerHTML = `<div class="empty-msg">NO RANKED PLAYERS</div>`; return; }
     entries.sort((a,b)=>b[1]-a[1]).forEach(([n,s], i) => {
       let isRet = false;
-      for(let k in DATA) { if(k!=="Players" && k!=="Overall") { for(let t in DATA[k]) { if(t.startsWith('R') && DATA[k][t].includes(n)) isRet = true; } } }
+      for(let k in DATA) if(k!=="Players" && k!=="Overall") for(let t in DATA[k]) if(t.startsWith('R') && DATA[k][t].includes(n)) isRet = true;
       out.innerHTML += `<div class="tier-card" style="max-width:700px;" onclick="openProfile('${n}')"><div class="card-inner">
         <span><b style="color:var(--purple); margin-right:15px;">#${i+1}</b><b class="player-name ${isRet?'name-retired':''}">${n}</b> ${getTags(n)}</span>
         <b style="color:var(--gold);">${s} PTS</b></div></div>`;
@@ -250,7 +273,7 @@ async function switchTab(tab) {
   else {
     const r = await fetch(`https://raw.githubusercontent.com/mtctiers/mtctiers.github.io/refs/heads/main/${tab}.json?t=${Date.now()}`);
     const list = await r.json();
-    if(!list || list.length === 0) { out.innerHTML = `<div class="empty-msg">NO RANKED PLAYERS</div>`; return; }
+    if(!list || !list.length) { out.innerHTML = `<div class="empty-msg">NO RANKED PLAYERS</div>`; return; }
     list.forEach(item => { out.innerHTML += `<div class="tier-card" style="max-width:600px;"><div class="card-inner"><b>${item.name}</b><span style="color:var(--purple)">${item.discord?'@'+item.discord:''}</span></div><div style="padding:0 18px 15px; font-size:0.75rem; color:#777;">${item.description||''}</div></div>`; });
   }
 }
@@ -260,7 +283,7 @@ function handleSearch() {
   const res = document.getElementById('searchResults');
   if (!q) { res.style.display = 'none'; return; }
   const matches = Object.keys(DATA.Overall).filter(n => n.toLowerCase().includes(q)).slice(0, 5);
-  res.innerHTML = matches.map(m => `<div class="search-item" onclick="openProfile('${m}'); document.getElementById('playerSearch').value=''; document.getElementById('searchResults').style.display='none'"><b>${m}</b> <span style="font-size:0.6rem; color:var(--purple)">VIEW PROFILE</span></div>`).join('');
+  res.innerHTML = matches.map(m => `<div style="padding:12px 15px; border-bottom:1px solid #111; cursor:pointer; font-size:0.8rem; display:flex; justify-content:space-between; align-items:center;" onclick="openProfile('${m}'); document.getElementById('playerSearch').value=''; document.getElementById('searchResults').style.display='none'"><b>${m}</b> <span style="font-size:0.6rem; color:var(--purple)">VIEW PROFILE</span></div>`).join('');
   res.style.display = matches.length ? 'block' : 'none';
 }
 
@@ -288,7 +311,7 @@ function openProfile(name) {
   document.getElementById('pRank').innerText = "RANK: #" + (rank || "??");
   document.getElementById('pPoints').innerText = (DATA.Overall[name] || 0) + " PTS";
   let ts = "";
-  for(let k in DATA) { if(k!=="Players" && k!=="Overall") { for(let t in DATA[k]) if(DATA[k][t].includes(name)) ts += `<div style="margin-bottom:8px;"><img src="${KIT_MAP[k]}" style="width:14px;"> <span>${k}</span>: <span class="${t.startsWith('R')?'rank-retired':'rank-active'}">${formatTier(t)}</span></div>`; } }
+  for(let k in DATA) if(k!=="Players" && k!=="Overall") for(let t in DATA[k]) if(DATA[k][t].includes(name)) ts += `<div style="margin-bottom:8px;"><img src="${KIT_MAP[k]}" style="width:14px; vertical-align:middle; margin-right:6px;"> <span class="${getKitClass(k)}">${k}</span>: <span class="${t.startsWith('R')?'rank-retired':'rank-active'}">${formatTier(t)}</span></div>`;
   document.getElementById('pTiers').innerHTML = ts || "No rankings found.";
   document.getElementById('profileModal').style.display = 'flex';
 }

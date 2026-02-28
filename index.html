@@ -22,6 +22,19 @@
     .sweep-bg { position: fixed; inset: 0; z-index: -4; background: linear-gradient(110deg, transparent 40%, rgba(168, 85, 247, 0.1) 50%, transparent 60%); background-size: 250% 100%; animation: shineSweep 8s infinite linear; pointer-events: none; }
     @keyframes shineSweep { 0% { background-position: 250% 0; } 100% { background-position: -250% 0; } }
 
+    /* --- SPACE TRAVEL (FLOATERS) --- */
+    .space-container { position: fixed; inset: 0; z-index: -2; pointer-events: none; }
+    .floating-kit {
+        position: absolute;
+        width: 30px;
+        opacity: 0.3;
+        animation: spaceTravel var(--d) infinite linear;
+    }
+    @keyframes spaceTravel {
+        0% { transform: translate(0, 0) rotate(0); }
+        100% { transform: translate(var(--tx), var(--ty)) rotate(360deg); }
+    }
+
     /* --- TOP LEFT STATUS --- */
     .status-corner { position: absolute; top: 20px; left: 20px; z-index: 1000; font-family: 'MultiCraftFont'; font-size: 0.65rem; line-height: 1.8; text-align: left; }
     .status-corner b { color: var(--purple); }
@@ -75,6 +88,12 @@
     .rank-active { color: var(--gold); border-color: var(--gold); }
     .rank-retired { color: var(--grey); border-color: var(--grey); }
 
+    /* KIT COLORS */
+    .clr-emerald { color: var(--green) !important; }
+    .clr-dragonhide { color: var(--red) !important; }
+    .clr-wand { color: var(--blue) !important; }
+    .clr-diamond { color: var(--cyan) !important; }
+
     /* --- CARDS --- */
     .tier-card { background: #050508; border: 1px solid var(--border); border-radius: 10px; margin-bottom: 8px; cursor: pointer; transition: 0.3s; width: 100%; box-sizing: border-box; }
     .tier-card:hover { transform: scale(1.02); border-color: var(--purple); box-shadow: 0 0 20px var(--purple-glow); }
@@ -95,6 +114,7 @@
 <body>
 
 <div class="sweep-bg"></div>
+<div class="space-container" id="spaceLayer"></div>
 
 <div class="status-corner">
     <b>SERVER CODE:</b> <span>UNRELEASED</span><br>
@@ -123,8 +143,8 @@
 
 <nav>
   <div id="nav-rankings" class="nav-link active" onclick="switchTab('rankings')">RANKINGS</div>
-  <div id="nav-hof" class="nav-link" onclick="switchTab('hof')">HALL OF FAME</div>
   <div id="nav-testers" class="nav-link" onclick="switchTab('testers')">TIER TESTERS</div>
+  <div id="nav-hof" class="nav-link" onclick="switchTab('hof')">HALL OF FAME</div>
 </nav>
 
 <div id="main-content">
@@ -146,7 +166,42 @@
 <script>
 let DATA = {};
 const DEV_NAMES = { "MK": "Mouse & Keyboard", "MB": "Mobile", "CT": "Controller", "TP": "Trackpad" };
-const KIT_MAP = { "Overall": "backgroundsword.png", "Emerald": "emerald.png", "Dragonhide KB": "dragonhide_kb.png", "Emerald OA": "emerald.png", "Dragonhide KB OA": "kb_oa.png", "Wand": "wand.png", "Emerald KB": "emerald.png", "Diamond": "diamond.png" };
+const KIT_MAP = { 
+  "Overall": "backgroundsword.png", 
+  "Emerald": "emerald.png", 
+  "Dragonhide KB": "dragonhide_kb.png", 
+  "Emerald OA": "emerald.png", 
+  "Dragonhide KB OA": "kb_oa.png", 
+  "Wand": "wand.png", 
+  "Emerald KB": "emerald.png", 
+  "Diamond": "diamond.png" 
+};
+
+function getKitClass(k) {
+  if(k.includes("Emerald")) return "clr-emerald";
+  if(k.includes("Dragonhide")) return "clr-dragonhide";
+  if(k.includes("Wand")) return "clr-wand";
+  if(k.includes("Diamond")) return "clr-diamond";
+  return "";
+}
+
+function initSpace() {
+  const layer = document.getElementById('spaceLayer');
+  const kitImgs = Object.values(KIT_MAP);
+  
+  for (let i = 0; i < 30; i++) {
+    const img = document.createElement('img');
+    img.src = kitImgs[Math.floor(Math.random() * kitImgs.length)];
+    img.className = 'floating-kit';
+    img.style.left = Math.random() * 100 + "%";
+    img.style.top = Math.random() * 100 + "%";
+    // Set random travel directions for space drift
+    img.style.setProperty('--tx', (Math.random() * 200 - 100) + "vw");
+    img.style.setProperty('--ty', (Math.random() * 200 - 100) + "vh");
+    img.style.setProperty('--d', (20 + Math.random() * 25) + "s");
+    layer.appendChild(img);
+  }
+}
 
 function toggleInfo() {
     const gui = document.getElementById('infoGui');
@@ -159,7 +214,7 @@ function handleSearch() {
     if (!q) { res.style.display = 'none'; return; }
     const matches = Object.keys(DATA.Overall).filter(n => n.toLowerCase().includes(q)).slice(0, 5);
     if (matches.length > 0) {
-        res.innerHTML = matches.map(m => `<div class="search-item" onclick="openProfile('${m}'); clearSearch()"><b>${m}</b> <span style="font-size:0.6rem; color:var(--gold)">${DATA.Overall[m]} PTS</span></div>`).join('');
+        res.innerHTML = matches.map(m => `<div class="search-item" onclick="openProfile('${m}'); clearSearch()"><b>${m}</b> <span style="font-size:0.6rem; font-family:'MultiCraftFont'; color:var(--purple)">VIEW PROFILE</span></div>`).join('');
         res.style.display = 'block';
     } else { res.style.display = 'none'; }
 }
@@ -178,7 +233,7 @@ function getTags(name) {
 async function load() {
   const r = await fetch(`https://raw.githubusercontent.com/mtctiers/mtctiers.github.io/refs/heads/main/rankings.json?t=${Date.now()}`);
   DATA = await r.json();
-  processPoints(); buildKitBar(); render("Overall");
+  processPoints(); buildKitBar(); initSpace(); render("Overall");
 }
 
 function processPoints() {
@@ -197,12 +252,15 @@ function buildKitBar() {
   const bar = document.getElementById('kitBar'); bar.innerHTML = "";
   Object.keys(KIT_MAP).forEach(k => {
     const btn = document.createElement('button');
-    btn.className = `kit-btn ${k==='Overall'?'active':''}`;
+    const c = getKitClass(k);
+    btn.className = `kit-btn ${c} ${k==='Overall'?'active':''}`;
     btn.innerHTML = (k==="Overall") ? k : `<img src="${KIT_MAP[k]}" style="width:14px;"> ${k}`;
     btn.onclick = () => {
       document.querySelectorAll('.kit-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
-      document.getElementById('view-name').innerText = k.toUpperCase();
+      const title = document.getElementById('view-name');
+      title.innerText = k.toUpperCase();
+      title.className = c;
       render(k);
     };
     bar.appendChild(btn);
@@ -243,7 +301,8 @@ async function switchTab(tab) {
   const bar = document.getElementById('kitBar');
   const title = document.getElementById('view-name');
   bar.style.display = (tab === 'rankings') ? "flex" : "none";
-  title.innerText = tab.toUpperCase();
+  title.innerText = (tab === 'hof') ? "HALL OF FAME" : tab.toUpperCase();
+  title.className = "";
   out.innerHTML = "";
   if(tab === 'rankings') render("Overall");
   else {
@@ -269,7 +328,7 @@ function openProfile(name) {
     if(k==="Players"||k==="Overall") continue;
     for(let t in DATA[k]) if(DATA[k][t].includes(name)) {
         const isR = t.startsWith('R');
-        ts += `<div style="margin-bottom:8px;"><img src="${KIT_MAP[k]}" style="width:14px;"> ${k}: <span class="${isR?'rank-retired':'rank-active'}">${t}</span></div>`;
+        ts += `<div style="margin-bottom:8px;"><img src="${KIT_MAP[k]}" style="width:14px;"> <span class="${getKitClass(k)}">${k}</span>: <span class="${isR?'rank-retired':'rank-active'}">${t}</span></div>`;
     }
   }
   document.getElementById('pTiers').innerHTML = ts || "No rankings found.";

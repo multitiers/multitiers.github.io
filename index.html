@@ -38,11 +38,10 @@
 
     /* --- PLAYER NAMES --- */
     .player-name { 
-      display: block; /* FORCES NEW LINE FOR TAGS */
+      display: block; /* FORCES TAGS TO NEW LINE */
       font-size: 0.95rem; 
       color: #fff;
       text-shadow: 0 0 8px rgba(255,255,255,0.7); 
-      font-weight: bold;
     }
     .name-retired { color: var(--grey) !important; text-shadow: 0 0 8px rgba(136,136,136,0.5) !important; }
 
@@ -84,7 +83,7 @@
     .kit-btn img { width: 18px; height: 18px; object-fit: contain; }
 
     /* --- CARDS --- */
-    .tier-card { background: #050508; border: 1px solid var(--border); border-radius: 8px; margin-bottom: 6px; cursor: pointer; transition: 0.2s; width: 100%; }
+    .tier-card { background: #050508; border: 1px solid var(--border); border-radius: 8px; margin-bottom: 6px; cursor: pointer; transition: 0.2s; width: 100%; max-width: 700px; }
     .tier-card:hover { border-color: var(--purple); background: #0a0a0f; }
     .card-inner { padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; }
 
@@ -179,16 +178,16 @@ function render(kit) {
     entries.sort((a,b)=>b[1]-a[1]).forEach(([n,s], i) => {
       let isRet = false;
       for(let k in DATA) if(k!=="Players" && k!=="Overall") for(let t in DATA[k]) if(t.startsWith('R') && DATA[k][t].includes(n)) isRet = true;
-      out.innerHTML += `<div class="tier-card" style="max-width:600px;">
+      out.innerHTML += `<div class="tier-card">
         <div class="card-inner">
-          <div>
-             <span class="player-name ${isRet?'name-retired':''}">${n}</span>
-             ${getTags(n)}
+          <div style="display:flex; align-items:center;">
+             <b style="color:var(--purple); margin-right:15px; font-size:0.8rem; font-family:'MultiCraftFont';">#${i+1}</b>
+             <div>
+                <span class="player-name ${isRet?'name-retired':''}">${n}</span>
+                ${getTags(n)}
+             </div>
           </div>
-          <div style="text-align:right;">
-             <div style="color:var(--purple); font-size:0.6rem; font-family:'MultiCraftFont';">#${i+1}</div>
-             <b style="color:var(--gold); font-size:1.1rem;">${s} PTS</b>
-          </div>
+          <b style="color:var(--gold); font-size:1.1rem;">${s} PTS</b>
         </div>
       </div>`;
     });

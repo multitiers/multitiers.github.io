@@ -37,8 +37,14 @@
 
     body { background: var(--bg); color: #fff; font-family: 'Courier New', monospace; margin: 0; overflow-x: hidden; display: flex; flex-direction: column; align-items: center; }
 
-    /* --- BACKGROUND ANIMATIONS --- */
-    .sweep-bg { position: fixed; inset: 0; z-index: -4; background: linear-gradient(110deg, transparent 40%, rgba(168, 85, 247, 0.1) 50%, transparent 60%); background-size: 300% 100%; animation: shineSweep 8s infinite linear; pointer-events: none; }
+    /* --- STRONGER BACKGROUND ANIMATIONS --- */
+    .sweep-bg { 
+      position: fixed; inset: 0; z-index: -4; 
+      background: linear-gradient(110deg, transparent 30%, rgba(168, 85, 247, 0.3) 45%, rgba(168, 85, 247, 0.3) 55%, transparent 70%); 
+      background-size: 300% 100%; 
+      animation: shineSweep 4s infinite linear; 
+      pointer-events: none; 
+    }
     @keyframes shineSweep { 0% { background-position: 250% 0; } 100% { background-position: -250% 0; } }
 
     .blob { position: fixed; width: 500px; height: 500px; background: radial-gradient(circle, rgba(168, 85, 247, 0.15) 0%, transparent 70%); z-index: -3; pointer-events: none; }
@@ -51,9 +57,11 @@
 
     /* --- UI ELEMENTS --- */
     header { text-align: center; width: 100%; padding-top: 20px; }
-    .main-title { font-family: 'MultiCraftFont'; font-size: 2.5rem; letter-spacing: 4px; text-shadow: 0 0 15px var(--purple); margin: 10px 0; }
-    .title-sword { width: 50px; height: 50px; object-fit: contain; animation: swordPulse 3s infinite ease-in-out; }
-    @keyframes swordPulse { 0%, 100% { transform: scale(1); filter: drop-shadow(0 0 10px var(--purple)); } 50% { transform: scale(1.1); filter: drop-shadow(0 0 20px var(--purple)); } }
+    .main-title { font-family: 'MultiCraftFont'; font-size: 2.5rem; letter-spacing: 4px; text-shadow: 0 0 15px var(--purple); margin: 10px 0; animation: titlePulse 1.2s infinite ease-in-out; }
+    @keyframes titlePulse { 0%, 100% { transform: scale(1); filter: brightness(1); } 50% { transform: scale(1.05); filter: brightness(1.4); } }
+    
+    .title-sword { width: 50px; height: 50px; object-fit: contain; animation: swordPulse 2s infinite ease-in-out; }
+    @keyframes swordPulse { 0%, 100% { transform: scale(1); filter: drop-shadow(0 0 10px var(--purple)); } 50% { transform: scale(1.2); filter: drop-shadow(0 0 20px var(--cyan)); } }
 
     /* --- SEARCH --- */
     .search-wrap { position: relative; width: 300px; margin: 15px auto; z-index: 1100; }
@@ -62,8 +70,6 @@
     #searchResults { position: absolute; top: 110%; left: 0; right: 0; background: #000; border: 1px solid var(--purple); border-radius: 10px; display: none; overflow: hidden; }
     .search-item { padding: 10px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #111; font-size: 0.75rem; }
     .search-item:hover { background: #0a0a0f; }
-    .view-pulse { color: var(--purple); font-size: 0.55rem; font-family: 'MultiCraftFont'; animation: textPulse 1.5s infinite; }
-    @keyframes textPulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(0.95); } }
 
     /* --- NAV --- */
     nav { display: flex; justify-content: center; gap: 30px; padding: 12px; background: rgba(0,0,0,0.9); border-bottom: 2px solid var(--border); width: 100%; position: sticky; top: 0; z-index: 500; backdrop-filter: blur(10px); }
@@ -76,60 +82,35 @@
     .clr-wand { color: var(--blue) !important; text-shadow: 0 0 8px var(--blue); }
     .clr-diamond { color: var(--cyan) !important; text-shadow: 0 0 8px var(--cyan); }
 
-    .player-name { display: block; font-size: 0.95rem; color: #fff; text-shadow: 0 0 10px rgba(255,255,255,0.8); }
-    .name-retired { color: var(--grey) !important; text-shadow: 0 0 8px rgba(136,136,136,0.6) !important; }
+    .player-name { display: block; font-size: 0.95rem; color: #fff; text-shadow: 0 0 10px rgba(255,255,255,0.8); transition: 0.2s; }
+    .name-retired { color: var(--grey); text-shadow: 0 0 5px rgba(136,136,136,0.4); }
 
-    /* --- TAGS --- */
+    /* --- TAGS & REGIONS --- */
     .tag-row { display: flex; align-items: center; gap: 5px; margin-top: 4px; }
-    .tag { font-family: 'MultiCraftFont'; font-size: 0.5rem; padding: 1px 5px; border-radius: 3px; border: 1px solid #444; display: inline-flex; align-items: center; height: 16px; }
-    .tag-device { max-width: 30px; justify-content: center; cursor: pointer; transition: max-width 0.3s ease-in-out; overflow: hidden; white-space: nowrap; }
-    .tag-device:hover { max-width: 150px; border-color: var(--purple); }
-    .tag-device .full-text { display: none; margin-left: 3px; }
-    .tag-device:hover .short-text { display: none; }
-    .tag-device:hover .full-text { display: inline; }
+    .tag { font-family: 'MultiCraftFont'; font-size: 0.5rem; padding: 1px 5px; border-radius: 3px; border: 1px solid #444; display: inline-flex; align-items: center; height: 16px; text-transform: uppercase; }
+    
+    .reg-na { color: var(--reg-na); border-color: var(--reg-na); text-shadow: 0 0 8px var(--reg-na); }
+    .reg-eu { color: var(--reg-eu); border-color: var(--reg-eu); text-shadow: 0 0 8px var(--reg-eu); }
+    .reg-as { color: var(--reg-as); border-color: var(--reg-as); text-shadow: 0 0 8px var(--reg-as); }
+    .reg-sa { color: var(--reg-sa); border-color: var(--reg-sa); text-shadow: 0 0 10px var(--reg-sa); }
+    .reg-oc { color: var(--reg-oc); border-color: var(--reg-oc); text-shadow: 0 0 10px var(--reg-oc); }
+    .dev-mk { color: var(--dev-mk); border-color: var(--dev-mk); text-shadow: 0 0 5px var(--dev-mk); }
+    .dev-mb { color: var(--dev-mb); border-color: var(--dev-mb); text-shadow: 0 0 5px var(--dev-mb); }
+    .dev-ct { color: var(--dev-ct); border-color: var(--dev-ct); }
+    .dev-tp { color: var(--dev-tp); border-color: var(--dev-tp); text-shadow: 0 0 5px var(--dev-tp); }
 
-    /* --- CARDS --- */
+    /* --- CARDS & HOVER --- */
     .tier-card { 
-      background: #050508; 
-      border: 1px solid var(--border); 
-      border-radius: 8px; 
-      margin-bottom: 6px; 
-      cursor: pointer; 
-      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); 
-      width: 100%; 
-      max-width: 700px; 
-      position: relative;
-      overflow: hidden;
+      background: #050508; border: 1px solid var(--border); border-radius: 8px; margin-bottom: 6px; 
+      cursor: pointer; transition: all 0.3s ease; width: 100%; max-width: 700px; position: relative; overflow: hidden;
     }
-
-    /* The "Big" Hover Effect */
-    .tier-card:hover { 
-      border-color: var(--cyan); 
-      box-shadow: 0 0 30px var(--purple-glow); 
-      transform: scale(1.02) translateY(-2px);
-      background: rgba(168, 85, 247, 0.05);
+    .tier-card:hover, .tier-card:active { 
+      border-color: var(--cyan); box-shadow: 0 0 25px var(--purple-glow); transform: scale(1.02) translateY(-2px); background: rgba(168, 85, 247, 0.05);
     }
-
-    /* Fixes the "broken" name color on hover */
-    .tier-card:hover .player-name { 
-      color: var(--cyan) !important; 
-      text-shadow: 0 0 15px var(--cyan);
+    .tier-card:hover .player-name, .tier-card:active .player-name { 
+      color: var(--cyan) !important; text-shadow: 0 0 15px var(--cyan); 
     }
-
-    /* Makes tags "pop" when the card is hovered */
-    .tier-card:hover .tag {
-      filter: brightness(1.3);
-      box-shadow: 0 0 10px currentColor;
-    }
-
-    .card-inner { 
-      padding: 10px 15px; 
-      display: flex; 
-      justify-content: space-between; 
-      align-items: center; 
-      position: relative;
-      z-index: 2;
-    }
+    .card-inner { padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; }
 
     #kitBar { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; margin: 20px 0; }
     .kit-btn { background: #000; border: 1px solid var(--border); padding: 6px 12px; border-radius: 6px; color: #666; cursor: pointer; font-family: 'MultiCraftFont'; font-size: 0.65rem; display: flex; align-items: center; gap: 6px; }
@@ -139,19 +120,7 @@
     /* --- MODAL --- */
     .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 2000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
     .modal-content { background: #000; border: 2px solid var(--purple); border-radius: 12px; padding: 30px; width: 350px; text-align: center; box-shadow: 0 0 30px var(--purple-glow); }
-    
     #displayList { width: 90%; max-width: 1000px; display: flex; flex-direction: column; align-items: center; padding-bottom: 40px; }
-
-    /* TAG GLOWS */
-    .reg-na { color: var(--reg-na); border-color: var(--reg-na); text-shadow: 0 0 8px var(--reg-na); }
-    .reg-eu { color: var(--reg-eu); border-color: var(--reg-eu); text-shadow: 0 0 8px var(--reg-eu); }
-    .reg-as { color: var(--reg-as); border-color: var(--reg-as); text-shadow: 0 0 8px var(--reg-as); }
-    .reg-sa { color: var(--reg-sa); border-color: var(--reg-sa); text-shadow: 0 0 12px var(--reg-sa); }
-    .reg-oc { color: var(--reg-oc); border-color: var(--reg-oc); text-shadow: 0 0 12px var(--reg-oc); }
-    .dev-mk { color: var(--dev-mk); border-color: var(--dev-mk); }
-    .dev-mb { color: var(--dev-mb); border-color: var(--dev-mb); text-shadow: 0 0 8px var(--dev-mb); }
-    .dev-ct { color: var(--dev-ct); border-color: var(--dev-ct); }
-    .dev-tp { color: var(--dev-tp); border-color: var(--dev-tp); text-shadow: 0 0 8px var(--dev-tp); }
   </style>
 </head>
 <body>
@@ -192,7 +161,6 @@
 
 <script>
 let DATA = {};
-const DEV_NAMES = { "MK": "Mouse & Keyboard", "MB": "Mobile", "CT": "Controller", "TP": "Trackpad" };
 const KIT_MAP = { 
   "Overall": "backgroundsword.png", "Emerald": "emerald.png", "Dragonhide KB": "dragonhide_kb.png", 
   "Emerald OA": "emerald.png", "Dragonhide KB OA": "kb_oa.png", "Wand": "wand.png", 
@@ -207,14 +175,18 @@ function getKitClass(k) {
   return "";
 }
 
-function formatTier(t) { return t.startsWith('R') ? "Retired " + t.substring(1) : t; }
+// Logic for "Retired HT2"
+function formatTier(t) { 
+  if(!t) return "";
+  return t.startsWith('R') ? "Retired " + t.substring(1) : t; 
+}
 
 function getTags(name, tier = null) {
   const p = DATA.Players?.find(x => x.name === name) || {region:"NA", device:"MK"};
-  let tierTag = tier ? `<span class="tag" style="color:var(--gold); border-color:var(--gold);">${tier}</span>` : '';
+  let tierTag = tier ? `<span class="tag" style="color:var(--gold); border-color:var(--gold);">${formatTier(tier)}</span>` : '';
   
   return `
-    <div style="display:flex; gap:5px; margin-top:4px;">
+    <div class="tag-row">
       ${tierTag}
       <span class="tag reg-${p.region.toLowerCase()}">${p.region}</span>
       <span class="tag dev-${p.device.toLowerCase()}">${p.device}</span>
@@ -265,14 +237,36 @@ function render(kit) {
     entries.forEach(([n,s], i) => {
       let isRet = false;
       for(let k in DATA) if(k!=="Players" && k!=="Overall") for(let t in DATA[k]) if(t.startsWith('R') && DATA[k][t].includes(n)) isRet = true;
-      out.innerHTML += `<div class="tier-card" onclick="openProfile('${n}')"><div class="card-inner"><div style="display:flex; align-items:center;"><b style="color:var(--purple); margin-right:15px; font-size:0.8rem; font-family:'MultiCraftFont';">#${i+1}</b><div><span class="player-name ${isRet?'name-retired':''}">${n}</span>${getTags(n)}</div></div><b style="color:var(--gold); font-size:1.1rem;">${s} PTS</b></div></div>`;
+      out.innerHTML += `
+        <div class="tier-card" onclick="openProfile('${n}')" ontouchstart="">
+          <div class="card-inner">
+            <div style="display:flex; align-items:center;">
+              <b style="color:var(--purple); margin-right:15px; font-size:0.8rem; font-family:'MultiCraftFont';">#${i+1}</b>
+              <div>
+                <span class="player-name ${isRet?'name-retired':''}">${n}</span>
+                ${getTags(n)}
+              </div>
+            </div>
+            <b style="color:var(--gold); font-size:1.1rem;">${s} PTS</b>
+          </div>
+        </div>`;
     });
   } else {
     const grid = document.createElement('div'); grid.style.display="flex"; grid.style.gap="15px"; grid.style.justifyContent="center"; grid.style.width="100%"; grid.style.flexWrap="wrap";
     ["T1","T2","T3","T4","T5"].forEach(lvl => {
       let entries = "";
       for(let t in DATA[kit]) if(t.includes(lvl)) {
-        DATA[kit][t].forEach(n => { entries += `<div class="tier-card" style="width:260px;" onclick="openProfile('${n}')"><div class="card-inner"><div><span class="player-name ${t.startsWith('R')?'name-retired':''}">${n}</span>${getTags(n, t)}</div></div></div>`; });
+        DATA[kit][t].forEach(n => { 
+          entries += `
+            <div class="tier-card" style="width:260px;" onclick="openProfile('${n}')" ontouchstart="">
+              <div class="card-inner">
+                <div>
+                  <span class="player-name ${t.startsWith('R')?'name-retired':''}">${n}</span>
+                  ${getTags(n, t)}
+                </div>
+              </div>
+            </div>`; 
+        });
       }
       if(entries) grid.innerHTML += `<div style="min-width:260px;"><div style="text-align:center; color:var(--purple); font-family:'MultiCraftFont'; font-size:0.8rem; margin-bottom:10px; text-shadow:0 0 5px var(--purple);">${lvl}</div>${entries}</div>`;
     });
@@ -285,7 +279,7 @@ function handleSearch() {
   const res = document.getElementById('searchResults');
   if(!q) { res.style.display = 'none'; return; }
   const matches = Object.keys(DATA.Overall).filter(n => n.toLowerCase().includes(q)).slice(0, 5);
-  res.innerHTML = matches.map(m => `<div class="search-item" onclick="openProfile('${m}'); document.getElementById('searchResults').style.display='none'; document.getElementById('playerSearch').value=''"><b>${m}</b><span class="view-pulse">VIEW PROFILE</span></div>`).join('');
+  res.innerHTML = matches.map(m => `<div class="search-item" onclick="openProfile('${m}'); document.getElementById('searchResults').style.display='none'; document.getElementById('playerSearch').value=''"><b>${m}</b></div>`).join('');
   res.style.display = matches.length ? 'block' : 'none';
 }
 
@@ -294,7 +288,7 @@ function openProfile(name) {
   document.getElementById('pMeta').innerHTML = getTags(name);
   document.getElementById('pPoints').innerText = (DATA.Overall[name] || 0) + " PTS";
   let ts = "";
-  for(let k in DATA) if(k!=="Players" && k!=="Overall") for(let t in DATA[k]) if(DATA[k][t].includes(name)) ts += `<div style="margin-bottom:8px;"><img src="${KIT_MAP[k]}" style="width:14px; vertical-align:middle; margin-right:6px;"> <span class="${getKitClass(k)}">${k}</span>: <span class="${t.startsWith('R')?'rank-retired':'rank-active'}">${formatTier(t)}</span></div>`;
+  for(let k in DATA) if(k!=="Players" && k!=="Overall") for(let t in DATA[k]) if(DATA[k][t].includes(name)) ts += `<div style="margin-bottom:8px;"><img src="${KIT_MAP[k]}" style="width:14px; vertical-align:middle; margin-right:6px;"> <span class="${getKitClass(k)}">${k}</span>: <span>${formatTier(t)}</span></div>`;
   document.getElementById('pTiers').innerHTML = ts || "No rankings found.";
   document.getElementById('profileModal').style.display = 'flex';
 }
@@ -305,25 +299,20 @@ async function switchTab(tab) {
   const out = document.getElementById('displayList');
   const kitBar = document.getElementById('kitBar');
   const viewName = document.getElementById('view-name');
-  
   if(tab === 'rankings') {
-    kitBar.style.display = "flex";
-    viewName.innerText = "OVERALL";
-    viewName.className = "";
-    render("Overall");
+    kitBar.style.display = "flex"; viewName.innerText = "OVERALL"; render("Overall");
   } else {
     kitBar.style.display = "none";
     viewName.innerText = tab === 'hof' ? "HALL OF FAME" : "TIER TESTERS";
-    viewName.className = "";
     out.innerHTML = "<div style='font-family:MultiCraftFont; color:#333; margin-top:50px;'>LOADING...</div>";
     try {
       const r = await fetch(`https://raw.githubusercontent.com/mtctiers/mtctiers.github.io/refs/heads/main/${tab}.json?t=${Date.now()}`);
       const list = await r.json();
       out.innerHTML = "";
       list.forEach(item => {
-        out.innerHTML += `<div class="tier-card" style="max-width:500px;"><div class="card-inner"><div><b class="player-name">${item.name}</b><span style="color:var(--purple); font-size:0.6rem;">${item.discord?'@'+item.discord:''}</span></div></div><div style="padding:0 15px 10px; font-size:0.7rem; color:#777;">${item.description||''}</div></div>`;
+        out.innerHTML += `<div class="tier-card" style="max-width:500px;" ontouchstart=""><div class="card-inner"><div><b class="player-name">${item.name}</b><span style="color:var(--purple); font-size:0.6rem;">${item.discord?'@'+item.discord:''}</span></div></div><div style="padding:0 15px 10px; font-size:0.7rem; color:#777;">${item.description||''}</div></div>`;
       });
-    } catch(e) { out.innerHTML = "<div class='empty-msg'>DATA NOT FOUND</div>"; }
+    } catch(e) { out.innerHTML = "DATA NOT FOUND"; }
   }
 }
 

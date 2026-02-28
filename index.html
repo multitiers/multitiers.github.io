@@ -35,9 +35,9 @@
     .main-title { font-family: 'MultiCraftFont'; font-size: 2.8rem; text-shadow: 0 0 15px var(--purple); margin: 0; }
 
     /* --- CENTERED SEARCH --- */
-    .search-section { width: 100%; display: flex; justify-content: center; padding: 15px 0; }
+    .search-section { width: 100%; display: flex; justify-content: center; padding: 15px 0; box-sizing: border-box; }
     .search-box { position: relative; width: 320px; }
-    #playerSearch { width: 100%; background: #08080a; border: 1px solid var(--border); border-radius: 8px; padding: 12px; color: #fff; font-family: 'MultiCraftFont'; font-size: 0.7rem; text-align: center; outline: none; transition: 0.3s; }
+    #playerSearch { width: 100%; background: #08080a; border: 1px solid var(--border); border-radius: 8px; padding: 12px; color: #fff; font-family: 'MultiCraftFont'; font-size: 0.7rem; text-align: center; outline: none; transition: 0.3s; box-sizing: border-box; }
     #playerSearch:focus { border-color: var(--purple); box-shadow: 0 0 15px var(--purple-glow); }
     #searchResults { position: absolute; top: 110%; left: 0; right: 0; background: #000; border: 2px solid var(--purple); border-radius: 8px; display: none; overflow: hidden; z-index: 1200; box-shadow: 0 0 30px rgba(168, 85, 247, 0.4); }
     .search-item { padding: 12px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #111; font-size: 0.8rem; }
@@ -48,7 +48,7 @@
 
     /* --- TAGS & DEVICE HOVER --- */
     .tag { font-family: 'MultiCraftFont'; font-size: 0.5rem; padding: 1px 6px; border-radius: 3px; border: 1px solid #444; display: inline-flex; align-items: center; height: 16px; transition: 0.2s; white-space: nowrap; }
-    .tag-device { max-width: 40px; overflow: hidden; cursor: pointer; }
+    .tag-device { max-width: 40px; overflow: hidden; cursor: pointer; margin-left: 8px; } /* Space between tags added */
     .tag-device:hover { max-width: 250px; border-color: var(--purple); background: rgba(168, 85, 247, 0.1); }
     .tag-device .full-text { display: none; }
     .tag-device:hover .short-text { display: none; }
@@ -70,13 +70,21 @@
     .nav-link { color: #555; font-family: 'MultiCraftFont'; font-size: 0.75rem; cursor: pointer; transition: 0.3s; }
     .nav-link.active { color: #fff; text-shadow: 0 0 10px var(--purple); }
 
-    .tier-card { background: #050508; border: 1px solid var(--border); border-radius: 8px; margin-bottom: 6px; cursor: pointer; transition: 0.2s; width: 100%; max-width: 700px; }
+    .tier-card { background: #050508; border: 1px solid var(--border); border-radius: 8px; margin-bottom: 8px; cursor: pointer; transition: 0.2s; width: 100%; max-width: 700px; min-height: 60px; display: flex; align-items: center; }
     .tier-card:hover { border-color: var(--purple); box-shadow: 0 0 15px var(--purple-glow); }
+    .card-inner { padding: 12px 20px; width: 100%; display: flex; justify-content: space-between; align-items: center; }
     .player-name { font-size: 0.95rem; text-shadow: 0 0 10px rgba(255,255,255,0.8); }
     .name-retired { color: var(--grey) !important; text-shadow: none !important; }
 
-    .kit-btn { background: #000; border: 1px solid var(--border); padding: 6px 14px; border-radius: 8px; color: #666; cursor: pointer; font-family: 'MultiCraftFont'; font-size: 0.65rem; display: flex; align-items: center; gap: 6px; }
+    /* Kit Button Colors Fix */
+    .kit-btn { background: #000; border: 1px solid var(--border); padding: 6px 14px; border-radius: 8px; color: #666; cursor: pointer; font-family: 'MultiCraftFont'; font-size: 0.65rem; display: flex; align-items: center; gap: 6px; transition: 0.3s; }
+    .kit-btn:hover { border-color: var(--purple); color: #fff; }
     .kit-btn.active { border-color: var(--purple); background: rgba(168, 85, 247, 0.1); color: #fff; }
+    
+    .btn-emerald.active { color: var(--green) !important; border-color: var(--green) !important; }
+    .btn-dragonhide.active { color: var(--red) !important; border-color: var(--red) !important; }
+    .btn-wand.active { color: var(--blue) !important; border-color: var(--blue) !important; }
+    .btn-diamond.active { color: var(--cyan) !important; border-color: var(--cyan) !important; }
 
     .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 2000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
     .modal-content { background: #000; border: 2px solid var(--purple); border-radius: 15px; padding: 30px; width: 360px; text-align: center; box-shadow: 0 0 40px var(--purple-glow); }
@@ -123,13 +131,23 @@
 <script>
 let DATA = {};
 const DEV_NAMES = { "MK": "Mouse & Keyboard", "MB": "Mobile", "CT": "Controller", "TP": "Trackpad" };
-const KIT_MAP = { "Overall": "backgroundsword.png", "Emerald": "emerald.png", "Dragonhide KB": "dragonhide_kb.png", "Emerald OA": "emerald.png", "Dragonhide KB OA": "kb_oa.png", "Wand": "wand.png", "Emerald KB": "emerald.png", "Diamond": "diamond.png" };
+const KIT_MAP = { 
+    "Overall": "backgroundsword.png", 
+    "Emerald": "emerald.png", 
+    "Dragonhide KB": "dragonhide_kb.png", 
+    "Emerald OA": "emerald.png", 
+    "Dragonhide KB OA": "kb_oa.png", 
+    "Wand": "wand.png", 
+    "Emerald KB": "emerald.png", 
+    "Diamond": "diamond.png",
+    "Servers": "backgroundsword.png" // Added Servers Icon mapping
+};
 
 function getTags(name, tier = null) {
   const p = DATA.Players?.find(x => x.name === name) || {region:"NA", device:"MK"};
   let tierTag = tier ? `<span class="tag ${tier.startsWith('R')?'rank-retired':'rank-active'}">${tier.startsWith('R')?'Retired '+tier.slice(1):tier}</span>` : '';
   const fullDev = DEV_NAMES[p.device] || p.device;
-  return `<div class="tag-row">${tierTag}<span class="tag reg-${p.region.toLowerCase()}">${p.region}</span><span class="tag tag-device dev-${p.device.toLowerCase()}"><span class="short-text">${p.device}</span><span class="full-text">${fullDev}</span></span></div>`;
+  return `<div class="tag-row" style="display:flex; align-items:center; margin-top:5px;">${tierTag}<span class="tag reg-${p.region.toLowerCase()}">${p.region}</span><span class="tag tag-device dev-${p.device.toLowerCase()}"><span class="short-text">${p.device}</span><span class="full-text">${fullDev}</span></span></div>`;
 }
 
 async function load() {
@@ -151,16 +169,35 @@ function buildKitBar() {
   const bar = document.getElementById('kitBar'); bar.innerHTML = "";
   Object.keys(KIT_MAP).forEach(k => {
     const btn = document.createElement('button');
-    btn.className = `kit-btn ${k==='Overall'?'active':''}`;
+    let colorClass = "";
+    if(k.includes("Emerald")) colorClass = "btn-emerald";
+    if(k.includes("Dragonhide")) colorClass = "btn-dragonhide";
+    if(k.includes("Wand")) colorClass = "btn-wand";
+    if(k.includes("Diamond")) colorClass = "btn-diamond";
+    
+    btn.className = `kit-btn ${colorClass} ${k==='Overall'?'active':''}`;
     btn.innerHTML = (k==="Overall") ? k : `<img src="${KIT_MAP[k]}" style="width:18px;"> ${k}`;
     btn.onclick = () => {
       document.querySelectorAll('.kit-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       document.getElementById('view-name').innerText = k.toUpperCase();
-      render(k);
+      if(k === "Servers") renderServers();
+      else render(k);
     };
     bar.appendChild(btn);
   });
+}
+
+async function renderServers() {
+    const out = document.getElementById('displayList'); out.innerHTML = "Loading Servers...";
+    try {
+        const r = await fetch(`servers.json?t=${Date.now()}`);
+        const servers = await r.json();
+        out.innerHTML = "";
+        servers.forEach(s => {
+            out.innerHTML += `<div class="tier-card" style="max-width:550px;"><div class="card-inner"><div><b class="player-name">${s.name}</b><div style="color:#888; font-size:0.75rem; margin-top:5px;">${s.ip || ''}</div></div></div><div style="padding:0 18px 15px; font-size:0.75rem; color:#888;">${s.description || ''}</div></div>`;
+        });
+    } catch(e) { out.innerHTML = "Error loading servers.json"; }
 }
 
 function render(kit) {

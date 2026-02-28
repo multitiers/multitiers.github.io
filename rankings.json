@@ -1,5 +1,5 @@
 {
-  "Players": [
+  "Players": {
     { "name": "ImTheGOAT", "region": "NA", "device": "REFRIDGERATOR" },
     { "name": "Game1K", "region": "NA", "device": "MK" },
     { "name": "sample", "region": "???", "device": "TP" },

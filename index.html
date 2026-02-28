@@ -9,31 +9,28 @@
   <style>
     @font-face { font-family: 'MultiCraftFont'; src: url('MultiCraftFont.ttf') format('truetype'); }
     :root {
-      --bg: #010102; --purple: #a855f7; --purple-glow: rgba(168, 85, 247, 0.9);
+      --bg: #010102; --purple: #a855f7; --purple-glow: rgba(168, 85, 247, 1);
       --border: rgba(168, 85, 247, 0.6); --gold: #ffd700; --green: #2ecc71; 
       --red: #ff4d4d; --blue: #3498db; --cyan: #00ffff; --yellow: #f1c40f;
-      /* Stronger Region Colors */
-      --reg-na: #ff4d4d; --reg-eu: #3498db; --reg-as: #f1c40f; 
-      --reg-sa: #00ff88; --reg-oc: #ff00ff;
-      /* Device Colors */
+      /* Neon Assignments */
+      --reg-sa: #00ff88; --reg-oc: #ff00ff; --reg-na: #ff4d4d; --reg-eu: #3498db;
       --dev-mk: #00ffff; --dev-mb: #ff7f50; --dev-ct: #2ecc71; --dev-tp: #ff00aa;
       --grey: #888;
     }
 
     body { background: var(--bg); color: #fff; font-family: 'Courier New', monospace; margin: 0; overflow-x: hidden; display: flex; flex-direction: column; align-items: center; }
 
-    /* --- STRONGER BACKGROUND ANIMATIONS --- */
-    .sweep-bg { position: fixed; inset: 0; z-index: -4; background: linear-gradient(110deg, transparent 35%, rgba(168, 85, 247, 0.3) 50%, transparent 65%); background-size: 200% 100%; animation: shineSweep 4s infinite linear; pointer-events: none; }
+    /* --- STRONGER ANIMATIONS --- */
+    .sweep-bg { position: fixed; inset: 0; z-index: -4; background: linear-gradient(110deg, transparent 30%, rgba(168, 85, 247, 0.3) 50%, transparent 70%); background-size: 200% 100%; animation: shineSweep 4s infinite linear; pointer-events: none; }
     @keyframes shineSweep { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
 
     .blob { position: fixed; width: 500px; height: 500px; background: radial-gradient(circle, rgba(168, 85, 247, 0.2) 0%, transparent 70%); z-index: -3; pointer-events: none; }
     .top-left-blob { top: -200px; left: -200px; }
     .bottom-right-blob { bottom: -200px; right: -200px; }
 
-    /* --- STRONGER PULSE --- */
     header { text-align: center; width: 100%; padding-top: 20px; }
     .main-title { font-family: 'MultiCraftFont'; font-size: 2.5rem; letter-spacing: 4px; text-shadow: 0 0 20px var(--purple); margin: 10px 0; animation: titlePulse 1.5s infinite ease-in-out; }
-    @keyframes titlePulse { 0%, 100% { transform: scale(1); filter: brightness(1); } 50% { transform: scale(1.05); filter: brightness(1.3); } }
+    @keyframes titlePulse { 0%, 100% { transform: scale(1); filter: brightness(1); } 50% { transform: scale(1.05); filter: brightness(1.4); } }
 
     .title-sword { width: 50px; height: 50px; object-fit: contain; animation: swordPulse 1.5s infinite ease-in-out; }
     @keyframes swordPulse { 0%, 100% { transform: scale(1); filter: drop-shadow(0 0 10px var(--purple)); } 50% { transform: scale(1.2); filter: drop-shadow(0 0 25px var(--cyan)); } }
@@ -42,45 +39,48 @@
     .search-wrap { position: relative; width: 300px; margin: 15px auto; z-index: 1100; }
     #playerSearch { width: 100%; background: #08080a; border: 2px solid var(--border); border-radius: 20px; padding: 10px; color: #fff; font-family: 'MultiCraftFont'; font-size: 0.65rem; text-align: center; outline: none; }
     #playerSearch:focus { border-color: var(--cyan); box-shadow: 0 0 15px var(--purple-glow); }
+    #searchResults { position: absolute; top: 110%; left: 0; right: 0; background: #000; border: 1px solid var(--purple); border-radius: 10px; display: none; overflow: hidden; z-index: 2001; }
 
     /* --- NAV --- */
     nav { display: flex; justify-content: center; gap: 30px; padding: 12px; background: rgba(0,0,0,0.9); border-bottom: 2px solid var(--border); width: 100%; position: sticky; top: 0; z-index: 500; backdrop-filter: blur(10px); }
     .nav-link { color: #555; font-family: 'MultiCraftFont'; font-size: 0.75rem; cursor: pointer; transition: 0.3s; }
     .nav-link.active { color: #fff; text-shadow: 0 0 10px var(--purple); }
 
-    /* --- CARDS REORG --- */
+    /* --- CARDS --- */
     .tier-card { background: #050508; border: 1px solid var(--border); border-radius: 10px; margin-bottom: 8px; cursor: pointer; transition: 0.3s; width: 100%; max-width: 700px; position: relative; }
     .tier-card:hover { border-color: var(--cyan); transform: scale(1.01); box-shadow: 0 0 20px var(--purple-glow); }
-    .card-inner { padding: 12px 15px; display: flex; flex-direction: column; }
+    .card-inner { padding: 12px 15px; display: flex; flex-direction: column; min-height: 80px; justify-content: center; }
 
-    .top-info { display: flex; justify-content: space-between; align-items: flex-start; width: 100%; }
-    .stats-left { display: flex; flex-direction: column; gap: 2px; }
-    .pts-text { color: var(--gold); font-size: 0.7rem; font-family: 'MultiCraftFont'; text-shadow: 0 0 5px rgba(255, 215, 0, 0.5); }
-    .discord-text { color: var(--purple); font-size: 0.55rem; font-family: 'MultiCraftFont'; opacity: 0.8; }
-
-    .info-btn { width: 18px; height: 18px; border: 1px solid var(--purple); border-radius: 50%; color: var(--purple); display: flex; align-items: center; justify-content: center; font-size: 0.6rem; font-weight: bold; cursor: pointer; background: rgba(0,0,0,0.5); }
+    /* Top Corner Info */
+    .corner-stats { position: absolute; top: 8px; left: 10px; display: flex; flex-direction: column; gap: 2px; }
+    .top-pts { color: var(--gold); font-family: 'MultiCraftFont'; font-size: 0.6rem; text-shadow: 0 0 5px var(--gold); }
+    .top-dc { color: var(--purple); font-family: 'MultiCraftFont'; font-size: 0.45rem; opacity: 0.8; }
+    
+    .info-btn { position: absolute; top: 8px; right: 10px; width: 18px; height: 18px; border: 1px solid var(--purple); border-radius: 50%; color: var(--purple); display: flex; align-items: center; justify-content: center; font-size: 0.6rem; font-weight: bold; cursor: pointer; background: rgba(0,0,0,0.5); }
     .info-btn:hover { background: var(--purple); color: #000; }
 
-    .player-center { text-align: center; margin-top: -10px; }
-    .player-name { font-size: 1.1rem; color: #fff; text-shadow: 0 0 10px rgba(255,255,255,0.8); font-weight: bold; }
-
     /* --- TAGS & REGIONS --- */
-    .tag-row { display: flex; justify-content: center; gap: 6px; margin-top: 6px; }
+    .tag-row { display: flex; justify-content: center; gap: 6px; margin-top: 8px; }
     .tag { font-family: 'MultiCraftFont'; font-size: 0.45rem; padding: 2px 6px; border-radius: 4px; border: 1px solid #444; text-transform: uppercase; }
     
-    .reg-na { color: var(--reg-na); border-color: var(--reg-na); text-shadow: 0 0 5px var(--reg-na); }
-    .reg-eu { color: var(--reg-eu); border-color: var(--reg-eu); text-shadow: 0 0 5px var(--reg-eu); }
-    .reg-as { color: var(--reg-as); border-color: var(--reg-as); text-shadow: 0 0 5px var(--reg-as); }
+    .reg-na { color: var(--reg-na); border-color: var(--reg-na); }
+    .reg-eu { color: var(--reg-eu); border-color: var(--reg-eu); }
     .reg-sa { color: var(--reg-sa); border-color: var(--reg-sa); text-shadow: 0 0 8px var(--reg-sa); }
     .reg-oc { color: var(--reg-oc); border-color: var(--reg-oc); text-shadow: 0 0 8px var(--reg-oc); }
     
     .dev-mk { color: var(--dev-mk); border-color: var(--dev-mk); }
-    .dev-mb { color: var(--dev-mb); border-color: var(--dev-mb); }
+    .dev-mb { color: var(--dev-mb); border-color: var(--dev-mb); text-shadow: 0 0 5px var(--dev-mb); }
     .dev-ct { color: var(--dev-ct); border-color: var(--dev-ct); }
-    .dev-tp { color: var(--dev-tp); border-color: var(--dev-tp); }
+    .dev-tp { color: var(--dev-tp); border-color: var(--dev-tp); text-shadow: 0 0 5px var(--dev-tp); }
 
-    #displayList { width: 90%; max-width: 1000px; display: flex; flex-direction: column; align-items: center; padding-bottom: 40px; }
-    .grid-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; width: 100%; }
+    .player-name { text-align: center; font-size: 1.1rem; color: #fff; text-shadow: 0 0 10px rgba(255,255,255,0.8); font-weight: bold; }
+    .name-retired { color: var(--grey) !important; text-shadow: 0 0 5px var(--grey) !important; }
+
+    #displayList { width: 90%; max-width: 1000px; display: flex; flex-direction: column; align-items: center; padding-bottom: 40px; margin-top: 20px;}
+    
+    /* Modal Styling */
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 2000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(10px); }
+    .modal-content { background: #000; border: 2px solid var(--purple); border-radius: 12px; padding: 30px; width: 320px; text-align: center; box-shadow: 0 0 30px var(--purple-glow); }
   </style>
 </head>
 <body>
@@ -96,7 +96,7 @@
 
 <div class="search-wrap">
   <input type="text" id="playerSearch" placeholder="SEARCH PLAYER..." oninput="handleSearch()">
-  <div id="searchResults" style="position: absolute; width: 100%; background: #000; border: 1px solid var(--purple); border-radius: 10px; display: none; z-index: 1000;"></div>
+  <div id="searchResults"></div>
 </div>
 
 <nav>
@@ -106,7 +106,7 @@
 </nav>
 
 <div id="view-name" style="text-align:center; font-family:'MultiCraftFont'; font-size: 1.1rem; margin:15px 0; color:var(--gold);">OVERALL</div>
-<div id="kitBar"></div>
+<div id="kitBar" style="display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; margin-bottom: 20px;"></div>
 <div id="displayList"></div>
 
 <div id="profileModal" class="modal-overlay" onclick="this.style.display='none'">
@@ -132,24 +132,28 @@ function getTags(name, tier = null) {
 async function load() {
   const r = await fetch(`https://raw.githubusercontent.com/mtctiers/mtctiers.github.io/refs/heads/main/rankings.json?t=${Date.now()}`);
   DATA = await r.json();
+  processPoints(); buildKitBar(); render("Overall");
+}
+
+function processPoints() {
   let totals = {};
-  for(let k in DATA) if(k!=="Players") for(let t in DATA[k]) DATA[k][t].forEach(p => totals[p] = (totals[p]||0) + 10);
+  const PTS = { "HT1":50, "LT1":40, "HT2":30, "LT2":20, "HT3":12, "LT3":8, "HT4":5, "LT4":3, "HT5":2, "LT5":1 };
+  for(let k in DATA) if(k!=="Players" && k!=="Overall") {
+    for(let t in DATA[k]) {
+      const base = t.startsWith('R') ? t.substring(1) : t;
+      DATA[k][t].forEach(p => totals[p] = (totals[p]||0) + (PTS[base]||0));
+    }
+  }
   DATA["Overall"] = totals;
-  buildKitBar(); render("Overall");
 }
 
 function buildKitBar() {
   const bar = document.getElementById('kitBar');
   Object.keys(KIT_MAP).forEach(k => {
     const btn = document.createElement('button');
-    btn.className = `kit-btn ${k==='Overall'?'active':''}`;
-    btn.innerHTML = `<img src="${KIT_MAP[k]}" style="width:15px;"> ${k}`;
-    btn.onclick = () => {
-      document.querySelectorAll('.kit-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      document.getElementById('view-name').innerText = k.toUpperCase();
-      render(k);
-    };
+    btn.style = "background:#000; border:1px solid var(--border); padding:6px 12px; border-radius:6px; color:#666; cursor:pointer; font-family:MultiCraftFont; font-size:0.6rem;";
+    btn.innerHTML = k;
+    btn.onclick = () => render(k);
     bar.appendChild(btn);
   });
 }
@@ -159,38 +163,20 @@ function render(kit) {
   if(kit === "Overall") {
     const sorted = Object.entries(DATA["Overall"]).sort((a,b)=>b[1]-a[1]);
     sorted.forEach(([n,s], i) => {
+      const pData = DATA.Players?.find(x => x.name === n) || {};
       out.innerHTML += `
         <div class="tier-card" onclick="openProfile('${n}')">
+          <div class="corner-stats">
+            <span class="top-pts">${s} PTS</span>
+            <span class="top-dc">${pData.discord ? '@'+pData.discord : ''}</span>
+          </div>
+          <div class="info-btn">i</div>
           <div class="card-inner">
-            <div class="top-info">
-              <div class="stats-left">
-                <span class="pts-text">${s} PTS</span>
-                <span class="discord-text">Rank #${i+1}</span>
-              </div>
-              <div class="info-btn">i</div>
-            </div>
-            <div class="player-center">
-              <span class="player-name">${n}</span>
-              ${getTags(n)}
-            </div>
+            <div class="player-name">${n}</div>
+            ${getTags(n)}
           </div>
         </div>`;
     });
-  } else {
-    const grid = document.createElement('div'); grid.className = "grid-container";
-    for(let t in DATA[kit]) DATA[kit][t].forEach(n => {
-      grid.innerHTML += `
-        <div class="tier-card" style="width:200px;" onclick="openProfile('${n}')">
-          <div class="card-inner">
-             <div class="top-info"><div class="stats-left"></div><div class="info-btn">i</div></div>
-             <div class="player-center">
-               <span class="player-name" style="font-size:0.8rem;">${n}</span>
-               ${getTags(n, t)}
-             </div>
-          </div>
-        </div>`;
-    });
-    out.appendChild(grid);
   }
 }
 
@@ -206,37 +192,14 @@ function handleSearch() {
   const res = document.getElementById('searchResults');
   if(!q) { res.style.display = 'none'; return; }
   const matches = Object.keys(DATA.Overall).filter(n => n.toLowerCase().includes(q)).slice(0, 5);
-  res.innerHTML = matches.map(m => `<div style="padding:10px; cursor:pointer;" onclick="openProfile('${m}'); res.style.display='none';">${m}</div>`).join('');
+  res.innerHTML = matches.map(m => `<div style="padding:10px; cursor:pointer; border-bottom:1px solid #111;" onclick="openProfile('${m}'); res.style.display='none';">${m}</div>`).join('');
   res.style.display = matches.length ? 'block' : 'none';
 }
 
 async function switchTab(tab) {
   document.querySelectorAll('.nav-link').forEach(n => n.classList.remove('active'));
   document.getElementById('nav-' + tab).classList.add('active');
-  const out = document.getElementById('displayList');
-  if(tab === 'rankings') { render("Overall"); }
-  else {
-    document.getElementById('view-name').innerText = tab.toUpperCase() === 'HOF' ? "HALL OF FAME" : "TIER TESTERS";
-    const r = await fetch(`https://raw.githubusercontent.com/mtctiers/mtctiers.github.io/refs/heads/main/${tab}.json?t=${Date.now()}`);
-    const list = await r.json();
-    out.innerHTML = `<div class="grid-container"></div>`;
-    list.forEach(item => {
-      out.firstChild.innerHTML += `
-        <div class="tier-card" style="max-width:350px;">
-          <div class="card-inner">
-            <div class="top-info">
-              <div class="stats-left">
-                <span class="pts-text">@${item.discord || 'User'}</span>
-              </div>
-            </div>
-            <div class="player-center">
-              <span class="player-name">${item.name}</span>
-              <p style="font-size:0.6rem; color:#888;">${item.description || ''}</p>
-            </div>
-          </div>
-        </div>`;
-    });
-  }
+  if(tab === 'rankings') render("Overall");
 }
 
 load();

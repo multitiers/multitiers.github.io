@@ -30,9 +30,11 @@
     @keyframes spaceTravel { 0% { transform: translate(0, 0) rotate(0); } 100% { transform: translate(var(--tx), var(--ty)) rotate(360deg); } }
 
     /* --- HEADER --- */
-    header { text-align: center; padding-top: 25px; }
+    header { text-align: center; padding-top: 25px; position: relative; }
     .title-sword { width: 55px; margin-bottom: 5px; filter: drop-shadow(0 0 8px var(--purple)); }
     .main-title { font-family: 'MultiCraftFont'; font-size: 2.8rem; text-shadow: 0 0 15px var(--purple); margin: 0; }
+    .info-icon { position: absolute; right: 20px; top: 30px; cursor: pointer; font-size: 1.5rem; color: var(--purple); transition: 0.3s; }
+    .info-icon:hover { transform: scale(1.2); text-shadow: 0 0 10px var(--purple); }
 
     /* --- SEARCH --- */
     .search-section { width: 100%; display: flex; justify-content: center; padding: 15px 0; }
@@ -48,7 +50,7 @@
 
     /* --- TAGS & BREATHING ROOM --- */
     .tag { font-family: 'MultiCraftFont'; font-size: 0.5rem; padding: 1px 6px; border-radius: 3px; border: 1px solid #444; display: inline-flex; align-items: center; height: 16px; transition: 0.2s; white-space: nowrap; }
-    .tag-row { display: flex; gap: 10px; margin-top: 10px; align-items: center; } /* Gap between tier/region/device */
+    .tag-row { display: flex; gap: 10px; margin-top: 10px; align-items: center; } 
     
     .tag-device { max-width: 40px; overflow: hidden; cursor: pointer; }
     .tag-device:hover { max-width: 250px; border-color: var(--purple); background: rgba(168, 85, 247, 0.1); }
@@ -83,15 +85,20 @@
     /* --- KIT BUTTONS --- */
     .kit-btn { background: #000; border: 1px solid var(--border); padding: 8px 16px; border-radius: 8px; color: #666; cursor: pointer; font-family: 'MultiCraftFont'; font-size: 0.65rem; display: flex; align-items: center; gap: 8px; transition: 0.2s; }
     
-    /* Specific Active Glows per Kit */
-    .kit-btn.active.emerald { color: var(--green); border-color: var(--green); box-shadow: 0 0 10px var(--green); }
-    .kit-btn.active.dragonhide { color: var(--red); border-color: var(--red); box-shadow: 0 0 10px var(--red); }
-    .kit-btn.active.wand { color: var(--blue); border-color: var(--blue); box-shadow: 0 0 10px var(--blue); }
-    .kit-btn.active.diamond { color: var(--cyan); border-color: var(--cyan); box-shadow: 0 0 10px var(--cyan); }
-    .kit-btn.active.overall, .kit-btn.active.servers { color: #fff; border-color: var(--purple); box-shadow: 0 0 10px var(--purple); }
+    /* Active Kit Text Colors */
+    .kit-btn.active.emerald { color: var(--green) !important; border-color: var(--green); }
+    .kit-btn.active.dragonhide { color: var(--red) !important; border-color: var(--red); }
+    .kit-btn.active.wand { color: var(--blue) !important; border-color: var(--blue); }
+    .kit-btn.active.diamond { color: var(--cyan) !important; border-color: var(--cyan); }
+    .kit-btn.active.overall, .kit-btn.active.servers { color: #fff !important; border-color: var(--purple); }
 
+    /* --- MODALS --- */
     .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 2000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-    .modal-content { background: #000; border: 2px solid var(--purple); border-radius: 15px; padding: 30px; width: 360px; text-align: center; box-shadow: 0 0 40px var(--purple-glow); }
+    .modal-content { background: #000; border: 2px solid var(--purple); border-radius: 15px; padding: 30px; width: 360px; text-align: center; box-shadow: 0 0 40px var(--purple-glow); position: relative; }
+    
+    .pts-table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 0.8rem; }
+    .pts-table td { padding: 5px; border-bottom: 1px solid #222; }
+    .pts-table td:last-child { color: var(--gold); font-weight: bold; }
   </style>
 </head>
 <body>
@@ -102,6 +109,7 @@
 <div class="space-container" id="spaceLayer"></div>
 
 <header>
+  <div class="info-icon" onclick="document.getElementById('infoModal').style.display='flex'">ⓘ</div>
   <img src="backgroundsword.png" class="title-sword">
   <h1 class="main-title">MTC TIERS</h1>
 </header>
@@ -132,6 +140,24 @@
   </div>
 </div>
 
+<div id="infoModal" class="modal-overlay" onclick="this.style.display='none'">
+  <div class="modal-content" onclick="event.stopPropagation()">
+    <h3 style="font-family:'MultiCraftFont'; color:var(--purple); margin-bottom:10px;">TIER INFORMATION</h3>
+    <div style="font-size: 0.7rem; color: #888; margin-bottom: 15px;">
+        DISCORD: UNRELEASED<br>
+        SERVER CODE: UNRELEASED
+    </div>
+    <table class="pts-table">
+        <tr><td>HT1 / LT1</td><td>50 / 40 PTS</td></tr>
+        <tr><td>HT2 / LT2</td><td>30 / 20 PTS</td></tr>
+        <tr><td>HT3 / LT3</td><td>12 / 8 PTS</td></tr>
+        <tr><td>HT4 / LT4</td><td>5 / 3 PTS</td></tr>
+        <tr><td>HT5 / LT5</td><td>2 / 1 PTS</td></tr>
+    </table>
+    <button onclick="document.getElementById('infoModal').style.display='none'" style="margin-top:20px; background:none; border:1px solid var(--purple); color:white; padding:5px 15px; border-radius:5px; cursor:pointer;">CLOSE</button>
+  </div>
+</div>
+
 <script>
 let DATA = {};
 const DEV_NAMES = { "MK": "Mouse & Keyboard", "MB": "Mobile", "CT": "Controller", "TP": "Trackpad" };
@@ -149,7 +175,6 @@ const KIT_MAP = {
 
 function getTags(name, tier = null) {
   const p = DATA.Players?.find(x => x.name === name) || {region:"NA", device:"MK"};
-  
   let tierTag = "";
   if(tier) {
     const isRetired = tier.startsWith('R');
@@ -157,16 +182,8 @@ function getTags(name, tier = null) {
     const text = isRetired ? 'Retired ' + tier.slice(1) : tier;
     tierTag = `<span class="tag ${colorClass}">${text}</span>`;
   }
-
   const fullDev = DEV_NAMES[p.device] || p.device;
-  return `<div class="tag-row">
-    ${tierTag}
-    <span class="tag reg-${p.region.toLowerCase()}">${p.region}</span>
-    <span class="tag tag-device dev-${p.device.toLowerCase()}">
-      <span class="short-text">${p.device}</span>
-      <span class="full-text">${fullDev}</span>
-    </span>
-  </div>`;
+  return `<div class="tag-row">${tierTag}<span class="tag reg-${p.region.toLowerCase()}">${p.region}</span><span class="tag tag-device dev-${p.device.toLowerCase()}"><span class="short-text">${p.device}</span><span class="full-text">${fullDev}</span></span></div>`;
 }
 
 async function load() {
@@ -188,7 +205,6 @@ function buildKitBar() {
   const bar = document.getElementById('kitBar'); bar.innerHTML = "";
   Object.keys(KIT_MAP).forEach(k => {
     const btn = document.createElement('button');
-    // Assign specific color class based on name for the neon effect
     const lowerK = k.toLowerCase();
     let kitClass = "overall";
     if(lowerK.includes("emerald")) kitClass = "emerald";
@@ -212,11 +228,13 @@ function buildKitBar() {
 
 async function renderServers() {
   const out = document.getElementById('displayList'); out.innerHTML = "";
-  const r = await fetch(`servers.json?t=${Date.now()}`);
-  const list = await r.json();
-  list.forEach(item => {
-    out.innerHTML += `<div class="tier-card"><div class="card-inner"><div><b class="player-name">${item.name}</b><div style="color:#888; font-size:0.75rem; margin-top:8px;">${item.description||''}</div></div></div></div>`;
-  });
+  try {
+    const r = await fetch(`servers.json?t=${Date.now()}`);
+    const list = await r.json();
+    list.forEach(item => {
+      out.innerHTML += `<div class="tier-card"><div class="card-inner"><div><b class="player-name">${item.name}</b><div style="color:#888; font-size:0.75rem; margin-top:8px;">${item.description||''}</div></div></div></div>`;
+    });
+  } catch(e) { out.innerHTML = "Error loading servers.json"; }
 }
 
 function render(kit) {

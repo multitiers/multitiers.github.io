@@ -12,6 +12,7 @@
       --bg: #010102; --purple: #a855f7; --purple-glow: rgba(168, 85, 247, 0.9);
       --border: rgba(168, 85, 247, 0.4); --gold: #ffd700; --green: #2ecc71; 
       --red: #ff4d4d; --blue: #3498db; --cyan: #00ffff; --yellow: #f1c40f;
+      --sa-region: #00ff88; --oc-region: #ff00ff; --tp-color: #ff00aa; --mb-color: #ff7f50;
       --grey: #888;
     }
 
@@ -21,91 +22,92 @@
     .sweep-bg { position: fixed; inset: 0; z-index: -4; background: linear-gradient(110deg, transparent 40%, rgba(168, 85, 247, 0.1) 50%, transparent 60%); background-size: 250% 100%; animation: shineSweep 8s infinite linear; pointer-events: none; }
     @keyframes shineSweep { 0% { background-position: 250% 0; } 100% { background-position: -250% 0; } }
 
-    /* --- TOP RIGHT INFO BUTTON --- */
-    .info-trigger {
-      position: fixed; top: 20px; right: 20px; z-index: 1000;
-      background: rgba(0,0,0,0.8); border: 1px solid var(--border);
-      padding: 8px 15px; border-radius: 8px; cursor: pointer;
-      font-family: 'MultiCraftFont'; font-size: 0.7rem; color: var(--purple);
-      transition: 0.3s; backdrop-filter: blur(5px);
-    }
-    .info-trigger:hover { box-shadow: 0 0 15px var(--purple-glow); border-color: var(--purple); color: #fff; }
+    /* --- TOP LEFT STATUS --- */
+    .status-corner { position: fixed; top: 20px; left: 20px; z-index: 1000; font-family: 'MultiCraftFont'; font-size: 0.65rem; line-height: 1.8; }
+    .status-corner b { color: var(--purple); }
+    .status-corner span { color: var(--red); }
 
-    /* --- INFO GUI (SMALL) --- */
-    .info-gui {
-      position: fixed; top: 70px; right: 20px; z-index: 1000;
-      width: 240px; background: #000; border: 2px solid var(--purple);
-      border-radius: 12px; padding: 20px; display: none;
-      box-shadow: 0 0 30px rgba(0,0,0,0.5); animation: slideIn 0.3s ease-out;
-    }
-    @keyframes slideIn { from { transform: translateX(20px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
-
-    .info-gui h4 { font-family: 'MultiCraftFont'; color: var(--gold); margin: 0 0 10px; font-size: 0.8rem; text-align: center; }
+    /* --- TOP RIGHT INFO --- */
+    .info-trigger { position: fixed; top: 20px; right: 20px; z-index: 1000; background: rgba(0,0,0,0.8); border: 1px solid var(--border); padding: 8px 15px; border-radius: 8px; cursor: pointer; font-family: 'MultiCraftFont'; font-size: 0.7rem; color: var(--purple); transition: 0.3s; }
+    .info-trigger:hover { box-shadow: 0 0 15px var(--purple-glow); color: #fff; }
+    .info-gui { position: fixed; top: 70px; right: 20px; z-index: 1000; width: 220px; background: #000; border: 2px solid var(--purple); border-radius: 12px; padding: 20px; display: none; box-shadow: 0 0 30px rgba(0,0,0,0.8); }
     .point-row { display: flex; justify-content: space-between; font-size: 0.7rem; margin-bottom: 4px; color: #ccc; }
     .point-row b { color: var(--purple); }
-    .server-status { margin-top: 15px; border-top: 1px solid #222; padding-top: 10px; font-size: 0.65rem; line-height: 1.6; }
 
-    /* --- HEADER & NAV --- */
-    header { padding: 30px 0 10px; display: flex; flex-direction: column; align-items: center; }
-    .main-title { font-family: 'MultiCraftFont'; font-size: 2.5rem; letter-spacing: 4px; text-shadow: 0 0 15px var(--purple); margin: 0; }
-    
-    .search-container { display: flex; justify-content: center; margin: 15px 0; }
-    #playerSearch { 
-      background: #08080a; border: 1px solid var(--border); border-radius: 20px; 
-      padding: 10px 20px; color: #fff; width: 300px; font-family: 'MultiCraftFont'; 
-      font-size: 0.7rem; text-align: center; outline: none; transition: 0.3s;
-    }
+    /* --- SEARCH --- */
+    .search-wrap { position: relative; width: 350px; margin: 20px auto; z-index: 1100; }
+    #playerSearch { width: 100%; background: #08080a; border: 1px solid var(--border); border-radius: 20px; padding: 12px; color: #fff; font-family: 'MultiCraftFont'; font-size: 0.7rem; text-align: center; outline: none; transition: 0.3s; }
     #playerSearch:focus { border-color: var(--purple); box-shadow: 0 0 15px var(--purple-glow); }
+    #searchResults { position: absolute; top: 110%; left: 0; right: 0; background: #08080a; border: 1px solid var(--purple); border-radius: 10px; max-height: 200px; overflow-y: auto; display: none; box-shadow: 0 10px 30px rgba(0,0,0,0.8); }
+    .search-item { padding: 10px 15px; border-bottom: 1px solid #111; cursor: pointer; font-size: 0.8rem; display: flex; justify-content: space-between; align-items: center; transition: 0.2s; }
+    .search-item:hover { background: rgba(168, 85, 247, 0.2); }
 
+    /* --- TAGS & COLORS --- */
+    .tag { font-family: 'MultiCraftFont'; font-size: 0.55rem; padding: 2px 6px; border-radius: 4px; border: 1px solid #444; display: inline-flex; align-items: center; }
+    .tag-device { min-width: 28px; justify-content: center; margin-left: 6px; position: relative; cursor: pointer; transition: 0.2s; }
+    .tag-device:hover { min-width: 120px; border-color: var(--purple); }
+    .tag-device .full-text { display: none; }
+    .tag-device:hover .short-text { display: none; }
+    .tag-device:hover .full-text { display: inline; }
+
+    .reg-na { color: var(--red); border-color: var(--red); }
+    .reg-eu { color: var(--blue); border-color: var(--blue); }
+    .reg-as { color: var(--yellow); border-color: var(--yellow); }
+    .reg-sa { color: var(--sa-region); border-color: var(--sa-region); }
+    .reg-oc { color: var(--oc-region); border-color: var(--oc-region); }
+
+    .dev-mk { color: var(--cyan); border-color: var(--cyan); }
+    .dev-mb { color: var(--mb-color); border-color: var(--mb-color); }
+    .dev-ct { color: var(--green); border-color: var(--green); }
+    .dev-tp { color: var(--tp-color); border-color: var(--tp-color); }
+
+    .rank-active { color: var(--gold); border-color: var(--gold); }
+    .rank-retired { color: var(--grey); border-color: var(--grey); }
+
+    /* --- CARDS & NAV --- */
+    header { text-align: center; padding: 50px 0 10px; }
     nav { display: flex; justify-content: center; gap: 40px; padding: 15px; background: rgba(0,0,0,0.9); border-bottom: 2px solid var(--border); position: sticky; top: 0; z-index: 500; }
     .nav-link { color: #555; font-family: 'MultiCraftFont'; font-size: 0.8rem; cursor: pointer; transition: 0.3s; }
     .nav-link.active { color: #fff; text-shadow: 0 0 10px var(--purple); }
 
-    /* --- CARDS --- */
-    .tier-card { background: #050508; border: 1px solid var(--border); border-radius: 10px; margin-bottom: 8px; cursor: pointer; transition: 0.2s; }
-    .tier-card:hover { transform: translateY(-2px); border-color: var(--purple); box-shadow: 0 0 15px var(--purple-glow); }
-    .card-inner { padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; }
-    
-    .tag { font-family: 'MultiCraftFont'; font-size: 0.5rem; padding: 2px 5px; border-radius: 4px; border: 1px solid #333; margin-left: 5px; }
-    .rank-active { color: var(--gold); border-color: var(--gold); }
-    .rank-retired { color: var(--grey); border-color: var(--grey); }
+    .tier-card { background: #050508; border: 1px solid var(--border); border-radius: 10px; margin-bottom: 8px; cursor: pointer; transition: 0.3s; }
+    .tier-card:hover { transform: scale(1.02); border-color: var(--purple); box-shadow: 0 0 20px var(--purple-glow); }
+    .card-inner { padding: 12px 18px; display: flex; justify-content: space-between; align-items: center; }
 
-    /* --- KIT BAR --- */
     #kitBar { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; margin: 20px 0; }
-    .kit-btn { background: #000; border: 1px solid var(--border); padding: 6px 12px; border-radius: 6px; color: #666; cursor: pointer; font-family: 'MultiCraftFont'; font-size: 0.6rem; display: flex; align-items: center; gap: 5px; }
+    .kit-btn { background: #000; border: 1px solid var(--border); padding: 8px 14px; border-radius: 8px; color: #666; cursor: pointer; font-family: 'MultiCraftFont'; font-size: 0.65rem; display: flex; align-items: center; gap: 5px; }
     .kit-btn.active { border-color: var(--purple); color: #fff !important; background: rgba(168, 85, 247, 0.15); }
 
-    /* --- MODALS --- */
-    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 2000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(10px); }
-    .modal-content { background: #000; border: 2px solid var(--purple); border-radius: 15px; padding: 30px; width: 350px; text-align: center; }
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.96); z-index: 2000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(10px); }
+    .modal-content { background: #000; border: 2px solid var(--purple); border-radius: 15px; padding: 35px; width: 380px; text-align: center; box-shadow: 0 0 40px var(--purple-glow); }
   </style>
 </head>
 <body>
 
 <div class="sweep-bg"></div>
 
+<div class="status-corner">
+    <b>SERVER CODE:</b> <span>UNRELEASED</span><br>
+    <b>DISCORD:</b> <span>UNRELEASED</span>
+</div>
+
 <div class="info-trigger" onclick="toggleInfo()">INFO</div>
 <div id="infoGui" class="info-gui">
-    <h4>POINT SYSTEM</h4>
-    <div class="point-row"><span>Tier 1 (H/L)</span><b>50 / 40</b></div>
-    <div class="point-row"><span>Tier 2 (H/L)</span><b>30 / 20</b></div>
-    <div class="point-row"><span>Tier 3 (H/L)</span><b>12 / 8</b></div>
-    <div class="point-row"><span>Tier 4 (H/L)</span><b>5 / 3</b></div>
-    <div class="point-row"><span>Tier 5 (H/L)</span><b>2 / 1</b></div>
-    
-    <div class="server-status">
-        <div style="color:var(--purple); font-family:'MultiCraftFont'; margin-bottom:5px;">SERVER STATUS</div>
-        <div>SERVER CODE: <span style="color:var(--red)">UNRELEASED</span></div>
-        <div>DISCORD: <span style="color:var(--red)">UNRELEASED</span></div>
-    </div>
+    <h4 style="font-family:'MultiCraftFont'; color:var(--gold); font-size:0.8rem; margin:0 0 15px 0; text-align:center;">POINT SYSTEM</h4>
+    <div class="point-row"><span>T1 (H/L)</span><b>50 / 40</b></div>
+    <div class="point-row"><span>T2 (H/L)</span><b>30 / 20</b></div>
+    <div class="point-row"><span>T3 (H/L)</span><b>12 / 8</b></div>
+    <div class="point-row"><span>T4 (H/L)</span><b>5 / 3</b></div>
+    <div class="point-row"><span>T5 (H/L)</span><b>2 / 1</b></div>
 </div>
 
 <header>
-  <h1 class="main-title">MTC TIERS</h1>
+  <h1 style="font-family:'MultiCraftFont'; font-size: 2.8rem; letter-spacing: 5px; text-shadow: 0 0 15px var(--purple); margin:0;">MTC TIERS</h1>
 </header>
 
-<div class="search-container">
-    <input type="text" id="playerSearch" placeholder="SEARCH PLAYER..." oninput="searchAndOpen()">
+<div class="search-wrap">
+    <input type="text" id="playerSearch" placeholder="SEARCH PLAYER..." oninput="handleSearch()">
+    <div id="searchResults"></div>
 </div>
 
 <nav>
@@ -115,28 +117,58 @@
 </nav>
 
 <div id="main-content">
-  <div id="view-name" style="text-align:center; font-family:'MultiCraftFont'; font-size: 1.2rem; margin:15px 0; color:var(--gold);">OVERALL</div>
+  <div id="view-name" style="text-align:center; font-family:'MultiCraftFont'; font-size: 1.3rem; margin:20px 0; color:var(--gold);">OVERALL</div>
   <div id="kitBar"></div>
   <div id="displayList"></div>
 </div>
 
 <div id="profileModal" class="modal-overlay" onclick="this.style.display='none'">
   <div class="modal-content" onclick="event.stopPropagation()">
-    <h2 id="pName" style="font-family:'MultiCraftFont'; color:var(--purple); margin:0;">Player</h2>
-    <div id="pMeta" style="margin:10px 0; display:flex; justify-content:center; gap:5px;"></div>
-    <div id="pRank" style="color:var(--grey); font-family:'MultiCraftFont'; font-size:0.75rem; margin-bottom:5px;"></div>
-    <div id="pPoints" style="color:var(--gold); font-family:'MultiCraftFont'; font-size:1.2rem; margin-bottom:15px;"></div>
-    <div id="pTiers" style="text-align:left; font-size:0.8rem; border-top:1px solid #222; padding-top:15px;"></div>
+    <h2 id="pName" style="font-family:'MultiCraftFont'; color:var(--purple); margin:0; font-size:1.8rem;">Player</h2>
+    <div id="pMeta" style="margin:15px 0; display:flex; justify-content:center; gap:10px;"></div>
+    <div id="pRank" style="color:var(--grey); font-family:'MultiCraftFont'; font-size:0.85rem; margin-bottom:5px;"></div>
+    <div id="pPoints" style="color:var(--gold); font-family:'MultiCraftFont'; font-size:1.4rem; margin-bottom:20px;"></div>
+    <div id="pTiers" style="text-align:left; font-size:0.9rem; border-top:1px solid #222; padding-top:20px; max-height: 250px; overflow-y: auto;"></div>
   </div>
 </div>
 
 <script>
 let DATA = {};
+const DEV_NAMES = { "MK": "Mouse & Keyboard", "MB": "Mobile", "CT": "Controller", "TP": "Trackpad" };
 const KIT_MAP = { "Overall": "backgroundsword.png", "Emerald": "emerald.png", "Dragonhide KB": "dragonhide_kb.png", "Emerald OA": "emerald.png", "Dragonhide KB OA": "kb_oa.png", "Wand": "wand.png", "Emerald KB": "emerald.png", "Diamond": "diamond.png" };
 
 function toggleInfo() {
     const gui = document.getElementById('infoGui');
     gui.style.display = (gui.style.display === 'block') ? 'none' : 'block';
+}
+
+function handleSearch() {
+    const q = document.getElementById('playerSearch').value.toLowerCase();
+    const res = document.getElementById('searchResults');
+    if (!q) { res.style.display = 'none'; return; }
+    
+    const matches = Object.keys(DATA.Overall).filter(n => n.toLowerCase().includes(q)).slice(0, 5);
+    if (matches.length > 0) {
+        res.innerHTML = matches.map(m => `<div class="search-item" onclick="openProfile('${m}'); clearSearch()"><b>${m}</b> <span style="font-size:0.6rem; color:var(--gold)">${DATA.Overall[m]} PTS</span></div>`).join('');
+        res.style.display = 'block';
+    } else {
+        res.style.display = 'none';
+    }
+}
+
+function clearSearch() {
+    document.getElementById('playerSearch').value = '';
+    document.getElementById('searchResults').style.display = 'none';
+}
+
+function getTags(name) {
+  const p = DATA.Players?.find(x => x.name === name) || {region:"NA", device:"MK"};
+  return `
+    <span class="tag reg-${p.region.toLowerCase()}">${p.region}</span>
+    <span class="tag tag-device dev-${p.device.toLowerCase()}">
+      <span class="short-text">${p.device}</span>
+      <span class="full-text">${DEV_NAMES[p.device]||p.device}</span>
+    </span>`;
 }
 
 async function load() {
@@ -155,19 +187,6 @@ function processPoints() {
     }
   }
   DATA["Overall"] = totals;
-}
-
-function searchAndOpen() {
-    const q = document.getElementById('playerSearch').value.toLowerCase();
-    if(!q) return;
-    const players = Object.keys(DATA.Overall);
-    const found = players.find(p => p.toLowerCase() === q);
-    if(found) openProfile(found);
-}
-
-function getTags(name) {
-  const p = DATA.Players?.find(x => x.name === name) || {region:"NA", device:"MK"};
-  return `<span class="tag" style="color:var(--red)">${p.region}</span><span class="tag" style="color:var(--cyan)">${p.device}</span>`;
 }
 
 function buildKitBar() {
@@ -203,11 +222,11 @@ function render(kit) {
         DATA[kit][t].forEach(n => {
           entries += `<div class="tier-card" style="min-width:240px;" onclick="openProfile('${n}')"><div class="card-inner">
             <span><b>${n}</b> ${getTags(n)}</span>
-            <span class="tag ${isR?'rank-retired':'rank-active'}">${isR?'R-'+t.substring(1):t}</span>
+            <span class="tag ${isR?'rank-retired':'rank-active'}" style="margin-left:8px;">${isR?t:t}</span>
           </div></div>`;
         });
       }
-      if(entries) grid.innerHTML += `<div><div style="text-align:center; color:var(--purple); font-family:'MultiCraftFont'; margin-bottom:8px; font-size:0.9rem;">${lvl}</div>${entries}</div>`;
+      if(entries) grid.innerHTML += `<div><div style="text-align:center; color:var(--purple); font-family:'MultiCraftFont'; margin-bottom:8px;">${lvl}</div>${entries}</div>`;
     });
     out.appendChild(grid);
   }
@@ -246,10 +265,10 @@ function openProfile(name) {
     if(k==="Players"||k==="Overall") continue;
     for(let t in DATA[k]) if(DATA[k][t].includes(name)) {
         const isR = t.startsWith('R');
-        ts += `<div style="margin-bottom:8px;"><img src="${KIT_MAP[k]}" style="width:14px;"> ${k}: <span class="${isR?'rank-retired':'rank-active'}">${isR?t:t}</span></div>`;
+        ts += `<div style="margin-bottom:8px;"><img src="${KIT_MAP[k]}" style="width:14px;"> ${k}: <span class="${isR?'rank-retired':'rank-active'}">${t}</span></div>`;
     }
   }
-  document.getElementById('pTiers').innerHTML = ts || "No rankings.";
+  document.getElementById('pTiers').innerHTML = ts || "No rankings found.";
   document.getElementById('profileModal').style.display = 'flex';
 }
 

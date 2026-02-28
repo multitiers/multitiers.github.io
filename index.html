@@ -38,7 +38,7 @@
     body { background: var(--bg); color: #fff; font-family: 'Courier New', monospace; margin: 0; overflow-x: hidden; display: flex; flex-direction: column; align-items: center; }
 
     /* --- BACKGROUND ANIMATIONS --- */
-    .sweep-bg { position: fixed; inset: 0; z-index: -4; background: linear-gradient(110deg, transparent 40%, rgba(168, 85, 247, 0.1) 50%, transparent 60%); background-size: 250% 100%; animation: shineSweep 3s infinite linear; pointer-events: none; }
+    .sweep-bg { position: fixed; inset: 0; z-index: -4; background: linear-gradient(110deg, transparent 40%, rgba(168, 85, 247, 0.1) 50%, transparent 60%); background-size: 300% 100%; animation: shineSweep 8s infinite linear; pointer-events: none; }
     @keyframes shineSweep { 0% { background-position: 250% 0; } 100% { background-position: -250% 0; } }
 
     .blob { position: fixed; width: 500px; height: 500px; background: radial-gradient(circle, rgba(168, 85, 247, 0.15) 0%, transparent 70%); z-index: -3; pointer-events: none; }
@@ -52,7 +52,7 @@
     /* --- UI ELEMENTS --- */
     header { text-align: center; width: 100%; padding-top: 20px; }
     .main-title { font-family: 'MultiCraftFont'; font-size: 2.5rem; letter-spacing: 4px; text-shadow: 0 0 15px var(--purple); margin: 10px 0; }
-    .title-sword { width: 50px; height: 50px; object-fit: contain; animation: swordPulse 1.2s infinite ease-in-out; }
+    .title-sword { width: 50px; height: 50px; object-fit: contain; animation: swordPulse 3s infinite ease-in-out; }
     @keyframes swordPulse { 0%, 100% { transform: scale(1); filter: drop-shadow(0 0 10px var(--purple)); } 50% { transform: scale(1.1); filter: drop-shadow(0 0 20px var(--purple)); } }
 
     /* --- SEARCH --- */

@@ -147,7 +147,7 @@ function getTags(name,tier=null){
 
 // --- LOAD DATA ---
 async function load(){
-  const r = await fetch('https://raw.githubusercontent.com/mtctiers/mtctiers.github.io/refs/heads/main/rankings.json?t=' + Date.now());
+  const r = await fetch('https://github.com/mtctiers/mtctiers.github.io/blob/main/rankings.json?t=' + Date.now());
   DATA = await r.json();
   processPoints(); buildKitBar(); initSpace(); render("Overall");
 }

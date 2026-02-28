@@ -16,71 +16,88 @@
       --grey: #888;
     }
 
-    body { background: var(--bg); color: #fff; font-family: 'Courier New', monospace; margin: 0; overflow-x: hidden; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
+    body { background: var(--bg); color: #fff; font-family: 'Courier New', monospace; margin: 0; overflow-x: hidden; display: flex; flex-direction: column; align-items: center; }
 
-    /* --- BACKGROUNDS --- */
+    /* --- BACKGROUND ANIMATIONS --- */
     .sweep-bg { position: fixed; inset: 0; z-index: -4; background: linear-gradient(110deg, transparent 40%, rgba(168, 85, 247, 0.1) 50%, transparent 60%); background-size: 250% 100%; animation: shineSweep 8s infinite linear; pointer-events: none; }
     @keyframes shineSweep { 0% { background-position: 250% 0; } 100% { background-position: -250% 0; } }
-    
+
     .space-container { position: fixed; inset: 0; z-index: -2; pointer-events: none; }
-    .floating-kit { position: absolute; width: 35px; opacity: 0.3; animation: spaceTravel var(--d) infinite linear; }
+    .floating-kit { position: absolute; width: 35px; opacity: 0.25; animation: spaceTravel var(--d) infinite linear; }
     @keyframes spaceTravel { 0% { transform: translate(0, 0) rotate(0); } 100% { transform: translate(var(--tx), var(--ty)) rotate(360deg); } }
 
+    /* --- TOP BAR (SERVERS & INFO) --- */
+    .top-actions { position: absolute; top: 20px; right: 20px; display: flex; gap: 15px; align-items: center; z-index: 1000; }
+    .server-select { background: #000; color: #fff; border: 1px solid var(--border); padding: 5px 10px; border-radius: 5px; font-family: 'MultiCraftFont'; font-size: 0.6rem; outline: none; cursor: pointer; }
+    .info-btn { width: 24px; height: 24px; border: 1px solid var(--border); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'MultiCraftFont'; font-size: 0.7rem; cursor: pointer; color: var(--purple); transition: 0.3s; }
+    .info-btn:hover { border-color: var(--purple); box-shadow: 0 0 10px var(--purple-glow); }
+
     /* --- HEADER --- */
-    header { text-align: center; padding-top: 50px; margin-bottom: 20px; }
-    .title-sword { width: 60px; margin-bottom: 10px; filter: drop-shadow(0 0 10px var(--purple)); }
-    .main-title { font-family: 'MultiCraftFont'; font-size: 3rem; text-shadow: 0 0 20px var(--purple); margin: 0; }
+    header { text-align: center; padding-top: 40px; }
+    .title-sword { width: 55px; margin-bottom: 5px; filter: drop-shadow(0 0 10px var(--purple)); }
+    .main-title { font-family: 'MultiCraftFont'; font-size: 2.8rem; text-shadow: 0 0 15px var(--purple); margin: 0; }
 
-    /* --- CENTERED SEARCH --- */
-    .search-section { width: 100%; display: flex; justify-content: center; padding: 20px 0; }
-    .search-box { position: relative; width: 400px; }
-    #playerSearch { width: 100%; background: #000; border: 1px solid var(--border); border-radius: 12px; padding: 15px; color: #fff; font-family: 'MultiCraftFont'; font-size: 0.8rem; text-align: center; outline: none; transition: 0.3s; }
-    #playerSearch:focus { border-color: var(--purple); box-shadow: 0 0 20px var(--purple-glow); }
+    /* --- SEARCH (ACTUALLY CENTERED) --- */
+    .search-wrapper { width: 100%; display: flex; justify-content: center; padding: 20px 0; }
+    .search-container { position: relative; width: 380px; }
+    #playerSearch { width: 100%; background: #08080a; border: 1px solid var(--border); border-radius: 8px; padding: 12px; color: #fff; font-family: 'MultiCraftFont'; font-size: 0.75rem; text-align: center; outline: none; }
+    #playerSearch:focus { border-color: var(--purple); box-shadow: 0 0 15px var(--purple-glow); }
     
-    #searchResults { position: absolute; top: 115%; left: 0; right: 0; background: #000; border: 2px solid var(--purple); border-radius: 12px; display: none; overflow: hidden; z-index: 1200; box-shadow: 0 0 30px var(--purple-glow); }
-    .search-item { padding: 15px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #111; font-size: 0.9rem; }
-    .search-item:hover { background: #0a0a1a; }
+    #searchResults { position: absolute; top: 110%; left: 0; right: 0; background: #000; border: 2px solid var(--purple); border-radius: 8px; display: none; overflow: hidden; z-index: 1500; box-shadow: 0 0 30px var(--purple-glow); }
+    .search-item { padding: 12px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #111; }
+    .search-item:hover { background: #0d0d1a; }
     
-    /* FIX: Pulse Effect */
-    .pulse-text { color: var(--purple); font-family: 'MultiCraftFont'; font-size: 0.6rem; animation: pulseFixed 1.5s infinite; }
-    @keyframes pulseFixed { 0%, 100% { opacity: 1; transform: scale(1); text-shadow: 0 0 2px var(--purple); } 50% { opacity: 0.3; transform: scale(1.1); text-shadow: 0 0 15px var(--purple); } }
+    .pulse-text { color: var(--purple); font-family: 'MultiCraftFont'; font-size: 0.55rem; animation: pulseEff 1.2s infinite ease-in-out; }
+    @keyframes pulseEff { 0%, 100% { opacity: 1; transform: scale(1); text-shadow: 0 0 2px var(--purple); } 50% { opacity: 0.4; transform: scale(1.1); text-shadow: 0 0 12px var(--purple); } }
 
-    /* --- NAVIGATION --- */
-    nav { display: flex; justify-content: center; gap: 40px; padding: 15px; background: rgba(0,0,0,0.9); border-bottom: 2px solid var(--border); width: 100%; position: sticky; top: 0; z-index: 500; backdrop-filter: blur(10px); }
-    .nav-link { color: #666; font-family: 'MultiCraftFont'; font-size: 0.9rem; cursor: pointer; transition: 0.3s; text-transform: uppercase; }
-    .nav-link.active { color: #fff; text-shadow: 0 0 15px var(--purple); }
+    /* --- NAV --- */
+    nav { display: flex; justify-content: center; gap: 30px; padding: 12px; background: rgba(0,0,0,0.95); border-bottom: 2px solid var(--border); width: 100%; position: sticky; top: 0; z-index: 500; backdrop-filter: blur(10px); }
+    .nav-link { color: #555; font-family: 'MultiCraftFont'; font-size: 0.8rem; cursor: pointer; transition: 0.3s; }
+    .nav-link.active { color: #fff; text-shadow: 0 0 10px var(--purple); }
 
-    /* --- KIT BUTTONS (Original Colors Restored) --- */
-    .kit-btn { background: #000; border: 1px solid var(--border); padding: 10px 20px; border-radius: 12px; color: #888; cursor: pointer; font-family: 'MultiCraftFont'; font-size: 0.75rem; display: flex; align-items: center; gap: 10px; transition: 0.2s; }
+    /* --- KIT BUTTONS (COLORS RESTORED) --- */
+    #kitBar { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; margin: 25px 0; padding: 0 20px; }
+    .kit-btn { background: #000; border: 1px solid var(--border); padding: 8px 16px; border-radius: 8px; color: #777; cursor: pointer; font-family: 'MultiCraftFont'; font-size: 0.7rem; display: flex; align-items: center; gap: 8px; transition: 0.2s; }
     .kit-btn:hover { border-color: var(--purple); color: #fff; }
-    .kit-btn.active { border-color: var(--purple); background: rgba(168, 85, 247, 0.1); color: #fff; box-shadow: 0 0 15px var(--purple-glow); }
-    
-    .clr-emerald.active { border-color: var(--emerald); color: var(--emerald); box-shadow: 0 0 15px var(--emerald); }
-    .clr-dragonhide.active { border-color: var(--dragonhide); color: var(--dragonhide); box-shadow: 0 0 15px var(--dragonhide); }
-    .clr-wand.active { border-color: var(--wand); color: var(--wand); box-shadow: 0 0 15px var(--wand); }
-    .clr-diamond.active { border-color: var(--diamond); color: var(--diamond); box-shadow: 0 0 15px var(--diamond); }
+    .kit-btn.active { border-color: var(--purple); background: rgba(168, 85, 247, 0.1); color: #fff; }
 
-    /* --- CARDS (Fixed Squish) --- */
-    .display-container { width: 90%; max-width: 1000px; padding: 30px 0; }
-    .tier-card { background: #000; border: 1px solid var(--border); border-radius: 12px; margin-bottom: 12px; cursor: pointer; transition: 0.3s; width: 100%; }
-    .tier-card:hover { border-color: var(--purple); box-shadow: 0 0 20px var(--purple-glow); transform: translateY(-2px); }
-    .card-inner { padding: 18px 25px; display: flex; justify-content: space-between; align-items: center; }
+    /* Specific kit glow logic */
+    .kit-btn.clr-emerald.active { border-color: var(--emerald); box-shadow: 0 0 12px var(--emerald); color: var(--emerald); }
+    .kit-btn.clr-dragonhide.active { border-color: var(--dragonhide); box-shadow: 0 0 12px var(--dragonhide); color: var(--dragonhide); }
+    .kit-btn.clr-wand.active { border-color: var(--wand); box-shadow: 0 0 12px var(--wand); color: var(--wand); }
+    .kit-btn.clr-diamond.active { border-color: var(--diamond); box-shadow: 0 0 12px var(--diamond); color: var(--diamond); }
 
-    /* --- TAGS --- */
-    .tag { font-family: 'MultiCraftFont'; font-size: 0.55rem; padding: 2px 8px; border-radius: 4px; border: 1px solid #444; display: inline-flex; align-items: center; height: 18px; transition: 0.2s; }
-    .tag-device { max-width: 45px; overflow: hidden; cursor: pointer; }
-    .tag-device:hover { max-width: 300px; border-color: var(--purple); }
+    /* --- CARDS --- */
+    .display-list { width: 90%; max-width: 850px; display: flex; flex-direction: column; align-items: center; padding-bottom: 60px; }
+    .tier-card { background: #050508; border: 1px solid var(--border); border-radius: 10px; margin-bottom: 10px; cursor: pointer; transition: 0.2s; width: 100%; }
+    .tier-card:hover { border-color: var(--purple); box-shadow: 0 0 15px var(--purple-glow); }
+    .card-inner { padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; }
+
+    /* --- TAGS & HOVER --- */
+    .tag { font-family: 'MultiCraftFont'; font-size: 0.5rem; padding: 2px 6px; border-radius: 3px; border: 1px solid #444; display: inline-flex; align-items: center; height: 16px; transition: 0.2s; white-space: nowrap; }
+    .tag-device { max-width: 42px; overflow: hidden; cursor: pointer; }
+    .tag-device:hover { max-width: 250px; border-color: var(--purple); background: rgba(168, 85, 247, 0.1); }
     .tag-device .full-text { display: none; }
     .tag-device:hover .short-text { display: none; }
     .tag-device:hover .full-text { display: inline; }
 
-    .reg-na { color: var(--red) !important; border-color: #ff4d4d !important; }
+    .reg-na { color: var(--red) !important; border-color: var(--red) !important; }
     .dev-mk { color: var(--diamond) !important; border-color: var(--diamond) !important; }
-    
-    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 2000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(10px); }
+    .dev-mb { color: var(--mb-color) !important; border-color: var(--mb-color) !important; }
+    .dev-ct { color: var(--emerald) !important; border-color: var(--emerald) !important; }
+    .dev-tp { color: var(--tp-color) !important; border-color: var(--tp-color) !important; }
   </style>
 </head>
 <body>
+
+<div class="top-actions">
+  <select class="server-select">
+    <option>MTC HUB</option>
+    <option>NA SERVER</option>
+    <option>EU SERVER</option>
+  </select>
+  <div class="info-btn">i</div>
+</div>
 
 <div class="sweep-bg"></div>
 <div class="space-container" id="spaceLayer"></div>
@@ -90,46 +107,30 @@
   <h1 class="main-title">MTC TIERS</h1>
 </header>
 
-<div class="search-section">
-  <div class="search-box">
+<div class="search-wrapper">
+  <div class="search-container">
     <input type="text" id="playerSearch" placeholder="SEARCH PLAYER..." oninput="handleSearch()">
     <div id="searchResults"></div>
   </div>
 </div>
 
 <nav>
-  <div id="nav-rankings" class="nav-link active" onclick="switchTab('rankings')">Rankings</div>
-  <div id="nav-hof" class="nav-link" onclick="switchTab('hof')">Hall of Fame</div>
-  <div id="nav-testers" class="nav-link" onclick="switchTab('testers')">Tier Testers</div>
+  <div id="nav-rankings" class="nav-link active" onclick="switchTab('rankings')">RANKINGS</div>
+  <div id="nav-hof" class="nav-link" onclick="switchTab('hof')">HALL OF FAME</div>
+  <div id="nav-testers" class="nav-link" onclick="switchTab('testers')">TIER TESTERS</div>
 </nav>
 
-<div id="view-name" style="text-align:center; font-family:'MultiCraftFont'; font-size: 1.5rem; margin-top:30px; color:var(--gold);">OVERALL</div>
-
-<div id="kitBar" style="display:flex; justify-content:center; flex-wrap:wrap; gap:12px; margin: 20px 0;"></div>
-
-<div class="display-container" id="displayList"></div>
-
-<div id="profileModal" class="modal-overlay" onclick="this.style.display='none'">
-  <div class="modal-content" onclick="event.stopPropagation()" style="background:#000; border:2px solid var(--purple); padding:40px; border-radius:20px; text-align:center;">
-    <h2 id="pName" style="font-family:'MultiCraftFont'; font-size:2rem; color:var(--purple);"></h2>
-    <div id="pMeta" style="margin:20px 0; display:flex; justify-content:center; gap:10px;"></div>
-    <div id="pPoints" style="color:var(--gold); font-family:'MultiCraftFont'; font-size:1.8rem;"></div>
-    <div id="pTiers" style="margin-top:20px; text-align:left; border-top:1px solid #222; padding-top:20px;"></div>
-  </div>
-</div>
+<div id="view-name" style="text-align:center; font-family:'MultiCraftFont'; font-size: 1.4rem; margin-top:30px; color:var(--gold);">OVERALL</div>
+<div id="kitBar"></div>
+<div class="display-list" id="displayList"></div>
 
 <script>
 let DATA = {};
 const DEV_NAMES = { "MK": "Mouse & Keyboard", "MB": "Mobile", "CT": "Controller", "TP": "Trackpad" };
 const KIT_MAP = { 
-  "Overall": "backgroundsword.png", 
-  "Emerald": "emerald.png", 
-  "Dragonhide KB": "dragonhide_kb.png", 
-  "Emerald OA": "emerald.png", 
-  "Dragonhide KB OA": "kb_oa.png", 
-  "Wand": "wand.png", 
-  "Emerald KB": "emerald.png", 
-  "Diamond": "diamond.png" 
+  "Overall": "backgroundsword.png", "Emerald": "emerald.png", "Dragonhide KB": "dragonhide_kb.png", 
+  "Emerald OA": "emerald.png", "Dragonhide KB OA": "kb_oa.png", "Wand": "wand.png", 
+  "Emerald KB": "emerald.png", "Diamond": "diamond.png" 
 };
 
 function getKitStyle(k) {
@@ -142,9 +143,9 @@ function getKitStyle(k) {
 
 function getTags(name, tier = null) {
   const p = DATA.Players?.find(x => x.name === name) || {region:"NA", device:"MK"};
-  let tierTag = tier ? `<span class="tag ${tier.startsWith('R')?'rank-retired':'rank-active'}">${tier.startsWith('R')?'Retired '+tier.slice(1):tier}</span>` : '';
+  let tierTag = tier ? `<span class="tag active-tag">${tier}</span>` : '';
   const fullDev = DEV_NAMES[p.device] || p.device;
-  return `<div style="display:flex; gap:8px; margin-top:8px;">${tierTag}<span class="tag reg-${p.region.toLowerCase()}">${p.region}</span><span class="tag tag-device dev-${p.device.toLowerCase()}"><span class="short-text">${p.device}</span><span class="full-text">${fullDev}</span></span></div>`;
+  return `<div style="display:flex; gap:6px; margin-top:6px;">${tierTag}<span class="tag reg-${p.region.toLowerCase()}">${p.region}</span><span class="tag tag-device dev-${p.device.toLowerCase()}"><span class="short-text">${p.device}</span><span class="full-text">${fullDev}</span></span></div>`;
 }
 
 async function load() {
@@ -167,7 +168,7 @@ function buildKitBar() {
   Object.keys(KIT_MAP).forEach(k => {
     const btn = document.createElement('button');
     btn.className = `kit-btn ${getKitStyle(k)} ${k==='Overall'?'active':''}`;
-    btn.innerHTML = (k==="Overall") ? k : `<img src="${KIT_MAP[k]}" style="width:20px;"> ${k}`;
+    btn.innerHTML = (k==="Overall") ? k : `<img src="${KIT_MAP[k]}" style="width:18px;"> ${k}`;
     btn.onclick = () => {
       document.querySelectorAll('.kit-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
@@ -182,14 +183,13 @@ function render(kit) {
   const out = document.getElementById('displayList'); out.innerHTML = "";
   if(kit === "Overall") {
     Object.entries(DATA["Overall"]).sort((a,b)=>b[1]-a[1]).forEach(([n,s], i) => {
-      out.innerHTML += `<div class="tier-card" onclick="openProfile('${n}')"><div class="card-inner"><div><b style="color:var(--purple); font-family:'MultiCraftFont'; font-size:1.1rem; margin-right:15px;">#${i+1}</b><span style="font-size:1.2rem;">${n}</span>${getTags(n)}</div><b style="color:var(--gold); font-size:1.4rem;">${s} PTS</b></div></div>`;
+      out.innerHTML += `<div class="tier-card"><div class="card-inner"><div><b style="color:var(--purple); font-family:'MultiCraftFont'; margin-right:12px;">#${i+1}</b><span style="font-size:1.1rem;">${n}</span>${getTags(n)}</div><b style="color:var(--gold); font-size:1.2rem;">${s} PTS</b></div></div>`;
     });
   } else {
-    // Tiered display logic...
     ["T1","T2","T3","T4","T5"].forEach(lvl => {
       let group = "";
-      for(let t in DATA[kit]) if(t.includes(lvl)) DATA[kit][t].forEach(n => group += `<div class="tier-card" onclick="openProfile('${n}')"><div class="card-inner"><div><span>${n}</span>${getTags(n, t)}</div></div></div>`);
-      if(group) out.innerHTML += `<div style="text-align:center; margin:40px 0 20px; font-family:'MultiCraftFont'; color:var(--purple); border-bottom:1px solid var(--border); padding-bottom:10px;">${lvl}</div>` + group;
+      for(let t in DATA[kit]) if(t.includes(lvl)) DATA[kit][t].forEach(n => group += `<div class="tier-card"><div class="card-inner"><div><span>${n}</span>${getTags(n, t)}</div></div></div>`);
+      if(group) out.innerHTML += `<div style="text-align:center; margin:35px 0 15px; color:var(--purple); font-family:'MultiCraftFont'; font-size:0.9rem; border-bottom:1px solid var(--border); width:100%;">${lvl}</div>` + group;
     });
   }
 }
@@ -199,15 +199,8 @@ function handleSearch() {
   const res = document.getElementById('searchResults');
   if(!q) { res.style.display = 'none'; return; }
   const matches = Object.keys(DATA.Overall).filter(n => n.toLowerCase().includes(q)).slice(0, 5);
-  res.innerHTML = matches.map(m => `<div class="search-item" onclick="openProfile('${m}'); res.style.display='none';"><b>${m}</b><span class="pulse-text">VIEW PROFILE</span></div>`).join('');
+  res.innerHTML = matches.map(m => `<div class="search-item" onclick="document.getElementById('playerSearch').value=''; res.style.display='none';"><b>${m}</b><span class="pulse-text">VIEW PROFILE</span></div>`).join('');
   res.style.display = matches.length ? 'block' : 'none';
-}
-
-function openProfile(name) {
-  document.getElementById('pName').innerText = name;
-  document.getElementById('pMeta').innerHTML = getTags(name);
-  document.getElementById('pPoints').innerText = (DATA.Overall[name] || 0) + " PTS";
-  document.getElementById('profileModal').style.display = 'flex';
 }
 
 async function switchTab(tab) {
@@ -223,7 +216,7 @@ async function switchTab(tab) {
     const r = await fetch(`https://raw.githubusercontent.com/mtctiers/mtctiers.github.io/refs/heads/main/${tab}.json?t=${Date.now()}`);
     const list = await r.json();
     list.forEach(item => {
-      out.innerHTML += `<div class="tier-card"><div class="card-inner"><div><b style="font-size:1.2rem;">${item.name}</b><span style="color:var(--purple); font-size:0.8rem; margin-left:10px;">${item.discord?'@'+item.discord:''}</span><div style="color:#aaa; font-size:0.9rem; margin-top:5px;">${item.description||''}</div></div></div></div>`;
+      out.innerHTML += `<div class="tier-card"><div class="card-inner"><div><b style="font-size:1.1rem;">${item.name}</b><span style="color:var(--purple); font-size:0.7rem; margin-left:8px;">${item.discord?'@'+item.discord:''}</span><div style="color:#888; font-size:0.85rem; margin-top:5px;">${item.description||''}</div></div></div></div>`;
     });
   }
 }
@@ -231,14 +224,14 @@ async function switchTab(tab) {
 function initSpace() {
   const layer = document.getElementById('spaceLayer');
   const items = Object.values(KIT_MAP).filter(x => x !== 'backgroundsword.png');
-  for (let i = 0; i < 40; i++) { // Doubled amount
+  for (let i = 0; i < 35; i++) {
     const img = document.createElement('img');
     img.src = items[Math.floor(Math.random() * items.length)];
     img.className = 'floating-kit';
     img.style.left = Math.random() * 100 + "%"; img.style.top = Math.random() * 100 + "%";
-    img.style.setProperty('--tx', (Math.random() * 100 - 50) + "vw");
-    img.style.setProperty('--ty', (Math.random() * 100 - 50) + "vh");
-    img.style.setProperty('--d', (20 + Math.random() * 30) + "s");
+    img.style.setProperty('--tx', (Math.random() * 80 - 40) + "vw");
+    img.style.setProperty('--ty', (Math.random() * 80 - 40) + "vh");
+    img.style.setProperty('--d', (25 + Math.random() * 20) + "s");
     layer.appendChild(img);
   }
 }

@@ -12,7 +12,7 @@
     { "name": "DivyamGamerYT", "region": "AS", "device": "MK" },
     { "name": "TQMEN", "region": "AS", "device": "MB" },
     { "name": "revan", "region": "NA", "device": "TP" }
-  ],
+},
   "Emerald": {    
     "HT1": ["Game1K", "ImTheGOAT"],
     "LT1": ["sample"],

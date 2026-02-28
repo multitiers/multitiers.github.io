@@ -145,17 +145,17 @@ function getTags(name,tier=null){
   return `<div class="tag-row">${tierTag}<span class="tag reg-${p.region.toLowerCase()}" style="color:var(--${p.region.toLowerCase()}-region);border-color:var(--${p.region.toLowerCase()}-region)">${p.region}</span><span class="tag tag-device dev-${p.device.toLowerCase()}" style="color:var(--${p.device.toLowerCase()}-color);border-color:var(--${p.device.toLowerCase()}-color)"><span class="short-text">${p.device}</span><span class="full-text">${DEV_NAMES[p.device]||p.device}</span></span></div>`;
 }
 
-// --- LOAD DATA FROM GITHUB ---
+// --- LOAD DATA ---
 async function load(){
-  const r=await fetch(`https://raw.githubusercontent.com/mtctiers/mtctiers.github.io/main/rankings.json?t=${Date.now()}`);
-  DATA=await r.json();
+  const r = await fetch('https://raw.githubusercontent.com/mtctiers/mtctiers.github.io/main/rankings.json?t=' + Date.now());
+  DATA = await r.json();
   processPoints(); buildKitBar(); initSpace(); render("Overall");
 }
 
-// ...rest of your JS (render, buildKitBar, handleSearch, openProfile, switchTab, initSpace) 
-// with kit-circle rows displayed below points in Overall view
-
+// ...rest of your JS code goes here (render, buildKitBar, handleSearch, openProfile, switchTab, initSpace)
+// Make sure in render() you add the kit-circle row below points in Overall
 load();
 </script>
+
 </body>
 </html>

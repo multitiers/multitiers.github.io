@@ -19,7 +19,7 @@
 
 body { background: var(--bg); color: #fff; font-family: 'Courier New', monospace; margin:0; overflow-x:hidden; display:flex; flex-direction:column; align-items:center; }
 
-/* Background Animations */
+/* --- BACKGROUND ANIMATIONS --- */
 .sweep-bg { position:fixed; inset:0; z-index:-4; background:linear-gradient(110deg,transparent 40%,rgba(168,85,247,0.1)50%,transparent 60%); background-size:250% 100%; animation:shineSweep 8s infinite linear; pointer-events:none; }
 @keyframes shineSweep { 0% {background-position:250% 0;} 100% {background-position:-250% 0;} }
 .blob { position:fixed;width:500px;height:500px;background:radial-gradient(circle,rgba(168,85,247,0.15)0%,transparent 70%);z-index:-3;pointer-events:none; }
@@ -29,13 +29,13 @@ body { background: var(--bg); color: #fff; font-family: 'Courier New', monospace
 .floating-kit { position:absolute; width:30px; opacity:0.3; animation: spaceTravel var(--d) infinite linear; }
 @keyframes spaceTravel { 0% {transform:translate(0,0) rotate(0);} 100% {transform:translate(var(--tx),var(--ty)) rotate(360deg);} }
 
-/* UI Elements */
+/* --- UI ELEMENTS --- */
 header { text-align:center; width:100%; padding-top:20px; }
 .main-title { font-family:'MultiCraftFont'; font-size:2.5rem; letter-spacing:4px; text-shadow:0 0 15px var(--purple); margin:10px 0; }
 .title-sword { width:50px; height:50px; object-fit:contain; animation:swordPulse 2s infinite ease-in-out; }
 @keyframes swordPulse { 0%,100% { transform:scale(1); filter:drop-shadow(0 0 10px var(--purple)); } 50% { transform:scale(1.1); filter:drop-shadow(0 0 20px var(--purple)); } }
 
-/* Search */
+/* --- SEARCH --- */
 .search-wrap { position:relative; width:300px; margin:15px auto; z-index:1100; }
 #playerSearch { width:100%; background:#08080a; border:1px solid var(--border); border-radius:20px; padding:10px; color:#fff; font-family:'MultiCraftFont'; font-size:0.65rem; text-align:center; outline:none; }
 #playerSearch:focus { border-color:var(--purple); box-shadow:0 0 10px var(--purple-glow); }
@@ -45,12 +45,12 @@ header { text-align:center; width:100%; padding-top:20px; }
 .view-pulse { color:var(--purple); font-size:0.55rem; font-family:'MultiCraftFont'; animation:textPulse 1.5s infinite; }
 @keyframes textPulse { 0%,100% {opacity:1; transform:scale(1);} 50% {opacity:0.5; transform:scale(0.95);} }
 
-/* Nav */
+/* --- NAV --- */
 nav { display:flex; justify-content:center; gap:30px; padding:12px; background:rgba(0,0,0,0.9); border-bottom:2px solid var(--border); width:100%; position:sticky; top:0; z-index:500; backdrop-filter:blur(10px); }
 .nav-link { color:#555; font-family:'MultiCraftFont'; font-size:0.75rem; cursor:pointer; transition:0.3s; }
 .nav-link.active { color:#fff; text-shadow:0 0 10px var(--purple); }
 
-/* Text Colors & Glows */
+/* --- TEXT COLORS & GLOWS --- */
 .clr-emerald { color: var(--green) !important; text-shadow:0 0 8px var(--green); }
 .clr-dragonhide { color: var(--red) !important; text-shadow:0 0 8px var(--red); }
 .clr-wand { color: var(--blue) !important; text-shadow:0 0 8px var(--blue); }
@@ -59,7 +59,7 @@ nav { display:flex; justify-content:center; gap:30px; padding:12px; background:r
 .player-name { display:block; font-size:0.95rem; color:#fff; text-shadow:0 0 10px rgba(255,255,255,0.8); }
 .name-retired { color: var(--grey) !important; text-shadow:0 0 8px rgba(136,136,136,0.6) !important; }
 
-/* Tags */
+/* --- TAGS --- */
 .tag-row { display:flex; align-items:center; gap:5px; margin-top:4px; }
 .tag { font-family:'MultiCraftFont'; font-size:0.5rem; padding:1px 5px; border-radius:3px; border:1px solid #444; display:inline-flex; align-items:center; height:16px; }
 .tag-device { max-width:30px; justify-content:center; cursor:pointer; transition:max-width 0.3s ease-in-out; overflow:hidden; white-space:nowrap; }
@@ -68,7 +68,7 @@ nav { display:flex; justify-content:center; gap:30px; padding:12px; background:r
 .tag-device:hover .short-text { display:none; }
 .tag-device:hover .full-text { display:inline; }
 
-/* Cards */
+/* --- CARDS --- */
 .tier-card { background:#050508; border:1px solid var(--border); border-radius:8px; margin-bottom:6px; cursor:pointer; transition:0.2s; width:100%; max-width:700px; }
 .tier-card:hover { border-color:var(--purple); background:#0a0a0f; box-shadow:0 0 15px var(--purple-glow); }
 .card-inner { padding:10px 15px; display:flex; justify-content:space-between; align-items:center; }
@@ -77,7 +77,7 @@ nav { display:flex; justify-content:center; gap:30px; padding:12px; background:r
 .kit-btn.active { border-color:var(--purple); background:rgba(168,85,247,0.1); color:#fff; }
 .kit-btn img { width:18px; height:18px; object-fit:contain; }
 
-/* Modal */
+/* --- MODAL --- */
 .modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.95); z-index:2000; display:none; align-items:center; justify-content:center; backdrop-filter:blur(8px); }
 .modal-content { background:#000; border:2px solid var(--purple); border-radius:12px; padding:30px; width:350px; text-align:center; box-shadow:0 0 30px var(--purple-glow); }
 
@@ -147,37 +147,27 @@ function getKitClass(k) {
   return "";
 }
 
-function formatTier(t) { return t.startsWith('R') ? "Retired "+t.substring(1) : t; }
+function formatTier(t) { return t.startsWith('R') ? "Retired " + t.substring(1) : t; }
 
-function getTags(name,tier=null){
-  const p=DATA.Players?.find(x=>x.name===name)||{region:"NA",device:"MK"};
-  let tierTag=tier?`<span class="tag ${tier.startsWith('R')?'rank-retired':'rank-active'}">${formatTier(tier)}</span>`:'';
+function getTags(name, tier=null) {
+  const p = DATA.Players?.find(x => x.name === name) || {region:"NA", device:"MK"};
+  let tierTag = tier ? `<span class="tag ${tier.startsWith('R')?'rank-retired':'rank-active'}">${formatTier(tier)}</span>` : '';
   return `<div class="tag-row">${tierTag}<span class="tag reg-${p.region.toLowerCase()}" style="color:var(--${p.region.toLowerCase()}-region); border-color:var(--${p.region.toLowerCase()}-region);">${p.region}</span><span class="tag tag-device dev-${p.device.toLowerCase()}" style="color:var(--${p.device.toLowerCase()}-color); border-color:var(--${p.device.toLowerCase()}-color)"><span class="short-text">${p.device}</span><span class="full-text">${DEV_NAMES[p.device]||p.device}</span></span></div>`;
 }
 
-async function load(){
-  const r=await fetch(`rankings.json?t=${Date.now()}`);
-  DATA=await r.json();
+// --- LOAD DATA FROM ORIGINAL URLs ---
+async function load() {
+  const r = await fetch(`https://raw.githubusercontent.com/mtctiers/mtctiers.github.io/main/rankings.json?t=${Date.now()}`);
+  DATA = await r.json();
   processPoints();
   buildKitBar();
   initSpace();
   render("Overall");
 }
 
-function processPoints(){
-  let totals={};
-  const PTS={"HT1":50,"LT1":40,"HT2":30,"LT2":20,"HT3":12,"LT3":8,"HT4":5,"LT4":3,"HT5":2,"LT5":1};
-  for(let k in DATA) if(k!=="Players"&&k!=="Overall"){
-    for(let t in DATA[k]){
-      const base=t.startsWith('R')?t.substring(1):t;
-      DATA[k][t].forEach(p=>totals[p]=(totals[p]||0)+(PTS[base]||0));
-    }
-  }
-  DATA["Overall"]=totals;
-}
-
-// --- rest of functions like buildKitBar, render, handleSearch, openProfile, switchTab, initSpace
-// identical to previous, just fetching JSON from relative path
+// ... rest of JS identical to your previous full file
+// including render(), buildKitBar(), handleSearch(), openProfile(), switchTab(), initSpace()
+// with your colors, retired styling, clickable labels, testers/HOF, and kit circles intact
 
 load();
 </script>

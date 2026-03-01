@@ -224,26 +224,12 @@ function render(kit) {
     const grid = document.createElement('div'); grid.style.display="flex"; grid.style.gap="15px"; grid.style.justifyContent="center"; grid.style.width="100%"; grid.style.flexWrap="wrap";
     ["T1","T2","T3","T4","T5"].forEach(lvl => {
       let ent = "";
-      for(let t in DATA[kit]) if(t.includes(lvl)) DATA[kit][t].forEach(n => { ent += `<div class="tier-card" style="width:280px;" onclick="openProfile('${n}')"><div><span class="player-name">${n}</span>${getTags(n, t)}</div></
-      if(ent) grid.innerHTML += 
-  '<div style="min-width:280px;">' +
-    '<div style="text-align:center; color:' + 
-      (lvl === "T1" ? "var(--yellow)" :
-       lvl === "T2" ? "var(--blue)" :
-       lvl === "T3" ? "var(--purple)" :
-       lvl === "T4" ? "var(--red)" :
-       "#ffffff") + 
-      '; font-family:\'MultiCraftFont\'; font-size:0.8rem; margin-bottom:15px; text-shadow:0 0 6px ' +
-      (lvl === "T1" ? "var(--yellow)" :
-       lvl === "T2" ? "var(--blue)" :
-       lvl === "T3" ? "var(--purple)" :
-       lvl === "T4" ? "var(--red)" :
-       "#ffffff") + 
-      ';">' +
-      lvl +
-    '</div>' +
-    ent +
-  '</div>';
+      for(let t in DATA[kit]) if(t.includes(lvl)) DATA[kit][t].forEach(n => { ent += `<div class="tier-card" style="width:280px;" onclick="openProfile('${n}')"><div><span class="player-name">${n}</span>${getTags(n, t)}</div></div>`; });
+            if(ent) grid.innerHTML += `<div style="min-width:280px;"><div style="text-align:center; color:var(--purple); font-family:'MultiCraftFont'; font-size:0.8rem; margin-bottom:15px;">${lvl}</div>${ent}</div>`;
+    });
+    out.appendChild(grid);
+  }
+}
 function openProfile(name) {
   const rankIdx = SORTED_OVERALL.findIndex(x => x[0] === name);
   document.getElementById('pRank').innerText = rankIdx !== -1 ? `RANK #${rankIdx+1}` : "UNRANKED";

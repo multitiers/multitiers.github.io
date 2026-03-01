@@ -82,7 +82,15 @@
 
     /* --- MODALS --- */
     .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 2000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-    .modal-content { background: #000; border: 2px solid var(--purple); border-radius: 15px; padding: 30px; width: 360px; text-align: center; box-shadow: 0 0 40px var(--purple-glow); position: relative; }
+    .modal-content { background: #000; border: 2px solid var(--purple); border-radius: 15px; padding: 30px; width: 420px; text-align: center; box-shadow: 0 0 40px var(--purple-glow); position: relative; }
+
+    /* --- PROFILE ICON GRID --- */
+    .p-kit-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; border-top: 1px solid #222; padding-top: 20px; margin-top: 10px; }
+    .p-kit-item { display: flex; flex-direction: column; align-items: center; width: 60px; }
+    .p-kit-circle { width: 50px; height: 50px; border-radius: 50%; border: 2px solid var(--gold); background: #08080a; display: flex; align-items: center; justify-content: center; margin-bottom: 8px; box-shadow: 0 0 10px rgba(255, 215, 0, 0.2); transition: 0.3s; }
+    .p-kit-circle img { width: 30px; filter: drop-shadow(0 0 2px rgba(255,255,255,0.5)); }
+    .p-kit-tier { background: var(--gold); color: #000; font-family: 'MultiCraftFont'; font-size: 0.55rem; padding: 2px 6px; border-radius: 10px; font-weight: bold; min-width: 35px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.5); }
+    .p-kit-tier.retired { background: var(--grey); }
   </style>
 </head>
 <body>
@@ -122,7 +130,7 @@
     <h2 id="pName" style="font-family:'MultiCraftFont'; color:#fff; text-shadow:0 0 10px var(--purple); margin: 5px 0;">Player</h2>
     <div id="pMeta" style="margin:15px 0; display:flex; justify-content:center; gap:8px;"></div>
     <div id="pPoints" style="color:var(--gold); font-family:'MultiCraftFont'; font-size:1.4rem; margin-bottom:15px;"></div>
-    <div id="pTiers" style="text-align:left; font-size:0.85rem; border-top:1px solid #222; padding-top:15px; max-height:250px; overflow-y:auto;"></div>
+    <div id="pTiers" class="p-kit-grid"></div>
   </div>
 </div>
 
@@ -217,9 +225,25 @@ function openProfile(name) {
   document.getElementById('pName').innerText = name;
   document.getElementById('pMeta').innerHTML = getTags(name);
   document.getElementById('pPoints').innerText = (DATA.Overall[name] || 0) + " PTS";
-  let ts = "";
-  for(let k in DATA) if(k!=="Players" && k!=="Overall") for(let t in DATA[k]) if(DATA[k][t].includes(name)) ts += `<div style="margin-bottom:10px;"><img src="${KIT_MAP[k]}" style="width:16px; vertical-align:middle; margin-right:8px;"> ${k}: <span class="${t.startsWith('R')?'tier-retired':'tier-gold'}">${t}</span></div>`;
-  document.getElementById('pTiers').innerHTML = ts || "No rankings found.";
+  
+  let gridHtml = "";
+  for(let k in DATA) {
+    if(k!=="Players" && k!=="Overall" && k!=="Servers") {
+      for(let t in DATA[k]) {
+        if(DATA[k][t].includes(name)) {
+          const isRetired = t.startsWith('R');
+          gridHtml += `
+            <div class="p-kit-item">
+              <div class="p-kit-circle" title="${k}">
+                <img src="${KIT_MAP[k]}">
+              </div>
+              <div class="p-kit-tier ${isRetired?'retired':''}">${t}</div>
+            </div>`;
+        }
+      }
+    }
+  }
+  document.getElementById('pTiers').innerHTML = gridHtml || "<div style='color:#666; font-size:0.7rem;'>No rankings found.</div>";
   document.getElementById('profileModal').style.display = 'flex';
 }
 

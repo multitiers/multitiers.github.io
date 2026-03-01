@@ -67,6 +67,18 @@
     .tag { font-family: 'MultiCraftFont'; font-size: 0.5rem; padding: 1px 6px; border-radius: 3px; border: 1px solid #444; display: inline-flex; align-items: center; height: 16px; transition: 0.2s; white-space: nowrap; }
     .tag-row { display: flex; gap: 10px; margin-top: 10px; align-items: center; } 
     
+    .tag-device .full-text {
+  display: none;
+}
+
+.tag-device:hover .short-text {
+  display: none;
+}
+
+.tag-device:hover .full-text {
+  display: inline;
+}
+    
     /* Tier Colors */
     .tier-gold { color: var(--gold) !important; border-color: var(--gold) !important; }
     .tier-retired { color: var(--grey) !important; border-color: var(--grey) !important; }

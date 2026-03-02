@@ -1,6 +1,6 @@
 {
   "Players": [
-    { "name": "ImTheGOAT", "region": "NA", "device": "REFRIDGERATOR" },
+    { "name": "IWontBeTheBest", "region": "NA", "device": "APPLEVISIONPRO" },
     { "name": "Game1K", "region": "NA", "device": "MK" },
     { "name": "sample", "region": "???", "device": "TP" },
     { "name": "system1117", "region": "NA", "device": "MK" },
@@ -14,7 +14,7 @@
     { "name": "revan", "region": "NA", "device": "TP" }
   ],
   "Emerald": {    
-    "HT1": ["Game1K", "ImTheGOAT"],
+    "HT1": ["Game1K", "IWontBeTheBest"],
     "LT1": ["sample"],
     "HT2": ["system1117"],
     "RHT2": ["TimmyLoal"],
@@ -23,18 +23,28 @@
     "HT4": ["TQMEN"]
   },
   "Dragonhide KB": {
-    "HT1": ["Game1K", "ImTheGOAT"],
+    "HT1": ["Game1K", "IWontBeTheBest"],
     "LT1": ["system1117", "DivyamGamerYT"],
     "HT2": ["sample", "skibidi1234"],
     "RHT2": ["TimmyLoal"],
-    "LT2": ["ChillPotato"],
+    "LT2": ["ChillPotato", "V4n1shed"],
     "HT3": ["V4n1shed", "Possessed_YT"],
     "LT3": ["revan"],
     "HT4": ["TQMEN"]
   },
-  "Emerald OA": {},
-  "Dragonhide KB OA": {},
-  "Wand": {},
-  "Emerald KB": {},
-  "Diamond": {}
+  "Emerald OA": {
+    "HT1": ["IWontBeTheBest"]
+  },
+  "Dragonhide KB OA": {
+    "HT1": ["IWontBeTheBest"]
+  },
+  "Wand": {
+    "HT1": ["IWontBeTheBest"]
+  },
+  "Emerald KB": {
+    "HT1": ["IWontBeTheBest"]
+  },
+  "Diamond": {
+    "HT1": ["IWontBeTheBest"]
+  }
 }

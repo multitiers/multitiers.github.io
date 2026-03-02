@@ -12,16 +12,16 @@
       --bg: #010102; --purple: #a855f7; --purple-glow: rgba(168, 85, 247, 0.9);
       --border: rgba(168, 85, 247, 0.4); --gold: #ffd700; --green: #2ecc71; 
       --red: #ff4d4d; --blue: #3498db; --cyan: #00ffff; --yellow: #f1c40f;
-      --oc-color: #ff00ff; --grey: #888;
-      /* Device Colors */
+      --oc-color: #ff00ff; --sa-color: #00ff88; --as-color: #ffcc00; --grey: #888;
       --mk-color: #a855f7; --mb-color: #ff7f50; --ct-color: #3498db; --tp-color: #ff00aa;
     }
 
     body { background: var(--bg); color: #fff; font-family: 'Courier New', monospace; margin: 0; overflow-x: hidden; display: flex; flex-direction: column; align-items: center; }
 
-    /* --- SWORD PULSE --- */
+    /* --- SWORD CENTERED & PULSE --- */
+    header { display: flex; flex-direction: column; align-items: center; width: 100%; }
     .title-sword { width: 55px; margin-top: 20px; animation: swordPulse 2s infinite ease-in-out; filter: drop-shadow(0 0 8px var(--purple)); }
-    @keyframes swordPulse { 0%, 100% { transform: scale(1); filter: drop-shadow(0 0 8px var(--purple)); } 50% { transform: scale(1.1); filter: drop-shadow(0 0 20px var(--purple-glow)); } }
+    @keyframes swordPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); filter: drop-shadow(0 0 20px var(--purple-glow)); } }
 
     /* --- NAVIGATION --- */
     nav { display: flex; justify-content: center; gap: 30px; padding: 15px; background: rgba(0,0,0,0.9); border-bottom: 2px solid var(--border); width: 100%; position: sticky; top: 0; z-index: 500; backdrop-filter: blur(10px); }
@@ -33,6 +33,8 @@
     .reg-oc { color: var(--oc-color); border-color: var(--oc-color); }
     .reg-na { color: var(--blue); border-color: var(--blue); }
     .reg-eu { color: var(--red); border-color: var(--red); }
+    .reg-as { color: var(--as-color); border-color: var(--as-color); }
+    .reg-sa { color: var(--sa-color); border-color: var(--sa-color); }
     
     /* Device Tags */
     .tag-device { cursor: help; }
@@ -43,12 +45,12 @@
     .dev-mb { color: var(--mb-color); border-color: var(--mb-color); }
     .dev-ct { color: var(--ct-color); border-color: var(--ct-color); }
     .dev-tp { color: var(--tp-color); border-color: var(--tp-color); }
-
-    /* Retired Rank */
     .tag-retired { color: var(--grey) !important; border-color: var(--grey) !important; }
 
     /* --- KIT BUTTONS --- */
     .kit-btn { background: #000; border: 1px solid var(--border); padding: 8px 16px; border-radius: 8px; color: #666; cursor: pointer; font-family: 'MultiCraftFont'; font-size: 0.65rem; display: flex; align-items: center; gap: 8px; transition: 0.2s; }
+    .kit-btn img { width: 18px; }
+    .kit-btn.diamond img { width: 24px; } /* Diamond image fix */
     @keyframes pulseKit { 0%, 100% { box-shadow: 0 0 5px var(--glow); transform: scale(1); } 50% { box-shadow: 0 0 18px var(--glow); transform: scale(1.05); } }
     .kit-btn.active.emerald { --glow: var(--green); color: var(--green)!important; border-color: var(--green); animation: pulseKit 2s infinite; }
     .kit-btn.active.dragonhide { --glow: var(--red); color: var(--red)!important; border-color: var(--red); animation: pulseKit 2s infinite; }
@@ -63,12 +65,13 @@
     .tier-card { background: #050508; border: 1px solid var(--border); border-radius: 8px; margin-bottom: 12px; cursor: pointer; transition: 0.2s; padding: 15px; }
     .tier-card:hover { border-color: var(--purple); box-shadow: 0 0 15px var(--purple-glow); }
 
+    /* --- MODAL --- */
     .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 2000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(10px); }
     .modal-content { background: #010102; border: 2px solid var(--purple); border-radius: 12px; padding: 30px; width: 420px; text-align: center; }
     .p-kit-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; margin-top: 20px; border-top: 1px solid #222; padding-top: 20px; }
     .p-kit-circle { width: 50px; height: 50px; border-radius: 50%; border: 2px solid var(--gold); display: flex; align-items: center; justify-content: center; margin-bottom: 8px; }
     .p-kit-circle img { width: 28px; }
-    .p-kit-tier { background: var(--gold); color: #000; font-family: 'MultiCraftFont'; font-size: 0.55rem; padding: 2px 6px; border-radius: 10px; font-weight: bold; }
+    .p-kit-tier { background: var(--gold); color: #000; font-family: 'MultiCraftFont'; font-size: 0.55rem; padding: 2px 8px; border-radius: 10px; font-weight: bold; }
     .p-kit-tier.retired-bg { background: var(--grey); }
   </style>
 </head>
@@ -94,6 +97,7 @@
   <div class="modal-content" onclick="event.stopPropagation()">
     <div id="pRank" style="font-family:'MultiCraftFont'; color:var(--purple); font-size:0.7rem;">RANK #--</div>
     <h2 id="pName" style="font-family:'MultiCraftFont'; color:#fff; margin:10px 0;">Player</h2>
+    <div id="pMeta" style="margin-bottom: 15px;"></div>
     <div id="pPoints" style="color:var(--gold); font-family:'MultiCraftFont'; font-size:1.4rem; margin-bottom:20px;">0 PTS</div>
     <div id="pTiers" class="p-kit-grid"></div>
   </div>
@@ -104,15 +108,10 @@ let DATA = {};
 const DEV_NAMES = { "MK": "Mouse & Keyboard", "MB": "Mobile", "CT": "Controller", "TP": "Trackpad" };
 const KIT_MAP = { "Overall": "backgroundsword.png", "Emerald": "emerald.png", "Dragonhide KB": "dragonhide_kb.png", "Emerald OA": "emerald.png", "Dragonhide KB OA": "kb_oa.png", "Wand": "wand.png", "Diamond": "diamond.png" };
 
-function formatTier(t) {
-  if (t.startsWith('R')) return { text: `Retired ${t.slice(1)}`, class: 'tag-retired' };
-  return { text: t, class: '' };
-}
-
 function getTags(name) {
   const p = DATA.Players?.find(x => x.name === name) || {region:"NA", device:"MK"};
   return `
-    <div style="margin-top:5px;">
+    <div class="tag-row" style="margin-top:5px;">
       <span class="tag reg-${p.region.toLowerCase()}">${p.region}</span>
       <span class="tag tag-device dev-${p.device.toLowerCase()}">
         <span class="short-text">${p.device}</span>
@@ -144,7 +143,7 @@ function buildKitBar() {
     const low = k.toLowerCase();
     let type = low.includes("emerald") ? "emerald" : low.includes("dragonhide") ? "dragonhide" : low.includes("wand") ? "wand" : low.includes("diamond") ? "diamond" : "overall";
     btn.className = `kit-btn ${type} ${k==='Overall'?'active':''}`;
-    btn.innerHTML = `<img src="${KIT_MAP[k]}" style="width:18px;"> ${k.toUpperCase()}`;
+    btn.innerHTML = `<img src="${KIT_MAP[k]}"> ${k.toUpperCase()}`;
     btn.onclick = () => {
       document.querySelectorAll('.kit-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
@@ -169,17 +168,13 @@ function render(kit) {
     const container = document.createElement('div'); container.className = "tier-container";
     ["T1", "T2", "T3", "T4", "T5"].forEach(lvl => {
       let colHtml = `<div class="tier-column"><div class="tier-header">${lvl}</div>`;
-      let playersFound = false;
-      for(let t in DATA[kit]) {
-        if(t.includes(lvl)) {
-          DATA[kit][t].forEach(name => {
-            playersFound = true;
-            const fTier = formatTier(t);
-            colHtml += `<div class="tier-card" onclick="openProfile('${name}')"><span>${name}</span>${getTags(name)}<div style="margin-top:5px;"><span class="tag ${fTier.class}" style="${fTier.class?'':'color:var(--gold); border-color:var(--gold);'}">${fTier.text}</span></div></div>`;
-          });
-        }
-      }
-      if(playersFound) container.innerHTML += colHtml + "</div>";
+      let found = false;
+      for(let t in DATA[kit]) if(t.includes(lvl)) DATA[kit][t].forEach(name => {
+        found = true;
+        const isR = t.startsWith('R');
+        colHtml += `<div class="tier-card" onclick="openProfile('${name}')"><span>${name}</span>${getTags(name)}<div style="margin-top:5px;"><span class="tag ${isR?'tag-retired':''}" style="${isR?'':'color:var(--gold); border-color:var(--gold);'}">${isR?'Retired '+t.slice(1):t}</span></div></div>`;
+      });
+      if(found) container.innerHTML += colHtml + "</div>";
     });
     out.appendChild(container);
   }
@@ -188,10 +183,10 @@ function render(kit) {
 async function switchTab(tab) {
   document.querySelectorAll('.nav-link').forEach(n => n.classList.remove('active'));
   document.getElementById('nav-' + tab).classList.add('active');
-  const out = document.getElementById('displayList'), kb = document.getElementById('kitBar');
-  out.innerHTML = ""; kb.style.display = (tab === 'rankings') ? "flex" : "none";
   const labels = { 'rankings': 'OVERALL', 'hof': 'HALL OF FAME', 'testers': 'TIER TESTERS' };
   document.getElementById('viewLabel').innerText = labels[tab];
+  const out = document.getElementById('displayList'), kb = document.getElementById('kitBar');
+  out.innerHTML = ""; kb.style.display = (tab === 'rankings') ? "flex" : "none";
   if(tab === 'rankings') render("Overall");
   else {
     const r = await fetch(`https://raw.githubusercontent.com/mtctiers/mtctiers.github.io/refs/heads/main/${tab}.json?t=${Date.now()}`);
@@ -206,12 +201,13 @@ function openProfile(name) {
   const rank = sorted.findIndex(x => x[0] === name) + 1;
   document.getElementById('pRank').innerText = `RANK #${rank}`;
   document.getElementById('pName').innerText = name;
+  document.getElementById('pMeta').innerHTML = getTags(name);
   document.getElementById('pPoints').innerText = (DATA.Overall[name] || 0) + " PTS";
   let grid = "";
-  for(let k in DATA) { if(k!=="Overall" && k!=="Players") { for(let t in DATA[k]) { if(DATA[k][t].includes(name)) {
+  for(let k in DATA) if(k!=="Overall" && k!=="Players") for(let t in DATA[k]) if(DATA[k][t].includes(name)) {
     const isR = t.startsWith('R');
     grid += `<div style="display:flex; flex-direction:column; align-items:center;"><div class="p-kit-circle"><img src="${KIT_MAP[k]}"></div><div class="p-kit-tier ${isR?'retired-bg':''}">${isR ? t.slice(1) : t}</div></div>`;
-  }}}}
+  }
   document.getElementById('pTiers').innerHTML = grid || "No Rankings";
   document.getElementById('profileModal').style.display = 'flex';
 }

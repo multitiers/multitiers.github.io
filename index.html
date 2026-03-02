@@ -23,7 +23,6 @@
     @keyframes swordPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); filter: drop-shadow(0 0 20px var(--purple-glow)); } }
     nav { display: flex; justify-content: center; gap: 30px; padding: 15px; background: rgba(0,0,0,0.9); border-bottom: 2px solid var(--border); width: 100%; position: sticky; top: 0; z-index: 100; backdrop-filter: blur(10px); margin-top: 20px; }
     .nav-link { color: #555; font-family: 'MultiCraftFont'; font-size: 0.75rem; cursor: pointer; transition: 0.3s; position: relative; z-index: 110; }
-    .nav-link:hover { color: #aaa; }
     .nav-link.active { color: #fff; text-shadow: 0 0 10px var(--purple); }
     .tag { font-family: 'MultiCraftFont'; font-size: 0.5rem; padding: 2px 6px; border-radius: 4px; border: 1px solid #444; margin-right: 5px; text-transform: uppercase; display: inline-block; }
     .reg-oc { color: var(--oc-color); border-color: var(--oc-color); }
@@ -31,14 +30,16 @@
     .reg-eu { color: var(--red); border-color: var(--red); }
     .reg-as { color: var(--as-color); border-color: var(--as-color); }
     .reg-sa { color: var(--sa-color); border-color: var(--sa-color); }
-    .tag-device { cursor: help; }
+    .tag-device { cursor: help; position: relative; }
+    .tag-device .full-text { display: none; }
+    .tag-device:hover .short-text { display: none; }
+    .tag-device:hover .full-text { display: inline; }
     .dev-mk { color: var(--mk-color); border-color: var(--mk-color); }
     .dev-mb { color: var(--mb-color); border-color: var(--mb-color); }
     .dev-ct { color: var(--ct-color); border-color: var(--ct-color); }
     .dev-tp { color: var(--tp-color); border-color: var(--tp-color); }
     .tag-retired { color: var(--grey) !important; border-color: var(--grey) !important; }
     .kit-btn { background: #000; border: 1px solid var(--border); padding: 8px 16px; border-radius: 8px; color: #666; cursor: pointer; font-family: 'MultiCraftFont'; font-size: 0.65rem; display: flex; align-items: center; gap: 8px; transition: 0.2s; position: relative; z-index: 10; }
-    .kit-btn:hover { border-color: var(--purple); color: #fff; }
     .kit-btn img { width: 18px; height: 18px; object-fit: contain; }
     .kit-btn.diamond img { width: 40px; height: 40px; } 
     @keyframes pulseKit { 0%, 100% { box-shadow: 0 0 5px var(--glow); transform: scale(1); } 50% { box-shadow: 0 0 18px var(--glow); transform: scale(1.05); } }
@@ -53,9 +54,10 @@
     .tier-card { background: #050508; border: 1px solid var(--border); border-radius: 8px; margin-bottom: 12px; cursor: pointer; transition: 0.2s; padding: 15px; position: relative; z-index: 10; }
     .tier-card:hover { border-color: var(--purple); box-shadow: 0 0 15px var(--purple-glow); transform: translateY(-2px); }
     .info-btn { position: fixed; right: 25px; bottom: 25px; background: rgba(0,0,0,0.8); border: 1px solid var(--purple); color: var(--purple); width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 1.5rem; z-index: 500; transition: 0.3s; }
-    .info-btn:hover { background: var(--purple); color: white; box-shadow: 0 0 15px var(--purple-glow); }
     .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 2000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(10px); }
     .modal-content { background: #010102; border: 2px solid var(--purple); border-radius: 12px; padding: 30px; width: 420px; text-align: center; box-shadow: 0 0 30px var(--purple-glow); }
+    .info-grid { text-align: left; font-size: 0.8rem; margin-top: 15px; border-top: 1px solid #222; padding-top: 10px; }
+    .info-row { display: flex; justify-content: space-between; margin-bottom: 5px; }
     .p-kit-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; margin-top: 20px; border-top: 1px solid #222; padding-top: 20px; }
     .p-kit-circle { width: 50px; height: 50px; border-radius: 50%; border: 2px solid var(--gold); display: flex; align-items: center; justify-content: center; margin-bottom: 8px; background: #050508; }
     .p-kit-circle img { width: 28px; height: 28px; object-fit: contain; }
@@ -81,8 +83,15 @@
 <div id="infoModal" class="modal-overlay" onclick="this.style.display='none'">
   <div class="modal-content" onclick="event.stopPropagation()">
     <h3 style="font-family:'MultiCraftFont'; color:var(--purple); margin-bottom:10px;">TIER INFORMATION</h3>
-    <p style="font-size:0.7rem; color:#888;">SERVER CODE: UNRELEASED<br>DISCORD: UNRELEASED</p>
-    <button onclick="document.getElementById('infoModal').style.display='none'" style="margin-top:20px; background:var(--purple); border:none; color:white; padding:8px 20px; border-radius:5px; cursor:pointer;">CLOSE</button>
+    <p style="font-size:0.7rem; color:#888; margin-bottom: 10px;">SERVER CODE: UNRELEASED<br>DISCORD: UNRELEASED</p>
+    <div class="info-grid">
+      <div class="info-row"><span>HT1 / LT1</span><span style="color:var(--gold)">50/40 PTS</span></div>
+      <div class="info-row"><span>HT2 / LT2</span><span style="color:var(--gold)">30/20 PTS</span></div>
+      <div class="info-row"><span>HT3 / LT3</span><span style="color:var(--gold)">12/8 PTS</span></div>
+      <div class="info-row"><span>HT4 / LT4</span><span style="color:var(--gold)">5/3 PTS</span></div>
+      <div class="info-row"><span>HT5 / LT5</span><span style="color:var(--gold)">2/1 PTS</span></div>
+    </div>
+    <button onclick="document.getElementById('infoModal').style.display='none'" style="margin-top:20px; background:var(--purple); border:none; color:white; padding:8px 20px; border-radius:5px; cursor:pointer; font-family:'MultiCraftFont'; font-size:0.6rem;">CLOSE</button>
   </div>
 </div>
 <div id="profileModal" class="modal-overlay" onclick="this.style.display='none'">
@@ -103,7 +112,10 @@ function getTags(name) {
   return `
     <div class="tag-row" style="margin-top:5px;">
       <span class="tag reg-${p.region.toLowerCase()}">${p.region}</span>
-      <span class="tag tag-device dev-${p.device.toLowerCase()}">${p.device}</span>
+      <span class="tag tag-device dev-${p.device.toLowerCase()}">
+        <span class="short-text">${p.device}</span>
+        <span class="full-text">${DEV_NAMES[p.device] || p.device}</span>
+      </span>
     </div>`;
 }
 async function load() {

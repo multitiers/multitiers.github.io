@@ -1,5 +1,6 @@
 {
   "Players": [
+    { "name": "NotMythxc4l", "region": "NA", "device": "MK" },
     { "name": "Game1K", "region": "NA", "device": "MK" },
     { "name": "sample", "region": "???", "device": "TP" },
     { "name": "system1117", "region": "NA", "device": "MK" },
@@ -17,7 +18,7 @@
     "LT1": ["sample"],
     "HT2": ["system1117"],
     "RHT2": ["TimmyLoal"],
-    "LT2": ["Possessed_YT", "V4n1shed"],
+    "LT2": ["Possessed_YT", "V4n1shed", "NotMythxc4l"],
     "HT3": ["revan", "ChillPotato"],
     "HT4": ["TQMEN"]
   },

@@ -23,7 +23,6 @@ header { display: flex; flex-direction: column; align-items: center; width: 100%
 .main-title { font-family: 'MultiCraftFont'; font-size: 2.8rem; color: #fff; text-shadow: 0 0 10px var(--purple); margin: 0; }
 @keyframes swordPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); filter: drop-shadow(0 0 25px var(--purple-glow)); } }
 
-/* MOVED NAV & SEARCH POPUP */
 nav { display: flex; justify-content: center; align-items: center; padding: 10px 40px; background: rgba(0,0,0,0.95); border-bottom: 2px solid var(--border); width: 100%; position: sticky; top: 0; z-index: 100; backdrop-filter: blur(10px); margin-top: 35px; box-sizing: border-box; }
 .nav-center { display: flex; gap: 25px; position: absolute; left: 50%; transform: translateX(-50%); }
 .nav-link { color: #555; font-family: 'MultiCraftFont'; font-size: 0.75rem; cursor: pointer; transition: 0.3s; }
@@ -34,12 +33,11 @@ nav { display: flex; justify-content: center; align-items: center; padding: 10px
 #searchPopup { position: absolute; top: 110%; left: 0; width: 100%; background: #050508; border: 1px solid var(--purple); border-radius: 5px; display: none; z-index: 500; box-shadow: 0 5px 15px rgba(0,0,0,0.8); }
 .search-item { padding: 8px 12px; cursor: pointer; font-family: 'MultiCraftFont'; font-size: 0.6rem; transition: 0.2s; border-bottom: 1px solid #222; display: flex; justify-content: space-between; align-items: center; }
 .search-item:hover { background: #111; }
-.search-item b { color: #fff; }
-.search-item span { color: var(--purple); font-size: 0.5rem; }
 
 #displayList { width: 100%; display: flex; flex-direction: column; align-items: center; padding: 20px 0 100px 0; }
-.tier-card { background: #050508; border: 1px solid var(--border); border-radius: 8px; margin-bottom: 12px; cursor: pointer; transition: 0.3s; padding: 15px; width: 650px; position: relative; }
-.tier-card:hover { border-color: var(--purple); box-shadow: 0 0 12px var(--purple-glow); transform: translateY(-2px); }
+.tier-card { background: #050508; border: 1px solid var(--border); border-radius: 8px; margin-bottom: 12px; transition: 0.3s; padding: 15px; width: 650px; position: relative; }
+.clickable { cursor: pointer; }
+.clickable:hover { border-color: var(--purple); box-shadow: 0 0 12px var(--purple-glow); transform: translateY(-2px); }
 
 .tag { font-family: 'MultiCraftFont'; font-size: 0.55rem; padding: 2px 6px; border-radius: 4px; border: 1px solid #444; margin-right: 5px; display: inline-block; }
 .reg-na { color: var(--na-color); border-color: var(--na-color); }
@@ -52,15 +50,14 @@ nav { display: flex; justify-content: center; align-items: center; padding: 10px
 .dev-ct { color: var(--ct-color); border-color: var(--ct-color); }
 .dev-mb { color: var(--mb-color); border-color: var(--mb-color); }
 
-/* HOVER LOGIC */
-.p-kit-item { position: relative; display: flex; flex-direction: column; align-items: center; }
+/* RE-ENGINEERED HOVER */
+.p-kit-item { position: relative; display: flex; flex-direction: column; align-items: center; width: 80px; }
 .p-kit-circle { width: 52px; height: 52px; border-radius: 50%; border: 2px solid var(--gold); display: flex; align-items: center; justify-content: center; background: #000; transition: 0.3s; }
 .p-kit-circle img { width: 28px; height: 28px; object-fit: contain; }
-.p-kit-hover { position: absolute; bottom: 125%; left: 50%; transform: translateX(-50%) translateY(8px); background: #000; border: 1.5px solid var(--purple); padding: 8px 12px; border-radius: 6px; opacity: 0; visibility: hidden; transition: 0.2s; white-space: nowrap; z-index: 3000; font-family: 'MultiCraftFont'; font-size: 0.6rem; box-shadow: 0 0 15px var(--purple-glow); }
-.p-kit-item:hover .p-kit-hover { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
+.tier-label { font-size: 0.6rem; margin-top: 6px; font-weight: bold; transition: 0.2s; text-align: center; }
 
-.p-kit-item.active-tier:hover .p-kit-circle { border-color: var(--gold); box-shadow: 0 0 15px var(--gold-glow); transform: scale(1.08); }
-.p-kit-item.retired-tier:hover .p-kit-circle { border-color: var(--grey); box-shadow: 0 0 10px rgba(128,128,128,0.3); transform: scale(1.08); }
+.p-kit-item.active-tier:hover .p-kit-circle { border-color: var(--gold); box-shadow: 0 0 15px var(--gold-glow); transform: scale(1.1); }
+.p-kit-item.retired-tier:hover .p-kit-circle { border-color: var(--grey); box-shadow: 0 0 10px rgba(128,128,128,0.3); transform: scale(1.1); }
 
 .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 2000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(10px); }
 .modal-content { background: #010102; border: 2px solid var(--purple); border-radius: 12px; padding: 30px; width: 440px; text-align: center; box-shadow: 0 0 40px var(--purple-glow); }
@@ -130,7 +127,12 @@ let CURRENT_TAB = 'rankings';
 let CURRENT_KIT = 'Overall';
 const KIT_MAP = { "Overall": "", "Emerald": "emerald.png", "Emerald KB": "emerald_kb.png", "Emerald OA": "emerald_oa.png", "Dragonhide KB": "dragonhide_kb.png", "Dragonhide KB OA": "kb_oa.png", "Wand": "wand.png", "Diamond": "diamond.png" };
 
-function formatTierName(t) { return t.startsWith('R') ? "Retired " + t.substring(1) : t; }
+function expandTier(t) {
+    let base = t.startsWith('R') ? "Retired " : "";
+    let level = t.replace('R', '');
+    let full = level.replace('HT', 'High Tier ').replace('LT', 'Low Tier ');
+    return base + full;
+}
 
 function getTags(name) {
     const p = DATA.Players?.find(x => x.name === name) || {region:"NA", device:"MK"};
@@ -164,7 +166,7 @@ function handleSearch(val) {
     if(!val) { pop.style.display = 'none'; return; }
     const matches = Object.keys(DATA.Overall).filter(n => n.toLowerCase().includes(val.toLowerCase())).slice(0, 5);
     if(matches.length > 0) {
-        pop.innerHTML = matches.map(m => `<div class="search-item" onclick="openProfile('${m}'); document.getElementById('searchPopup').style.display='none';"><b>${m}</b> <span>VIEW PROFILE</span></div>`).join('');
+        pop.innerHTML = matches.map(m => `<div class="search-item" onclick="openProfile('${m}'); pop.style.display='none';"><b>${m}</b> <span style="color:var(--purple); font-size:0.5rem;">VIEW PROFILE</span></div>`).join('');
         pop.style.display = 'block';
     } else { pop.style.display = 'none'; }
 }
@@ -173,9 +175,15 @@ function render(kit) {
     if(CURRENT_TAB !== 'rankings') return;
     document.getElementById('viewLabel').innerText = kit.toUpperCase();
     const out = document.getElementById('displayList'); out.innerHTML = "";
+    
+    if(Object.keys(DATA[kit] || {}).length === 0 && kit !== "Overall") {
+        out.innerHTML = `<div style="font-family:'MultiCraftFont'; color:#555; margin-top:50px;">NO RANKED PLAYERS</div>`;
+        return;
+    }
+
     if(kit === "Overall") {
         Object.entries(DATA.Overall).sort((a,b)=>b[1]-a[1]).forEach(([name, pts], i) => {
-            out.innerHTML += `<div class="tier-card" onclick="openProfile('${name}')"><div style="display:flex; justify-content:space-between; align-items:center;"><div><b style="color:var(--purple); margin-right:15px; font-size:1rem;">#${i+1}</b><span style="font-weight:bold; font-size:1rem;">${name}</span>${getTags(name)}</div><b style="color:var(--gold); font-size:1rem;">${pts} PTS</b></div></div>`;
+            out.innerHTML += `<div class="tier-card clickable" onclick="openProfile('${name}')"><div style="display:flex; justify-content:space-between; align-items:center;"><div><b style="color:var(--purple); margin-right:15px; font-size:1rem;">#${i+1}</b><span style="font-weight:bold; font-size:1rem;">${name}</span>${getTags(name)}</div><b style="color:var(--gold); font-size:1rem;">${pts} PTS</b></div></div>`;
         });
     } else {
         const grid = document.createElement('div'); grid.style.display="flex"; grid.style.gap="20px"; grid.style.flexWrap="wrap"; grid.style.justifyContent="center";
@@ -184,11 +192,11 @@ function render(kit) {
             let has = false;
             for(let t in DATA[kit]) if(t.includes(lvl)) DATA[kit][t].forEach(name => {
                 has = true; const isR = t.startsWith('R');
-                col += `<div class="tier-card" style="width:200px; padding:12px;" onclick="openProfile('${name}')"><span style="font-size:0.9rem; font-weight:bold;">${name}</span>${getTags(name)}<div style="font-size:0.6rem; color:${isR?'var(--grey)':'var(--gold)'}; margin-top:5px; font-weight:bold;">${formatTierName(t)}</div></div>`;
+                col += `<div class="tier-card clickable" style="width:200px; padding:12px;" onclick="openProfile('${name}')"><span style="font-size:0.9rem; font-weight:bold;">${name}</span>${getTags(name)}<div style="font-size:0.6rem; color:${isR?'var(--grey)':'var(--gold)'}; margin-top:5px; font-weight:bold;">${isR?'Retired '+t.slice(1):t}</div></div>`;
             });
             if(has) { col += `</div>`; grid.innerHTML += col; }
         });
-        out.appendChild(grid);
+        out.appendChild(grid.innerHTML ? grid : `<div style="font-family:'MultiCraftFont'; color:#555; margin-top:50px;">NO RANKED PLAYERS</div>`);
     }
 }
 
@@ -200,20 +208,25 @@ async function switchTab(tab) {
     out.innerHTML = "";
     if(tab === 'rankings') { kb.style.display="flex"; render(CURRENT_KIT); }
     else {
-        kb.style.display="none"; lb.innerText = tab.toUpperCase().replace('_', ' ');
+        kb.style.display="none"; lb.innerText = tab === 'hof' ? "HALL OF FAME" : "TIER TESTERS";
         const r = await fetch(`https://raw.githubusercontent.com/mtctiers/mtctiers.github.io/refs/heads/main/${tab}.json?v=${Date.now()}`);
         const data = await r.json();
         data.forEach(i => {
-            const disc = i.discord ? `<div style="color:var(--purple); font-size:0.6rem; margin-top:5px;">Discord: ${i.discord}</div>` : "";
-            out.innerHTML += `<div class="tier-card" onclick="openProfile('${i.name}')"><b style="color:var(--purple); font-family:'MultiCraftFont'; font-size:1rem;">${i.name}</b>${disc}<p style="font-size:0.75rem; color:#bbb; margin-top:8px;">${i.description || ''}</p></div>`;
+            const hasProfile = DATA.Overall[i.name];
+            const disc = i.discord ? `<div style="color:var(--purple); font-size:0.75rem; margin-top:5px; font-weight:bold;">Discord: ${i.discord}</div>` : "";
+            out.innerHTML += `<div class="tier-card ${hasProfile?'clickable':''}" ${hasProfile?`onclick="openProfile('${i.name}')"`:''}>
+                <b style="color:var(--purple); font-family:'MultiCraftFont'; font-size:1rem;">${i.name}</b>${disc}
+                <p style="font-size:0.75rem; color:#bbb; margin-top:8px;">${i.description || ''}</p>
+            </div>`;
         });
     }
 }
 
 function openProfile(name) {
+    if(!DATA.Overall[name]) return;
     const sorted = Object.entries(DATA.Overall).sort((a,b)=>b[1]-a[1]);
     const rankIdx = sorted.findIndex(x => x[0] === name);
-    document.getElementById('pRank').innerText = rankIdx !== -1 ? "RANK #" + (rankIdx + 1) : "UNRANKED";
+    document.getElementById('pRank').innerText = "RANK #" + (rankIdx + 1);
     document.getElementById('pName').innerText = name;
     document.getElementById('pMeta').innerHTML = getTags(name);
     document.getElementById('pPoints').innerText = (DATA.Overall[name] || 0) + " PTS";
@@ -221,13 +234,13 @@ function openProfile(name) {
     for(let k in DATA) if(k!=="Overall" && k!=="Players") for(let t in DATA[k]) if(DATA[k][t].includes(name)) {
         const isR = t.startsWith('R');
         const color = isR ? 'var(--grey)' : 'var(--gold)';
-        grid += `<div class="p-kit-item ${isR?'retired-tier':'active-tier'}">
-            <div class="p-kit-hover"><b style="color:var(--purple);">${k}</b><br><span style="color:${color}">${formatTierName(t)}</span></div>
+        grid += `<div class="p-kit-item ${isR?'retired-tier':'active-tier'}" onmouseover="this.querySelector('.tier-label').innerText='${expandTier(t)}'" onmouseout="this.querySelector('.tier-label').innerText='${isR?'Retired '+t.slice(1):t}'">
             <div class="p-kit-circle" style="border-color:${color}">${KIT_MAP[k]?`<img src="${KIT_MAP[k]}">`:''}</div>
-            <div style="font-size:0.6rem; margin-top:6px; color:${color}; font-weight:bold;">${formatTierName(t)}</div>
+            <div class="tier-label" style="color:${color};">${isR?'Retired '+t.slice(1):t}</div>
+            <div style="font-size:0.5rem; color:var(--purple); margin-top:2px;">${k}</div>
         </div>`;
     }
-    document.getElementById('pTiers').innerHTML = grid || "<div style='color:#555;'>No Tiers Recorded</div>";
+    document.getElementById('pTiers').innerHTML = grid;
     document.getElementById('profileModal').style.display = 'flex';
 }
 

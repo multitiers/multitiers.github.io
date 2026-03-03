@@ -11,7 +11,10 @@
     { "name": "ChillPotato", "region": "SA", "device": "MK" },
     { "name": "DivyamGamerYT", "region": "AS", "device": "MK" },
     { "name": "TQMEN", "region": "AS", "device": "MB" },
-    { "name": "revan", "region": "NA", "device": "TP" }
+    { "name": "revan", "region": "NA", "device": "TP" },
+    { "name": "ItzNoob_", "region": "AS", "device": "MK" },
+    { "name": "big-nub", "region": "EU", "device": "MK" },
+    { "name": "Lxderr", "region": "EU", "device": "MB" }
   ],
   "Emerald": {    
     "HT1": ["Game1K"],
@@ -25,10 +28,10 @@
   "Dragonhide KB": {
     "HT1": ["Game1K"],
     "LT1": ["system1117", "DivyamGamerYT"],
-    "HT2": ["sample", "skibidi1234"],
+    "HT2": ["sample", "skibidi1234", "ItzNoob_"],
     "RHT2": ["TimmyLoal"],
-    "LT2": ["ChillPotato"],
-    "HT3": ["V4n1shed", "Possessed_YT"],
+    "LT2": ["ChillPotato", "big-nub"],
+    "HT3": ["V4n1shed", "Possessed_YT", "Lxderr"],
     "LT3": ["revan"],
     "HT4": ["TQMEN"]
   },

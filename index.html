@@ -11,10 +11,10 @@
     --bg: #010102; --purple: #a855f7; --purple-glow: rgba(168, 85, 247, 0.9);
     --border: rgba(168, 85, 247, 0.4); --gold: #ffd700; --gold-glow: rgba(255, 215, 0, 0.6); --grey: #888;
     --na-color: #3498db; --eu-color: #ff4d4d; --sa-color: #00ff88; --oc-color: #ff00ff; --as-color: #ff8800;
-    --mk-color: #00ffff; --mb-color: #ff7f50; --ct-color: #3498db; --tp-color: #ff00aa;
 }
 body { background: var(--bg); color: #fff; font-family: 'Courier New', monospace; margin: 0; overflow-x: hidden; display: flex; flex-direction: column; align-items: center; min-height: 100vh; font-size: 0.9rem; }
 
+/* SWEEP ANIMATION */
 .sweep-bg { position: fixed; inset: 0; z-index: -10; background: linear-gradient(110deg, transparent 40%, rgba(168, 85, 247, 0.15) 50%, transparent 60%); background-size: 250% 100%; animation: shineSweep 8s infinite linear; pointer-events: none; }
 @keyframes shineSweep { 0% { background-position: 250% 0; } 100% { background-position: -250% 0; } }
 
@@ -23,7 +23,7 @@ header { display: flex; flex-direction: column; align-items: center; width: 100%
 .main-title { font-family: 'MultiCraftFont'; font-size: 2.8rem; color: #fff; text-shadow: 0 0 10px var(--purple); margin: 0; }
 @keyframes swordPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); filter: drop-shadow(0 0 25px var(--purple-glow)); } }
 
-nav { display: flex; justify-content: center; align-items: center; padding: 10px 40px; background: rgba(0,0,0,0.95); border-bottom: 2px solid var(--border); width: 100%; position: sticky; top: 0; z-index: 100; backdrop-filter: blur(10px); margin-top: 35px; box-sizing: border-box; }
+nav { display: flex; justify-content: center; align-items: center; padding: 10px 40px; background: rgba(0,0,0,0.95); border-bottom: 2px solid var(--border); width: 100%; position: sticky; top: 0; z-index: 100; backdrop-filter: blur(10px); margin-top: 55px; box-sizing: border-box; }
 .nav-center { display: flex; gap: 25px; position: absolute; left: 50%; transform: translateX(-50%); }
 .nav-link { color: #555; font-family: 'MultiCraftFont'; font-size: 0.75rem; cursor: pointer; transition: 0.3s; }
 .nav-link.active { color: #fff; text-shadow: 0 0 15px var(--purple); }
@@ -39,34 +39,33 @@ nav { display: flex; justify-content: center; align-items: center; padding: 10px
 .clickable { cursor: pointer; }
 .clickable:hover { border-color: var(--purple); box-shadow: 0 0 12px var(--purple-glow); transform: translateY(-2px); }
 
-.tag { font-family: 'MultiCraftFont'; font-size: 0.55rem; padding: 2px 6px; border-radius: 4px; border: 1px solid #444; margin-right: 5px; display: inline-block; }
+/* TAGS & DEVICE HOVER */
+.tag-wrap { position: relative; display: inline-block; margin-right: 5px; }
+.tag { font-family: 'MultiCraftFont'; font-size: 0.55rem; padding: 2px 6px; border-radius: 4px; border: 1px solid #444; display: inline-block; }
+.tag-popup { position: absolute; bottom: 125%; left: 50%; transform: translateX(-50%); background: #000; border: 1px solid var(--purple); padding: 5px 10px; font-size: 0.55rem; border-radius: 4px; white-space: nowrap; visibility: hidden; opacity: 0; transition: 0.2s; z-index: 1000; color: #fff; font-family: 'MultiCraftFont'; }
+.tag-wrap:hover .tag-popup { visibility: visible; opacity: 1; }
+
 .reg-na { color: var(--na-color); border-color: var(--na-color); }
 .reg-eu { color: var(--eu-color); border-color: var(--eu-color); }
 .reg-sa { color: var(--sa-color); border-color: var(--sa-color); }
 .reg-oc { color: var(--oc-color); border-color: var(--oc-color); }
 .reg-as { color: var(--as-color); border-color: var(--as-color); }
-.dev-mk { color: var(--mk-color); border-color: var(--mk-color); }
-.dev-tp { color: var(--tp-color); border-color: var(--tp-color); }
-.dev-ct { color: var(--ct-color); border-color: var(--ct-color); }
-.dev-mb { color: var(--mb-color); border-color: var(--mb-color); }
+.dev-mk { color: #00ffff; border-color: #00ffff; }
+.dev-mb { color: #ff7f50; border-color: #ff7f50; }
 
-/* RE-ENGINEERED HOVER */
-.p-kit-item { position: relative; display: flex; flex-direction: column; align-items: center; width: 80px; }
-.p-kit-circle { width: 52px; height: 52px; border-radius: 50%; border: 2px solid var(--gold); display: flex; align-items: center; justify-content: center; background: #000; transition: 0.3s; }
-.p-kit-circle img { width: 28px; height: 28px; object-fit: contain; }
-.tier-label { font-size: 0.6rem; margin-top: 6px; font-weight: bold; transition: 0.2s; text-align: center; }
+/* MODAL TOOLTIP HOVER */
+.p-kit-item { position: relative; display: flex; flex-direction: column; align-items: center; width: 85px; }
+.p-kit-circle { width: 52px; height: 52px; border-radius: 50%; border: 2px solid var(--gold); display: flex; align-items: center; justify-content: center; background: #000; transition: 0.3s; cursor: help; }
+.p-kit-circle img { width: 28px; height: 28px; }
 
-.p-kit-item.active-tier:hover .p-kit-circle { border-color: var(--gold); box-shadow: 0 0 15px var(--gold-glow); transform: scale(1.1); }
-.p-kit-item.retired-tier:hover .p-kit-circle { border-color: var(--grey); box-shadow: 0 0 10px rgba(128,128,128,0.3); transform: scale(1.1); }
+.kit-popup { position: absolute; bottom: 105%; left: 50%; transform: translateX(-50%) translateY(5px); background: #000; border: 1px solid var(--purple); border-radius: 6px; padding: 10px; opacity: 0; visibility: hidden; transition: 0.2s; z-index: 3000; font-family: 'MultiCraftFont'; font-size: 0.6rem; text-align: center; box-shadow: 0 0 15px var(--purple-glow); line-height: 1.4; }
+.p-kit-item:hover .kit-popup { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
 
 .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 2000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(10px); }
-.modal-content { background: #010102; border: 2px solid var(--purple); border-radius: 12px; padding: 30px; width: 440px; text-align: center; box-shadow: 0 0 40px var(--purple-glow); }
-
-.info-btn { position: fixed; bottom: 20px; right: 20px; width: 38px; height: 38px; background: #000; border: 2px solid var(--purple); border-radius: 50%; color: var(--purple); display: flex; align-items: center; justify-content: center; font-family: 'MultiCraftFont'; font-size: 1rem; cursor: pointer; z-index: 500; transition: 0.3s; }
-.info-btn:hover { background: var(--purple); color: #fff; }
+.modal-content { background: #010102; border: 2px solid var(--purple); border-radius: 12px; padding: 30px; width: 440px; text-align: center; }
 
 #kitBar { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; width: 90%; }
-.kit-btn { background: #000; border: 1px solid var(--border); padding: 8px 16px; border-radius: 6px; color: #666; cursor: pointer; font-family: 'MultiCraftFont'; font-size: 0.65rem; display: flex; align-items: center; gap: 8px; }
+.kit-btn { background: #000; border: 1px solid var(--border); padding: 8px 16px; border-radius: 6px; color: #666; cursor: pointer; font-family: 'MultiCraftFont'; font-size: 0.65rem; }
 .kit-btn.active { color: #fff; border-color: var(--purple); box-shadow: 0 0 12px var(--purple); }
 </style>
 </head>
@@ -80,36 +79,12 @@ nav { display: flex; justify-content: center; align-items: center; padding: 10px
         <div id="nav-hof" class="nav-link" onclick="switchTab('hof')">HALL OF FAME</div>
         <div id="nav-testers" class="nav-link" onclick="switchTab('testers')">TIER TESTERS</div>
     </div>
-    <div class="search-wrap">
-        <input type="text" id="playerSearch" placeholder="SEARCH PLAYER..." oninput="handleSearch(this.value)">
-        <div id="searchPopup"></div>
-    </div>
+    <div class="search-wrap"><input type="text" id="playerSearch" placeholder="SEARCH PLAYER..." oninput="handleSearch(this.value)"><div id="searchPopup"></div></div>
 </nav>
 
 <div id="viewLabel" style="font-family:'MultiCraftFont'; font-size:1.2rem; color:var(--gold); margin:25px 0;">OVERALL</div>
 <div id="kitBar"></div>
 <div id="displayList"></div>
-
-<div class="info-btn" onclick="openInfo()">i</div>
-
-<div id="infoModal" class="modal-overlay" onclick="this.style.display='none'">
-    <div class="modal-content" onclick="event.stopPropagation()">
-        <h2 style="font-family:'MultiCraftFont'; color:var(--purple); margin-top:0;">INFORMATION</h2>
-        <div style="text-align: left; font-size: 0.85rem; line-height: 1.6;">
-            <p><b style="color:var(--purple)">SERVER CODE:</b> UNRELEASED</p>
-            <p><b style="color:var(--purple)">DISCORD:</b> UNRELEASED</p>
-            <hr style="border:0; border-top:1px solid #333; margin:15px 0;">
-            <b style="color:var(--gold); font-family:'MultiCraftFont'; font-size:0.75rem;">POINTS SYSTEM:</b>
-            <div style="display:grid; grid-template-columns: 1fr 1fr; font-size:0.7rem; margin-top:12px; gap:8px;">
-                <div>HT1 = 50 pts</div><div>LT1 = 40 pts</div>
-                <div>HT2 = 30 pts</div><div>LT2 = 20 pts</div>
-                <div>HT3 = 12 pts</div><div>LT3 = 8 pts</div>
-                <div>HT4 = 5 pts</div><div>LT4 = 3 pts</div>
-                <div>HT5 = 2 pts</div><div>LT5 = 1 pt</div>
-            </div>
-        </div>
-    </div>
-</div>
 
 <div id="profileModal" class="modal-overlay" onclick="this.style.display='none'">
     <div class="modal-content" onclick="event.stopPropagation()">
@@ -127,16 +102,15 @@ let CURRENT_TAB = 'rankings';
 let CURRENT_KIT = 'Overall';
 const KIT_MAP = { "Overall": "", "Emerald": "emerald.png", "Emerald KB": "emerald_kb.png", "Emerald OA": "emerald_oa.png", "Dragonhide KB": "dragonhide_kb.png", "Dragonhide KB OA": "kb_oa.png", "Wand": "wand.png", "Diamond": "diamond.png" };
 
-function expandTier(t) {
-    let base = t.startsWith('R') ? "Retired " : "";
-    let level = t.replace('R', '');
-    let full = level.replace('HT', 'High Tier ').replace('LT', 'Low Tier ');
-    return base + full;
-}
+const REG_MAP = { "NA": "North America", "EU": "Europe", "SA": "South America", "OC": "Oceania", "AS": "Asia" };
+const DEV_MAP = { "MK": "Mouse & Keyboard", "MB": "Mobile", "CT": "Controller", "TP": "Touch" };
 
 function getTags(name) {
     const p = DATA.Players?.find(x => x.name === name) || {region:"NA", device:"MK"};
-    return `<div style="margin-top:5px;"><span class="tag reg-${p.region.toLowerCase()}">${p.region}</span><span class="tag dev-${p.device.toLowerCase()}">${p.device}</span></div>`;
+    return `<div style="margin-top:5px;">
+        <div class="tag-wrap"><span class="tag reg-${p.region.toLowerCase()}">${p.region}</span><div class="tag-popup">${REG_MAP[p.region]}</div></div>
+        <div class="tag-wrap"><span class="tag dev-${p.device.toLowerCase()}">${p.device}</span><div class="tag-popup">${DEV_MAP[p.device]}</div></div>
+    </div>`;
 }
 
 async function load() {
@@ -155,20 +129,10 @@ function buildKitBar() {
     Object.keys(KIT_MAP).forEach(k => {
         const btn = document.createElement('button');
         btn.className = `kit-btn ${k==='Overall'?'active':''}`;
-        btn.innerHTML = (KIT_MAP[k] ? `<img src="${KIT_MAP[k]}" style="width:16px;"> ` : "") + k.toUpperCase();
+        btn.innerHTML = (KIT_MAP[k] ? `<img src="${KIT_MAP[k]}" style="width:16px; margin-right:5px;"> ` : "") + k.toUpperCase();
         btn.onclick = () => { if(CURRENT_TAB === 'rankings') { document.querySelectorAll('.kit-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); CURRENT_KIT = k; render(k); }};
         bar.appendChild(btn);
     });
-}
-
-function handleSearch(val) {
-    const pop = document.getElementById('searchPopup');
-    if(!val) { pop.style.display = 'none'; return; }
-    const matches = Object.keys(DATA.Overall).filter(n => n.toLowerCase().includes(val.toLowerCase())).slice(0, 5);
-    if(matches.length > 0) {
-        pop.innerHTML = matches.map(m => `<div class="search-item" onclick="openProfile('${m}'); pop.style.display='none';"><b>${m}</b> <span style="color:var(--purple); font-size:0.5rem;">VIEW PROFILE</span></div>`).join('');
-        pop.style.display = 'block';
-    } else { pop.style.display = 'none'; }
 }
 
 function render(kit) {
@@ -176,8 +140,8 @@ function render(kit) {
     document.getElementById('viewLabel').innerText = kit.toUpperCase();
     const out = document.getElementById('displayList'); out.innerHTML = "";
     
-    if(Object.keys(DATA[kit] || {}).length === 0 && kit !== "Overall") {
-        out.innerHTML = `<div style="font-family:'MultiCraftFont'; color:#555; margin-top:50px;">NO RANKED PLAYERS</div>`;
+    if(kit !== "Overall" && (!DATA[kit] || Object.keys(DATA[kit]).length === 0)) {
+        out.innerHTML = `<h2 style="font-family:'MultiCraftFont'; color:#444; margin-top:50px;">NO RANKED PLAYERS</h2>`;
         return;
     }
 
@@ -196,7 +160,7 @@ function render(kit) {
             });
             if(has) { col += `</div>`; grid.innerHTML += col; }
         });
-        out.appendChild(grid.innerHTML ? grid : `<div style="font-family:'MultiCraftFont'; color:#555; margin-top:50px;">NO RANKED PLAYERS</div>`);
+        out.appendChild(grid);
     }
 }
 
@@ -212,10 +176,10 @@ async function switchTab(tab) {
         const r = await fetch(`https://raw.githubusercontent.com/mtctiers/mtctiers.github.io/refs/heads/main/${tab}.json?v=${Date.now()}`);
         const data = await r.json();
         data.forEach(i => {
-            const hasProfile = DATA.Overall[i.name];
-            const disc = i.discord ? `<div style="color:var(--purple); font-size:0.75rem; margin-top:5px; font-weight:bold;">Discord: ${i.discord}</div>` : "";
-            out.innerHTML += `<div class="tier-card ${hasProfile?'clickable':''}" ${hasProfile?`onclick="openProfile('${i.name}')"`:''}>
-                <b style="color:var(--purple); font-family:'MultiCraftFont'; font-size:1rem;">${i.name}</b>${disc}
+            const hasProf = DATA.Overall[i.name];
+            out.innerHTML += `<div class="tier-card ${hasProf?'clickable':''}" ${hasProf?`onclick="openProfile('${i.name}')"`:''}>
+                <b style="color:var(--purple); font-family:'MultiCraftFont'; font-size:1rem;">${i.name}</b>
+                ${i.discord ? `<div style="color:var(--purple); font-size:0.85rem; font-weight:bold; margin-top:5px;">Discord: ${i.discord}</div>`:''}
                 <p style="font-size:0.75rem; color:#bbb; margin-top:8px;">${i.description || ''}</p>
             </div>`;
         });
@@ -229,22 +193,31 @@ function openProfile(name) {
     document.getElementById('pRank').innerText = "RANK #" + (rankIdx + 1);
     document.getElementById('pName').innerText = name;
     document.getElementById('pMeta').innerHTML = getTags(name);
-    document.getElementById('pPoints').innerText = (DATA.Overall[name] || 0) + " PTS";
+    document.getElementById('pPoints').innerText = DATA.Overall[name] + " PTS";
     let grid = "";
     for(let k in DATA) if(k!=="Overall" && k!=="Players") for(let t in DATA[k]) if(DATA[k][t].includes(name)) {
         const isR = t.startsWith('R');
         const color = isR ? 'var(--grey)' : 'var(--gold)';
-        grid += `<div class="p-kit-item ${isR?'retired-tier':'active-tier'}" onmouseover="this.querySelector('.tier-label').innerText='${expandTier(t)}'" onmouseout="this.querySelector('.tier-label').innerText='${isR?'Retired '+t.slice(1):t}'">
+        const display = isR ? 'Retired ' + t.substring(1) : t;
+        const expanded = display.replace('HT', 'High Tier ').replace('LT', 'Low Tier ');
+        grid += `<div class="p-kit-item">
+            <div class="kit-popup" style="border-color:${color}"><span style="color:${color}">${expanded}</span><br><span style="color:#666">${k}</span></div>
             <div class="p-kit-circle" style="border-color:${color}">${KIT_MAP[k]?`<img src="${KIT_MAP[k]}">`:''}</div>
-            <div class="tier-label" style="color:${color};">${isR?'Retired '+t.slice(1):t}</div>
-            <div style="font-size:0.5rem; color:var(--purple); margin-top:2px;">${k}</div>
+            <div style="font-size:0.6rem; color:${color}; font-weight:bold; margin-top:5px;">${display}</div>
         </div>`;
     }
     document.getElementById('pTiers').innerHTML = grid;
     document.getElementById('profileModal').style.display = 'flex';
 }
 
-function openInfo() { document.getElementById('infoModal').style.display = 'flex'; }
+function handleSearch(val) {
+    const pop = document.getElementById('searchPopup');
+    if(!val) { pop.style.display = 'none'; return; }
+    const matches = Object.keys(DATA.Overall).filter(n => n.toLowerCase().includes(val.toLowerCase())).slice(0, 5);
+    pop.innerHTML = matches.map(m => `<div class="search-item" onclick="openProfile('${m}'); pop.style.display='none';"><b>${m}</b> <span style="color:var(--purple); font-size:0.5rem;">VIEW PROFILE</span></div>`).join('') || "";
+    pop.style.display = matches.length ? 'block' : 'none';
+}
+
 load();
 document.addEventListener('click', (e) => { if(!e.target.closest('.search-wrap')) document.getElementById('searchPopup').style.display = 'none'; });
 </script>

@@ -9,65 +9,67 @@
 @font-face { font-family: 'MultiCraftFont'; src: url('MultiCraftFont.ttf') format('truetype'); }
 :root {
     --bg: #010102; --purple: #a855f7; --purple-glow: rgba(168, 85, 247, 0.9);
-    --border: rgba(168, 85, 247, 0.4); --gold: #ffd700; --grey: #888;
-    /* Regions */
+    --border: rgba(168, 85, 247, 0.4); --gold: #ffd700; --gold-glow: rgba(255, 215, 0, 0.6); --grey: #888;
     --na-color: #3498db; --eu-color: #ff4d4d; --sa-color: #00ff88; --oc-color: #ff00ff; --as-color: #ff8800;
-    /* Devices */
     --mk-color: #00ffff; --mb-color: #ff7f50; --ct-color: #3498db; --tp-color: #ff00aa;
 }
-body { background: var(--bg); color: #fff; font-family: 'Courier New', monospace; margin: 0; overflow-x: hidden; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
+body { background: var(--bg); color: #fff; font-family: 'Courier New', monospace; margin: 0; overflow-x: hidden; display: flex; flex-direction: column; align-items: center; min-height: 100vh; font-size: 1.1rem; }
 
 .sweep-bg { position: fixed; inset: 0; z-index: -10; background: linear-gradient(110deg, transparent 40%, rgba(168, 85, 247, 0.15) 50%, transparent 60%); background-size: 250% 100%; animation: shineSweep 8s infinite linear; pointer-events: none; }
 @keyframes shineSweep { 0% { background-position: 250% 0; } 100% { background-position: -250% 0; } }
 
-header { display: flex; flex-direction: column; align-items: center; width: 100%; padding-top: 20px; position: relative; z-index: 10; }
-.title-sword { width: 55px; margin-bottom: 10px; animation: swordPulse 2s infinite ease-in-out; filter: drop-shadow(0 0 15px var(--purple)); }
-.main-title { font-family: 'MultiCraftFont'; font-size: 3.2rem; color: #fff; text-shadow: 0 0 10px var(--purple), 0 0 20px var(--purple); margin: 0; }
-@keyframes swordPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); filter: drop-shadow(0 0 25px var(--purple-glow)); } }
+header { display: flex; flex-direction: column; align-items: center; width: 100%; padding-top: 50px; position: relative; z-index: 10; }
+.title-sword { width: 70px; margin-bottom: 15px; animation: swordPulse 2s infinite ease-in-out; filter: drop-shadow(0 0 15px var(--purple)); }
+.main-title { font-family: 'MultiCraftFont'; font-size: 4rem; color: #fff; text-shadow: 0 0 15px var(--purple), 0 0 30px var(--purple); margin: 0; }
+@keyframes swordPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.15); filter: drop-shadow(0 0 35px var(--purple-glow)); } }
 
-/* CENTERED NAV */
-nav { display: flex; justify-content: center; align-items: center; padding: 10px 40px; background: rgba(0,0,0,0.9); border-bottom: 2px solid var(--border); width: 100%; position: sticky; top: 0; z-index: 100; backdrop-filter: blur(10px); box-sizing: border-box; }
-.nav-center { display: flex; gap: 30px; position: absolute; left: 50%; transform: translateX(-50%); }
-.nav-link { color: #555; font-family: 'MultiCraftFont'; font-size: 0.75rem; cursor: pointer; transition: 0.3s; }
+/* MOVED NAV DOWN */
+nav { display: flex; justify-content: center; align-items: center; padding: 15px 40px; background: rgba(0,0,0,0.95); border-bottom: 2px solid var(--border); width: 100%; position: sticky; top: 0; z-index: 100; backdrop-filter: blur(10px); margin-top: 50px; box-sizing: border-box; }
+.nav-center { display: flex; gap: 40px; position: absolute; left: 50%; transform: translateX(-50%); }
+.nav-link { color: #555; font-family: 'MultiCraftFont'; font-size: 1rem; cursor: pointer; transition: 0.3s; }
 .nav-link.active { color: #fff; text-shadow: 0 0 15px var(--purple); }
 
-.search-wrap { margin-left: auto; width: 220px; }
-#playerSearch { width: 100%; background: #000; border: 1px solid var(--border); border-radius: 5px; color: #fff; padding: 8px; font-family: 'MultiCraftFont'; font-size: 0.6rem; outline: none; }
+.search-wrap { margin-left: auto; width: 250px; }
+#playerSearch { width: 100%; background: #000; border: 1px solid var(--border); border-radius: 6px; color: #fff; padding: 10px; font-family: 'MultiCraftFont'; font-size: 0.8rem; outline: none; transition: 0.3s; }
+#playerSearch:focus { border-color: var(--purple); box-shadow: 0 0 10px var(--purple-glow); }
 
-#displayList { width: 100%; display: flex; flex-direction: column; align-items: center; padding: 20px 0 100px 0; }
-.tier-card { background: #050508; border: 1px solid var(--border); border-radius: 8px; margin-bottom: 12px; cursor: pointer; transition: 0.3s; padding: 15px; width: 700px; position: relative; }
-.tier-card:hover { border-color: var(--purple); box-shadow: 0 0 15px var(--purple-glow); transform: translateY(-3px); }
+#displayList { width: 100%; display: flex; flex-direction: column; align-items: center; padding: 30px 0 120px 0; }
+.tier-card { background: #050508; border: 1px solid var(--border); border-radius: 10px; margin-bottom: 15px; cursor: pointer; transition: 0.3s; padding: 20px; width: 750px; position: relative; }
+.tier-card:hover { border-color: var(--purple); box-shadow: 0 0 20px var(--purple-glow); transform: translateY(-3px); }
 
-/* TAG COLORS */
-.tag { font-family: 'MultiCraftFont'; font-size: 0.5rem; padding: 2px 6px; border-radius: 4px; border: 1px solid #444; margin-right: 5px; display: inline-block; }
+.tag { font-family: 'MultiCraftFont'; font-size: 0.65rem; padding: 3px 8px; border-radius: 4px; border: 1px solid #444; margin-right: 6px; display: inline-block; }
 .reg-na { color: var(--na-color); border-color: var(--na-color); }
 .reg-eu { color: var(--eu-color); border-color: var(--eu-color); }
 .reg-sa { color: var(--sa-color); border-color: var(--sa-color); }
 .reg-oc { color: var(--oc-color); border-color: var(--oc-color); }
 .reg-as { color: var(--as-color); border-color: var(--as-color); }
-
 .dev-mk { color: var(--mk-color); border-color: var(--mk-color); }
 .dev-tp { color: var(--tp-color); border-color: var(--tp-color); }
 .dev-ct { color: var(--ct-color); border-color: var(--ct-color); }
 .dev-mb { color: var(--mb-color); border-color: var(--mb-color); }
 
-.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.92); z-index: 2000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(10px); }
-.modal-content { background: #010102; border: 2px solid var(--purple); border-radius: 12px; padding: 30px; width: 420px; text-align: center; box-shadow: 0 0 40px var(--purple-glow); }
-
-/* HOVER TOOLTIPS */
+/* REBUILT HOVER SYSTEM */
 .p-kit-item { position: relative; display: flex; flex-direction: column; align-items: center; }
-.p-kit-circle { width: 55px; height: 55px; border-radius: 50%; border: 2px solid var(--gold); display: flex; align-items: center; justify-content: center; background: #050508; transition: 0.3s; }
-.p-kit-circle img { width: 30px; height: 30px; object-fit: contain; }
-.p-kit-hover { position: absolute; bottom: 125%; left: 50%; transform: translateX(-50%); background: #000; border: 1px solid var(--purple); padding: 8px; border-radius: 5px; opacity: 0; visibility: hidden; transition: 0.2s; white-space: nowrap; z-index: 3000; pointer-events: none; font-family: 'MultiCraftFont'; font-size: 0.55rem; }
-.p-kit-item:hover .p-kit-hover { opacity: 1; visibility: visible; }
-.p-kit-item:hover .p-kit-circle { border-color: #fff; box-shadow: 0 0 15px var(--purple); }
+.p-kit-circle { width: 60px; height: 60px; border-radius: 50%; border: 3px solid var(--gold); display: flex; align-items: center; justify-content: center; background: #000; transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+.p-kit-circle img { width: 32px; height: 32px; object-fit: contain; }
+.p-kit-hover { position: absolute; bottom: 130%; left: 50%; transform: translateX(-50%) translateY(10px); background: #000; border: 2px solid var(--purple); padding: 10px 15px; border-radius: 8px; opacity: 0; visibility: hidden; transition: 0.3s ease; white-space: nowrap; z-index: 3000; font-family: 'MultiCraftFont'; font-size: 0.7rem; box-shadow: 0 0 20px var(--purple-glow); }
 
-.info-btn { position: fixed; bottom: 20px; right: 20px; width: 40px; height: 40px; background: #000; border: 2px solid var(--purple); border-radius: 50%; color: var(--purple); display: flex; align-items: center; justify-content: center; font-family: 'MultiCraftFont'; cursor: pointer; z-index: 500; transition: 0.3s; }
-.info-btn:hover { background: var(--purple); color: #fff; }
+.p-kit-item:hover .p-kit-hover { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
 
-#kitBar { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; width: 90%; }
-.kit-btn { background: #000; border: 1px solid var(--border); padding: 8px 16px; border-radius: 8px; color: #666; cursor: pointer; font-family: 'MultiCraftFont'; font-size: 0.6rem; display: flex; align-items: center; gap: 8px; transition: 0.2s; }
-.kit-btn.active { color: #fff; border-color: var(--purple); box-shadow: 0 0 10px var(--purple); }
+/* Regular Tiers Glow Gold */
+.p-kit-item.active-tier:hover .p-kit-circle { border-color: var(--gold); box-shadow: 0 0 20px var(--gold-glow); transform: scale(1.1); }
+/* Retired Tiers Stay Gray */
+.p-kit-item.retired-tier:hover .p-kit-circle { border-color: var(--grey); box-shadow: 0 0 15px rgba(128,128,128,0.4); transform: scale(1.1); }
+
+.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 2000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(12px); }
+.modal-content { background: #010102; border: 3px solid var(--purple); border-radius: 15px; padding: 40px; width: 500px; text-align: center; box-shadow: 0 0 50px var(--purple-glow); }
+
+.info-btn { position: fixed; bottom: 25px; right: 25px; width: 45px; height: 45px; background: #000; border: 2px solid var(--purple); border-radius: 50%; color: var(--purple); display: flex; align-items: center; justify-content: center; font-family: 'MultiCraftFont'; font-size: 1.2rem; cursor: pointer; z-index: 500; transition: 0.3s; }
+.info-btn:hover { background: var(--purple); color: #fff; box-shadow: 0 0 20px var(--purple-glow); }
+
+#kitBar { display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; margin-bottom: 25px; width: 90%; }
+.kit-btn { background: #000; border: 1px solid var(--border); padding: 10px 20px; border-radius: 8px; color: #666; cursor: pointer; font-family: 'MultiCraftFont'; font-size: 0.75rem; display: flex; align-items: center; gap: 10px; transition: 0.2s; }
+.kit-btn.active { color: #fff; border-color: var(--purple); box-shadow: 0 0 15px var(--purple); }
 </style>
 </head>
 <body>
@@ -85,7 +87,7 @@ nav { display: flex; justify-content: center; align-items: center; padding: 10px
     </div>
 </nav>
 
-<div id="viewLabel" style="font-family:'MultiCraftFont'; font-size:1.2rem; color:var(--gold); margin:25px 0;">OVERALL</div>
+<div id="viewLabel" style="font-family:'MultiCraftFont'; font-size:1.5rem; color:var(--gold); margin:30px 0;">OVERALL</div>
 <div id="kitBar"></div>
 <div id="displayList"></div>
 
@@ -94,16 +96,17 @@ nav { display: flex; justify-content: center; align-items: center; padding: 10px
 <div id="infoModal" class="modal-overlay" onclick="this.style.display='none'">
     <div class="modal-content" onclick="event.stopPropagation()">
         <h2 style="font-family:'MultiCraftFont'; color:var(--purple); margin-top:0;">INFORMATION</h2>
-        <div style="text-align: left; font-size: 0.8rem; line-height: 1.6;">
+        <div style="text-align: left; font-size: 1rem; line-height: 1.8;">
             <p><b style="color:var(--purple)">SERVER CODE:</b> UNRELEASED</p>
             <p><b style="color:var(--purple)">DISCORD:</b> UNRELEASED</p>
-            <hr style="border:0; border-top:1px solid #333; margin:15px 0;">
-            <b style="color:var(--gold); font-family:'MultiCraftFont'; font-size:0.7rem;">POINTS SYSTEM:</b>
-            <div style="display:grid; grid-template-columns: 1fr 1fr; font-size:0.55rem; margin-top:10px; gap:8px;">
-                <div>HT1: 50 PTS</div><div>LT1: 40 PTS</div>
-                <div>HT2: 30 PTS</div><div>LT2: 20 PTS</div>
-                <div>HT3: 12 PTS</div><div>LT3: 8 PTS</div>
-                <div>HT4: 5 PTS</div><div>LT4: 3 PTS</div>
+            <hr style="border:0; border-top:1px solid #333; margin:20px 0;">
+            <b style="color:var(--gold); font-family:'MultiCraftFont'; font-size:0.9rem;">POINTS SYSTEM:</b>
+            <div style="display:grid; grid-template-columns: 1fr 1fr; font-size:0.8rem; margin-top:15px; gap:10px;">
+                <div>HT1 = 50 points</div><div>LT1 = 40 points</div>
+                <div>HT2 = 30 points</div><div>LT2 = 20 points</div>
+                <div>HT3 = 12 points</div><div>LT3 = 8 points</div>
+                <div>HT4 = 5 points</div><div>LT4 = 3 points</div>
+                <div>HT5 = 2 points</div><div>LT5 = 1 point</div>
             </div>
         </div>
     </div>
@@ -111,11 +114,11 @@ nav { display: flex; justify-content: center; align-items: center; padding: 10px
 
 <div id="profileModal" class="modal-overlay" onclick="this.style.display='none'">
     <div class="modal-content" onclick="event.stopPropagation()">
-        <div id="pRank" style="font-family:'MultiCraftFont'; color:var(--purple); font-size:0.7rem;">RANK #--</div>
-        <h2 id="pName" style="font-family:'MultiCraftFont'; color:#fff; margin:10px 0;">Player</h2>
-        <div id="pMeta"></div>
-        <div id="pPoints" style="color:var(--gold); font-family:'MultiCraftFont'; font-size:1.4rem; margin-bottom:20px;">0 PTS</div>
-        <div id="pTiers" style="display:flex; flex-wrap:wrap; justify-content:center; gap:20px; border-top:1px solid #222; padding-top:20px;"></div>
+        <div id="pRank" style="font-family:'MultiCraftFont'; color:var(--purple); font-size:0.8rem;">RANK #--</div>
+        <h2 id="pName" style="font-family:'MultiCraftFont'; color:#fff; margin:15px 0; font-size: 2.2rem;">Player</h2>
+        <div id="pMeta" style="margin-bottom: 20px;"></div>
+        <div id="pPoints" style="color:var(--gold); font-family:'MultiCraftFont'; font-size:1.8rem; margin-bottom:25px;">0 PTS</div>
+        <div id="pTiers" style="display:flex; flex-wrap:wrap; justify-content:center; gap:25px; border-top:1px solid #222; padding-top:25px;"></div>
     </div>
 </div>
 
@@ -125,9 +128,14 @@ let CURRENT_TAB = 'rankings';
 let CURRENT_KIT = 'Overall';
 const KIT_MAP = { "Overall": "", "Emerald": "emerald.png", "Emerald KB": "emerald_kb.png", "Emerald OA": "emerald_oa.png", "Dragonhide KB": "dragonhide_kb.png", "Dragonhide KB OA": "kb_oa.png", "Wand": "wand.png", "Diamond": "diamond.png" };
 
+function formatTierName(t) {
+    if (t.startsWith('R')) return "Retired " + t.substring(1);
+    return t;
+}
+
 function getTags(name) {
     const p = DATA.Players?.find(x => x.name === name) || {region:"NA", device:"MK"};
-    return `<div style="margin-top:5px;"><span class="tag reg-${p.region.toLowerCase()}">${p.region}</span><span class="tag dev-${p.device.toLowerCase()}">${p.device}</span></div>`;
+    return `<div style="margin-top:8px;"><span class="tag reg-${p.region.toLowerCase()}">${p.region}</span><span class="tag dev-${p.device.toLowerCase()}">${p.device}</span></div>`;
 }
 
 async function load() {
@@ -146,7 +154,7 @@ function buildKitBar() {
     Object.keys(KIT_MAP).forEach(k => {
         const btn = document.createElement('button');
         btn.className = `kit-btn ${k==='Overall'?'active':''}`;
-        btn.innerHTML = (KIT_MAP[k] ? `<img src="${KIT_MAP[k]}" style="width:16px;"> ` : "") + k.toUpperCase();
+        btn.innerHTML = (KIT_MAP[k] ? `<img src="${KIT_MAP[k]}" style="width:20px;"> ` : "") + k.toUpperCase();
         btn.onclick = () => {
             if(CURRENT_TAB !== 'rankings') return;
             document.querySelectorAll('.kit-btn').forEach(b => b.classList.remove('active'));
@@ -162,7 +170,6 @@ function searchPlayer() {
     if(!q) return;
     const found = Object.keys(DATA.Overall).find(n => n.toLowerCase() === q.toLowerCase());
     if(found) openProfile(found);
-    else alert("Player not found!");
 }
 
 function render(kit) {
@@ -171,17 +178,17 @@ function render(kit) {
     const out = document.getElementById('displayList'); out.innerHTML = "";
     if(kit === "Overall") {
         Object.entries(DATA.Overall).sort((a,b)=>b[1]-a[1]).forEach(([name, pts], i) => {
-            out.innerHTML += `<div class="tier-card" onclick="openProfile('${name}')"><div style="display:flex; justify-content:space-between; align-items:center;"><div><b style="color:var(--purple); margin-right:15px;">#${i+1}</b><span style="font-weight:bold;">${name}</span>${getTags(name)}</div><b style="color:var(--gold);">${pts} PTS</b></div></div>`;
+            out.innerHTML += `<div class="tier-card" onclick="openProfile('${name}')"><div style="display:flex; justify-content:space-between; align-items:center;"><div><b style="color:var(--purple); margin-right:20px; font-size:1.2rem;">#${i+1}</b><span style="font-weight:bold; font-size:1.3rem;">${name}</span>${getTags(name)}</div><b style="color:var(--gold); font-size:1.3rem;">${pts} PTS</b></div></div>`;
         });
     } else {
-        const grid = document.createElement('div'); grid.style.display="flex"; grid.style.gap="20px"; grid.style.flexWrap="wrap"; grid.style.justifyContent="center";
+        const grid = document.createElement('div'); grid.style.display="flex"; grid.style.gap="30px"; grid.style.flexWrap="wrap"; grid.style.justifyContent="center";
         ["T1","T2","T3","T4","T5"].forEach(lvl => {
-            let col = `<div style="min-width:210px;"><div style="color:var(--purple); border-bottom:1px solid var(--border); margin-bottom:10px; text-align:center; font-family:'MultiCraftFont'; font-size:0.8rem;">${lvl}</div>`;
+            let col = `<div style="min-width:230px;"><div style="color:var(--purple); border-bottom:2px solid var(--border); margin-bottom:15px; text-align:center; font-family:'MultiCraftFont'; font-size:1.1rem; padding-bottom:5px;">${lvl}</div>`;
             let has = false;
             for(let t in DATA[kit]) if(t.includes(lvl)) DATA[kit][t].forEach(name => {
                 has = true;
                 const isR = t.startsWith('R');
-                col += `<div class="tier-card" style="width:210px; padding:10px;" onclick="openProfile('${name}')"><b>${name}</b>${getTags(name)}<div style="font-size:0.5rem; color:${isR?'var(--grey)':'var(--gold)'}; margin-top:5px;">${isR?'Retired '+t.slice(1):t}</div></div>`;
+                col += `<div class="tier-card" style="width:230px; padding:15px;" onclick="openProfile('${name}')"><span style="font-size:1.1rem; font-weight:bold;">${name}</span>${getTags(name)}<div style="font-size:0.7rem; color:${isR?'var(--grey)':'var(--gold)'}; margin-top:8px; font-weight:bold;">${formatTierName(t)}</div></div>`;
             });
             if(has) { col += `</div>`; grid.innerHTML += col; }
         });
@@ -194,20 +201,15 @@ async function switchTab(tab) {
     CURRENT_TAB = tab;
     document.querySelectorAll('.nav-link').forEach(n => n.classList.remove('active'));
     document.getElementById('nav-' + tab).classList.add('active');
-    
     const out = document.getElementById('displayList'), kb = document.getElementById('kitBar'), lb = document.getElementById('viewLabel');
-    out.innerHTML = ""; // Clear immediately
-    
-    if(tab === 'rankings') {
-        kb.style.display="flex";
-        render(CURRENT_KIT);
-    } else {
-        kb.style.display="none";
-        lb.innerText = tab === 'hof' ? "HALL OF FAME" : "TIER TESTERS";
+    out.innerHTML = "";
+    if(tab === 'rankings') { kb.style.display="flex"; render(CURRENT_KIT); }
+    else {
+        kb.style.display="none"; lb.innerText = tab === 'hof' ? "HALL OF FAME" : "TIER TESTERS";
         const r = await fetch(`https://raw.githubusercontent.com/mtctiers/mtctiers.github.io/refs/heads/main/${tab}.json?v=${Date.now()}`);
         const data = await r.json();
         data.forEach(i => {
-            out.innerHTML += `<div class="tier-card"><b style="color:var(--purple); font-family:'MultiCraftFont';">${i.name}</b><p style="font-size:0.7rem; color:#bbb; margin-top:10px;">${i.description || ''}</p></div>`;
+            out.innerHTML += `<div class="tier-card" style="cursor:default;"><b style="color:var(--purple); font-family:'MultiCraftFont'; font-size:1.2rem;">${i.name}</b><p style="font-size:0.9rem; color:#bbb; margin-top:12px; line-height:1.5;">${i.description || ''}</p></div>`;
         });
     }
 }
@@ -222,7 +224,12 @@ function openProfile(name) {
     for(let k in DATA) if(k!=="Overall" && k!=="Players") for(let t in DATA[k]) if(DATA[k][t].includes(name)) {
         const isR = t.startsWith('R');
         const color = isR ? 'var(--grey)' : 'var(--gold)';
-        grid += `<div class="p-kit-item"><div class="p-kit-hover">${k}<br>${isR?'Retired '+t.slice(1):t}</div><div class="p-kit-circle" style="border-color:${color}">${KIT_MAP[k]?`<img src="${KIT_MAP[k]}">`:''}</div><div style="font-size:0.5rem; margin-top:5px; color:${color}; font-weight:bold;">${t}</div></div>`;
+        const hoverClass = isR ? 'retired-tier' : 'active-tier';
+        grid += `<div class="p-kit-item ${hoverClass}">
+            <div class="p-kit-hover"><b style="color:var(--purple);">${k}</b><br><span style="color:${color}">${formatTierName(t)}</span></div>
+            <div class="p-kit-circle" style="border-color:${color}">${KIT_MAP[k]?`<img src="${KIT_MAP[k]}">`:''}</div>
+            <div style="font-size:0.7rem; margin-top:8px; color:${color}; font-weight:bold;">${formatTierName(t)}</div>
+        </div>`;
     }
     document.getElementById('pTiers').innerHTML = grid;
     document.getElementById('profileModal').style.display = 'flex';

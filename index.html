@@ -25,8 +25,18 @@
     .nav-link { color: #555; font-family: 'MultiCraftFont'; font-size: 0.75rem; cursor: pointer; transition: 0.3s; position: relative; z-index: 110; }
     .nav-link.active { color: #fff; text-shadow: 0 0 10px var(--purple); }
     
-    .tier-container { display: flex; flex-direction: row; align-items: flex-start; gap: 25px; width: 98%; padding: 20px; overflow-x: auto; scrollbar-width: thin; scrollbar-color: var(--purple) transparent; }
-    .tier-column { min-width: 280px; flex: 0 0 auto; }
+    /* CENTERED HORIZONTAL LAYOUT */
+    .tier-container { 
+      display: flex; 
+      flex-direction: row; 
+      justify-content: center; /* Centers the columns */
+      align-items: flex-start; 
+      gap: 25px; 
+      width: 95%; 
+      padding: 20px;
+      flex-wrap: wrap; /* Allows wrapping if there are many tiers */
+    }
+    .tier-column { min-width: 280px; flex: 0 1 auto; }
     .tier-header { font-family: 'MultiCraftFont'; text-align: center; color: var(--purple); margin-bottom: 15px; font-size: 1rem; border-bottom: 2px solid var(--border); padding-bottom: 8px; text-shadow: 0 0 5px var(--purple); }
 
     .tag { font-family: 'MultiCraftFont'; font-size: 0.5rem; padding: 2px 6px; border-radius: 4px; border: 1px solid #444; margin-right: 5px; text-transform: uppercase; display: inline-block; }
@@ -44,30 +54,25 @@
     .dev-ct { color: var(--ct-color); border-color: var(--ct-color); }
     .dev-tp { color: var(--tp-color); border-color: var(--tp-color); }
     .tag-retired { color: var(--grey) !important; border-color: var(--grey) !important; }
+    
     .kit-btn { background: #000; border: 1px solid var(--border); padding: 8px 16px; border-radius: 8px; color: #666; cursor: pointer; font-family: 'MultiCraftFont'; font-size: 0.65rem; display: flex; align-items: center; gap: 8px; transition: 0.2s; position: relative; z-index: 10; }
     .kit-btn img { width: 18px; height: 18px; object-fit: contain; }
-    .kit-btn.diamond img { width: 40px; height: 40px; } 
     @keyframes pulseKit { 0%, 100% { box-shadow: 0 0 5px var(--glow); transform: scale(1); } 50% { box-shadow: 0 0 18px var(--glow); transform: scale(1.05); } }
     .kit-btn.active.emerald { --glow: var(--green); color: var(--green)!important; border-color: var(--green); animation: pulseKit 2s infinite; }
     .kit-btn.active.dragonhide { --glow: var(--red); color: var(--red)!important; border-color: var(--red); animation: pulseKit 2s infinite; }
     .kit-btn.active.wand { --glow: var(--blue); color: var(--blue)!important; border-color: var(--blue); animation: pulseKit 2s infinite; }
     .kit-btn.active.diamond { --glow: var(--cyan); color: var(--cyan)!important; border-color: var(--cyan); animation: pulseKit 2s infinite; }
     .kit-btn.active.overall { --glow: var(--purple); color: #fff!important; border-color: var(--purple); animation: pulseKit 2s infinite; }
+    
     .tier-card { background: #050508; border: 1px solid var(--border); border-radius: 8px; margin-bottom: 12px; cursor: pointer; transition: 0.2s; padding: 15px; position: relative; z-index: 10; }
     .tier-card:hover { border-color: var(--purple); box-shadow: 0 0 15px var(--purple-glow); transform: translateY(-2px); }
+    
     .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 2000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(10px); }
     .modal-content { background: #010102; border: 2px solid var(--purple); border-radius: 12px; padding: 30px; width: 420px; text-align: center; box-shadow: 0 0 30px var(--purple-glow); }
     .p-kit-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; margin-top: 20px; border-top: 1px solid #222; padding-top: 20px; }
     .p-kit-item { display: flex; flex-direction: column; align-items: center; position: relative; cursor: help; }
     .p-kit-circle { width: 50px; height: 50px; border-radius: 50%; border: 2px solid var(--gold); display: flex; align-items: center; justify-content: center; background: #050508; transition: 0.3s; }
     .p-kit-circle img { width: 28px; height: 28px; object-fit: contain; }
-    .p-kit-hover { position: absolute; bottom: 110%; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.95); border: 1px solid var(--purple); padding: 10px; border-radius: 6px; pointer-events: none; opacity: 0; transition: 0.2s; white-space: nowrap; z-index: 3000; box-shadow: 0 0 15px rgba(0,0,0,0.8); }
-    .p-kit-item:hover .p-kit-hover { opacity: 1; bottom: 125%; }
-    .p-kit-item:hover .p-kit-circle { border-color: #fff; box-shadow: 0 0 10px var(--purple); }
-    .hover-rank { font-family: 'MultiCraftFont'; font-size: 0.6rem; display: block; margin-bottom: 4px; text-transform: uppercase; }
-    .hover-rank.retired { color: var(--grey); }
-    .hover-rank.active-rank { color: var(--gold); }
-    .hover-kitname { font-size: 0.75rem; color: #fff; font-weight: bold; display: block; }
   </style>
 </head>
 <body>
@@ -93,6 +98,7 @@
     <div id="pTiers" class="p-kit-grid"></div>
   </div>
 </div>
+
 <script>
 let DATA = {};
 const DEV_NAMES = { "MK": "Mouse & Keyboard", "MB": "Mobile", "CT": "Controller", "TP": "Trackpad" };
@@ -109,14 +115,7 @@ const KIT_MAP = {
 
 function getTags(name) {
   const p = DATA.Players?.find(x => x.name === name) || {region:"NA", device:"MK"};
-  return `
-    <div class="tag-row" style="margin-top:5px;">
-      <span class="tag reg-${p.region.toLowerCase()}">${p.region}</span>
-      <span class="tag tag-device dev-${p.device.toLowerCase()}">
-        <span class="short-text">${p.device}</span>
-        <span class="full-text">${DEV_NAMES[p.device] || p.device}</span>
-      </span>
-    </div>`;
+  return `<div class="tag-row" style="margin-top:5px;"><span class="tag reg-${p.region.toLowerCase()}">${p.region}</span><span class="tag tag-device dev-${p.device.toLowerCase()}"><span class="short-text">${p.device}</span><span class="full-text">${DEV_NAMES[p.device] || p.device}</span></span></div>`;
 }
 
 async function load() {
@@ -143,11 +142,8 @@ function buildKitBar() {
     const low = k.toLowerCase();
     let type = low.includes("emerald") ? "emerald" : low.includes("dragonhide") ? "dragonhide" : low.includes("wand") ? "wand" : low.includes("diamond") ? "diamond" : "overall";
     btn.className = `kit-btn ${type} ${k==='Overall'?'active':''}`;
-    
-    // Check if an image path exists for this kit
     const imgHtml = KIT_MAP[k] ? `<img src="${KIT_MAP[k]}"> ` : "";
     btn.innerHTML = `${imgHtml}${k.toUpperCase()}`;
-    
     btn.onclick = () => {
       document.querySelectorAll('.kit-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
@@ -163,10 +159,7 @@ function render(kit) {
   if(kit === "Overall") {
     const sorted = Object.entries(DATA.Overall).sort((a,b)=>b[1]-a[1]);
     sorted.forEach(([name, pts], i) => {
-      out.innerHTML += `<div class="tier-card" style="width:700px;" onclick="openProfile('${name}')"><div style="display:flex; justify-content:space-between; align-items:center;">
-        <div style="display:flex; align-items:center;"><b style="color:var(--purple); margin-right:15px; font-family:'MultiCraftFont';">#${i+1}</b>
-        <div><span style="font-weight:bold; font-size:1.1rem;">${name}</span>${getTags(name)}</div></div>
-        <b style="color:var(--gold); font-size:1.1rem;">${pts} PTS</b></div></div>`;
+      out.innerHTML += `<div class="tier-card" style="width:700px;" onclick="openProfile('${name}')"><div style="display:flex; justify-content:space-between; align-items:center;"><div style="display:flex; align-items:center;"><b style="color:var(--purple); margin-right:15px; font-family:'MultiCraftFont';">#${i+1}</b><div><span style="font-weight:bold; font-size:1.1rem;">${name}</span>${getTags(name)}</div></div><b style="color:var(--gold); font-size:1.1rem;">${pts} PTS</b></div></div>`;
     });
   } else {
     const container = document.createElement('div'); 
@@ -174,19 +167,27 @@ function render(kit) {
     let anyPlayersFound = false;
 
     ["T1", "T2", "T3", "T4", "T5"].forEach(lvl => {
-      let colHtml = `<div class="tier-column"><div class="tier-header">${lvl}</div>`;
       let tierHasPlayers = false;
+      let colInnerHtml = `<div class="tier-header">${lvl}</div>`;
+      
       for(let t in DATA[kit]) {
-        if(t.includes(lvl)) {
+        if(t.includes(lvl) && DATA[kit][t].length > 0) {
           DATA[kit][t].forEach(name => {
             tierHasPlayers = true;
             anyPlayersFound = true;
             const isR = t.startsWith('R');
-            colHtml += `<div class="tier-card" onclick="openProfile('${name}')"><span style="font-weight:bold;">${name}</span>${getTags(name)}<div style="margin-top:8px;"><span class="tag ${isR?'tag-retired':''}" style="${isR?'':'color:var(--gold); border-color:var(--gold);'}">${isR?'Retired '+t.slice(1):t}</span></div></div>`;
+            colInnerHtml += `<div class="tier-card" onclick="openProfile('${name}')"><span style="font-weight:bold;">${name}</span>${getTags(name)}<div style="margin-top:8px;"><span class="tag ${isR?'tag-retired':''}" style="${isR?'':'color:var(--gold); border-color:var(--gold);'}">${isR?'Retired '+t.slice(1):t}</span></div></div>`;
           });
         }
       }
-      container.innerHTML += colHtml + "</div>";
+      
+      // ONLY ADD COLUMN IF PLAYERS WERE FOUND
+      if(tierHasPlayers) {
+        const col = document.createElement('div');
+        col.className = "tier-column";
+        col.innerHTML = colInnerHtml;
+        container.appendChild(col);
+      }
     });
 
     if(!anyPlayersFound) {
@@ -229,15 +230,7 @@ function openProfile(name) {
           const isR = t.startsWith('R');
           const displayStatus = isR ? `Retired ${t.slice(1)}` : t;
           const imgPath = KIT_MAP[k] || "";
-          const imgHtml = imgPath ? `<img src="${imgPath}">` : `<span style="font-size:0.5rem; color:#444;">NO IMG</span>`;
-          grid += `
-            <div class="p-kit-item">
-              <div class="p-kit-hover">
-                <span class="hover-rank ${isR?'retired':'active-rank'}">${displayStatus}</span>
-                <span class="hover-kitname">${k}</span>
-              </div>
-              <div class="p-kit-circle">${imgHtml}</div>
-            </div>`;
+          grid += `<div class="p-kit-item"><div class="p-kit-circle">${imgPath ? `<img src="${imgPath}">` : ''}</div><div style="font-size:0.6rem; color:var(--gold); margin-top:5px;">${displayStatus}</div><div style="font-size:0.5rem; color:#888;">${k}</div></div>`;
         }
       }
     }

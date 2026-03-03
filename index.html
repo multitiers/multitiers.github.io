@@ -17,59 +17,42 @@
 body { background: var(--bg); color: #fff; font-family: 'Courier New', monospace; margin: 0; overflow-x: hidden; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
 .sweep-bg { position: fixed; inset: 0; z-index: -10; background: linear-gradient(110deg, transparent 40%, rgba(168, 85, 247, 0.15) 50%, transparent 60%); background-size: 250% 100%; animation: shineSweep 8s infinite linear; pointer-events: none; }
 @keyframes shineSweep { 0% { background-position: 250% 0; } 100% { background-position: -250% 0; } }
-header { display: flex; flex-direction: column; align-items: center; width: 100%; padding-top: 20px; position: relative; z-index: 10; }
-.title-sword { width: 55px; margin-bottom: 10px; animation: swordPulse 2s infinite ease-in-out; filter: drop-shadow(0 0 15px var(--purple)); }
-.main-title { font-family: 'MultiCraftFont'; font-size: 3.2rem; color: #fff; text-shadow: 0 0 10px var(--purple), 0 0 20px var(--purple), 0 0 40px var(--purple-glow); margin: 0; letter-spacing: 2px; }
-@keyframes swordPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.15); filter: drop-shadow(0 0 30px var(--purple-glow)); } }
-nav { display: flex; justify-content: center; gap: 30px; padding: 15px; background: rgba(0,0,0,0.9); border-bottom: 2px solid var(--border); width: 100%; position: sticky; top: 0; z-index: 100; backdrop-filter: blur(10px); margin-top: 20px; }
-.nav-link { color: #555; font-family: 'MultiCraftFont'; font-size: 0.75rem; cursor: pointer; transition: 0.3s; position: relative; z-index: 110; }
+
+header { display: flex; flex-direction: column; align-items: center; width: 100%; padding-top: 40px; position: relative; z-index: 10; text-align: center; }
+.title-sword { width: 60px; margin-bottom: 10px; animation: swordPulse 2s infinite ease-in-out; filter: drop-shadow(0 0 15px var(--purple)); }
+.main-title { font-family: 'MultiCraftFont'; font-size: 3.5rem; color: #fff; text-shadow: 0 0 10px var(--purple), 0 0 20px var(--purple); margin: 0; letter-spacing: 3px; }
+
+nav { display: flex; align-items: center; justify-content: center; padding: 15px 40px; background: rgba(0,0,0,0.9); border-bottom: 2px solid var(--border); width: 100%; position: sticky; top: 0; z-index: 100; backdrop-filter: blur(10px); margin-top: 20px; box-sizing: border-box; }
+.nav-links-container { display: flex; gap: 40px; }
+.nav-link { color: #555; font-family: 'MultiCraftFont'; font-size: 0.8rem; cursor: pointer; transition: 0.3s; }
 .nav-link.active { color: #fff; text-shadow: 0 0 15px var(--purple); }
-.search-wrap { margin: 20px 0; width: 300px; position: relative; }
-#playerSearch { width: 100%; background: #000; border: 1px solid var(--border); border-radius: 5px; color: #fff; padding: 10px; font-family: 'MultiCraftFont'; font-size: 0.7rem; outline: none; transition: 0.3s; }
-#playerSearch:focus { border-color: var(--purple); box-shadow: 0 0 15px var(--purple-glow); }
-#searchResults { position: absolute; top: 110%; left: 0; right: 0; background: #050508; border: 1px solid var(--purple); border-radius: 5px; max-height: 250px; overflow-y: auto; display: none; z-index: 1000; }
-.search-item { padding: 10px; border-bottom: 1px solid #222; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-family: 'MultiCraftFont'; font-size: 0.6rem; }
+
+.search-wrap { position: absolute; right: 40px; width: 200px; }
+#playerSearch { width: 100%; background: #000; border: 1px solid var(--border); border-radius: 5px; color: #fff; padding: 8px; font-family: 'MultiCraftFont'; font-size: 0.6rem; outline: none; }
+#searchResults { position: absolute; top: 110%; right: 0; width: 240px; background: #050508; border: 1px solid var(--purple); border-radius: 5px; max-height: 300px; overflow-y: auto; display: none; }
+.search-item { padding: 10px; border-bottom: 1px solid #222; cursor: pointer; display: flex; justify-content: space-between; font-family: 'MultiCraftFont'; font-size: 0.55rem; }
 .search-item:hover { background: #111; }
-.search-btn-text { color: var(--purple); margin-left: 10px; }
-.tier-container { display: flex; flex-direction: row; justify-content: center; align-items: flex-start; gap: 25px; width: 95%; padding: 20px; flex-wrap: wrap; }
-.tier-column { min-width: 280px; flex: 0 1 auto; }
-.tier-header { font-family: 'MultiCraftFont'; text-align: center; color: var(--purple); margin-bottom: 15px; font-size: 1rem; border-bottom: 2px solid var(--border); padding-bottom: 8px; text-shadow: 0 0 10px var(--purple); }
-.tag { font-family: 'MultiCraftFont'; font-size: 0.5rem; padding: 2px 6px; border-radius: 4px; border: 1px solid #444; margin-right: 5px; text-transform: uppercase; display: inline-block; transition: 0.2s; }
-.reg-oc { color: var(--oc-color); border-color: var(--oc-color); }
+.search-item b { color: var(--purple); }
+
+.tier-card { background: #050508; border: 1px solid var(--border); border-radius: 8px; margin-bottom: 12px; cursor: pointer; transition: 0.3s; padding: 15px; width: 700px; display: flex; justify-content: space-between; align-items: center; }
+.tier-card:hover { border-color: var(--purple); box-shadow: 0 0 15px var(--purple-glow); }
+
+.info-btn { width: 24px; height: 24px; border-radius: 50%; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-family: 'MultiCraftFont'; font-size: 0.6rem; color: var(--purple); transition: 0.3s; margin-left: 20px; }
+.tier-card:hover .info-btn { border-color: var(--purple); background: var(--purple); color: #fff; }
+
+.tag { font-family: 'MultiCraftFont'; font-size: 0.5rem; padding: 2px 6px; border-radius: 4px; border: 1px solid #444; margin-right: 5px; text-transform: uppercase; display: inline-block; margin-top: 5px; }
 .reg-na { color: var(--blue); border-color: var(--blue); }
 .reg-eu { color: var(--red); border-color: var(--red); }
-.reg-as { color: var(--as-color); border-color: var(--as-color); box-shadow: 0 0 5px var(--as-color); }
+.reg-as { color: var(--as-color); border-color: var(--as-color); }
 .reg-sa { color: var(--sa-color); border-color: var(--sa-color); }
-.tag-device { cursor: help; position: relative; }
-.tag-device .full-text { display: none; }
-.tag-device:hover .short-text { display: none; }
-.tag-device:hover .full-text { display: inline; }
-.dev-mk { color: var(--mk-color); border-color: var(--mk-color); box-shadow: 0 0 5px var(--mk-color); }
-.dev-mb { color: var(--mb-color); border-color: var(--mb-color); }
+.reg-oc { color: var(--oc-color); border-color: var(--oc-color); }
+.dev-mk { color: var(--mk-color); border-color: var(--mk-color); }
 .dev-ct { color: var(--ct-color); border-color: var(--ct-color); }
+.dev-mb { color: var(--mb-color); border-color: var(--mb-color); }
 .dev-tp { color: var(--tp-color); border-color: var(--tp-color); }
-.tag-retired { color: var(--grey)!important; border-color: var(--grey)!important; box-shadow: none!important; }
-.kit-btn { background: #000; border: 1px solid var(--border); padding: 8px 16px; border-radius: 8px; color: #666; cursor: pointer; font-family: 'MultiCraftFont'; font-size: 0.65rem; display: flex; align-items: center; gap: 8px; transition: 0.2s; position: relative; z-index: 10; }
-.kit-btn img { width: 18px; height: 18px; object-fit: contain; }
-@keyframes pulseKit { 0%, 100% { box-shadow: 0 0 5px var(--glow); transform: scale(1); } 50% { box-shadow: 0 0 20px var(--glow); transform: scale(1.05); } }
-.kit-btn.active.emerald { --glow: var(--green); color: var(--green)!important; border-color: var(--green); animation: pulseKit 2s infinite; }
-.kit-btn.active.dragonhide { --glow: var(--red); color: var(--red)!important; border-color: var(--red); animation: pulseKit 2s infinite; }
-.kit-btn.active.wand { --glow: var(--blue); color: var(--blue)!important; border-color: var(--blue); animation: pulseKit 2s infinite; }
-.kit-btn.active.diamond { --glow: var(--cyan); color: var(--cyan)!important; border-color: var(--cyan); animation: pulseKit 2s infinite; }
-.kit-btn.active.overall { --glow: var(--purple); color: #fff!important; border-color: var(--purple); animation: pulseKit 2s infinite; }
-.tier-card { background: #050508; border: 1px solid var(--border); border-radius: 8px; margin-bottom: 12px; cursor: pointer; transition: 0.4s; padding: 15px; position: relative; z-index: 10; overflow: hidden; }
-.tier-card:hover { border-color: var(--purple); box-shadow: 0 0 20px var(--purple-glow); transform: translateY(-5px); }
-.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 2000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(15px); }
-.modal-content { background: #010102; border: 2px solid var(--purple); border-radius: 12px; padding: 30px; width: 420px; text-align: center; box-shadow: 0 0 50px var(--purple-glow); animation: modalIn 0.3s ease-out; }
-@keyframes modalIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-.p-kit-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; margin-top: 20px; border-top: 1px solid #222; padding-top: 20px; }
-.p-kit-item { display: flex; flex-direction: column; align-items: center; position: relative; }
-.p-kit-circle { width: 50px; height: 50px; border-radius: 50%; border: 2px solid var(--gold); display: flex; align-items: center; justify-content: center; background: #050508; transition: 0.3s; cursor: help; }
-.p-kit-circle img { width: 28px; height: 28px; object-fit: contain; }
-.p-kit-hover { position: absolute; bottom: 110%; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.95); border: 1px solid var(--purple); padding: 10px; border-radius: 6px; pointer-events: none; opacity: 0; transition: 0.2s; white-space: nowrap; z-index: 3000; }
-.p-kit-item:hover .p-kit-hover { opacity: 1; bottom: 125%; }
-.p-kit-item:hover .p-kit-circle { border-color: #fff; box-shadow: 0 0 15px var(--purple); }
-.p-tier-label { font-family: 'MultiCraftFont'; font-size: 0.55rem; margin-top: 8px; text-transform: uppercase; }
+
+.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 2000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(10px); }
+.modal-content { background: #010102; border: 2px solid var(--purple); border-radius: 12px; padding: 30px; width: 400px; text-align: center; }
 </style>
 </head>
 <body>
@@ -79,157 +62,98 @@ nav { display: flex; justify-content: center; gap: 30px; padding: 15px; backgrou
 <h1 class="main-title">MTC TIERS</h1>
 </header>
 <nav>
-<div id="nav-rankings" class="nav-link active" onclick="switchTab('rankings')">RANKINGS</div>
-<div id="nav-hof" class="nav-link" onclick="switchTab('hof')">HALL OF FAME</div>
-<div id="nav-testers" class="nav-link" onclick="switchTab('testers')">TIER TESTERS</div>
-</nav>
-<div id="viewLabel" style="font-family:'MultiCraftFont'; font-size:1.2rem; color:var(--gold); margin:25px 0;">OVERALL</div>
+<div class="nav-links-container">
+    <div id="nav-rankings" class="nav-link active" onclick="switchTab('rankings')">RANKINGS</div>
+    <div id="nav-hof" class="nav-link" onclick="switchTab('hof')">HALL OF FAME</div>
+    <div id="nav-testers" class="nav-link" onclick="switchTab('testers')">TIER TESTERS</div>
+</div>
 <div class="search-wrap">
-    <input type="text" id="playerSearch" placeholder="SEARCH PLAYER..." oninput="handleSearch()">
+    <input type="text" id="playerSearch" placeholder="SEARCH..." oninput="handleSearch()">
     <div id="searchResults"></div>
 </div>
-<div id="kitBar" style="display:flex; justify-content:center; flex-wrap:wrap; gap:10px; margin-bottom:20px; width: 90%;"></div>
-<div id="displayList" style="width:100%; display:flex; flex-direction:column; align-items:center; padding-bottom: 50px;"></div>
+</nav>
+
+<div id="viewLabel" style="font-family:'MultiCraftFont'; font-size:1.2rem; color:var(--gold); margin:30px 0;">OVERALL</div>
+<div id="displayList" style="width:100%; display:flex; flex-direction:column; align-items:center;"></div>
+
 <div id="profileModal" class="modal-overlay" onclick="this.style.display='none'">
 <div class="modal-content" onclick="event.stopPropagation()">
-<div id="pRank" style="font-family:'MultiCraftFont'; color:var(--purple); font-size:0.7rem;">RANK #--</div>
-<h2 id="pName" style="font-family:'MultiCraftFont'; color:#fff; margin:10px 0;">Player</h2>
-<div id="pMeta" style="margin-bottom: 15px;"></div>
-<div id="pPoints" style="color:var(--gold); font-family:'MultiCraftFont'; font-size:1.4rem; margin-bottom:20px;">0 PTS</div>
-<div id="pTiers" class="p-kit-grid"></div>
+    <div id="pRank" style="font-family:'MultiCraftFont'; color:var(--purple); font-size:0.7rem;">RANK #--</div>
+    <h2 id="pName" style="font-family:'MultiCraftFont'; color:#fff; margin:10px 0;">Player</h2>
+    <div id="pMeta"></div>
+    <div id="pPoints" style="color:var(--gold); font-family:'MultiCraftFont'; font-size:1.5rem; margin:20px 0;">0 PTS</div>
 </div>
 </div>
+
 <script>
 let DATA = {};
-let CURRENT_KIT = "Overall";
-const DEV_NAMES = { "MK": "Mouse & Keyboard", "MB": "Mobile", "CT": "Controller", "TP": "Trackpad" };
-const KIT_MAP = { 
-"Overall": "", 
-"Emerald": "emerald.png", "Emerald KB": "emerald_kb.png", "Emerald OA": "emerald_oa.png",
-"Dragonhide KB": "dragonhide_kb.png", "Dragonhide KB OA": "kb_oa.png", 
-"Wand": "wand.png", "Diamond": "diamond.png" 
-};
+
 function getTags(name) {
-const p = DATA.Players?.find(x => x.name === name) || {region:"NA", device:"MK"};
-return `<div class="tag-row" style="margin-top:5px;"><span class="tag reg-${p.region.toLowerCase()}">${p.region}</span><span class="tag tag-device dev-${p.device.toLowerCase()}"><span class="short-text">${p.device}</span><span class="full-text">${DEV_NAMES[p.device] || p.device}</span></span></div>`;
+    const p = DATA.Players?.find(x => x.name === name) || {region:"NA", device:"MK"};
+    return `<div><span class="tag reg-${p.region.toLowerCase()}">${p.region}</span><span class="tag dev-${p.device.toLowerCase()}">${p.device}</span></div>`;
 }
+
 async function load() {
-const cb = Math.random().toString(36).substring(7) + Date.now();
-const r = await fetch(`https://raw.githubusercontent.com/mtctiers/mtctiers.github.io/refs/heads/main/rankings.json?nocache=${cb}`);
-DATA = await r.json();
-let totals = {};
-const PTS_VALS = { "HT1":50, "LT1":40, "HT2":30, "LT2":20, "HT3":12, "LT3":8, "HT4":5, "LT4":3, "HT5":2, "LT5":1 };
-for(let k in DATA) if(k!=="Players") {
-for(let t in DATA[k]) {
-const base = t.startsWith('R') ? t.substring(1) : t;
-DATA[k][t].forEach(p => totals[p] = (totals[p]||0) + (PTS_VALS[base]||0));
+    const r = await fetch(`https://raw.githubusercontent.com/mtctiers/mtctiers.github.io/refs/heads/main/rankings.json?v=${Date.now()}`);
+    DATA = await r.json();
+    let totals = {};
+    const PTS = { "HT1":50, "LT1":40, "HT2":30, "LT2":20, "HT3":12, "LT3":8, "HT4":5, "LT4":3, "HT5":2, "LT5":1 };
+    for(let k in DATA) if(k!=="Players") {
+        for(let t in DATA[k]) {
+            const base = t.startsWith('R') ? t.substring(1) : t;
+            DATA[k][t].forEach(p => totals[p] = (totals[p]||0) + (PTS[base]||0));
+        }
+    }
+    DATA["Overall"] = totals;
+    render();
 }
-}
-DATA["Overall"] = totals;
-buildKitBar();
-render("Overall");
-}
-function buildKitBar() {
-const bar = document.getElementById('kitBar'); bar.innerHTML = "";
-Object.keys(KIT_MAP).forEach(k => {
-const btn = document.createElement('button');
-const low = k.toLowerCase();
-let type = low.includes("emerald") ? "emerald" : low.includes("dragonhide") ? "dragonhide" : low.includes("wand") ? "wand" : low.includes("diamond") ? "diamond" : "overall";
-btn.className = `kit-btn ${type} ${k==='Overall'?'active':''}`;
-const imgHtml = KIT_MAP[k] ? `<img src="${KIT_MAP[k]}"> ` : "";
-btn.innerHTML = `${imgHtml}${k.toUpperCase()}`;
-btn.onclick = () => {
-document.querySelectorAll('.kit-btn').forEach(b => b.classList.remove('active'));
-btn.classList.add('active');
-CURRENT_KIT = k;
-document.getElementById('viewLabel').innerText = k.toUpperCase();
-render(k);
-};
-bar.appendChild(btn);
-});
-}
+
 function handleSearch() {
-const q = document.getElementById('playerSearch').value.toLowerCase();
-const res = document.getElementById('searchResults');
-res.innerHTML = "";
-if(!q) { res.style.display = "none"; return; }
-const matches = Object.keys(DATA.Overall).filter(n => n.toLowerCase().includes(q));
-if(matches.length > 0) {
-res.style.display = "block";
-matches.forEach(m => {
-const div = document.createElement('div');
-div.className = "search-item";
-div.innerHTML = `<span>${m}</span><span class="search-btn-text">VIEW PROFILE</span>`;
-div.onclick = () => { openProfile(m); res.style.display="none"; document.getElementById('playerSearch').value=""; };
-res.appendChild(div);
-});
-} else { res.style.display = "none"; }
+    const q = document.getElementById('playerSearch').value.toLowerCase();
+    const res = document.getElementById('searchResults');
+    res.innerHTML = "";
+    if(!q) { res.style.display = "none"; return; }
+    const matches = Object.keys(DATA.Overall).filter(n => n.toLowerCase().includes(q));
+    if(matches.length > 0) {
+        res.style.display = "block";
+        matches.forEach(m => {
+            const div = document.createElement('div');
+            div.className = "search-item";
+            div.innerHTML = `<span>${m}</span><b>VIEW PROFILE</b>`;
+            div.onclick = () => { openProfile(m); res.style.display="none"; document.getElementById('playerSearch').value=""; };
+            res.appendChild(div);
+        });
+    } else res.style.display = "none";
 }
-function render(kit) {
-const out = document.getElementById('displayList'); out.innerHTML = "";
-if(kit === "Overall") {
-const sorted = Object.entries(DATA.Overall).sort((a,b)=>b[1]-a[1]);
-sorted.forEach(([name, pts], i) => {
-out.innerHTML += `<div class="tier-card" style="width:700px;" onclick="openProfile('${name}')"><div style="display:flex; justify-content:space-between; align-items:center;"><div style="display:flex; align-items:center;"><b style="color:var(--purple); margin-right:15px; font-family:'MultiCraftFont';">#${i+1}</b><div><span style="font-weight:bold; font-size:1.1rem;">${name}</span>${getTags(name)}</div></div><b style="color:var(--gold); font-size:1.1rem;">${pts} PTS</b></div></div>`;
-});
-} else {
-const container = document.createElement('div'); container.className = "tier-container";
-let anyFound = false;
-["T1", "T2", "T3", "T4", "T5"].forEach(lvl => {
-let tierHasPlayers = false; let colHtml = `<div class="tier-header">${lvl}</div>`;
-for(let t in DATA[kit]) {
-if(t.includes(lvl) && DATA[kit][t].length > 0) {
-DATA[kit][t].forEach(name => {
-tierHasPlayers = true; anyFound = true;
-const isR = t.startsWith('R');
-colHtml += `<div class="tier-card" onclick="openProfile('${name}')"><span style="font-weight:bold;">${name}</span>${getTags(name)}<div style="margin-top:8px;"><span class="tag ${isR?'tag-retired':''}" style="${isR?'':'color:var(--gold); border-color:var(--gold);'}">${isR?'Retired '+t.slice(1):t}</span></div></div>`;
-});
+
+function render() {
+    const out = document.getElementById('displayList');
+    const sorted = Object.entries(DATA.Overall).sort((a,b)=>b[1]-a[1]);
+    sorted.forEach(([name, pts], i) => {
+        out.innerHTML += `
+        <div class="tier-card" onclick="openProfile('${name}')">
+            <div style="display:flex; align-items:center;">
+                <b style="color:var(--purple); margin-right:15px; font-family:'MultiCraftFont';">#${i+1}</b>
+                <div><div style="font-weight:bold; font-size:1.1rem;">${name}</div>${getTags(name)}</div>
+            </div>
+            <div style="display:flex; align-items:center;">
+                <b style="color:var(--gold); font-size:1.1rem;">${pts} PTS</b>
+                <div class="info-btn">i</div>
+            </div>
+        </div>`;
+    });
 }
-}
-if(tierHasPlayers) {
-const col = document.createElement('div'); col.className = "tier-column";
-col.innerHTML = colHtml; container.appendChild(col);
-}
-});
-if(!anyFound) out.innerHTML = `<div style="font-family:'MultiCraftFont'; color:#666; margin-top:50px; font-size:1.5rem;">NO PLAYERS FOUND</div>`;
-else out.appendChild(container);
-}
-}
-async function switchTab(tab) {
-document.querySelectorAll('.nav-link').forEach(n => n.classList.remove('active'));
-document.getElementById('nav-' + tab).classList.add('active');
-document.getElementById('viewLabel').innerText = { 'rankings': 'OVERALL', 'hof': 'HALL OF FAME', 'testers': 'TIER TESTERS' }[tab];
-const out = document.getElementById('displayList'), kb = document.getElementById('kitBar'), sw = document.querySelector('.search-wrap');
-out.innerHTML = ""; 
-kb.style.display = (tab === 'rankings') ? "flex" : "none";
-sw.style.display = (tab === 'rankings') ? "block" : "none";
-if(tab === 'rankings') render("Overall");
-else {
-const r = await fetch(`https://raw.githubusercontent.com/mtctiers/mtctiers.github.io/refs/heads/main/${tab}.json?v=${Date.now()}`);
-(await r.json()).forEach(item => {
-out.innerHTML += `<div class="tier-card" style="width:700px;"><b style="color:var(--purple); font-family:'MultiCraftFont'; font-size:0.9rem;">${item.name}</b>${item.discord ? `<div style="color:#666; font-size:0.75rem; margin-top:4px;">@${item.discord}</div>` : ''}<p style="color:#bbb; font-size:0.8rem; margin-top:10px;">${item.description || ''}</p></div>`;
-});
-}
-}
+
 function openProfile(name) {
-const sorted = Object.entries(DATA.Overall).sort((a,b)=>b[1]-a[1]);
-const rank = sorted.findIndex(x => x[0] === name) + 1;
-document.getElementById('pRank').innerText = `RANK #${rank}`;
-document.getElementById('pName').innerText = name;
-document.getElementById('pMeta').innerHTML = getTags(name);
-document.getElementById('pPoints').innerText = (DATA.Overall[name] || 0) + " PTS";
-let grid = "";
-for(let k in DATA) if(k!=="Overall" && k!=="Players") {
-for(let t in DATA[k]) if(DATA[k][t].includes(name)) {
-const isR = t.startsWith('R'); const displayStatus = isR ? `Retired ${t.slice(1)}` : t;
-const imgPath = KIT_MAP[k] || "";
-grid += `<div class="p-kit-item"><div class="p-kit-hover"><span style="font-family:'MultiCraftFont'; font-size:0.6rem; color:${isR?'var(--grey)':'var(--gold)'}">${displayStatus}</span><br><b style="font-size:0.7rem;">${k}</b></div><div class="p-kit-circle">${imgPath ? `<img src="${imgPath}">` : ''}</div><div class="p-tier-label" style="color:${isR?'var(--grey)':'var(--gold)'}">${displayStatus}</div></div>`;
+    const sorted = Object.entries(DATA.Overall).sort((a,b)=>b[1]-a[1]);
+    const rank = sorted.findIndex(x => x[0] === name) + 1;
+    document.getElementById('pRank').innerText = `RANK #${rank}`;
+    document.getElementById('pName').innerText = name;
+    document.getElementById('pMeta').innerHTML = getTags(name);
+    document.getElementById('pPoints').innerText = (DATA.Overall[name] || 0) + " PTS";
+    document.getElementById('profileModal').style.display = 'flex';
 }
-}
-document.getElementById('pTiers').innerHTML = grid || "<p style='color:#555;'>No Rankings Found</p>";
-document.getElementById('profileModal').style.display = 'flex';
-}
-document.addEventListener('click', (e) => { if(!e.target.closest('.search-wrap')) document.getElementById('searchResults').style.display = 'none'; });
+
 load();
 </script>
 </body>

@@ -14,20 +14,22 @@
     { "name": "revan", "region": "NA", "device": "TP" },
     { "name": "ItzNoob_", "region": "AS", "device": "MK" },
     { "name": "big-nub", "region": "EU", "device": "MK" },
-    { "name": "Lxderr", "region": "EU", "device": "MB" }
+    { "name": "Lxderr", "region": "EU", "device": "MB" },
     { "name": "FarXD", "region": "AS", "device": "MB" }
   ],
-  "Emerald": {    
+
+  "Emerald": {
     "HT1": ["Game1K"],
     "LT1": ["sample"],
     "HT2": ["system1117"],
     "RHT2": ["TimmyLoal"],
     "LT2": ["Possessed_YT", "V4n1shed", "NotMythxc4l"],
     "HT3": ["revan", "ChillPotato"],
-    "LT3": ["TQMEN"]
-    "HT4": ["FarXD"]
+    "LT3": ["TQMEN"],
+    "HT4": ["FarXD"],
     "LT4": ["Lxderr"]
   },
+
   "Dragonhide KB": {
     "HT1": ["Game1K"],
     "LT1": ["system1117", "DivyamGamerYT"],
@@ -36,17 +38,15 @@
     "LT2": ["ChillPotato", "big-nub"],
     "HT3": ["V4n1shed", "Possessed_YT", "Lxderr"],
     "LT3": ["revan"],
-    "HT4": ["TQMEN"]
+    "HT4": ["TQMEN"],
     "LT4": ["FarXD"]
   },
-  "Emerald OA": {
-  },
-  "Dragonhide KB OA": {
-  },
-  "Wand": {
-  },
-  "Emerald KB": {
-  },
+
+  "Emerald OA": {},
+  "Dragonhide KB OA": {},
+  "Wand": {},
+  "Emerald KB": {}
+}
   "Diamond": {
   }
 }

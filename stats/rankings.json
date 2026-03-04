@@ -1,0 +1,54 @@
+{
+  "players": [
+    { "name": "NotMythxc4l", "region": "na", "device": "mk" },
+    { "name": "Game1K", "region": "na", "device": "mk" },
+    { "name": "sample", "region": "???", "device": "tp" },
+    { "name": "system1117", "region": "na", "device": "mk" },
+    { "name": "V4n1shed", "region": "na", "device": "tp" },
+    { "name": "Possessed_YT", "region": "na", "device": "mk" },
+    { "name": "TimmyLoal", "region": "oc", "device": "mk" },
+    { "name": "skibidi1234", "region": "as", "device": "mk" },
+    { "name": "ChillPotato", "region": "sa", "device": "mk" },
+    { "name": "DivyamGamerYT", "region": "as", "device": "mk" },
+    { "name": "TQMEN", "region": "as", "device": "mb" },
+    { "name": "revan", "region": "na", "device": "tp" },
+    { "name": "ItzNoob_", "region": "as", "device": "mk" },
+    { "name": "big-nub", "region": "eu", "device": "mk" },
+    { "name": "Lxderr", "region": "eu", "device": "mb" },
+    { "name": "FarXD", "region": "as", "device": "mb" },
+    { "name": "drago", "region": "as", "device": "mk" },
+    { "name": "Kirby", "region": "as", "device": "mk" },
+    { "name": "NetworkHero", "region": "eu", "device": "mk" },
+    { "name": "LifoMC", "region": "af", "device": "mk" }
+  ],
+
+  "emerald": {
+    "ht1": ["Game1K"],
+    "lt1": ["sample"],
+    "ht2": ["system1117"],
+    "rht2": ["TimmyLoal"],
+    "lt2": ["Possessed_YT", "V4n1shed", "NotMythxc4l"],
+    "ht3": ["revan", "ChillPotato"],
+    "lt3": ["TQMEN"],
+    "ht4": ["FarXD"],
+    "lt4": ["Lxderr"]
+  },
+
+  "dragon": {
+    "ht1": ["Game1K"],
+    "lt1": ["system1117", "DivyamGamerYT"],
+    "ht2": ["sample", "skibidi1234", "ItzNoob_"],
+    "rht2": ["TimmyLoal", "LifoMC"],
+    "lt2": ["ChillPotato", "big-nub"],
+    "ht3": ["V4n1shed", "Possessed_YT", "Lxderr"],
+    "lt3": ["revan", "TQMEN"],
+    "ht4": ["Kirby", "NetworkHero", "drago"],
+    "ht5": ["FarXD"]
+  },
+
+  "emerald_oa": {},
+  "dragon_oa": {},
+  "wand": {},
+  "emerald_kb": {},
+  "diamond": {}
+}

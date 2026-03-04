@@ -16,6 +16,9 @@
     { "name": "big-nub", "region": "EU", "device": "MK" },
     { "name": "Lxderr", "region": "EU", "device": "MB" },
     { "name": "FarXD", "region": "AS", "device": "MB" },
+    { "name": "drago", "region": "AS", "device": "MK" },
+    { "name": "Kirby", "region": "AS", "device": "MK" },
+    { "name": "NetworkHero", "region": "EU", "device": "MK" },
     { "name": "LifoMC", "region": "AF", "device": "MK" }
   ],
 
@@ -39,7 +42,10 @@
     "LT2": ["ChillPotato", "big-nub"],
     "HT3": ["V4n1shed", "Possessed_YT", "Lxderr"],
     "LT3": ["revan"],
-    "HT4": ["TQMEN"],
+    "LT3": ["TQMEN"],
+    "HT4": ["Kirby"],
+    "HT4": ["NetworkHero"],
+    "HT4": ["drago"],
     "HT5": ["FarXD"]
   },
 

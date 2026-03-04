@@ -11,18 +11,16 @@
     --bg: #010102; --purple: #a855f7; --purple-glow: rgba(168, 85, 247, 0.9);
     --border: rgba(168, 85, 247, 0.4); --gold: #ffd700; --gold-glow: rgba(255, 215, 0, 0.6); --grey: #888;
     --na-color: #3498db; --eu-color: #ff4d4d; --sa-color: #00ff88; --oc-color: #ff00ff; --as-color: #ff8800;
+    --af-color: #00d4ff; /* AFRICA COLOR */
 }
 body { background: var(--bg); color: #fff; font-family: 'Courier New', monospace; margin: 0; overflow-x: hidden; display: flex; flex-direction: column; align-items: center; min-height: 100vh; font-size: 0.9rem; }
 
 .sweep-bg { position: fixed; inset: 0; z-index: -10; background: linear-gradient(110deg, transparent 40%, rgba(168, 85, 247, 0.15) 50%, transparent 60%); background-size: 250% 100%; animation: shineSweep 8s infinite linear; pointer-events: none; }
 @keyframes shineSweep { 0% { background-position: 250% 0; } 100% { background-position: -250% 0; } }
 
-/* MOVED DOWN & FIXED ICON JUMPING */
 header { display: flex; flex-direction: column; align-items: center; width: 100%; padding-top: 150px; position: relative; z-index: 10; }
 .title-sword { width: 45px; margin-bottom: 10px; animation: swordGlow 2s infinite ease-in-out; filter: drop-shadow(0 0 5px var(--purple)); }
 .main-title { font-family: 'MultiCraftFont'; font-size: 2.8rem; color: #fff; text-shadow: 0 0 10px var(--purple); margin: 0; }
-
-/* REPLACED SCALE WITH GLOW TO STOP THE UP/DOWN MOTION */
 @keyframes swordGlow { 0%, 100% { filter: drop-shadow(0 0 5px var(--purple)); } 50% { filter: drop-shadow(0 0 20px var(--purple-glow)); } }
 
 nav { display: flex; justify-content: center; align-items: center; padding: 10px 40px; background: rgba(0,0,0,0.95); border-bottom: 2px solid var(--border); width: 100%; position: sticky; top: 0; z-index: 100; backdrop-filter: blur(10px); margin-top: 65px; box-sizing: border-box; }
@@ -53,6 +51,7 @@ nav { display: flex; justify-content: center; align-items: center; padding: 10px
 .reg-sa { color: var(--sa-color); border-color: var(--sa-color); }
 .reg-oc { color: var(--oc-color); border-color: var(--oc-color); }
 .reg-as { color: var(--as-color); border-color: var(--as-color); }
+.reg-af { color: var(--af-color); border-color: var(--af-color); }
 .dev-mk { color: #00ffff; border-color: #00ffff; }
 .dev-mb { color: #ff7f50; border-color: #ff7f50; }
 .dev-ct { color: #3498db; border-color: #3498db; }
@@ -128,7 +127,7 @@ let DATA = {};
 let CURRENT_TAB = 'rankings';
 let CURRENT_KIT = 'Overall';
 const KIT_MAP = { "Overall": "", "Emerald": "emerald.png", "Emerald KB": "emerald_kb.png", "Emerald OA": "emerald_oa.png", "Dragonhide KB": "dragonhide_kb.png", "Dragonhide KB OA": "kb_oa.png", "Wand": "wand.png", "Diamond": "diamond.png" };
-const REG_MAP = { "NA": "North America", "EU": "Europe", "SA": "South America", "OC": "Oceania", "AS": "Asia" };
+const REG_MAP = { "NA": "North America", "EU": "Europe", "SA": "South America", "OC": "Oceania", "AS": "Asia", "AF": "Africa" };
 const DEV_MAP = { "MK": "Mouse & Keyboard", "MB": "Mobile", "CT": "Controller", "TP": "Touchpad" };
 
 function getTags(name) {
@@ -142,11 +141,11 @@ function getTags(name) {
 }
 
 async function load() {
-    const r = await fetch(`https://mtctiers.github.io/rankings.json?v=${Date.now()}`);
+    const r = await fetch(`https://raw.githubusercontent.com/mtctiers/mtctiers.github.io/refs/heads/main/rankings.json?v=${Date.now()}`);
     DATA = await r.json();
     let totals = {};
     const PTS = { "HT1":50, "LT1":40, "HT2":30, "LT2":20, "HT3":12, "LT3":8, "HT4":5, "LT4":3, "HT5":2, "LT5":1 };
-    for(let k in DATA) if(k!=="Players") for(let t in DATA[k]) DATA[k][t].forEach(p => totals[p] = (totals[p]||0) + (PTS[t.replace('R','')]||0));
+    for(let k in DATA) if(k!=="Overall" && k!=="Players") for(let t in DATA[k]) DATA[k][t].forEach(p => totals[p] = (totals[p]||0) + (PTS[t.replace('R','')]||0));
     DATA["Overall"] = totals;
     buildKitBar();
     render("Overall");
@@ -202,7 +201,7 @@ async function switchTab(tab) {
         const r = await fetch(`https://raw.githubusercontent.com/mtctiers/mtctiers.github.io/refs/heads/main/${tab}.json?v=${Date.now()}`);
         const data = await r.json();
         data.forEach(i => {
-            const hasProf = DATA.Overall[i.name];
+            const hasProf = DATA.Overall?.[i.name];
             out.innerHTML += `<div class="tier-card ${hasProf?'clickable':''}" ${hasProf?`onclick="openProfile('${i.name}')"`:''}>
                 <b style="color:var(--purple); font-family:'MultiCraftFont'; font-size:1rem;">${i.name}</b>
                 ${i.discord ? `<div style="color:var(--purple); font-size:0.85rem; font-weight:bold; margin-top:5px;">Discord: ${i.discord}</div>`:''}
@@ -213,7 +212,7 @@ async function switchTab(tab) {
 }
 
 function openProfile(name) {
-    if(!DATA.Overall[name]) return;
+    if(!DATA.Overall?.[name]) return;
     const sorted = Object.entries(DATA.Overall).sort((a,b)=>b[1]-a[1]);
     const rankIdx = sorted.findIndex(x => x[0] === name);
     document.getElementById('pRank').innerText = "RANK #" + (rankIdx + 1);
@@ -224,7 +223,7 @@ function openProfile(name) {
     for(let k in DATA) if(k!=="Overall" && k!=="Players") for(let t in DATA[k]) if(DATA[k][t].includes(name)) {
         const isR = t.startsWith('R');
         const color = isR ? 'var(--grey)' : 'var(--gold)';
-        const display = isR ? 'Retired ' + t.substring(1) : t;
+        const display = isR ? 'HT' + t.substring(2) : t; // HT1 instead of High Tier 1
         grid += `<div class="p-kit-item">
             <div class="kit-popup" style="border-color:${color}"><span style="color:${color}">${display}</span><br><span style="color:#666">${k}</span></div>
             <div class="p-kit-circle" style="border-color:${color}">${KIT_MAP[k]?`<img src="${KIT_MAP[k]}">`:''}</div>
@@ -238,8 +237,8 @@ function openProfile(name) {
 function handleSearch(val) {
     const pop = document.getElementById('searchPopup');
     if(!val) { pop.style.display = 'none'; return; }
-    const matches = Object.keys(DATA.Overall).filter(n => n.toLowerCase().includes(val.toLowerCase())).slice(0, 5);
-    pop.innerHTML = matches.map(m => `<div class="search-item" onclick="openProfile('${m}'); pop.style.display='none';"><b>${m}</b> <span style="color:var(--purple); font-size:0.5rem;">VIEW PROFILE</span></div>`).join('') || "";
+    const matches = Object.keys(DATA.Overall || {}).filter(n => n.toLowerCase().includes(val.toLowerCase())).slice(0, 5);
+    pop.innerHTML = matches.map(m => `<div class="search-item" onclick="openProfile('${m}'); document.getElementById('searchPopup').style.display='none';"><b>${m}</b> <span style="color:var(--purple); font-size:0.5rem;">VIEW PROFILE</span></div>`).join('') || "";
     pop.style.display = matches.length ? 'block' : 'none';
 }
 

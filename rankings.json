@@ -15,6 +15,7 @@
     { "name": "ItzNoob_", "region": "AS", "device": "MK" },
     { "name": "big-nub", "region": "EU", "device": "MK" },
     { "name": "Lxderr", "region": "EU", "device": "MB" }
+    { "name": "FarXD", "region": "AS", "device": "MB" }
   ],
   "Emerald": {    
     "HT1": ["Game1K"],
@@ -24,6 +25,8 @@
     "LT2": ["Possessed_YT", "V4n1shed", "NotMythxc4l"],
     "HT3": ["revan", "ChillPotato"],
     "HT4": ["TQMEN"]
+    "LT4": ["FarXD"]
+    "LT4": ["Lxderr"]
   },
   "Dragonhide KB": {
     "HT1": ["Game1K"],

@@ -1,0 +1,63 @@
+{
+  "Players": [
+    { "name": "NotMythxc4l", "region": "NA", "device": "MK" },
+    { "name": "Game1K", "region": "NA", "device": "MK" },
+    { "name": "sample", "region": "NA", "device": "TP" },
+    { "name": "system1117", "region": "NA", "device": "MK" },
+    { "name": "V4n1shed", "region": "NA", "device": "TP" },
+    { "name": "Possessed_YT", "region": "NA", "device": "MK" },
+    { "name": "TimmyLoal", "region": "OC", "device": "MK" },
+    { "name": "skibidi1234", "region": "AS", "device": "MK" },
+    { "name": "ChillPotato", "region": "SA", "device": "MK" },
+    { "name": "DivyamGamerYT", "region": "AS", "device": "MK" },
+    { "name": "TQMEN", "region": "AS", "device": "MB" },
+    { "name": "revan", "region": "NA", "device": "TP" },
+    { "name": "ItzNoob_", "region": "AS", "device": "MK" },
+    { "name": "big-nub", "region": "EU", "device": "MK" },
+    { "name": "Lxderr", "region": "EU", "device": "MB" },
+    { "name": "FarXD", "region": "AS", "device": "MB" },
+    { "name": "drago", "region": "AS", "device": "MK" },
+    { "name": "Kirby", "region": "AS", "device": "MK" },
+    { "name": "NetworkHero", "region": "EU", "device": "MK" },
+    { "name": "LifoMC", "region": "AF", "device": "MK" },
+    { "name": "AntonioZga9", "region": "NA", "device": "MB" },
+    { "name": "-_Hades_-", "region": "NA", "device": "CT" },
+    { "name": "MGK", "region": "AS", "device": "MB" },
+    { "name": "ArpanYT", "region": "AS", "device": "MB" },
+    { "name": "MatrixOP980", "region": "AS", "device": "MB" },
+    { "name": "unseen-faceless", "region": "AS", "device": "MB" }
+  ],
+
+  "Emerald": {
+    "HT1": ["Game1K"],
+    "LT1": ["sample"],
+    "HT2": ["system1117"],
+    "RHT2": ["TimmyLoal"],
+    "LT2": ["Possessed_YT", "V4n1shed", "NotMythxc4l", "ChillPotato"],
+    "HT3": ["revan"],
+    "LT3": ["TQMEN"],
+    "HT4": ["FarXD"],
+    "LT4": ["Lxderr"],
+    "HT5": ["ArpanYT", "MatrixOP980"],
+    "LT5": ["MGK"]
+  },
+
+  "Dragonhide KB": {
+    "HT1": ["Game1K"],
+    "LT1": ["system1117", "DivyamGamerYT"],
+    "HT2": ["sample", "skibidi1234", "ItzNoob_"],
+    "RHT2": ["TimmyLoal", "LifoMC"],
+    "LT2": ["ChillPotato", "big-nub", "NotMythxc4l"],
+    "HT3": ["V4n1shed", "Possessed_YT", "Lxderr", "-_Hades_-"],
+    "LT3": ["revan", "TQMEN", "unseen-faceless"],
+    "HT4": ["Kirby", "NetworkHero", "drago", "MatrixOP980"],
+    "HT5": ["FarXD", "AntonioZga9"],
+    "LT5": ["MGK", "ArpanYT"]
+  },
+
+  "Emerald OA": {},
+  "Dragonhide KB OA": {},
+  "Wand": {},
+  "Emerald KB": {},
+  "Diamond": {}
+}

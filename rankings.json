@@ -31,7 +31,8 @@
     { "name": "Afdemonking", "region": "EU", "device": "MB" },
     { "name": "oncethebestpvp", "region": "NA", "device": "MB" },
     { "name": "supermobilenoobpvp", "region": "EU", "device": "MB" },
-    { "name": "Cosmix_", "region": "EU", "device": "MK" }
+    { "name": "Cosmix_", "region": "EU", "device": "MK" },
+    { "name": "M0rt7uxMC", "region": "AS", "device": "MK" },
   ],
 
   "Emerald": {
@@ -53,7 +54,7 @@
     "LT1": ["system1117", "DivyamGamerYT"],
     "HT2": ["sample", "skibidi1234", "ItzNoob_"],
     "RHT2": ["TimmyLoal", "LifoMC"],
-    "LT2": ["ChillPotato", "big-nub", "NotMythxc4l"],
+    "LT2": ["ChillPotato", "big-nub", "NotMythxc4l", "M0rt7uxMC"],
     "HT3": ["V4n1shed", "Possessed_YT", "Lxderr", "-_Hades_-", "f0rg1v3n"],
     "LT3": ["revan", "TQMEN", "unseen-faceless"],
     "HT4": ["Kirby", "NetworkHero", "drago", "MatrixOP980", "SaintOfZytrox"],

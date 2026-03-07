@@ -34,6 +34,7 @@
     { "name": "Cosmix_", "region": "EU", "device": "MK" },
     { "name": "M0rt7uxMC", "region": "AS", "device": "MK" },
     { "name": "Gamemaster2000_YT", "region": "AS", "device": "MB" },
+    { "name": "Mane", "region": "EU", "device": "MB" },
     { "name": "urLilEKitten_", "region": "EU", "device": "MK" }
   ],
 
@@ -45,7 +46,7 @@
     "LT2": ["Possessed_YT", "V4n1shed", "NotMythxc4l", "ChillPotato", "skibidi1234"],
     "HT3": ["revan"],
     "LT3": ["TQMEN", "big-nub"],
-    "HT4": ["FarXD"],
+    "HT4": ["FarXD", "Mane"],
     "LT4": ["Lxderr"],
     "HT5": ["ArpanYT", "MatrixOP980"],
     "LT5": ["MGK", "Afdemonking"]
@@ -60,7 +61,7 @@
     "HT3": ["V4n1shed", "Possessed_YT", "Lxderr", "-_Hades_-", "f0rg1v3n"],
     "LT3": ["revan", "TQMEN", "unseen-faceless", "Gamemaster2000_YT"],
     "HT4": ["Kirby", "NetworkHero", "drago", "MatrixOP980", "SaintOfZytrox"],
-    "LT4": ["supermobilenoobpvp", "oncethebestpvp"],
+    "LT4": ["supermobilenoobpvp", "oncethebestpvp","Mane"],
     "HT5": ["FarXD", "AntonioZga9"],
     "LT5": ["MGK", "ArpanYT"]
   },

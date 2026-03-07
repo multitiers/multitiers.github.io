@@ -36,7 +36,9 @@
     { "name": "Gamemaster2000_YT", "region": "AS", "device": "MB" },
     { "name": "Mane", "region": "EU", "device": "MB" },
     { "name": "urLilEKitten_", "region": "EU", "device": "MK" },
-    { "name": "Jerryisking", "region": "AS", "device": "MK" }
+    { "name": "Jerryisking", "region": "AS", "device": "MK" },
+    { "name": "chi-na", "region": "EU", "device": "MK" },
+    { "name": "CJSHORT", "region": "EU", "device": "MK" }
   ],
 
   "Emerald": {
@@ -45,7 +47,7 @@
     "HT2": ["system1117", "Jerryisking"],
     "RHT2": ["TimmyLoal"],
     "LT2": ["Possessed_YT", "V4n1shed", "NotMythxc4l", "ChillPotato", "skibidi1234"],
-    "HT3": ["revan"],
+    "HT3": ["revan", "CJSHORT"],
     "LT3": ["big-nub"],
     "HT4": ["FarXD", "Mane"],
     "LT4": ["Lxderr"],
@@ -62,7 +64,7 @@
     "HT3": ["V4n1shed", "Possessed_YT", "-_Hades_-", "f0rg1v3n", "Jerryisking"],
     "LT3": ["revan"],
     "HT4": ["Kirby", "NetworkHero", "drago", "MatrixOP980", "SaintOfZytrox"],
-    "LT4": ["supermobilenoobpvp", "oncethebestpvp","Mane"],
+    "LT4": ["supermobilenoobpvp", "oncethebestpvp", "Mane", "chi-na"],
     "HT5": ["FarXD", "AntonioZga9"],
     "LT5": ["MGK", "ArpanYT"]
   },

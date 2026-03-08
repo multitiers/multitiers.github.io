@@ -39,7 +39,8 @@
     { "name": "Jerryisking", "region": "AS", "device": "MK" },
     { "name": "chi-na", "region": "EU", "device": "MK" },
     { "name": "StrawberryButter", "region": "AS", "device": "MK" },
-    { "name": "CJSHORT", "region": "EU", "device": "MK" }
+    { "name": "CJSHORT", "region": "EU", "device": "MK" },
+    { "name": "Husky_Multicraft", "region": "NA", "device": "MK" }
   ],
 
   "Emerald": {
@@ -49,7 +50,7 @@
     "RHT2": ["TimmyLoal"],
     "LT2": ["Possessed_YT", "NotMythxc4l", "ChillPotato", "skibidi1234"],
     "HT3": ["revan", "CJSHORT", "V4n1shed"],
-    "LT3": ["big-nub"],
+    "LT3": ["big-nub", "Husky_Multicraft"],
     "HT4": ["FarXD", "Mane"],
     "LT4": ["Lxderr"],
     "HT5": ["ArpanYT", "MatrixOP980"],

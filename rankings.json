@@ -41,9 +41,8 @@
     { "name": "Husky_Multicraft", "region": "NA", "device": "MK" },
     { "name": "quickhertz", "region": "NA", "device": "MK" },
     { "name": "ChillPotato", "region": "AS", "device": "MK" },
-    { "name": "RayValidd", "region": "AS", "device": "MK" }
-    { "name": "ShadowBlade", "region": "NA", "device": "CT" },
-    { "name": "chi-na", "region": "NA", "device": "MB" }
+    { "name": "RayValidd", "region": "AS", "device": "MK" },
+    { "name": "ShadowBlade", "region": "NA", "device": "CT" }
   ],
 
   "Emerald": {

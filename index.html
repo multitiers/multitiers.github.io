@@ -4,10 +4,48 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MTC TIERS</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/mtctiers/mtctiers.github.io@main/css.css?v=777">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/mtctiers/mtctiers.github.io@main/css.css?v=999">
     <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/mtctiers/mtctiers.github.io/refs/heads/main/assets/backgroundsword.png">
-    <meta property="og:title" content="MTC TIERS">
-    <meta property="og:description" content="Rankings and Tiertesting for MultiCraft.">
+    
+    <style>
+        /* FORCED HOVER ENGINE - OVERRIDING EXTERNAL CSS */
+        .tag-wrap, .p-kit-item { 
+            position: relative !important; 
+            display: inline-block !important; 
+        }
+
+        .tag-popup, .kit-popup {
+            position: absolute !important;
+            bottom: 150% !important;
+            left: 50% !important;
+            transform: translateX(-50%) translateY(10px) !important;
+            background: #08080c !important;
+            color: #fff !important;
+            padding: 6px 12px !important;
+            font-size: 0.65rem !important;
+            border-radius: 4px !important;
+            border: 1px solid #a855f7 !important; /* var(--purple) */
+            white-space: nowrap !important;
+            box-shadow: 0 0 15px rgba(0,0,0,1) !important;
+            
+            /* HIDDEN STATE */
+            opacity: 0 !important;
+            visibility: hidden !important;
+            transition: 0.2s ease-out !important;
+            pointer-events: none !important;
+            z-index: 9999 !important;
+        }
+
+        .kit-popup { border-color: #ffd700 !important; bottom: 120% !important; }
+
+        /* TRIGGER VISIBILITY */
+        .tag-wrap:hover .tag-popup, 
+        .p-kit-item:hover .kit-popup {
+            opacity: 1 !important;
+            visibility: visible !important;
+            transform: translateX(-50%) translateY(0) !important;
+        }
+    </style>
 </head>
 <body>
 <div class="sweep-bg"></div>
@@ -30,25 +68,6 @@
 <div id="displayList"></div>
 
 <div class="info-btn" onclick="openInfo()">i</div>
-
-<div id="infoModal" class="modal-overlay" onclick="this.style.display='none'">
-    <div class="modal-content" onclick="event.stopPropagation()">
-        <h2 style="font-family:'MultiCraftFont'; color:var(--purple); margin-top:0;">INFORMATION</h2>
-        <div style="text-align: left; font-size: 0.85rem; line-height: 1.6;">
-            <p><b style="color:var(--purple)">SERVER CODE:</b> UNRELEASED</p>
-            <p><b style="color:var(--purple)">DISCORD:</b> UNRELEASED</p>
-            <hr style="border:0; border-top:1px solid #333; margin:15px 0;">
-            <b style="color:var(--gold); font-family:'MultiCraftFont'; font-size:0.75rem;">POINTS SYSTEM:</b>
-            <div style="display:grid; grid-template-columns: 1fr 1fr; font-size:0.7rem; margin-top:12px; gap:8px;">
-                <div>HT1 = 50 pts</div><div>LT1 = 40 pts</div>
-                <div>HT2 = 30 pts</div><div>LT2 = 20 pts</div>
-                <div>HT3 = 12 pts</div><div>LT3 = 8 pts</div>
-                <div>HT4 = 5 pts</div><div>LT4 = 3 pts</div>
-                <div>HT5 = 2 pts</div><div>LT5 = 1 pt</div>
-            </div>
-        </div>
-    </div>
-</div>
 
 <div id="profileModal" class="modal-overlay" onclick="this.style.display='none'">
     <div class="modal-content" onclick="event.stopPropagation()">
@@ -135,28 +154,6 @@ function render(kit) {
     }
 }
 
-async function switchTab(tab) {
-    CURRENT_TAB = tab;
-    document.querySelectorAll('.nav-link').forEach(n => n.classList.remove('active'));
-    document.getElementById('nav-' + tab).classList.add('active');
-    const out = document.getElementById('displayList'), kb = document.getElementById('kitBar'), lb = document.getElementById('viewLabel');
-    out.innerHTML = "";
-    if(tab === 'rankings') { kb.style.display="flex"; render(CURRENT_KIT); }
-    else {
-        kb.style.display="none"; lb.innerText = tab === 'hof' ? "HALL OF FAME" : "TIER TESTERS";
-        const r = await fetch(`${DATA_PATH}${tab}.json?v=${Date.now()}`);
-        const data = await r.json();
-        data.forEach(i => {
-            const hasProf = DATA.Overall?.[i.name];
-            out.innerHTML += `<div class="tier-card ${hasProf?'clickable':''}" ${hasProf?`onclick="openProfile('${i.name}')"`:''}>
-                <b style="color:var(--purple); font-family:'MultiCraftFont'; font-size:1rem;">${i.name}</b>
-                ${i.discord ? `<div style="color:var(--purple); font-size:0.85rem; font-weight:bold; margin-top:5px;">Discord: ${i.discord}</div>`:''}
-                <p style="font-size:0.75rem; color:#bbb; margin-top:8px;">${i.description || ''}</p>
-            </div>`;
-        });
-    }
-}
-
 function openProfile(name) {
     if(!DATA.Overall?.[name]) return;
     const sorted = Object.entries(DATA.Overall).sort((a,b)=>b[1]-a[1]);
@@ -186,6 +183,28 @@ function handleSearch(val) {
     const matches = Object.keys(DATA.Overall || {}).filter(n => n.toLowerCase().includes(val.toLowerCase())).slice(0, 5);
     pop.innerHTML = matches.map(m => `<div class="search-item" onclick="openProfile('${m}'); document.getElementById('searchPopup').style.display='none';"><b>${m}</b> <span style="color:var(--purple); font-size:0.5rem;">VIEW</span></div>`).join('');
     pop.style.display = matches.length ? 'block' : 'none';
+}
+
+async function switchTab(tab) {
+    CURRENT_TAB = tab;
+    document.querySelectorAll('.nav-link').forEach(n => n.classList.remove('active'));
+    document.getElementById('nav-' + tab).classList.add('active');
+    const out = document.getElementById('displayList'), kb = document.getElementById('kitBar'), lb = document.getElementById('viewLabel');
+    out.innerHTML = "";
+    if(tab === 'rankings') { kb.style.display="flex"; render(CURRENT_KIT); }
+    else {
+        kb.style.display="none"; lb.innerText = tab === 'hof' ? "HALL OF FAME" : "TIER TESTERS";
+        const r = await fetch(`${DATA_PATH}${tab}.json?v=${Date.now()}`);
+        const data = await r.json();
+        data.forEach(i => {
+            const hasProf = DATA.Overall?.[i.name];
+            out.innerHTML += `<div class="tier-card ${hasProf?'clickable':''}" ${hasProf?`onclick="openProfile('${i.name}')"`:''}>
+                <b style="color:var(--purple); font-family:'MultiCraftFont'; font-size:1rem;">${i.name}</b>
+                ${i.discord ? `<div style="color:var(--purple); font-size:0.85rem; font-weight:bold; margin-top:5px;">Discord: ${i.discord}</div>`:''}
+                <p style="font-size:0.75rem; color:#bbb; margin-top:8px;">${i.description || ''}</p>
+            </div>`;
+        });
+    }
 }
 
 function openInfo() { document.getElementById('infoModal').style.display = 'flex'; }

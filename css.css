@@ -242,48 +242,39 @@ nav {
 .kit-btn.active { color: #fff; border-color: var(--purple); box-shadow: 0 0 12px var(--purple); }
 
 /* --- HOVER ENGINE --- */
+.tag-wrap, .p-kit-item {
+    position: relative;
+    display: inline-block;
+}
 
-/* Tooltip Styling */
 .tag-popup, .kit-popup {
     position: absolute;
-    bottom: 130%; /* Positions it above the tag */
+    bottom: 140%;
     left: 50%;
-    transform: translateX(-50%) translateY(5px);
-    background: #000;
-    color: #fff;
-    padding: 6px 10px;
+    transform: translateX(-50%) translateY(10px);
+    background: #08080c !important; /* Solid dark background */
+    color: #fff !important;
+    padding: 6px 12px;
     border-radius: 4px;
     border: 1px solid var(--purple);
     font-size: 0.6rem;
-    font-family: 'MultiCraftFont';
     white-space: nowrap;
-    z-index: 1000;
+    z-index: 9999; /* Ensure it stays on top */
     
-    /* Initially Hidden */
+    /* Hidden by default */
     visibility: hidden;
     opacity: 0;
     transition: 0.2s ease-out;
     pointer-events: none;
-    box-shadow: 0 0 10px rgba(0,0,0,0.8);
+    box-shadow: 0 0 15px rgba(0,0,0,1);
 }
 
-/* Specific border for kit tooltips */
-.kit-popup { 
-    border-color: var(--gold); 
-    bottom: 110%; /* Adjust for kit circles */
-}
+.kit-popup { border-color: var(--gold); }
 
-/* Trigger Visibility on Hover */
+/* Trigger hover */
 .tag-wrap:hover .tag-popup, 
 .p-kit-item:hover .kit-popup {
     visibility: visible;
     opacity: 1;
     transform: translateX(-50%) translateY(0);
-}
-
-/* Add a slight scale effect to kits when hovered */
-.p-kit-item:hover .p-kit-circle {
-    transform: scale(1.1);
-    box-shadow: 0 0 12px var(--gold-glow);
-    transition: 0.2s;
 }

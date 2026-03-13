@@ -4,7 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MTC TIERS</title>
-    <link rel="stylesheet" href="css.css">
+    
+    <meta property="og:title" content="MTC TIERS">
+    <meta property="og:description" content="Rankings and Tiertesting for MultiCraft.">
+    <meta property="og:url" content="https://mtctiers.github.io/">
+    <meta property="og:image" content="https://raw.githubusercontent.com/mtctiers/mtctiers.github.io/refs/heads/main/assets/backgroundsword.png">
+    <meta property="og:type" content="website">
+
+    <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/mtctiers/mtctiers.github.io/refs/heads/main/assets/backgroundsword.png">
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/mtctiers/mtctiers.github.io@main/css.css">
 </head>
 <body>
 <div class="sweep-bg"></div>
@@ -33,7 +42,7 @@
     <div class="modal-content" onclick="event.stopPropagation()">
         <div id="pRank" style="font-family:'MultiCraftFont'; color:var(--purple); font-size:0.7rem;">RANK #--</div>
         <h2 id="pName" style="font-family:'MultiCraftFont'; color:#fff; margin:10px 0; font-size: 1.8rem;">Player</h2>
-        <div id="pMeta" style="margin-bottom: 15px;"></div>
+        <div id="pMeta"></div>
         <div id="pPoints" style="color:var(--gold); font-family:'MultiCraftFont'; font-size:1.4rem; margin-bottom:20px;">0 PTS</div>
         <div id="pTiers"></div>
     </div>
@@ -45,7 +54,6 @@ const DATA_PATH = "https://raw.githubusercontent.com/mtctiers/mtctiers.github.io
 
 const KIT_MAP = { "Overall": "", "Emerald": "emerald.png", "Emerald KB": "emerald_kb.png", "Emerald OA": "emerald_oa.png", "Dragonhide KB": "dragonhide_kb.png", "Dragonhide KB OA": "kb_oa.png", "Wand": "wand.png", "Diamond": "diamond.png" };
 
-// --- CONFIGURATION MAPS (EDIT COLORS HERE) ---
 const REG_MAP = { 
     "NA": { name: "North America", color: "#3498db" }, 
     "EU": { name: "Europe", color: "#ff4d4d" }, 
@@ -67,14 +75,16 @@ let CURRENT_TAB = 'rankings';
 let CURRENT_KIT = 'Overall';
 
 async function load() {
-    const r = await fetch(`${DATA_PATH}rankings.json?v=${Date.now()}`);
-    DATA = await r.json();
-    let totals = {};
-    const PTS = { "HT1":50, "LT1":40, "HT2":30, "LT2":20, "HT3":12, "LT3":8, "HT4":5, "LT4":3, "HT5":2, "LT5":1 };
-    for(let k in DATA) if(k!=="Overall" && k!=="Players") for(let t in DATA[k]) DATA[k][t].forEach(p => totals[p] = (totals[p]||0) + (PTS[t.replace('R','')]||0));
-    DATA["Overall"] = totals;
-    buildKitBar();
-    render("Overall");
+    try {
+        const r = await fetch(`${DATA_PATH}rankings.json?v=${Date.now()}`);
+        DATA = await r.json();
+        let totals = {};
+        const PTS = { "HT1":50, "LT1":40, "HT2":30, "LT2":20, "HT3":12, "LT3":8, "HT4":5, "LT4":3, "HT5":2, "LT5":1 };
+        for(let k in DATA) if(k!=="Overall" && k!=="Players") for(let t in DATA[k]) DATA[k][t].forEach(p => totals[p] = (totals[p]||0) + (PTS[t.replace('R','')]||0));
+        DATA["Overall"] = totals;
+        buildKitBar();
+        render("Overall");
+    } catch(e) { console.error("Load failed", e); }
 }
 
 function getTags(name) {
@@ -82,7 +92,7 @@ function getTags(name) {
     const reg = REG_MAP[p.region] || { name: p.region, color: "#888" };
     const dev = DEV_MAP[p.device] || { name: p.device, color: "#888" };
     
-    return `<div style="margin-top:5px; display:flex; justify-content:center; gap:5px;">
+    return `<div style="margin-top:5px; display:flex; justify-content:center; gap:8px;">
         <div class="tag-wrap" style="--tag-color: ${reg.color}">
             <span class="tag">${p.region}</span>
             <div class="tag-popup">${reg.name}</div>
@@ -92,17 +102,6 @@ function getTags(name) {
             <div class="tag-popup">${dev.name}</div>
         </div>
     </div>`;
-}
-
-function buildKitBar() {
-    const bar = document.getElementById('kitBar'); bar.innerHTML = "";
-    Object.keys(KIT_MAP).forEach(k => {
-        const btn = document.createElement('button');
-        btn.className = `kit-btn ${k==='Overall'?'active':''}`;
-        btn.innerHTML = (KIT_MAP[k] ? `<img src="${ASSETS}${KIT_MAP[k]}" style="width:16px; margin-right:5px;"> ` : "") + k.toUpperCase();
-        btn.onclick = () => { CURRENT_KIT = k; document.querySelectorAll('.kit-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); render(k); };
-        bar.appendChild(btn);
-    });
 }
 
 function render(kit) {
@@ -132,12 +131,8 @@ function openProfile(name) {
                     const isR = t.startsWith('R');
                     const color = isR ? 'var(--grey)' : 'var(--gold)';
                     const displayTier = isR ? 'Retired ' + t.substring(1) : t;
-                    
                     grid += `<div class="p-kit-item">
-                        <div class="kit-popup" style="border-color:${color}">
-                            <span style="color:${color}">${displayTier}</span><br>
-                            <span style="color:#666">${k}</span>
-                        </div>
+                        <div class="kit-popup" style="border-color:${color}"><span style="color:${color}">${displayTier}</span><br><span style="color:#666">${k}</span></div>
                         <div class="p-kit-circle" style="border-color:${color}">${KIT_MAP[k]?`<img src="${ASSETS}${KIT_MAP[k]}">`:''}</div>
                         <div style="font-size:0.6rem; color:${color}; font-weight:bold; margin-top:5px;">${displayTier}</div>
                     </div>`;
@@ -147,6 +142,17 @@ function openProfile(name) {
     }
     document.getElementById('pTiers').innerHTML = grid;
     document.getElementById('profileModal').style.display = 'flex';
+}
+
+function buildKitBar() {
+    const bar = document.getElementById('kitBar'); bar.innerHTML = "";
+    Object.keys(KIT_MAP).forEach(k => {
+        const btn = document.createElement('button');
+        btn.className = `kit-btn ${k==='Overall'?'active':''}`;
+        btn.innerHTML = (KIT_MAP[k] ? `<img src="${ASSETS}${KIT_MAP[k]}" style="width:16px; margin-right:5px;"> ` : "") + k.toUpperCase();
+        btn.onclick = () => { CURRENT_KIT = k; document.querySelectorAll('.kit-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); render(k); };
+        bar.appendChild(btn);
+    });
 }
 
 function handleSearch(val) {

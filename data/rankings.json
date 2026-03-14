@@ -43,7 +43,7 @@
     { "name": "ChillPotato", "region": "AS", "device": "MK" },
     { "name": "RayValidd", "region": "AS", "device": "MK" },
     { "name": "-_ItsEthanLIT_-", "region": "SA", "device": "CT" },
-    { "name": "Jetbunz99", "region": "SA", "device": "MB" },
+    { "name": "Jetbunz99", "region": "Unknown", "device": "MB" },
     { "name": "Oden_Sama", "region": "Unknown", "device": "MB" },
     { "name": "xenoXD", "region": "Unknown", "device": "MB" }
   ],

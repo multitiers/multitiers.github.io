@@ -75,18 +75,19 @@
     "HT5": ["FarXD", "AntonioZga9", "Jetbunz99"],
     "LT5": ["MGK", "ArpanYT"]
   },
-"Emerald OA": {
-  "HT1": ["RayValidd"]
-},
-"Dragonhide KB OA": {
-  "HT1": ["RayValidd"]
-},
-"Wand": {
-  "HT1": ["RayValidd"]
-},
-"Emerald KB": {
-  "HT1": ["RayValidd"]
-},
-"Diamond": {
-  "HT1": ["RayValidd"]
+  "Emerald OA": {
+    "HT1": ["RayValidd"]
+  },
+  "Dragonhide KB OA": {
+    "HT1": ["RayValidd"]
+  },
+  "Wand": {
+    "HT1": ["RayValidd"]
+  },
+  "Emerald KB": {
+    "HT1": ["RayValidd"]
+  },
+  "Diamond": {
+    "HT1": ["RayValidd"]
+  }
 }

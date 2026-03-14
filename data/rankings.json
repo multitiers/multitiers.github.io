@@ -49,7 +49,7 @@
     { "name": "Maynk", "region": "AS", "device": "MK" }
   ],
   "Emerald": {
-    "HT1": ["Game1K"],
+    "HT1": ["Game1K", "RayValidd"],
     "LT1": ["sample", "StrawberryButter", "system1117"],
     "HT2": ["Jerryisking", "Maynk"],
     "RHT2": ["TimmyLoal"],
@@ -63,22 +63,32 @@
     "LT5": ["MGK", "Afdemonking"]
   },
   "Dragonhide KB": {
-    "HT1": ["Game1K"],
+    "HT1": ["Game1K", "RayValidd"],
     "LT1": ["system1117", "DivyamGamerYT", "quickhertz"],
     "HT2": ["sample", "skibidi1234", "ItzNoob_", "StrawberryButter", "big-nub"],
     "RHT2": ["TimmyLoal"],
     "LT2": ["x9jm", "M0rt7uxMC", "urLilEKitten_"],
     "HT3": ["V4n1shed", "Possessed_YT", "-_Hades_-", "f0rg1v3n", "Jerryisking", "Husky_Multicraft", "lowPing", "Cosmix_"],
-    "LT3": ["revan", "RayValidd"],
+    "LT3": ["revan"],
     "HT4": ["Kirby", "NetworkHero", "drago", "MatrixOP980", "SaintOfZytrox", "-_ItsEthanLIT_-", "Oden_Sama", "xenoXD"],
     "LT4": ["supermobilenoobpvp", "oncethebestpvp", "Mane", "chi-na"],
     "HT5": ["FarXD", "AntonioZga9", "Jetbunz99"],
     "LT5": ["MGK", "ArpanYT"]
     
   },
-  "Emerald OA": [],
-  "Dragonhide KB OA": [],
-  "Wand": [],
-  "Emerald KB": [],
-  "Diamond": []
+  "Emerald OA": [
+    "HT1": ["RayValidd"]
+  ],
+  "Dragonhide KB OA": [
+    "HT1": ["RayValidd"]
+  ],
+  "Wand": [
+    "HT1": ["RayValidd"]
+  ],
+  "Emerald KB": [
+    "HT1": ["RayValidd"]
+  ],
+  "Diamond": [
+    "HT1": ["RayValidd"]
+  ]
 }

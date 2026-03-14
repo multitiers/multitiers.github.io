@@ -41,7 +41,7 @@
     { "name": "Husky_Multicraft", "region": "NA", "device": "MK" },
     { "name": "quickhertz", "region": "NA", "device": "MK" },
     { "name": "ChillPotato", "region": "AS", "device": "MK" },
-    { "name": "RayValidd", "region": "AS", "device": "MK" },
+    { "name": "RayValidd (HT1 in all kits bc its his birthday)", "region": "AS", "device": "MK" },
     { "name": "-_ItsEthanLIT_-", "region": "SA", "device": "CT" },
     { "name": "Jetbunz99", "region": "AS", "device": "MB" },
     { "name": "Oden_Sama", "region": "Unknown", "device": "MB" },
@@ -49,7 +49,7 @@
     { "name": "Maynk", "region": "AS", "device": "MK" }
   ],
   "Emerald": {
-    "HT1": ["Game1K", "RayValidd"],
+    "HT1": ["Game1K", "RayValidd (HT1 in all kits bc its his birthday)"],
     "LT1": ["sample", "StrawberryButter", "system1117"],
     "HT2": ["Jerryisking", "Maynk"],
     "RHT2": ["TimmyLoal"],
@@ -63,7 +63,7 @@
     "LT5": ["MGK", "Afdemonking"]
   },
   "Dragonhide KB": {
-    "HT1": ["Game1K", "RayValidd"],
+    "HT1": ["Game1K", "RayValidd (HT1 in all kits bc its his birthday)"],
     "LT1": ["system1117", "DivyamGamerYT", "quickhertz"],
     "HT2": ["sample", "skibidi1234", "ItzNoob_", "StrawberryButter", "big-nub"],
     "RHT2": ["TimmyLoal"],
@@ -76,18 +76,18 @@
     "LT5": ["MGK", "ArpanYT"]
   },
   "Emerald OA": {
-    "HT1": ["RayValidd"]
+    "HT1": ["RayValidd (HT1 in all kits bc its his birthday)"]
   },
   "Dragonhide KB OA": {
-    "HT1": ["RayValidd"]
+    "HT1": ["RayValidd (HT1 in all kits bc its his birthday)"]
   },
   "Wand": {
-    "HT1": ["RayValidd"]
+    "HT1": ["RayValidd (HT1 in all kits bc its his birthday)"]
   },
   "Emerald KB": {
-    "HT1": ["RayValidd"]
+    "HT1": ["RayValidd (HT1 in all kits bc its his birthday)"]
   },
   "Diamond": {
-    "HT1": ["RayValidd"]
+    "HT1": ["RayValidd (HT1 in all kits bc its his birthday)"]
   }
 }

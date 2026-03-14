@@ -23,7 +23,6 @@ body { background: var(--bg); color: #fff; font-family: 'Courier New', monospace
 .sweep-bg { position: fixed; inset: 0; z-index: -10; background: linear-gradient(110deg, transparent 40%, rgba(255, 255, 255, 0.15) 50%, transparent 60%); background-size: 250% 100%; animation: shineSweep 8s infinite linear; pointer-events: none; }
 @keyframes shineSweep { 0% { background-position: 250% 0; } 100% { background-position: -250% 0; } }
 
-/* HEADER POSITIONING */
 header { display: flex; flex-direction: column; align-items: center; width: 100%; padding-top: 150px; position: relative; z-index: 10; }
 .title-sword { width: 45px; margin-bottom: 10px; animation: swordGlow 2s infinite ease-in-out; filter: drop-shadow(0 0 5px var(--purple)); }
 .main-title { font-family: 'MultiCraftFont'; font-size: 2.8rem; color: #fff; text-shadow: 0 0 10px var(--purple); margin: 0; }
@@ -45,7 +44,6 @@ nav { display: flex; justify-content: center; align-items: center; padding: 10px
 .clickable { cursor: pointer; }
 .clickable:hover { border-color: var(--purple); box-shadow: 0 0 12px var(--purple-glow); transform: translateY(-2px); }
 
-/* TAGS */
 .tag-wrap { position: relative; display: inline-block; margin-right: 5px; }
 .tag-wrap.has-hover { cursor: help; }
 .tag { font-family: 'MultiCraftFont'; font-size: 0.55rem; padding: 2px 6px; border-radius: 4px; border: 1px solid #444; display: inline-block; }
@@ -133,7 +131,6 @@ let DATA = {};
 let CURRENT_TAB = 'rankings';
 let CURRENT_KIT = 'Overall';
 
-// Updated KIT_MAP for correct file discovery and display names
 const KIT_MAP = { 
     "Overall": "", 
     "Emerald": "assets/emerald.png", 
@@ -145,21 +142,8 @@ const KIT_MAP = {
     "Diamond": "assets/diamond.png" 
 };
 
-const REG_MAP = {
-    "NA": "North America",
-    "EU": "Europe",
-    "SA": "South America",
-    "OC": "Oceania",
-    "AS": "Asia",
-    "AF": "Africa"
-};
-
-const DEV_MAP = {
-    "MK": "Mouse & Keyboard",
-    "MB": "Mobile",
-    "CT": "Controller",
-    "TP": "Touchpad" 
-};
+const REG_MAP = { "NA": "North America", "EU": "Europe", "SA": "South America", "OC": "Oceania", "AS": "Asia", "AF": "Africa" };
+const DEV_MAP = { "MK": "Mouse & Keyboard", "MB": "Mobile", "CT": "Controller", "TP": "Touchpad" };
 
 function getTags(name) {
     const p = DATA.Players?.find(x => x.name === name) || {region:"?", device:"?"};
@@ -172,14 +156,16 @@ function getTags(name) {
 }
 
 async function load() {
-    const r = await fetch(`https://raw.githubusercontent.com/mtctiers/mtctiers.github.io/refs/heads/main/data/rankings.json?v=${Date.now()}`);
-    DATA = await r.json();
-    let totals = {};
-    const PTS = { "HT1":50, "LT1":40, "HT2":30, "LT2":20, "HT3":12, "LT3":8, "HT4":5, "LT4":3, "HT5":2, "LT5":1 };
-    for(let k in DATA) if(k!=="Overall" && k!=="Players") for(let t in DATA[k]) DATA[k][t].forEach(p => totals[p] = (totals[p]||0) + (PTS[t.replace('R','')]||0));
-    DATA["Overall"] = totals;
-    buildKitBar();
-    render("Overall");
+    try {
+        const r = await fetch(`data/rankings.json?v=${Date.now()}`);
+        DATA = await r.json();
+        let totals = {};
+        const PTS = { "HT1":50, "LT1":40, "HT2":30, "LT2":20, "HT3":12, "LT3":8, "HT4":5, "LT4":3, "HT5":2, "LT5":1 };
+        for(let k in DATA) if(k!=="Overall" && k!=="Players") for(let t in DATA[k]) DATA[k][t].forEach(p => totals[p] = (totals[p]||0) + (PTS[t.replace('R','')]||0));
+        DATA["Overall"] = totals;
+        buildKitBar();
+        render("Overall");
+    } catch(e) { console.error("Could not load rankings.json", e); }
 }
 
 function buildKitBar() {
@@ -230,16 +216,18 @@ async function switchTab(tab) {
     if(tab === 'rankings') { kb.style.display="flex"; render(CURRENT_KIT); }
     else {
         kb.style.display="none"; lb.innerText = tab === 'hof' ? "HALL OF FAME" : "TIER TESTERS";
-        const r = await fetch(`https://raw.githubusercontent.com/mtctiers/mtctiers.github.io/refs/heads/main/data/${tab}.json?v=${Date.now()}`);
-        const data = await r.json();
-        data.forEach(i => {
-            const hasProf = DATA.Overall?.[i.name];
-            out.innerHTML += `<div class="tier-card ${hasProf?'clickable':''}" ${hasProf?`onclick="openProfile('${i.name}')"`:''}>
-                <b style="color:var(--purple); font-family:'MultiCraftFont'; font-size:1rem;">${i.name}</b>
-                ${i.discord ? `<div style="color:var(--purple); font-size:0.85rem; font-weight:bold; margin-top:5px;">Discord: ${i.discord}</div>`:''}
-                <p style="font-size:0.75rem; color:#bbb; margin-top:8px;">${i.description || ''}</p>
-            </div>`;
-        });
+        try {
+            const r = await fetch(`data/${tab}.json?v=${Date.now()}`);
+            const data = await r.json();
+            data.forEach(i => {
+                const hasProf = DATA.Overall?.[i.name];
+                out.innerHTML += `<div class="tier-card ${hasProf?'clickable':''}" ${hasProf?`onclick="openProfile('${i.name}')"`:''}>
+                    <b style="color:var(--purple); font-family:'MultiCraftFont'; font-size:1rem;">${i.name}</b>
+                    ${i.discord ? `<div style="color:var(--purple); font-size:0.85rem; font-weight:bold; margin-top:5px;">Discord: ${i.discord}</div>`:''}
+                    <p style="font-size:0.75rem; color:#bbb; margin-top:8px;">${i.description || ''}</p>
+                </div>`;
+            });
+        } catch(e) { console.error(`Could not load ${tab}.json`, e); }
     }
 }
 
@@ -256,7 +244,6 @@ function openProfile(name) {
         const isR = t.startsWith('R');
         const color = isR ? 'var(--grey)' : 'var(--gold)';
         const display = isR ? 'Retired ' + t.substring(1) : t;
-        // Hovering will now show the clean Key name (e.g. Dragonhide KB)
         grid += `<div class="p-kit-item">
             <div class="kit-popup" style="border-color:${color}"><span style="color:${color}">${display}</span><br><span style="color:#666">${k}</span></div>
             <div class="p-kit-circle" style="border-color:${color}">${KIT_MAP[k]?`<img src="${KIT_MAP[k]}">`:''}</div>

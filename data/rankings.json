@@ -46,7 +46,8 @@
     { "name": "Jetbunz99", "region": "AS", "device": "MB" },
     { "name": "Oden_Sama", "region": "Unknown", "device": "MB" },
     { "name": "xenoXD", "region": "AS", "device": "MB" },
-    { "name": "MrDaRkYT", "region": "AS", "device": "MK" }
+    { "name": "MrDaRkYT", "region": "AS", "device": "MK" },
+    { "name": "Herobrine", "region": "NA", "device": "MK" }
   ],
   "Emerald": {
     "HT1": ["Game1K"],
@@ -70,7 +71,7 @@
     "RHT2": ["TimmyLoal"],
     "LT2": ["x9jm", "M0rt7uxMC", "urLilEKitten_", "MrDaRkYT"],
     "HT3": ["V4n1shed", "Possessed_YT", "-_Hades_-", "f0rg1v3n", "Jerryisking", "Husky_Multicraft", "lowPing", "Cosmix_"],
-    "LT3": ["revan", "RayValidd"],
+    "LT3": ["revan", "RayValidd", "Herobrine"],
     "HT4": ["Kirby", "NetworkHero", "drago", "MatrixOP980", "SaintOfZytrox", "-_ItsEthanLIT_-", "Oden_Sama", "xenoXD"],
     "LT4": ["supermobilenoobpvp", "oncethebestpvp", "Mane", "chi-na"],
     "HT5": ["FarXD", "AntonioZga9", "Jetbunz99"],

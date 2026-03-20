@@ -52,7 +52,6 @@
     { "name": "Normal", "region": "EU", "device": "CT" }
   ],
   "Emerald": {
-    "HT1": ["Game1K"],
     "LT1": ["sample", "StrawberryButter", "system1117"],
     "HT2": ["Jerryisking", "MrDaRkYT"],
     "RHT2": ["TimmyLoal"],
@@ -66,7 +65,6 @@
     "LT5": ["MGK", "Afdemonking"]
   },
   "Dragonhide KB": {
-    "HT1": ["Game1K"],
     "LT1": ["system1117", "DivyamGamerYT"],
     "RLT1": ["quickhertz"],
     "HT2": ["sample", "skibidi1234", "ItzNoob_", "StrawberryButter", "big-nub"],
@@ -89,7 +87,6 @@
 
   },
   "Emerald KB": {
-    "HT1": ["Game1K"],
     "LT1": ["system1117"],
     "HT3": ["x9jm"],
     "LT4": ["V4n1shed"]

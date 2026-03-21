@@ -100,10 +100,8 @@
   },
   "Diamond": {
     "HT1": ["Game1K"],
-    "HT2": ["x9jm"],
-    "LT2": ["system1117"],
-    "HT2": ["StrawberryButter"],
-    "LT2": ["V4n1shed"],
+    "HT2": ["x9jm", "StrawberryButter"],
+    "LT2": ["system1117", "V4n1shed"],
     "LT3": ["Blade"]
   },
   "Emerald Axe": {

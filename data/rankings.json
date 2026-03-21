@@ -73,7 +73,7 @@
     "RLT1": ["quickhertz"],
     "HT2": ["sample", "skibidi1234", "ItzNoob_", "StrawberryButter", "big-nub"],
     "RHT2": ["TimmyLoal", "LifoMC"],
-    "LT2": ["x9jm", "M0rt7uxMC", "urLilEKitten_", "MrDaRkYT", "ChillPotato", "CosmicallyXVII"],
+    "LT2": ["x9jm", "M0rt7uxMC", "urLilEKitten_", "MrDaRkYT", "ChillPotato"],
     "HT3": ["Possessed_YT", "-_Hades_-", "f0rg1v3n", "Jerryisking", "Husky_Multicraft", "lowPing", "CosmicallyXVII", "Blade"],
     "RHT3": ["V4n1shed"],
     "LT3": ["revan", "RayValidd", "Herobrine"],
@@ -96,6 +96,7 @@
     "LT1": ["system1117"],
     "HT2": ["StrawberryButter"],
     "HT3": ["x9jm"],
+    "HT4": ["CosmicallyXVII"],
     "LT4": ["Blade"],
     "RLT4": ["V4n1shed"]
   },

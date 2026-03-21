@@ -58,8 +58,8 @@
     "HT2": ["Jerryisking", "MrDaRkYT"],
     "RHT2": ["TimmyLoal"],
     "LT2": ["Possessed_YT", "x9jm", "skibidi1234", "LifoMC", "ChillPotato"],
-    "HT3": ["revan", "CJSHORT", "CosmicallyXVII", "V4n1shed"],
-    "LT3": ["big-nub", "Husky_Multicraft", "lowPing", "Blade"],
+    "HT3": ["revan", "CJSHORT", "CosmicallyXVII", "V4n1shed", "Blade"],
+    "LT3": ["big-nub", "Husky_Multicraft", "lowPing"],
     "HT4": ["FarXD", "Mane"],
     "LT4": ["supermobilenoobpvp"],
     "RLT4": ["quickhertz"],
@@ -100,6 +100,6 @@
     "HT1": ["Game1K"],
     "HT2": ["x9jm", "StrawberryButter", "skibidi1234"],
     "LT2": ["system1117", "V4n1shed"],
-    "LT3": ["Blade"]
+    "HT3": ["Blade"]
   }
 }

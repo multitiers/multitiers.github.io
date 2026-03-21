@@ -59,7 +59,7 @@
     "RHT2": ["TimmyLoal"],
     "LT2": ["Possessed_YT", "x9jm", "skibidi1234", "LifoMC", "ChillPotato"],
     "HT3": ["revan", "CJSHORT", "CosmicallyXVII", "Blade"],
-    "RHT3": ["V4n1shed"]
+    "RHT3": ["V4n1shed"],
     "LT3": ["big-nub", "Husky_Multicraft", "lowPing"],
     "HT4": ["FarXD", "Mane"],
     "LT4": ["supermobilenoobpvp"],
@@ -75,7 +75,7 @@
     "RHT2": ["TimmyLoal"],
     "LT2": ["x9jm", "M0rt7uxMC", "urLilEKitten_", "MrDaRkYT", "ChillPotato", "CosmicallyXVII"],
     "HT3": ["Possessed_YT", "-_Hades_-", "f0rg1v3n", "Jerryisking", "Husky_Multicraft", "lowPing", "CosmicallyXVII"],
-    "RHT3": ["V4n1shed"]
+    "RHT3": ["V4n1shed"],
     "LT3": ["revan", "RayValidd", "Herobrine", "Blade"],
     "HT4": ["Kirby", "NetworkHero", "drago", "MatrixOP980", "SaintOfZytrox", "-_ItsEthanLIT_-", "Oden_Sama", "xenoXD", "Normal"],
     "LT4": ["supermobilenoobpvp", "oncethebestpvp", "Mane", "chi-na"],
@@ -96,14 +96,14 @@
     "LT1": ["system1117"],
     "HT2": ["StrawberryButter"],
     "HT3": ["x9jm"],
-    "LT4": ["Blade"]
+    "LT4": ["Blade"],
     "RLT4": ["V4n1shed"]
   },
   "Diamond": {
     "HT1": ["Game1K"],
     "HT2": ["x9jm", "StrawberryButter", "skibidi1234"],
     "LT2": ["system1117"],
-    "RLT2": ["V4n1shed"]
+    "RLT2": ["V4n1shed"],
     "HT3": ["Blade"]
   }
 }

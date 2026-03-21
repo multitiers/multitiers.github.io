@@ -51,6 +51,7 @@
     { "name": "ChillPotato", "region": "SA", "device": "MK" },
     { "name": "Normal", "region": "EU", "device": "CT" },
     { "name": "Blade", "region": "EU", "device": "MK" }
+    { "name": "Kaeye", "region": "NA", "device": "MB" }
   ],
   "Emerald": {
     "HT1": ["Game1K"],
@@ -65,7 +66,7 @@
     "LT4": ["supermobilenoobpvp"],
     "RLT4": ["quickhertz"],
     "HT5": ["ArpanYT", "MatrixOP980"],
-    "LT5": ["MGK", "Afdemonking"]
+    "LT5": ["MGK", "Afdemonking", "Kaeye"]
   },
   "Dragonhide KB": {
     "HT1": ["Game1K"],
@@ -106,5 +107,6 @@
     "LT2": ["system1117", "CosmicallyXVII",]
     "RLT2": ["V4n1shed"],
     "HT3": ["Blade"]
+    "LT4": ["Kaeye"]
   }
 }

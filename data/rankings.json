@@ -54,7 +54,7 @@
     { "name": "Luminous_Elder", "region": "NA", "device": "MK" }
   ],
   "Emerald": {
-    "HT1": ["Game1K", "NotElderTrust"],
+    "HT1": ["Game1K"],
     "LT1": ["sample", "StrawberryButter", "system1117"],
     "HT2": ["Jerryisking", "MrDaRkYT"],
     "RHT2": ["TimmyLoal"],

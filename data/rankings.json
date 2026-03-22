@@ -50,7 +50,7 @@
     { "name": "ChillPotato", "region": "SA", "device": "MK" },
     { "name": "Normal", "region": "EU", "device": "CT" },
     { "name": "Blade", "region": "EU", "device": "MK" },
-    { "name": "Kaeye", "region": "NA", "device": "MB" },
+    { "name": "Kaeye", "region": "NA", "device": "MB" }
   ],
   "Emerald": {
     "HT1": ["Game1K"],

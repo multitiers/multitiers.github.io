@@ -51,7 +51,8 @@
     { "name": "Normal", "region": "EU", "device": "CT" },
     { "name": "Blade", "region": "EU", "device": "MK" },
     { "name": "Superboy", "region": "AF", "device": "MB" },
-    { "name": "Kaeye", "region": "NA", "device": "MB" }
+    { "name": "Kaeye", "region": "NA", "device": "MB" },
+    { "name": "Solace", "region": "AS", "device": "MB" }
   ],
   "Emerald": {
     "HT1": ["Game1K"],
@@ -92,7 +93,7 @@
     "LT1": ["system1117"],
     "HT2": ["StrawberryButter"],
     "HT3": ["x9jm", "-_Hades_-"],
-    "HT4": ["CosmicallyXVII"],
+    "HT4": ["CosmicallyXVII", "Solace"],
     "LT4": ["Blade"],
     "RLT4": ["V4n1shed"]
   },

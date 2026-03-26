@@ -52,7 +52,8 @@
     { "name": "Blade", "region": "EU", "device": "MK" },
     { "name": "Kaeye", "region": "NA", "device": "MB" },
     { "name": "Solace", "region": "AS", "device": "MK" },
-    { "name": "-R3ZN-", "region": "NA", "device": "MB" }
+    { "name": "-R3ZN-", "region": "NA", "device": "MB" },
+    { "name": "SJ_GHOST", "region": "NA", "device": "MK" }
   ],
   "Emerald": {
     "HT1": ["Game1K"],
@@ -80,7 +81,7 @@
     "HT3": ["Possessed_YT", "-_Hades_-", "f0rg1v3n", "Jerryisking", "Husky_Multicraft", "lowPing", "CosmicallyXVII"],
     "RHT3": ["V4n1shed"],
     "LT3": ["revan", "RayValidd", "Herobrine"],
-    "HT4": ["Solace", "Kirby", "NetworkHero", "drago", "MatrixOP980", "SaintOfZytrox", "-_ItsEthanLIT_-", "Oden_Sama", "xenoXD", "Normal"],
+    "HT4": ["SJ_GHOST", "Solace", "Kirby", "NetworkHero", "drago", "MatrixOP980", "SaintOfZytrox", "-_ItsEthanLIT_-", "Oden_Sama", "xenoXD", "Normal"],
     "LT4": ["supermobilenoobpvp", "oncethebestpvp", "Mane", "chi-na"],
     "HT5": ["FarXD", "AntonioZga9", "Jetbunz99", "-R3ZN-"],
     "LT5": ["MGK", "ArpanYT"]

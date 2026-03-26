@@ -54,7 +54,7 @@
     { "name": "Kaeye", "region": "NA", "device": "MB" }
   ],
   "Emerald": {
-    "HT1": ["Game1K"],
+    "RHT1": ["Game1K"],
     "LT1": ["sample", "StrawberryButter", "system1117"],
     "HT2": ["Jerryisking", "MrDaRkYT"],
     "RHT2": ["TimmyLoal"],
@@ -70,7 +70,7 @@
     "LT5": ["MGK", "Afdemonking", "Kaeye", "Superboy"]
   },
   "Dragonhide KB": {
-    "HT1": ["Game1K"],
+    "RHT1": ["Game1K"],
     "LT1": ["system1117", "DivyamGamerYT", "big-nub"],
     "RLT1": ["quickhertz"],
     "HT2": ["sample", "skibidi1234", "ItzNoob_", "StrawberryButter"],
@@ -88,7 +88,7 @@
   "Dragonhide KB OA": {},
   "Wand": {},
   "Emerald KB": {
-    "HT1": ["Game1K"],
+    "RHT1": ["Game1K"],
     "LT1": ["system1117"],
     "HT2": ["StrawberryButter"],
     "HT3": ["x9jm", "-_Hades_-"],

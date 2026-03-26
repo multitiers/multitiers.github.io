@@ -51,7 +51,8 @@
     { "name": "Normal", "region": "EU", "device": "CT" },
     { "name": "Blade", "region": "EU", "device": "MK" },
     { "name": "Kaeye", "region": "NA", "device": "MB" },
-    { "name": "Solace", "region": "AS", "device": "MK" }
+    { "name": "Solace", "region": "AS", "device": "MK" },
+    { "name": "-R3ZN-", "region": "NA", "device": "MB" }
   ],
   "Emerald": {
     "HT1": ["Game1K"],
@@ -81,7 +82,7 @@
     "LT3": ["revan", "RayValidd", "Herobrine"],
     "HT4": ["Solace", "Kirby", "NetworkHero", "drago", "MatrixOP980", "SaintOfZytrox", "-_ItsEthanLIT_-", "Oden_Sama", "xenoXD", "Normal"],
     "LT4": ["supermobilenoobpvp", "oncethebestpvp", "Mane", "chi-na"],
-    "HT5": ["FarXD", "AntonioZga9", "Jetbunz99"],
+    "HT5": ["FarXD", "AntonioZga9", "Jetbunz99", "-R3ZN-"],
     "LT5": ["MGK", "ArpanYT"]
   },
   "Emerald OA": {},

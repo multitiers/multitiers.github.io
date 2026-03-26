@@ -52,7 +52,7 @@
     { "name": "Blade", "region": "EU", "device": "MK" },
     { "name": "Superboy", "region": "AF", "device": "MB" },
     { "name": "Kaeye", "region": "NA", "device": "MB" },
-    { "name": "Solace", "region": "AS", "device": "MB" }
+    { "name": "Solace", "region": "AS", "device": "MK" }
   ],
   "Emerald": {
     "HT1": ["Game1K"],

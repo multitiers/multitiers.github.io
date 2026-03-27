@@ -38,7 +38,6 @@
     { "name": "StrawberryButter", "region": "AF", "device": "MK" },
     { "name": "CJSHORT", "region": "EU", "device": "MK" },
     { "name": "Husky_Multicraft", "region": "NA", "device": "MK" },
-    { "name": "quickhertz", "region": "NA", "device": "MK" },
     { "name": "ChillPotato", "region": "SA", "device": "MK" },
     { "name": "RayValidd", "region": "AS", "device": "MK" },
     { "name": "-_ItsEthanLIT_-", "region": "SA", "device": "CT" },
@@ -66,14 +65,12 @@
     "LT3": ["big-nub", "Husky_Multicraft", "lowPing"],
     "HT4": ["FarXD", "Mane"],
     "LT4": ["supermobilenoobpvp"],
-    "RLT4": ["quickhertz"],
     "HT5": ["ArpanYT", "MatrixOP980"],
     "LT5": ["MGK", "Afdemonking", "Kaeye"]
   },
   "Dragonhide KB": {
     "HT1": ["Game1K"],
     "LT1": ["system1117", "DivyamGamerYT", "big-nub"],
-    "RLT1": ["quickhertz"],
     "HT2": ["sample", "skibidi1234", "ItzNoob_", "StrawberryButter"],
     "RHT2": ["TimmyLoal"],
     "LT2": ["x9jm", "M0rt7uxMC", "MrDaRkYT", "ChillPotato", "CosmicallyXVII"],

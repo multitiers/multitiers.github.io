@@ -85,7 +85,9 @@
   },
   "Emerald OA": {},
   "Dragonhide KB OA": {},
-  "SMP": {},
+  "SMP": {
+    "LT2": ["x9jm"]
+  },
   "Emerald KB": {
     "HT1": ["Game1K"],
     "LT1": ["system1117"],

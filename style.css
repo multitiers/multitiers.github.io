@@ -1,0 +1,435 @@
+@font-face {
+    font-family: 'MultiCraftFont';
+    src: url('assets/MultiCraftFont.ttf') format('truetype');
+}
+
+/* ─── Base ─────────────────────────────────────────────── */
+:root {
+    --bg:           #010102;
+    --purple:       #a855f7;
+    --purple-glow:  rgba(168, 85, 247, 0.9);
+    --border:       rgba(168, 85, 247, 0.4);
+    --gold:         #ffd700;
+    --gold-glow:    rgba(255, 215, 0, 0.6);
+    --grey:         #888;
+}
+
+/* Region and device CSS variables are injected at runtime by JS via `buildThemeVars()`.
+   They look like: --reg-na: #3498db; --dev-mk: #00ffff; etc.             */
+
+body {
+    background:       var(--bg);
+    color:            #fff;
+    font-family:      'Courier New', monospace;
+    margin:           0;
+    overflow-x:       hidden;
+    display:          flex;
+    flex-direction:   column;
+    align-items:      center;
+    min-height:       100vh;
+    font-size:        0.9rem;
+}
+
+/* ─── Sweep background ──────────────────────────────────── */
+.sweep-bg {
+    position:          fixed;
+    inset:             0;
+    z-index:           -10;
+    background:        linear-gradient(110deg, transparent 40%, rgba(255,255,255,0.15) 50%, transparent 60%);
+    background-size:   250% 100%;
+    animation:         shineSweep 8s infinite linear;
+    pointer-events:    none;
+}
+@keyframes shineSweep {
+    0%   { background-position: 250% 0; }
+    100% { background-position: -250% 0; }
+}
+
+/* ─── Header ────────────────────────────────────────────── */
+header {
+    display:         flex;
+    flex-direction:  column;
+    align-items:     center;
+    width:           100%;
+    padding-top:     150px;
+    position:        relative;
+    z-index:         10;
+}
+
+.title-sword {
+    width:           45px;
+    margin-bottom:   10px;
+    animation:       swordGlow 2s infinite ease-in-out;
+    filter:          drop-shadow(0 0 5px var(--purple));
+}
+
+.main-title {
+    font-family:  'MultiCraftFont';
+    font-size:    2.8rem;
+    color:        #fff;
+    text-shadow:  0 0 10px var(--purple);
+    margin:       0;
+}
+
+@keyframes swordGlow {
+    0%,100% { filter: drop-shadow(0 0 5px var(--purple)); }
+    50%      { filter: drop-shadow(0 0 20px var(--purple-glow)); }
+}
+
+/* ─── Nav ───────────────────────────────────────────────── */
+nav {
+    display:          flex;
+    justify-content:  center;
+    align-items:      center;
+    padding:          10px 40px;
+    background:       rgba(0,0,0,0.95);
+    border-bottom:    2px solid var(--border);
+    width:            100%;
+    position:         sticky;
+    top:              0;
+    z-index:          100;
+    backdrop-filter:  blur(10px);
+    margin-top:       65px;
+    box-sizing:       border-box;
+}
+
+.nav-center {
+    display:    flex;
+    gap:        25px;
+    position:   absolute;
+    left:       50%;
+    transform:  translateX(-50%);
+}
+
+.nav-link {
+    color:          #555;
+    font-family:    'MultiCraftFont';
+    font-size:      0.75rem;
+    cursor:         pointer;
+    transition:     color 0.3s;
+}
+
+.nav-link.active {
+    color:       #fff;
+    text-shadow: 0 0 15px var(--purple);
+}
+
+/* ─── Search ────────────────────────────────────────────── */
+.search-wrap {
+    margin-left:  auto;
+    width:        210px;
+    position:     relative;
+}
+
+#playerSearch {
+    width:         100%;
+    background:    #000;
+    border:        1px solid var(--border);
+    border-radius: 5px;
+    color:         #fff;
+    padding:       8px;
+    font-family:   'MultiCraftFont';
+    font-size:     0.65rem;
+    outline:       none;
+    box-sizing:    border-box;
+}
+
+#searchPopup {
+    position:     absolute;
+    top:          110%;
+    left:         0;
+    width:        100%;
+    background:   #050508;
+    border:       1px solid var(--purple);
+    border-radius:5px;
+    display:      none;
+    z-index:      500;
+    box-shadow:   0 5px 15px rgba(0,0,0,0.8);
+}
+
+.search-item {
+    padding:         8px 12px;
+    cursor:          pointer;
+    font-family:     'MultiCraftFont';
+    font-size:       0.6rem;
+    transition:      background 0.2s;
+    border-bottom:   1px solid #222;
+    display:         flex;
+    justify-content: space-between;
+    align-items:     center;
+}
+
+.search-item:hover { background: #111; }
+
+/* ─── View label / Kit bar ──────────────────────────────── */
+#viewLabel {
+    font-family:  'MultiCraftFont';
+    font-size:    1.2rem;
+    color:        var(--gold);
+    margin:       25px 0;
+}
+
+#kitBar {
+    display:          flex;
+    justify-content:  center;
+    flex-wrap:        wrap;
+    gap:              10px;
+    margin-bottom:    20px;
+    width:            90%;
+}
+
+.kit-btn {
+    background:    #000;
+    border:        1px solid var(--border);
+    padding:       8px 16px;
+    border-radius: 6px;
+    /* color is NOT set here — JS sets inline style per kit so each is unique */
+    cursor:        pointer;
+    font-family:   'MultiCraftFont';
+    font-size:     0.65rem;
+    display:       flex;
+    align-items:   center;
+    gap:           5px;
+    transition:    border-color 0.2s, box-shadow 0.2s, opacity 0.2s;
+}
+
+/* Active: glow border using per-kit var. Text color stays from JS inline style. */
+.kit-btn.active {
+    border-color: var(--kit-active-color, var(--purple));
+    box-shadow:   0 0 12px var(--kit-active-color, var(--purple));
+    opacity:      1 !important;
+}
+
+/* ─── Display list ──────────────────────────────────────── */
+#displayList {
+    width:           100%;
+    display:         flex;
+    flex-direction:  column;
+    align-items:     center;
+    padding:         20px 0 100px 0;
+}
+
+/* ─── Tier cards ────────────────────────────────────────── */
+.tier-card {
+    background:     #050508;
+    border:         1px solid var(--border);
+    border-radius:  8px;
+    margin-bottom:  12px;
+    transition:     border-color 0.3s, box-shadow 0.3s, transform 0.3s;
+    padding:        15px;
+    width:          650px;
+    position:       relative;
+    box-sizing:     border-box;
+}
+
+.clickable { cursor: pointer; }
+
+.clickable:hover {
+    border-color: var(--purple);
+    box-shadow:   0 0 12px var(--purple-glow);
+    transform:    translateY(-2px);
+}
+
+/* ─── Tags ──────────────────────────────────────────────── */
+.tag-wrap {
+    position:  relative;
+    display:   inline-block;
+    margin-right: 5px;
+}
+
+.tag-wrap.has-hover { cursor: help; }
+
+.tag {
+    font-family:    'MultiCraftFont';
+    font-size:      0.55rem;
+    padding:        2px 6px;
+    border-radius:  4px;
+    border-width:   1px;
+    border-style:   solid;
+    border-color:   #444;
+    display:        inline-block;
+}
+
+/* Region & device tags — colours come from CSS vars generated by buildThemeVars() */
+/* e.g.  .tag-reg-na { color: var(--reg-na); border-color: var(--reg-na); }        */
+/* These rules are injected at runtime so you never have to write them by hand.     */
+
+.tag-popup {
+    position:   absolute;
+    bottom:     125%;
+    left:       50%;
+    transform:  translateX(-50%);
+    background: #000;
+    border:     1px solid var(--purple);
+    padding:    5px 10px;
+    font-size:  0.55rem;
+    border-radius: 4px;
+    white-space:   nowrap;
+    visibility:    hidden;
+    opacity:       0;
+    transition:    opacity 0.2s, visibility 0.2s;
+    z-index:       1000;
+    color:         #fff;
+    font-family:   'MultiCraftFont';
+    box-shadow:    0 0 10px rgba(0,0,0,1);
+}
+
+.tag-wrap.has-hover:hover .tag-popup {
+    visibility: visible;
+    opacity:    1;
+}
+
+/* ─── Profile kit circles ───────────────────────────────── */
+.p-kit-item {
+    position:    relative;
+    display:     flex;
+    flex-direction: column;
+    align-items: center;
+    width:       85px;
+}
+
+.p-kit-circle {
+    width:         52px;
+    height:        52px;
+    border-radius: 50%;
+    border:        2px solid var(--gold);
+    display:       flex;
+    align-items:   center;
+    justify-content: center;
+    background:    #000;
+    transition:    border-color 0.3s;
+    cursor:        help;
+}
+
+.p-kit-circle img {
+    width:  28px;
+    height: 28px;
+}
+
+.kit-popup {
+    position:   absolute;
+    bottom:     105%;
+    left:       50%;
+    transform:  translateX(-50%) translateY(5px);
+    background: #000;
+    border:     1px solid var(--purple);
+    border-radius: 6px;
+    padding:    10px;
+    opacity:    0;
+    visibility: hidden;
+    transition: opacity 0.2s, visibility 0.2s, transform 0.2s;
+    z-index:    3000;
+    font-family:'MultiCraftFont';
+    font-size:  0.6rem;
+    text-align: center;
+    box-shadow: 0 0 15px var(--purple-glow);
+    line-height:1.4;
+}
+
+.p-kit-item:hover .kit-popup {
+    opacity:    1;
+    visibility: visible;
+    transform:  translateX(-50%) translateY(0);
+}
+
+/* ─── Modals ────────────────────────────────────────────── */
+.modal-overlay {
+    position:        fixed;
+    inset:           0;
+    background:      rgba(0,0,0,0.95);
+    z-index:         2000;
+    display:         none;
+    align-items:     center;
+    justify-content: center;
+    backdrop-filter: blur(10px);
+}
+
+.modal-content {
+    background:    #010102;
+    border:        2px solid var(--purple);
+    border-radius: 12px;
+    padding:       30px;
+    width:         440px;
+    text-align:    center;
+}
+
+/* ─── Info button ───────────────────────────────────────── */
+.info-btn {
+    position:        fixed;
+    bottom:          20px;
+    right:           20px;
+    width:           38px;
+    height:          38px;
+    background:      #000;
+    border:          2px solid var(--purple);
+    border-radius:   50%;
+    color:           var(--purple);
+    display:         flex;
+    align-items:     center;
+    justify-content: center;
+    font-family:     'MultiCraftFont';
+    font-size:       1rem;
+    cursor:          pointer;
+    z-index:         500;
+    transition:      background 0.3s, color 0.3s, box-shadow 0.3s;
+}
+
+.info-btn:hover {
+    background:  var(--purple);
+    color:       #fff;
+    box-shadow:  0 0 15px var(--purple-glow);
+}
+
+/* ─── Mobile responsive ─────────────────────────────────── */
+@media (max-width: 700px) {
+
+    /* Header */
+    header { padding-top: 80px; }
+    .main-title { font-size: 1.8rem; }
+
+    /* Nav: stack links above search */
+    nav {
+        flex-direction:  column;
+        gap:             10px;
+        padding:         12px 16px;
+        margin-top:      0;
+    }
+    .nav-center {
+        position: static;
+        transform: none;
+        gap: 18px;
+    }
+    .search-wrap {
+        margin-left: 0;
+        width: 100%;
+    }
+
+    /* Kit bar: smaller buttons, tighter wrap */
+    #kitBar { width: 100%; padding: 0 12px; box-sizing: border-box; gap: 6px; }
+    .kit-btn { padding: 6px 10px; font-size: 0.55rem; }
+
+    /* Overall ranking cards: full width */
+    .tier-card { width: calc(100% - 24px); }
+
+    /* Kit tier grid: single column */
+    #displayList > div { flex-direction: column !important; align-items: center; }
+    #displayList > div > div { min-width: unset !important; width: calc(100% - 24px); }
+    #displayList > div > div .tier-card { width: 100% !important; }
+
+    /* Modals: full width with margin */
+    .modal-content {
+        width: calc(100% - 32px);
+        padding: 20px 16px;
+        max-height: 85vh;
+        overflow-y: auto;
+    }
+
+    /* Profile tier circles: wrap tighter */
+    #pTiers { gap: 12px; }
+    .p-kit-item { width: 70px; }
+    .p-kit-circle { width: 44px; height: 44px; }
+    .p-kit-circle img { width: 22px; height: 22px; }
+
+    /* Info button: smaller */
+    .info-btn { width: 32px; height: 32px; font-size: 0.85rem; }
+}

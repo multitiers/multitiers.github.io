@@ -4,7 +4,7 @@
     { "name": "Game1K", "region": "NA", "device": "MK" },
     { "name": "sample", "region": "NA", "device": "TP" },
     { "name": "system1117", "region": "NA", "device": "MK" },
-    { "name": "V4n1shed", "region": "NA", "device": "TP" },
+    { "name": "Vorthexis", "region": "NA", "device": "TP" },
     { "name": "Possessed_YT", "region": "NA", "device": "MK" },
     { "name": "TimmyLoal", "region": "OC", "device": "MK" },
     { "name": "skibidi1234", "region": "AS", "device": "MK" },
@@ -48,7 +48,7 @@
     { "name": "Herobrine", "region": "NA", "device": "MK" },
     { "name": "ChillPotato", "region": "SA", "device": "MK" },
     { "name": "Normal", "region": "EU", "device": "CT" },
-    { "name": "Blade", "region": "EU", "device": "MK" },
+    { "name": "LastChance", "region": "EU", "device": "MK" },
     { "name": "Kaeye", "region": "NA", "device": "MB" },
     { "name": "Solace", "region": "AS", "device": "MK" },
     { "name": "-R3ZN-", "region": "NA", "device": "MB" },
@@ -60,8 +60,8 @@
     "HT2": ["Jerryisking", "MrDaRkYT"],
     "RHT2": ["TimmyLoal", "DivyamGamerYT"],
     "LT2": ["x9jm", "Possessed_YT", "skibidi1234", "LifoMC", "ChillPotato"],
-    "HT3": ["revan", "CJSHORT", "CosmicallyXVII", "Blade", "-_Hades_-"],
-    "RHT3": ["V4n1shed"],
+    "HT3": ["revan", "CJSHORT", "CosmicallyXVII", "LastChance", "-_Hades_-"],
+    "RHT3": ["Vorthexis"],
     "LT3": ["big-nub", "Husky_Multicraft", "lowPing"],
     "HT4": ["FarXD", "Mane"],
     "LT4": ["supermobilenoobpvp"],
@@ -75,8 +75,8 @@
     "HT2": ["sample", "skibidi1234", "ItzNoob_", "StrawberryButter"],
     "RHT2": ["TimmyLoal"],
     "LT2": ["x9jm", "M0rt7uxMC", "MrDaRkYT", "ChillPotato", "CosmicallyXVII"],
-    "HT3": ["Possessed_YT", "-_Hades_-", "f0rg1v3n", "Jerryisking", "Husky_Multicraft", "lowPing", "Blade"],
-    "RHT3": ["V4n1shed"],
+    "HT3": ["Possessed_YT", "-_Hades_-", "f0rg1v3n", "Jerryisking", "Husky_Multicraft", "lowPing", "LastChance"],
+    "RHT3": ["Vorthexis"],
     "LT3": ["revan", "RayValidd", "Herobrine"],
     "HT4": ["SJ_GHOST", "Solace", "Kirby", "NetworkHero", "drago", "MatrixOP980", "SaintOfZytrox", "-_ItsEthanLIT_-", "Oden_Sama", "xenoXD", "Normal"],
     "LT4": ["supermobilenoobpvp", "oncethebestpvp", "Mane", "chi-na"],
@@ -87,7 +87,7 @@
   "Dragonhide KB OA": {},
   "SMP": {
     "LT2": ["x9jm"],
-    "HT3": ["V4n1shed"]
+    "HT3": ["Vorthexis"]
   },
   "Emerald KB": {
     "HT1": ["Game1K"],
@@ -97,15 +97,15 @@
     "HT3": ["x9jm", "-_Hades_-"],
     "RHT3": ["DivyamGamerYT"],
     "HT4": ["CosmicallyXVII", "Solace"],
-    "LT4": ["Blade"],
-    "RLT4": ["V4n1shed"]
+    "LT4": ["LastChance"],
+    "RLT4": ["Vorthexis"]
   },
   "Diamond": {
     "RHT1": ["Game1K"],
     "HT2": ["StrawberryButter", "skibidi1234", "system1117", "x9jm"],
     "LT2": ["CosmicallyXVII", "LifoMC", "Jerryisking"],
-    "RHT3": ["V4n1shed"],
-    "HT3": ["Blade"],
+    "RHT3": ["Vorthexis"],
+    "HT3": ["LastChance"],
     "LT4": ["Kaeye"]
   }
 }

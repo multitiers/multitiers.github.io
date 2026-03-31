@@ -52,7 +52,8 @@
     { "name": "Kaeye", "region": "NA", "device": "MB" },
     { "name": "Solace", "region": "AS", "device": "MK" },
     { "name": "-R3ZN-", "region": "NA", "device": "MB" },
-    { "name": "SJ_GHOST", "region": "NA", "device": "MK" }
+    { "name": "SJ_GHOST", "region": "NA", "device": "MK" },
+    { "name": "Luther", "region": "NA", "device": "MB" }
   ],
   "Emerald": {
     "HT1": ["Game1K"],
@@ -66,7 +67,7 @@
     "HT4": ["FarXD", "Mane"],
     "LT4": ["supermobilenoobpvp"],
     "HT5": ["ArpanYT", "MatrixOP980"],
-    "LT5": ["MGK", "Afdemonking", "Kaeye"]
+    "LT5": ["MGK", "Afdemonking", "Kaeye", "Luther"
   },
   "Dragonhide KB": {
     "HT1": ["Game1K"],
@@ -80,7 +81,7 @@
     "LT3": ["revan", "RayValidd", "Herobrine"],
     "HT4": ["SJ_GHOST", "Solace", "Kirby", "NetworkHero", "drago", "MatrixOP980", "SaintOfZytrox", "-_ItsEthanLIT_-", "Oden_Sama", "xenoXD", "Normal"],
     "LT4": ["supermobilenoobpvp", "oncethebestpvp", "Mane", "chi-na"],
-    "HT5": ["FarXD", "AntonioZga9", "Jetbunz99", "-R3ZN-"],
+    "HT5": ["FarXD", "AntonioZga9", "Jetbunz99", "-R3ZN-", "Luther"],
     "LT5": ["MGK", "ArpanYT"]
   },
   "Emerald OA": {},
@@ -99,7 +100,8 @@
     "RHT3": ["DivyamGamerYT"],
     "HT4": ["CosmicallyXVII", "Solace"],
     "LT4": ["LastChance"],
-    "RLT4": ["Vorthexis"]
+    "RLT4": ["Vorthexis"],
+    "LT5": ["Luther"]
   },
   "Diamond": {
     "RHT1": ["Game1K"],
@@ -107,6 +109,7 @@
     "LT2": ["CosmicallyXVII", "LifoMC", "Jerryisking"],
     "RHT3": ["Vorthexis"],
     "HT3": ["LastChance"],
-    "LT4": ["Kaeye"]
+    "LT4": ["Kaeye"],
+    "LT5": ["Luther"]
   }
 }

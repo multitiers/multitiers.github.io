@@ -88,9 +88,10 @@
   "SMP": {
     "LT1": ["Game1K"],
     "LT2": ["x9jm"],
-    "HT3": ["Vorthexis"]
-    "HT4": ["0culi"]
-    "LT4": ["drago"]
+    "HT3": ["Vorthexis"],
+    "HT4": ["0culi"],
+    "LT4": ["drago"],
+    "HT5": ["AntonioZga9"]
   },
   "Emerald KB": {
     "HT1": ["Game1K"],

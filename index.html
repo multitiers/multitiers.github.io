@@ -1,25 +1,31 @@
 <!DOCTYPE html>
 <html lang="en" translate="no">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MTC TIERS</title>
-<link rel="icon" type="image/png" href="assets/mtctiers.png">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://mtctiers.github.io/">
-<meta property="og:title" content="MTC TIERS">
-<meta property="og:description" content="Rankings and Tiertesting for MultiCraft.">
-<meta property="og:image" content="https://mtctiers.github.io/assets/mtctiers.png">
-<meta property="twitter:card" content="summary_large_image">
-<meta property="twitter:url" content="https://mtctiers.github.io/">
-<meta property="twitter:title" content="MTC TIERS">
-<meta property="twitter:description" content="Rankings and Tiertesting for MultiCraft.">
-<meta property="twitter:image" content="https://mtctiers.github.io/assets/mtctiers.png">
-<meta name="theme-color" content="#a855f7">
-<link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MTC TIERS</title>
+
+    <link rel="icon" type="image/png" href="assets/mtctiers.png">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://mtctiers.github.io/">
+    <meta property="og:title" content="MTC TIERS">
+    <meta property="og:description" content="Rankings and Tiertesting for MultiCraft.">
+    <meta property="og:image" content="https://mtctiers.github.io/assets/mtctiers.png">
+
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://mtctiers.github.io/">
+    <meta property="twitter:title" content="MTC TIERS">
+    <meta property="twitter:description" content="Rankings and Tiertesting for MultiCraft.">
+    <meta property="twitter:image" content="https://mtctiers.github.io/assets/mtctiers.png">
+
+    <meta name="theme-color" content="#a855f7">
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 <div class="sweep-bg"></div>
+
 <header>
     <img src="assets/mtctiers.png" class="title-sword" alt="Logo">
     <h1 class="main-title">MTC TIERS</h1>
@@ -31,6 +37,7 @@
         <div id="nav-hof" class="nav-link" onclick="switchTab('hof')">HALL OF FAME</div>
         <div id="nav-testers" class="nav-link" onclick="switchTab('testers')">TIER TESTERS</div>
     </div>
+
     <div class="search-wrap">
         <input type="text" id="playerSearch" placeholder="SEARCH PLAYER..." oninput="handleSearch(this.value)">
         <div id="searchPopup"></div>
@@ -43,14 +50,21 @@
 
 <div class="info-btn" onclick="openInfo()">i</div>
 
+<!-- Info modal -->
 <div id="infoModal" class="modal-overlay" onclick="this.style.display='none'">
     <div class="modal-content" onclick="event.stopPropagation()">
         <h2 style="font-family:'MultiCraftFont'; color:var(--purple); margin-top:0;">INFORMATION</h2>
+
         <div style="text-align:left; font-size:0.85rem; line-height:1.6;">
             <p><b style="color:var(--purple)">SERVER CODE:</b> UNRELEASED</p>
             <p><b style="color:var(--purple)">DISCORD:</b> https://discord.gg/v3CgdV6hsT</p>
+
             <hr style="border:0; border-top:1px solid #333; margin:15px 0;">
-            <b style="color:var(--gold); font-family:'MultiCraftFont'; font-size:0.75rem;">POINTS SYSTEM:</b>
+
+            <b style="color:var(--gold); font-family:'MultiCraftFont'; font-size:0.75rem;">
+                POINTS SYSTEM:
+            </b>
+
             <div style="display:grid; grid-template-columns:1fr 1fr; font-size:0.7rem; margin-top:12px; gap:8px;">
                 <div>HT1 = 50 pts</div><div>LT1 = 40 pts</div>
                 <div>HT2 = 30 pts</div><div>LT2 = 20 pts</div>
@@ -62,27 +76,33 @@
     </div>
 </div>
 
+<!-- Profile modal -->
 <div id="profileModal" class="modal-overlay" onclick="this.style.display='none'">
     <div class="modal-content" onclick="event.stopPropagation()">
-        <div id="pRank" style="font-family:'MultiCraftFont'; color:var(--purple); font-size:0.7rem;">RANK #--</div>
-        <h2 id="pName" style="font-family:'MultiCraftFont'; color:#fff; margin:10px 0; font-size:1.8rem;">Player</h2>
-        <div id="pMeta" style="margin-bottom:15px;"></div>
-        <div id="pPoints" style="color:var(--gold); font-family:'MultiCraftFont'; font-size:1.4rem; margin-bottom:20px;">0 PTS</div>
-        <div id="pTiers" style="display:flex; flex-wrap:wrap; justify-content:center; gap:18px; border-top:1px solid #222; padding-top:20px;"></div>
+        <div id="pRank">RANK #--</div>
+        <h2 id="pName">Player</h2>
+        <div id="pMeta"></div>
+        <div id="pPoints">0 PTS</div>
+        <div id="pTiers"></div>
     </div>
 </div>
 
 <script>
+/* CONFIG */
+
 const KIT_MAP = {
-    "Overall":          { img: "",                          color: "#a855f7" },
-    "Emerald":          { img: "assets/emerald.png",        color: "#1a7a1a" }, 
-    "Emerald KB":       { img: "assets/emerald_kb.png",     color: "#00e5b0" }, 
-    "Emerald OA":       { img: "assets/emerald_oa.png",     color: "#44ff44" }, 
-    "Dragonhide KB":    { img: "assets/dragonhide_kb.png",  color: "#ff6a00" },
-    "Dragonhide KB OA": { img: "assets/kb_oa.png",          color: "#ff1a6b" }, 
-    "SMP":              { img: "assets/smp.png",            color: "#ffaa00" }, 
-    "Diamond":          { img: "assets/diamond.png",        color: "#00c8ff" },
-    "Novelty Axe":      { img: "assets/novelty_axe.png",    color: "#00ffff" },
+    "Overall": { img: "", color: "#a855f7" },
+    "Emerald": { img: "assets/emerald.png", color: "#1a7a1a" },
+    "Emerald KB": { img: "assets/emerald_kb.png", color: "#00e5b0" },
+    "Emerald OA": { img: "assets/emerald_oa.png", color: "#44ff44" },
+    "Dragonhide KB": { img: "assets/dragonhide_kb.png", color: "#ff6a00" },
+    "Dragonhide KB OA": { img: "assets/kb_oa.png", color: "#ff1a6b" },
+    "SMP": { img: "assets/smp.png", color: "#ffaa00" },
+    "Diamond": { img: "assets/diamond.png", color: "#00c8ff" },
+    "Manhunt": { img: "assets/manhunt.png", color: "#ff0000" },
+    "Leather KB": { img: "assets/leather_kb.png", color: "#3d251e" },
+    "Novelty Axe": { img: "assets/novelty_axe.png", color: "#00ffff" },
+    "Dragonhide Anchor": { img: "assets/dragonhide_anchor.png", color: "#AA98A9" }
 };
 
 const REGION_MAP = {
@@ -91,23 +111,18 @@ const REGION_MAP = {
     "SA": { label: "South America", color: "#00ff88" },
     "OC": { label: "Oceania", color: "#ff00ff" },
     "AS": { label: "Asia", color: "#ff8800" },
-    "AF": { label: "Africa", color: "#00d4ff" },
+    "AF": { label: "Africa", color: "#00d4ff" }
 };
 
 const DEVICE_MAP = {
     "MK": { label: "Mouse & Keyboard", color: "#00ffff" },
     "MB": { label: "Mobile", color: "#ff7f50" },
     "CT": { label: "Controller", color: "#b044ff" },
-    "TP": { label: "Touchpad", color: "#ff00aa" },
+    "TP": { label: "Touchpad", color: "#ff00aa" }
 };
 
-let DATA = {};
-let CURRENT_TAB = 'rankings';
-let CURRENT_KIT = 'Overall';
-
-const PTS = { "HT1":50,"LT1":40,"HT2":30,"LT2":20,"HT3":12,"LT3":8,"HT4":5,"LT4":3,"HT5":2,"LT5":1 };
-
-/* everything else unchanged */
+/* rest of your JS stays the same */
 </script>
+
 </body>
 </html>

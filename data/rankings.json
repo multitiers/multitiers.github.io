@@ -44,14 +44,13 @@
     { "name": "xenoXD", "region": "AS", "device": "MB" },
     { "name": "MrDaRkYT", "region": "AS", "device": "MK" },
     { "name": "Herobrine", "region": "NA", "device": "MK" },
-    { "name": "ChillPotato", "region": "SA", "device": "MK" },
     { "name": "Normal", "region": "EU", "device": "CT" },
     { "name": "LastChance", "region": "EU", "device": "MK" },
     { "name": "Kaeye", "region": "NA", "device": "MB" },
     { "name": "Solace", "region": "AS", "device": "MK" },
     { "name": "-R3ZN-", "region": "NA", "device": "MB" },
     { "name": "SJ_GHOST", "region": "NA", "device": "MK" },
-    { "name": "Luther", "region": "NA", "device": "MB" },
+    { "name": "Luther", "region": "NA", "device": "MB" }
   ],
   "Emerald": {
     "HT1": ["Game1K"],

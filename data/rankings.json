@@ -51,7 +51,7 @@
     { "name": "Solace", "region": "AS", "device": "MK" },
     { "name": "-R3ZN-", "region": "NA", "device": "MB" },
     { "name": "SJ_GHOST", "region": "NA", "device": "MK" },
-    { "name": "Luther", "region": "NA", "device": "MB" }
+    { "name": "Luther", "region": "NA", "device": "MB" },
     { "name": "IWillBeFirst", "region": "NA", "device": "MK" }
   ],
   "Emerald": {

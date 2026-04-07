@@ -136,7 +136,7 @@ let DATA = {};
 let CURRENT_TAB = 'rankings';
 let CURRENT_KIT = 'Overall';
 
-const PTS = { "HT0":1000000, "HT1":50,"LT1":40,"HT2":30,"LT2":20,"HT3":12,"LT3":8,"HT4":5,"LT4":3,"HT5":2,"LT5":1, "LT6":0 };
+const PTS = { "HT1":50,"LT1":40,"HT2":30,"LT2":20,"HT3":12,"LT3":8,"HT4":5,"LT4":3,"HT5":2,"LT5":1 };
 
 /**
  * Inject CSS variables + tag rules for every region and device entry.
@@ -257,7 +257,7 @@ function render(kit) {
         const grid = document.createElement('div');
         grid.style.cssText = "display:flex; gap:20px; flex-wrap:wrap; justify-content:center;";
 
-        ["T0","T1","T2","T3","T4","T5","T6"].forEach(lvl => {
+        ["T1","T2","T3","T4","T5"].forEach(lvl => {
             let col = `<div style="min-width:200px;">
                 <div style="color:var(--purple); border-bottom:1px solid var(--border); margin-bottom:10px; text-align:center; font-family:'MultiCraftFont'; font-size:0.9rem;">${lvl}</div>`;
             let has = false;

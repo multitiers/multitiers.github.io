@@ -83,8 +83,11 @@
     "LT5": ["MGK", "ArpanYT"]
   },
   "Emerald OA": {},
-  "Dragonhide KB OA": {},
-  "SMP": {
+  "Dragonhide KB OA": {
+    "HT2" : ["Possessed_YT"],
+    "LT2" : ["LastChance"]
+  },
+   "SMP": {
     "LT1": ["Game1K"],
     "HT2": ["TimmyLoal"],
     "LT2": ["LifoMC"],

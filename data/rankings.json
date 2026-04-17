@@ -83,8 +83,8 @@
     "LT5": ["MGK", "ArpanYT"]
   },
   "Emerald OA": {
-  "HT3":["LastChance"],
-  "LT3":["Vorthexis"]
+    "HT3":["LastChance"],
+    "LT3":["Vorthexis"]
   },
   "Dragonhide KB OA": {
     "LT2":["Possessed_YT"],
@@ -93,8 +93,7 @@
   "SMP": {
     "LT1": ["Game1K"],
     "HT2": ["TimmyLoal"],
-    "LT2": ["LifoMC"],
-    "RLT2": ["x9jm"],
+    "RLT2": ["x9jm", "LifoMC"],
     "HT3": ["Vorthexis", "LastChance"],
     "HT4": ["big-nub", "Kaeye"],
     "LT4": ["drago"],
@@ -114,9 +113,9 @@
   "Diamond": {
     "RHT1": ["Game1K"],
     "LT1": ["sample"],
-    "HT2": ["skibidi1234", "system1117", "x9jm", "TimmyLoal", "Possessed_YT", "LastChance"],
+    "HT2": ["skibidi1234", "system1117", "x9jm", "TimmyLoal", "Possessed_YT"],
     "LT2": ["CosmicallyXVII", "LifoMC", "Jerryisking", "Mane", "Bloody_Hell"],
-    "HT3": ["Vorthexis", "RayValidd"],
+    "HT3": ["LastChance", "Vorthexis", "RayValidd"],
     "HT4": ["Kaeye"],
     "LT5": ["Luther"]
   },

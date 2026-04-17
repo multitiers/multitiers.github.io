@@ -86,7 +86,10 @@
   "HT3":["LastChance"],
   "LT3":["Vorthexis"]
   },
-  "Dragonhide KB OA": {},
+  "Dragonhide KB OA": {
+    "LT2":["Possessed_YT"],
+    "HT3":["LastChance"]
+  },
   "SMP": {
     "LT1": ["Game1K"],
     "HT2": ["TimmyLoal"],

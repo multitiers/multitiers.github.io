@@ -75,9 +75,9 @@
     "HT2": ["x9jm", "sample", "ItzNoob_"],
     "RHT2": ["skibidi1234", "TimmyLoal"],
     "LT2": ["Vorthexis", "M0rt7uxMC", "MrDaRkYT", "ChillPotato", "CosmicallyXVII"],
-    "HT3": ["Bloody_Hell", "-_Hades_-", "f0rg1v3n", "Jerryisking", "Husky_Multicraft", "RayValidd"],
+    "HT3": ["Bloody_Hell", "-_Hades_-", "f0rg1v3n", "Jerryisking", "Husky_Multicraft", "RayValidd", "LastChance"],
     "RHT3": ["Possessed_YT"],
-    "LT3": ["revan", "Herobrine", "Normal", "LastChance"],
+    "LT3": ["revan", "Herobrine", "Normal"],
     "HT4": ["SJ_GHOST", "Solace", "Kirby", "NetworkHero", "drago", "MatrixOP980", "SaintOfZytrox", "-_ItsEthanLIT_-", "Oden_Sama", "xenoXD", "Kaeye"],
     "LT4": ["supermobilenoobpvp", "oncethebestpvp", "Mane", "chi-na"],
     "HT5": ["FarXD", "AntonioZga9", "Jetbunz99", "-R3ZN-", "Luther"],
@@ -107,8 +107,7 @@
     "HT3": ["-_Hades_-", "sample", "LastChance"],
     "LT3": ["Bloody_Hell", "Possessed_YT"],
     "RHT3": ["DivyamGamerYT"],
-    "HT4": ["CosmicallyXVII", "Solace"],
-    "LT4": ["Kaeye"],
+    "HT4": ["CosmicallyXVII", "Solace", "Kaeye"],
     "LT5": ["Luther"]
   },
   "Diamond": {

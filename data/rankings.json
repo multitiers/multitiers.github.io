@@ -61,13 +61,12 @@
     "RHT2": ["DivyamGamerYT"],
     "LT2": ["x9jm", "skibidi1234", "ChillPotato", "RayValidd", "Vorthexis"],
     "RLT2": ["LifoMC"],
-    "HT3": ["Bloody_Hell", "revan", "CJSHORT", "CosmicallyXVII", "-_Hades_-", "Mane"],
-    "RHT3": ["LastChance"],
+    "HT3": ["Bloody_Hell", "revan", "CJSHORT", "CosmicallyXVII", "-_Hades_-", "Mane", "LastChance"],
     "LT3": ["big-nub", "Husky_Multicraft"],
-    "HT4": ["FarXD", "Kaeye"],
+    "HT4": ["FarXD"],
     "LT4": ["supermobilenoobpvp"],
     "HT5": ["ArpanYT", "MatrixOP980"],
-    "LT5": ["MGK", "Afdemonking", "Luther"]
+    "LT5": ["MGK", "Afdemonking", "Luther", "Kaeye"]
   },
   "Dragonhide KB": {
     "HT1": ["Game1K"],
@@ -76,8 +75,8 @@
     "HT2": ["ChillPotato", "x9jm", "sample", "ItzNoob_"],
     "RHT2": ["skibidi1234", "TimmyLoal"],
     "LT2": ["Vorthexis", "M0rt7uxMC", "MrDaRkYT", "CosmicallyXVII"],
-    "HT3": ["Bloody_Hell", "-_Hades_-", "f0rg1v3n", "Jerryisking", "Husky_Multicraft", "RayValidd"],
-    "RHT3": ["Possessed_YT", "LastChance"],
+    "HT3": ["Bloody_Hell", "-_Hades_-", "f0rg1v3n", "Jerryisking", "Husky_Multicraft", "RayValidd", "LastChance"],
+    "RHT3": ["Possessed_YT"],
     "LT3": ["revan", "Herobrine", "Normal"],
     "HT4": ["SJ_GHOST", "Solace", "Kirby", "NetworkHero", "drago", "MatrixOP980", "SaintOfZytrox", "-_ItsEthanLIT_-", "Oden_Sama", "xenoXD", "Kaeye"],
     "LT4": ["supermobilenoobpvp", "oncethebestpvp", "Mane", "chi-na"],
@@ -85,21 +84,18 @@
     "LT5": ["MGK", "ArpanYT"]
   },
   "Emerald OA": {
-    "HT3": ["TimmyLoal"],
-    "RHT3": ["LastChance"],
+    "HT3": ["TimmyLoal", "LastChance"],
     "LT3":["Vorthexis"]
   },
   "Dragonhide KB OA": {
     "LT2":["Possessed_YT"],
-    "HT3":["Vorthexis"],
-    "RHT3": ["LastChance"]
+    "HT3":["Vorthexis", "LastChance"],
   },
   "SMP": {
     "LT1": ["Game1K"],
     "HT2": ["TimmyLoal"],
     "RLT2": ["x9jm", "LifoMC"],
-    "HT3": ["Vorthexis"],
-    "RHT3": ["LastChance"],
+    "HT3": ["Vorthexis", "LastChance"],
     "HT4": ["big-nub", "Kaeye"],
     "LT4": ["drago"],
     "HT5": ["AntonioZga9"]
@@ -108,9 +104,9 @@
     "HT1": ["Game1K"],
     "LT1": ["system1117"],
     "LT2": ["x9jm", "skibidi1234", "LifoMC", "Vorthexis", "TimmyLoal"],
-    "HT3": ["-_Hades_-", "sample"],
+    "HT3": ["-_Hades_-", "sample", "LastChance"],
     "LT3": ["Bloody_Hell", "Possessed_YT"],
-    "RHT3": ["DivyamGamerYT", "LastChance"],
+    "RHT3": ["DivyamGamerYT"]
     "HT4": ["CosmicallyXVII", "Solace", "Kaeye"],
     "LT5": ["Luther"]
   },
@@ -119,8 +115,7 @@
     "LT1": ["sample"],
     "HT2": ["skibidi1234", "system1117", "x9jm", "TimmyLoal"],
     "LT2": ["CosmicallyXVII", "LifoMC", "Jerryisking", "Mane", "Bloody_Hell", "Possessed_YT"],
-    "HT3": ["Vorthexis", "RayValidd"],
-    "RHT3": ["LastChance"],
+    "HT3": ["Vorthexis", "RayValidd", "LastChance"],
     "HT4": ["Kaeye"],
     "LT5": ["Luther"]
   }

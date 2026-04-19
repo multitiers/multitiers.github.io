@@ -105,9 +105,9 @@
     "LT1": ["system1117"],
     "LT2": ["x9jm", "skibidi1234", "LifoMC", "Vorthexis", "TimmyLoal"],
     "HT3": ["-_Hades_-", "sample", "LastChance"],
-    "LT3": ["Bloody_Hell", "Possessed_YT"],
+    "LT3": ["Bloody_Hell", "Possessed_YT"], "Kaeye",
     "RHT3": ["DivyamGamerYT"],
-    "HT4": ["CosmicallyXVII", "Solace", "Kaeye"],
+    "HT4": ["CosmicallyXVII", "Solace"],
     "LT5": ["Luther"]
   },
   "Diamond": {
@@ -116,7 +116,7 @@
     "HT2": ["skibidi1234", "system1117", "x9jm", "TimmyLoal"],
     "LT2": ["CosmicallyXVII", "LifoMC", "Jerryisking", "Mane", "Bloody_Hell", "Possessed_YT"],
     "HT3": ["Vorthexis", "RayValidd", "LastChance"],
-    "HT4": ["Kaeye"],
+    "LT3": ["Kaeye"]
     "LT5": ["Luther"]
   }
 }

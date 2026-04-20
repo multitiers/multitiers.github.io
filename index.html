@@ -191,10 +191,28 @@ async function load() {
         const r = await fetch(`data/rankings.json?v=${Date.now()}`);
         DATA = await r.json();
         let totals = {};
-        for (let k in DATA)
-            if (k !== "Overall" && k !== "Players")
-                for (let t in DATA[k])
-                    DATA[k][t].forEach(p => totals[p] = (totals[p] || 0) + (PTS[t.replace('R', '')] || 0));
+
+        // calculate points from tiers
+        for (let k in DATA) {
+            if (k !== "Overall" && k !== "Players") {
+                for (let t in DATA[k]) {
+                    DATA[k][t].forEach(p => {
+                        totals[p] = (totals[p] || 0) + (PTS[t.replace('R', '')] || 0);
+                    });
+                }
+            }
+        }
+
+        // ✅ ADD ALL PLAYERS WITH 0 IF NOT RANKED
+        if (DATA.Players) {
+            DATA.Players.forEach(p => {
+                if (!(p.name in totals)) {
+                    totals[p.name] = 0;
+                }
+            });
+        }
+
+        DATA["Overall"] = totals;
         DATA["Overall"] = totals;
         buildKitBar();
         render("Overall");
@@ -314,7 +332,7 @@ async function switchTab(tab) {
 }
 
 function openProfile(name) {
-    if (!DATA.Overall?.[name]) return;
+    if (!(name in DATA.Overall)) return;
     const sorted   = Object.entries(DATA.Overall).sort((a, b) => b[1] - a[1]);
     const rankIdx  = sorted.findIndex(x => x[0] === name);
 

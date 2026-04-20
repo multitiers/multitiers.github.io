@@ -320,7 +320,7 @@ async function switchTab(tab) {
             const r    = await fetch(`data/${tab}.json?v=${Date.now()}`);
             const data = await r.json();
             data.forEach(i => {
-                const hasProf = DATA.Overall?.[i.name];
+                const hasProf = (i.name in DATA.Overall);
                 out.innerHTML += `<div class="tier-card ${hasProf ? 'clickable' : ''}" ${hasProf ? `onclick="openProfile('${i.name}')"` : ''}>
                     <b style="color:var(--purple); font-family:'MultiCraftFont'; font-size:1rem;">${i.name}</b>
                     ${i.discord ? `<div style="color:var(--purple); font-size:0.85rem; font-weight:bold; margin-top:5px;">Discord: ${i.discord}</div>` : ''}

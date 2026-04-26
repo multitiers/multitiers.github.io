@@ -54,7 +54,8 @@
     { "name": "Dream_MultiCraft", "region": "AS", "device": "MK" },
     { "name": "Uncontrollable", "region": "NA", "device": "MK" },
     { "name": "salton", "region": "AS", "device": "MB" },
-    { "name": "shadow_master", "region": "NA", "device": "CT" }
+    { "name": "shadow_master", "region": "NA", "device": "CT" },
+    { "name": "bluedigit", "region": "SA", "device": "MB" }
 
   ],
   "Emerald": {
@@ -94,7 +95,7 @@
     "LT3": ["revan", "Herobrine", "Normal", "Kaeye"],
     "HT4": ["shadow_master", "SJ_GHOST", "Solace", "Kirby", "NetworkHero", "drago", "MatrixOP980", "SaintOfZytrox", "-_ItsEthanLIT_-", "Oden_Sama", "xenoXD"],
     "LT4": ["supermobilenoobpvp", "oncethebestpvp", "Mane", "chi-na"],
-    "HT5": ["salton", "FarXD", "AntonioZga9", "Jetbunz99", "-R3ZN-", "Luther", "vort3x"],
+    "HT5": ["salton", "FarXD", "AntonioZga9", "Jetbunz99", "-R3ZN-", "Luther", "vort3x", "bluedigit"],
     "LT5": ["MGK", "ArpanYT"]
   },
   "Manhunt": {

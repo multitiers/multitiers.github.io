@@ -49,7 +49,13 @@
     { "name": "-R3ZN-", "region": "NA", "device": "MB" },
     { "name": "SJ_GHOST", "region": "NA", "device": "MK" },
     { "name": "Luther", "region": "NA", "device": "MB" },
-    { "name": "Bloody_Hell", "region": "NA", "device": "MK" }
+    { "name": "Bloody_Hell", "region": "NA", "device": "MK" },
+    { "name": "vort3x", "region": "EU", "device": "MK" },
+    { "name": "Dream_MultiCraft", "region": "AS", "device": "MK" },
+    { "name": "Uncontrollable", "region": "NA", "device": "MK" },
+    { "name": "salton", "region": "AS", "device": "MB" },
+    { "name": "shadow_master", "region": "NA", "device": "CT" }
+
   ],
   "Emerald": {
     "HT1": ["Game1K"],
@@ -57,14 +63,24 @@
     "RLT1": ["Possessed_YT"],
     "HT2": ["TimmyLoal", "Jerryisking", "MrDaRkYT"],
     "RHT2": ["DivyamGamerYT"],
-    "LT2": ["x9jm", "skibidi1234", "ChillPotato", "RayValidd", "Vorthexis"],
+    "LT2": ["Uncontrollable", "x9jm", "skibidi1234", "ChillPotato", "RayValidd", "Vorthexis", "Dream_MultiCraft"],
     "RLT2": ["LifoMC"],
     "HT3": ["Bloody_Hell", "revan", "CJSHORT", "CosmicallyXVII", "-_Hades_-", "Mane", "LastChance"],
     "LT3": ["big-nub", "Husky_Multicraft"],
     "HT4": ["FarXD"],
     "LT4": ["supermobilenoobpvp"],
-    "HT5": ["ArpanYT", "MatrixOP980"],
+    "HT5": ["ArpanYT", "MatrixOP980", "salton"],
     "LT5": ["MGK", "Afdemonking", "Luther", "Kaeye"]
+  },
+  "Emerald KB": {
+    "HT1": ["Game1K"],
+    "LT1": ["system1117"],
+    "LT2": ["Uncontrollable", "x9jm", "skibidi1234", "LifoMC", "Vorthexis", "TimmyLoal"],
+    "HT3": ["-_Hades_-", "sample", "LastChance"],
+    "LT3": ["Bloody_Hell", "Possessed_YT", "Kaeye"],
+    "RHT3": ["DivyamGamerYT"],
+    "HT4": ["CosmicallyXVII", "Solace"],
+    "LT5": ["Luther"]
   },
   "Dragonhide KB": {
     "HT1": ["Game1K"],
@@ -73,40 +89,17 @@
     "HT2": ["ChillPotato", "x9jm", "sample", "ItzNoob_"],
     "RHT2": ["skibidi1234", "TimmyLoal"],
     "LT2": ["Vorthexis", "M0rt7uxMC", "MrDaRkYT", "CosmicallyXVII"],
-    "HT3": ["Bloody_Hell", "-_Hades_-", "f0rg1v3n", "Jerryisking", "Husky_Multicraft", "RayValidd", "LastChance"],
+    "HT3": ["Uncontrollable", "Bloody_Hell", "-_Hades_-", "f0rg1v3n", "Jerryisking", "Husky_Multicraft", "RayValidd", "LastChance"],
     "RHT3": ["Possessed_YT"],
     "LT3": ["revan", "Herobrine", "Normal", "Kaeye"],
-    "HT4": ["SJ_GHOST", "Solace", "Kirby", "NetworkHero", "drago", "MatrixOP980", "SaintOfZytrox", "-_ItsEthanLIT_-", "Oden_Sama", "xenoXD"],
+    "HT4": ["shadow_master", "SJ_GHOST", "Solace", "Kirby", "NetworkHero", "drago", "MatrixOP980", "SaintOfZytrox", "-_ItsEthanLIT_-", "Oden_Sama", "xenoXD"],
     "LT4": ["supermobilenoobpvp", "oncethebestpvp", "Mane", "chi-na"],
-    "HT5": ["FarXD", "AntonioZga9", "Jetbunz99", "-R3ZN-", "Luther"],
+    "HT5": ["salton", "FarXD", "AntonioZga9", "Jetbunz99", "-R3ZN-", "Luther", "vort3x"],
     "LT5": ["MGK", "ArpanYT"]
   },
-  "Emerald OA": {
-    "HT3": ["TimmyLoal", "LastChance"],
-    "LT3": ["Vorthexis"]
-  },
-  "Dragonhide KB OA": {
+  "Manhunt": {
     "LT2": ["Possessed_YT"],
     "HT3": ["Vorthexis", "LastChance"]
-  },
-  "SMP": {
-    "LT1": ["Game1K"],
-    "HT2": ["TimmyLoal"],
-    "RLT2": ["x9jm", "LifoMC"],
-    "HT3": ["Vorthexis", "LastChance"],
-    "HT4": ["big-nub", "Kaeye"],
-    "LT4": ["drago"],
-    "HT5": ["AntonioZga9"]
-  },
-  "Emerald KB": {
-    "HT1": ["Game1K"],
-    "LT1": ["system1117"],
-    "LT2": ["x9jm", "skibidi1234", "LifoMC", "Vorthexis", "TimmyLoal"],
-    "HT3": ["-_Hades_-", "sample", "LastChance"],
-    "LT3": ["Bloody_Hell", "Possessed_YT", "Kaeye"],
-    "RHT3": ["DivyamGamerYT"],
-    "HT4": ["CosmicallyXVII", "Solace"],
-    "LT5": ["Luther"]
   },
   "Diamond": {
     "RHT1": ["Game1K"],
@@ -114,7 +107,16 @@
     "HT2": ["skibidi1234", "system1117", "x9jm", "TimmyLoal"],
     "LT2": ["CosmicallyXVII", "LifoMC", "Jerryisking", "Mane", "Bloody_Hell", "Possessed_YT"],
     "HT3": ["Vorthexis", "RayValidd", "LastChance"],
-    "LT3": ["Kaeye"],
+    "LT3": ["Uncontrollable", "Kaeye"],
     "LT5": ["Luther"]
+  },
+  "Novelty Axe": {
+
+  },
+  "Dragonhide Anchor": {
+
+  },
+  "Void": {
+
   }
 }

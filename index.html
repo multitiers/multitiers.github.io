@@ -20,6 +20,10 @@
 </head>
 <body>
 <div class="sweep-bg"></div>
+<canvas id="starRain"></canvas>
+<div id="stars"></div>
+<div id="stars2"></div>
+<div id="stars3"></div>
 <header>
     <img src="assets/mtctiers.png" class="title-sword" alt="Logo">
     <h1 class="main-title">MTC TIERS</h1>
@@ -89,15 +93,15 @@
 const KIT_MAP = {
     // Each kit has a unique color — no two should be the same hue.
     // To change a color just edit the hex value on the right.
-    "Overall":          { img: "",                          color: "#a855f7" }, // violet-purple
-    "Emerald":          { img: "assets/emerald.png",        color: "#1a7a1a" }, // dark green
-    "Emerald KB":       { img: "assets/emerald_kb.png",     color: "#00e5b0" }, // teal-mint
-    "Emerald OA":       { img: "assets/emerald_oa.png",     color: "#44ff44" }, // neon lime-green
-    "Dragonhide KB":    { img: "assets/dragonhide_kb.png",  color: "#ff6a00" }, // deep orange
-    "Dragonhide KB OA": { img: "assets/kb_oa.png",          color: "#ff1a6b" }, // hot pink-red
-    "SMP":              { img: "assets/smp.png",            color: "#ffaa00" }, // amber (warm, distinct from yellow-green)
-    "Diamond":          { img: "assets/diamond.png",        color: "#00c8ff" }, // ice blue
-    "Void":          { img: "assets/void.png",        color: "#ff00ff" }, // VOID
+    "Overall":          { img: "",                          color: "var(--theme)" }, // theme
+    "Emerald":          { img: "assets/emerald.png",        color: "#1a7a1a" },
+    "Emerald KB":       { img: "assets/emerald_kb.png",     color: "#00e5b0" },
+    "Dragonhide KB":    { img: "assets/dragonhide_kb.png",  color: "#ff6a00" },
+    "Manhunt": { img: "assets/manhunt.png",          color: "#ff1a6b" },
+    "Diamond":          { img: "assets/diamond.png",        color: "#00c8ff" },
+    "Novelty Axe":              { img: "assets/novelty_axe.png",            color: "#ffaa00" },
+    "Dragonhide Anchor":              { img: "assets/dragonhide_anchor.png",            color: "#8a2be2" },
+    "Void":          { img: "assets/void.png",        color: "#ff00ff" },
 };
 
 /**
@@ -106,14 +110,14 @@ const KIT_MAP = {
  * label → full name shown in tag tooltip
  * color → hex / rgb used for tag border + text, and CSS variable --reg-<key.toLowerCase()>
  *
- * To add a region: just add a new entry. Nothing else needed.
+ * To add a region: just add a new entry.
  */
 const REGION_MAP = {
     "NA": { label: "North America",  color: "#3498db" },
-    "EU": { label: "Europe",         color: "#ff4d4d" },
     "SA": { label: "South America",  color: "#00ff88" },
-    "OC": { label: "Oceania",        color: "#ff00ff" },
+    "EU": { label: "Europe",         color: "#ff4d4d" },
     "AS": { label: "Asia",           color: "#ff8800" },
+    "OC": { label: "Oceania",        color: "#ff00ff" },
     "AF": { label: "Africa",         color: "#00d4ff" },
 };
 
@@ -143,6 +147,19 @@ const PTS = { "HT1":50,"LT1":40,"HT2":30,"LT2":20,"HT3":12,"LT3":8,"HT4":5,"LT4"
  * Inject CSS variables + tag rules for every region and device entry.
  * Called once on startup so style.css never needs manual color entries.
  */
+
+function setTheme(color) {
+    const root = document.documentElement;
+
+    root.style.setProperty('--theme', color);
+
+    const r = parseInt(color.slice(1, 3), 16);
+    const g = parseInt(color.slice(3, 5), 16);
+    const b = parseInt(color.slice(5, 7), 16);
+
+    root.style.setProperty('--theme-rgb', `${r}, ${g}, ${b}`);
+}
+
 function buildThemeVars() {
     let css = ":root {\n";
 
@@ -167,6 +184,13 @@ function buildThemeVars() {
     const el = document.createElement('style');
     el.textContent = css;
     document.head.appendChild(el);
+}
+
+// Function to play the button sound
+function playBtnSound() {
+    const audio = new Audio('sounds/button.mp3');
+    audio.volume = 0.5; // Optional: Adjust volume from 0.0 to 1.0
+    audio.play().catch(e => console.log("Audio play blocked by browser"));
 }
 
 function getTags(name) {
@@ -234,6 +258,7 @@ function buildKitBar() {
         btn.style.opacity = isActive ? '1' : '0.4';
         btn.innerHTML = (img ? `<img src="${img}" style="width:16px; vertical-align:middle;">` : "") + name.toUpperCase();
         btn.onclick = () => {
+            playBtnSound();
             if (CURRENT_TAB !== 'rankings') return;
             document.querySelectorAll('.kit-btn').forEach(b => { b.classList.remove('active'); b.style.opacity = '0.4'; });
             btn.classList.add('active');
@@ -302,6 +327,7 @@ function render(kit) {
 }
 
 async function switchTab(tab) {
+    playBtnSound();
     CURRENT_TAB = tab;
     document.querySelectorAll('.nav-link').forEach(n => n.classList.remove('active'));
     document.getElementById('nav-' + tab).classList.add('active');
@@ -332,6 +358,7 @@ async function switchTab(tab) {
 }
 
 function openProfile(name) {
+    playBtnSound();
     if (!(name in DATA.Overall)) return;
     const sorted   = Object.entries(DATA.Overall).sort((a, b) => b[1] - a[1]);
     const rankIdx  = sorted.findIndex(x => x[0] === name);
@@ -341,28 +368,55 @@ function openProfile(name) {
     document.getElementById('pMeta').innerHTML   = getTags(name);
     document.getElementById('pPoints').innerText = DATA.Overall[name] + " PTS";
 
-    let grid = "";
-    for (let k in DATA) {
-        if (k === "Overall" || k === "Players") continue;
-        for (let t in DATA[k]) {
-            if (!DATA[k][t].includes(name)) continue;
-            const isR    = t.startsWith('R');
-            const display = isR ? 'Retired ' + t.substring(1) : t;
-            const color  = isR ? 'var(--grey)' : 'var(--gold)';
-            const img    = KIT_MAP[k]?.img;
-            grid += `<div class="p-kit-item">
-                <div class="kit-popup" style="border-color:${color}">
-                    <span style="color:${color}">${display}</span><br>
-                    <span style="color:#666">${k}</span>
-                </div>
-                <div class="p-kit-circle" style="border-color:${color}">
-                    ${img ? `<img src="${img}">` : ''}
-                </div>
-                <div style="font-size:0.6rem; color:${color}; font-weight:bold; margin-top:5px;">${display}</div>
-            </div>`;
+    let ranked = [];
+    let unranked = [];
+
+    Object.keys(KIT_MAP).forEach(k => {
+        if (k === "Overall") return;
+
+        let found = false;
+        let display = "";
+        let color = "var(--grey)";
+        let img = KIT_MAP[k]?.img;
+
+        if (DATA[k]) {
+            for (let t in DATA[k]) {
+                if (DATA[k][t].includes(name)) {
+                    found = true;
+                    const isR = t.startsWith('R');
+                    display = isR ? 'Retired ' + t.substring(1) : t;
+                    color = isR ? 'var(--grey)' : 'var(--gold)';
+                    break;
+                }
+            }
         }
-    }
-    document.getElementById('pTiers').innerHTML  = grid;
+
+        const html = `<div class="p-kit-item">
+
+            <div class="kit-popup" style="border-color:${color}">
+                <span style="color:${color}">
+                    ${found ? display : "UNRANKED"}
+                </span><br>
+                <span style="color:#666">${k}</span>
+            </div>
+
+            <div class="p-kit-circle" style="border-color:${color}; opacity:${found ? '1' : '0.25'};">
+                ${found && img ? `<img src="${img}">` : ""}
+            </div>
+
+            <div style="font-size:0.6rem; color:${color}; font-weight:bold; margin-top:5px;">
+                ${found ? display : "UNRANKED"}
+            </div>
+
+        </div>`;
+
+        if (found) ranked.push(html);
+        else unranked.push(html);
+    });
+
+    // ✅ ranked first, untested last
+    const grid = [...ranked, ...unranked].join("");
+    document.getElementById('pTiers').innerHTML = grid;
     document.getElementById('profileModal').style.display = 'flex';
 }
 
@@ -380,13 +434,76 @@ function handleSearch(val) {
     pop.style.display = matches.length ? 'block' : 'none';
 }
 
-function openInfo() { document.getElementById('infoModal').style.display = 'flex'; }
+function openInfo() { 
+    playBtnSound();
+    document.getElementById('infoModal').style.display = 'flex'; 
+}
 
 load();
 document.addEventListener('click', e => {
     if (!e.target.closest('.search-wrap'))
         document.getElementById('searchPopup').style.display = 'none';
 });
+
+const canvas = document.getElementById("starRain");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+window.addEventListener("resize", () => {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+});
+
+let stars = [];
+
+function spawnStar() {
+    return {
+        x: Math.random() * canvas.width,
+        y: -10,
+        size: Math.random() * 3 + 1,
+        speed: Math.random() * 8 + 4,
+        drift: Math.random() * 1.5 - 0.75
+    };
+}
+
+// keep feeding stars constantly (THIS is the “rain” effect)
+setInterval(() => {
+    for (let i = 0; i < 6; i++) {
+        stars.push(spawnStar());
+    }
+}, 80);
+
+function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    for (let i = 0; i < stars.length; i++) {
+        const s = stars[i];
+
+        ctx.beginPath();
+        ctx.fillStyle = "white";
+        ctx.shadowBlur = 10;
+        ctx.shadowColor = "#00eeff";
+
+        ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
+        ctx.fill();
+
+        s.y += s.speed;
+        s.x += s.drift;
+
+        // remove when off screen
+        if (s.y > canvas.height + 20) {
+            stars.splice(i, 1);
+            i--;
+        }
+    }
+
+    requestAnimationFrame(animate);
+}
+
+animate();
+
 </script>
 </body>
 </html>

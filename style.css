@@ -5,29 +5,143 @@
 
 /* ─── Base ─────────────────────────────────────────────── */
 :root {
-    --bg:           #010102;
-    --purple:       #a855f7;
-    --purple-glow:  rgba(168, 85, 247, 0.9);
-    --border:       rgba(168, 85, 247, 0.4);
-    --gold:         #ffd700;
-    --gold-glow:    rgba(255, 215, 0, 0.6);
-    --grey:         #888;
+    --bg: #010102;
+    --theme: #00ff00;
+    --theme-rgb: 0, 255, 0;
+    --purple: var(--theme);
+    --purple-glow: rgba(var(--theme-rgb), 0.9);
+    --border: rgba(var(--theme-rgb), 0.4);
+    --bg-accent: rgba(var(--theme-rgb), 0.15);
+    --bg-accent-strong: rgba(var(--theme-rgb), 0.35);
+    --gold: #ffd700;
+    --gold-glow: rgba(255, 215, 0, 0.6);
+    --grey: #888;
+    --star-white: #ffffff;
+    --star-theme: rgba(var(--theme-rgb), 0.9);
+    --star-dim: rgba(var(--theme-rgb), 0.5);
 }
 
 /* Region and device CSS variables are injected at runtime by JS via `buildThemeVars()`.
    They look like: --reg-na: #3498db; --dev-mk: #00ffff; etc.             */
 
 body {
-    background:       var(--bg);
-    color:            #fff;
-    font-family:      'Courier New', monospace;
-    margin:           0;
-    overflow-x:       hidden;
-    display:          flex;
-    flex-direction:   column;
-    align-items:      center;
-    min-height:       100vh;
-    font-size:        0.9rem;
+    background:
+        linear-gradient(
+            rgba(var(--theme-rgb), 0.14),
+            rgba(var(--theme-rgb), 0.06),
+            rgba(0,0,0,0.75)
+        ),
+        linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.65)),
+        url("assets/mtctiersbg.png") center / cover no-repeat fixed;
+
+    color: #fff;
+    font-family: 'Courier New', monospace;
+    margin: 0;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    font-size: 0.9rem;
+}
+
+/* ─── Space Background ─────────────────────────────────── */
+#stars, #stars2, #stars3 {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 1;
+}
+
+/* Ensure your UI stays on top of the stars */
+header, nav, #displayList, .info-btn {
+    position: relative;
+    z-index: 10; 
+}
+
+#starRain {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+}
+
+#starRain::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+
+    background-image:
+        radial-gradient(circle at 20px 30px, var(--star-theme) 0%, rgba(var(--theme-rgb),0.4) 30%, transparent 75%),
+        radial-gradient(circle at 90px 180px, var(--star-white) 0%, rgba(255,255,255,0.3) 25%, transparent 80%),
+        radial-gradient(circle at 160px 90px, var(--star-dim) 0%, rgba(var(--theme-rgb),0.25) 35%, transparent 85%),
+        radial-gradient(circle at 300px 240px, var(--star-theme) 0%, transparent 75%),
+        radial-gradient(circle at 420px 120px, var(--star-white) 0%, transparent 80%),
+        radial-gradient(circle at 560px 360px, var(--star-dim) 0%, transparent 85%),
+        radial-gradient(circle at 700px 200px, var(--star-theme) 0%, transparent 75%),
+        radial-gradient(circle at 850px 450px, var(--star-white) 0%, transparent 80%);
+
+    background-size: 600px 600px;
+    animation: rainFall 2.3s linear infinite;
+
+    opacity: 1;
+    filter: drop-shadow(0 0 7px var(--theme));
+    mix-blend-mode: screen;
+}
+
+/* Small stars (fast) */
+#stars {
+    width: 2px;
+    height: 2px;
+    box-shadow:
+        50px 100px #fff,
+        150px 300px #fff,
+        250px 600px #fff,
+        400px 200px #fff,
+        600px 800px #fff,
+        800px 400px #fff,
+        1000px 700px #fff,
+        1200px 250px #fff,
+        1400px 900px #fff;
+    animation: spaceMove 10s linear infinite;
+    opacity: 0.9;
+}
+
+/* Medium stars (mixed theme) */
+#stars2 {
+    width: 3px;
+    height: 3px;
+    box-shadow:
+        100px 200px rgba(255,255,255,1),
+        300px 500px rgba(0,238,255,1),
+        500px 300px rgba(255,255,255,1),
+        700px 800px rgba(0,238,255,1),
+        900px 400px rgba(255,255,255,1),
+        1100px 650px rgba(0,238,255,1),
+        1300px 250px rgba(255,255,255,1);
+    animation: spaceMove 7s linear infinite;
+    filter: drop-shadow(0 0 8px var(--theme));
+}
+
+/* Big glowing stars */
+#stars3 {
+    width: 4px;
+    height: 4px;
+    box-shadow:
+        200px 150px #fff,
+        500px 600px var(--theme),
+        800px 300px var(--theme),
+        1100px 700px #fff,
+        1400px 400px var(--theme);
+    animation: spaceMove 5s linear infinite;
+    filter: drop-shadow(0 0 14px var(--theme));
+}
+
+/* Movement */
+@keyframes spaceMove {
+    from { transform: translateY(0); }
+    to   { transform: translateY(1500px); }
 }
 
 /* ─── Sweep background ──────────────────────────────────── */
@@ -35,7 +149,7 @@ body {
     position:          fixed;
     inset:             0;
     z-index:           -10;
-    background:        linear-gradient(110deg, transparent 40%, rgba(255,255,255,0.15) 50%, transparent 60%);
+    background:        linear-gradient(110deg, transparent 40%, rgba(var(--theme-rgb), 0.25) 50%, transparent 60%);
     background-size:   250% 100%;
     animation:         shineSweep 8s infinite linear;
     pointer-events:    none;
@@ -74,6 +188,11 @@ header {
 @keyframes swordGlow {
     0%,100% { filter: drop-shadow(0 0 5px var(--purple)); }
     50%      { filter: drop-shadow(0 0 20px var(--purple-glow)); }
+}
+
+@keyframes rainFall {
+    from { transform: translateY(-700px) translateX(-20px); }
+    to   { transform: translateY(1300px) translateX(40px); }
 }
 
 /* ─── Nav ───────────────────────────────────────────────── */

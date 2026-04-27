@@ -280,6 +280,15 @@ function render(kit) {
     out.innerHTML = "";
 
     if (kit !== "Overall" && (!DATA[kit] || Object.keys(DATA[kit]).length === 0)) {
+        out.innerHTML = `
+            <div class="empty-state">
+                <h2>NO RANKED PLAYERS</h2>
+            </div>
+        `;
+        return;
+    }
+
+    if (kit !== "Overall" && (!DATA[kit] || Object.keys(DATA[kit]).length === 0)) {
         out.innerHTML = `<h2 style="font-family:'MultiCraftFont'; color:#444; margin-top:50px;">NO RANKED PLAYERS</h2>`;
         return;
     }

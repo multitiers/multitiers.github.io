@@ -279,11 +279,6 @@
       "name": "bluedigit",
       "region": "SA",
       "device": "MB"
-    },
-    {
-      "name": "testingsmth",
-      "region": "Unknown",
-      "device": "Unknown"
     }
   ],
   "Emerald": {
@@ -339,8 +334,7 @@
     "HT5": [
       "ArpanYT",
       "MatrixOP980",
-      "salton",
-      "testingsmth"
+      "salton"
     ],
     "LT5": [
       "MGK",

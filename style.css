@@ -77,36 +77,6 @@ header, nav, #displayList, .info-btn {
     z-index: 10; 
 }
 
-#starRain {
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 0;
-}
-
-#starRain::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-
-    background-image:
-        radial-gradient(circle at 20px 30px, var(--star-theme) 0%, rgba(var(--theme-rgb),0.4) 30%, transparent 75%),
-        radial-gradient(circle at 90px 180px, var(--star-white) 0%, rgba(255,255,255,0.3) 25%, transparent 80%),
-        radial-gradient(circle at 160px 90px, var(--star-dim) 0%, rgba(var(--theme-rgb),0.25) 35%, transparent 85%),
-        radial-gradient(circle at 300px 240px, var(--star-theme) 0%, transparent 75%),
-        radial-gradient(circle at 420px 120px, var(--star-white) 0%, transparent 80%),
-        radial-gradient(circle at 560px 360px, var(--star-dim) 0%, transparent 85%),
-        radial-gradient(circle at 700px 200px, var(--star-theme) 0%, transparent 75%),
-        radial-gradient(circle at 850px 450px, var(--star-white) 0%, transparent 80%);
-
-    background-size: 600px 600px;
-    animation: rainFall 2.3s linear infinite;
-
-    opacity: 1;
-    filter: drop-shadow(0 0 7px var(--theme));
-    mix-blend-mode: screen;
-}
-
 /* Small stars (fast) */
 #stars {
     width: 2px;

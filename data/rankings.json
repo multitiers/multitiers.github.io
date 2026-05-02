@@ -486,12 +486,10 @@
     ]
   },
   "Manhunt": {
-    "HT2": [
-      "LifoMC"
-    ],
     "LT2": [
       "Possessed_YT",
-      "Vorthexis"
+      "Vorthexis",
+      "LifoMC"
     ],
     "HT3": [
       "LastChance",

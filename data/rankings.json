@@ -304,6 +304,9 @@
       "sample",
       "system1117"
     ],
+    "RLT1": [
+      "Possessed_YT"
+    ],
     "HT2": [
       "TimmyLoal",
       "Jerryisking",
@@ -319,6 +322,12 @@
       "actuallybad",
       "x9jm",
       "revan"
+    ],
+    "RHT2": [
+      "DivyamGamerYT"
+    ],
+    "RLT2": [
+      "LifoMC"
     ],
     "HT3": [
       "Bloody_Hell",
@@ -343,15 +352,6 @@
       "MGK",
       "Afdemonking",
       "Luther"
-    ],
-    "RLT1": [
-      "Possessed_YT"
-    ],
-    "RHT2": [
-      "DivyamGamerYT"
-    ],
-    "RLT2": [
-      "LifoMC"
     ]
   },
   "Emerald KB": {
@@ -379,6 +379,9 @@
       "Possessed_YT",
       "Husky_Multicraft"
     ],
+    "RHT3": [
+      "DivyamGamerYT"
+    ],
     "HT4": [
       "CosmicallyXVII",
       "Solace",
@@ -389,9 +392,6 @@
     ],
     "LT5": [
       "Luther"
-    ],
-    "RHT3": [
-      "DivyamGamerYT"
     ]
   },
   "Dragonhide KB": {
@@ -402,6 +402,9 @@
       "system1117",
       "LifoMC",
       "actuallybad"
+    ],
+    "RLT1": [
+      "DivyamGamerYT"
     ],
     "HT2": [
       "ChillPotato",
@@ -420,6 +423,9 @@
       "SHADE",
       "Terminator"
     ],
+    "RHT2": [
+      "TimmyLoal"
+    ],
     "HT3": [
       "Uncontrollable",
       "f0rg1v3n",
@@ -432,6 +438,9 @@
       "revan",
       "Herobrine",
       "Normal"
+    ],
+    "RHT3": [
+      "Possessed_YT"
     ],
     "HT4": [
       "shadow_master",
@@ -466,15 +475,6 @@
       "MGK",
       "ArpanYT",
       "Luther"
-    ],
-    "RLT1": [
-      "DivyamGamerYT"
-    ],
-    "RHT2": [
-      "TimmyLoal"
-    ],
-    "RHT3": [
-      "Possessed_YT"
     ]
   },
   "Manhunt": {
@@ -488,11 +488,17 @@
       "Possessed_YT",
       "Vorthexis",
       "Husky_Multicraft"
+    ],
+    "HT4": [
+      "Kaeye"
     ]
   },
   "Diamond": {
     "LT1": [
       "sample"
+    ],
+    "RHT1": [
+      "Game1K"
     ],
     "HT2": [
       "skibidi1234",
@@ -522,9 +528,6 @@
     ],
     "LT5": [
       "Luther"
-    ],
-    "RHT1": [
-      "Game1K"
     ]
   },
   "Dragonhide Anchor": {

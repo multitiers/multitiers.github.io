@@ -401,7 +401,9 @@ function openProfile(name) {
             }
         }
 
-        const html = `<div class="p-kit-item">
+        const html = `<div class="p-kit-item" 
+            onmouseenter="showKitPopup(event, this)"
+            onmouseleave="hideKitPopup(this)">
             <div class="kit-popup" style="border-color:${color}">
                 <span style="color:${color}">${found ? display : "UNRANKED"}</span><br>
                 <span style="color:#666">${k}</span>
@@ -420,6 +422,22 @@ function openProfile(name) {
 
     document.getElementById('pTiers').innerHTML = [...ranked, ...unranked].join("");
     document.getElementById('profileModal').style.display = 'flex';
+}
+
+function showKitPopup(e, el) {
+    const popup = el.querySelector('.kit-popup');
+    const rect = el.getBoundingClientRect();
+    popup.style.left = (rect.left + rect.width / 2) + 'px';
+    popup.style.top  = (rect.top - 10) + 'px';
+    popup.style.transform = 'translateX(-50%) translateY(-100%)';
+    popup.style.opacity = '1';
+    popup.style.visibility = 'visible';
+}
+
+function hideKitPopup(el) {
+    const popup = el.querySelector('.kit-popup');
+    popup.style.opacity = '0';
+    popup.style.visibility = 'hidden';
 }
 
 function handleSearch(val) {

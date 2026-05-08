@@ -619,8 +619,8 @@ nav {
 }
 
 .kit-popup {
-    position:   absolute;
-    bottom:     105%;
+    position:   fixed;
+    bottom:     auto;
     left:       50%;
     transform:  translateX(-50%) translateY(5px);
     background: #000;
@@ -638,12 +638,6 @@ nav {
     text-align: center;
     box-shadow: 0 0 15px var(--purple-glow);
     line-height:1.4;
-}
-
-.p-kit-item:hover .kit-popup {
-    opacity:    1;
-    visibility: visible;
-    transform:  translateX(-50%) translateY(0);
 }
 
 /* ─── Modals ────────────────────────────────────────────── */

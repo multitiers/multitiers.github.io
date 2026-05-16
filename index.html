@@ -111,7 +111,6 @@
         <button class="profile-close-btn" onclick="document.getElementById('profileModal').style.display='none';setUrl({player:''});document.querySelector('.profile-modal-content').style.boxShadow=''">✕</button>
         <button class="profile-copy-btn" id="profileCopyBtn" onclick="copyProfileLink()" title="Copy profile link">⧉</button>
         <div class="profile-left">
-            <!-- CHANGE #1: rank badge + title badge on the same line -->
             <div id="pBadgeRow" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:12px;">
                 <div id="pRank" class="profile-rank-badge" style="margin-bottom:0;">RANK #--</div>
                 <div id="pTitleBadge" style="font-family:'MultiCraftFont',monospace;font-size:0.55rem;border-radius:20px;padding:3px 10px;letter-spacing:1px;border:1px solid;display:inline-block;"></div>
@@ -350,7 +349,9 @@ function buildFilteredOverall() {
             if (k==='Overall'||k==='Players') continue;
             for (let t in DATA[k]) {
                 const isR = t.startsWith('R');
+                // For "active only": skip retired tiers from scoring, but keep the player
                 if (retired==='active'  &&  isR) continue;
+                // For "retired only": skip active tiers from scoring
                 if (retired==='retired' && !isR) continue;
                 const pts = PTS[t.replace('R','')];
                 if (!pts) continue;
@@ -374,12 +375,15 @@ function buildFilteredOverall() {
         });
     }
 
+    // FIX: "active only" — show players who have ANY active tier.
+    // Retired tiers are already excluded from scoring above; don't hide players who also have retired tiers.
     if (retired==='active') {
         entries=entries.filter(([name])=>{
             const s=playerStatus[name];
-            return s && s.active && !s.retired;
+            return s && s.active;
         });
     } else if (retired==='retired') {
+        // "retired only" — show players whose ONLY tiers are retired ones
         entries=entries.filter(([name])=>{
             const s=playerStatus[name];
             return s && s.retired && !s.active;
@@ -472,7 +476,6 @@ async function renderOverall() {
         for(let i=0;i<top3.length;i++) {
             const [name,pts,tier]=top3[i]; const rank=i+1;
             const rankColors=['var(--gold)','#aaa','#cd7f32'];
-            // CHANGE #2: title badge under rank number on home podium
             const {title: pTitle, color: pColor} = getRankTitle(pts, rank);
             const card=document.createElement('div');
             card.className=`podium-card rank-${rank}`;
@@ -501,7 +504,6 @@ async function renderOverall() {
         await prewarmSkins(homeRows.map(e=>e[0]));
         for(let i=0;i<homeRows.length;i++) {
             const [name,pts]=homeRows[i]; const rank=i+4;
-            // CHANGE #3: title under skin and name on home rows
             const row=document.createElement('div');
             row.className='ol-row';
             row.onclick=()=>{ playBtnSound(); openProfile(name); };
@@ -574,7 +576,6 @@ async function renderOverall() {
             });
             kitIconsHtml += '</div>';
 
-            // CHANGE #3: title badge under name in full LB rows too
             row.innerHTML = `
                 <span class="ol-rank">${rank}</span>
                 <div class="ol-skin"><img src="${skinSrc(name)}" alt="${name}"></div>
@@ -594,7 +595,6 @@ async function renderOverall() {
                 <div class="ol-pts"><span class="ol-pts-icon"></span>${pts} PTS</div>
             `;
         } else {
-            // CHANGE #3: title badge under name + tags in preview rows
             row.innerHTML = `
                 <span class="ol-rank">${rank}</span>
                 <div class="ol-skin"><img src="${skinSrc(name)}" alt="${name}"></div>
@@ -648,9 +648,12 @@ async function renderKit(kit) {
         const p = DATA.Players?.find(x=>x.name===name);
         if (region && (!p || p.region!==region)) return false;
         if (device && (!p || p.device!==device)) return false;
+        // FIX: "active only" — show players who have ANY active tier anywhere.
+        // Don't hide them just because they also have retired tiers.
         if (retired==='active') {
-            const s=kitPlayerStatus[name]; if(!s||!s.active||s.retired) return false;
+            const s=kitPlayerStatus[name]; if(!s||!s.active) return false;
         } else if (retired==='retired') {
+            // "retired only" — players whose ONLY tiers are retired
             const s=kitPlayerStatus[name]; if(!s||!s.retired||s.active) return false;
         }
         return true;
@@ -664,6 +667,10 @@ async function renderKit(kit) {
     if (DATA[kit]) {
         const tierOrder2 = ['HT1','RHT1','LT1','RLT1','HT2','RHT2','LT2','RLT2','HT3','RHT3','LT3','RLT3','HT4','RHT4','LT4','RLT4','HT5','RHT5','LT5','RLT5'];
         for (const t of tierOrder2) {
+            // For "active only": skip retired tiers from the podium
+            if (retired==='active' && t.startsWith('R')) continue;
+            // For "retired only": skip active tiers from the podium
+            if (retired==='retired' && !t.startsWith('R')) continue;
             if (DATA[kit][t]) DATA[kit][t].forEach(n => { if(kitTop.length<3 && kitPlayerVisible(n)) kitTop.push({name:n,tier:t}); });
             if (kitTop.length>=3) break;
         }
@@ -713,6 +720,10 @@ async function renderKit(kit) {
             let has=false;
             orderedTiers.forEach(t=>{
                 if(!DATA[kit][t]) return;
+                // For "active only": skip rendering retired tier rows entirely
+                if (retired==='active' && t.startsWith('R')) return;
+                // For "retired only": skip rendering active tier rows
+                if (retired==='retired' && !t.startsWith('R')) return;
                 DATA[kit][t].forEach(name=>{
                     if(!kitPlayerVisible(name)) return;
                     has=true; anyPlayers=true;
@@ -850,7 +861,6 @@ function openProfile(name) {
     const rankPts = DATA.Overall[name];
     const {title: rankTitle, color: rankTitleColor} = getRankTitle(rankPts, rankNum);
 
-    // CHANGE #1: rank badge and title badge are already in the HTML as siblings in #pBadgeRow
     document.getElementById('pRank').innerText = "RANK #" + rankNum;
     const titleBadge = document.getElementById('pTitleBadge');
     titleBadge.textContent = rankTitle;

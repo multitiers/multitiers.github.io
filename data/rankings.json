@@ -314,6 +314,11 @@
       "name": "Duality",
       "region": "AS",
       "device": "MB"
+    },
+    {
+      "name": "Superboy",
+      "region": "AF",
+      "device": "MB"
     }
   ],
   "Emerald": {

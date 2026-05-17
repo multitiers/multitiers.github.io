@@ -568,7 +568,8 @@
       "Mane",
       "Bloody_Hell",
       "Possessed_YT",
-      "salton"
+      "salton",
+      "jogg"
     ],
     "RLT2": [
       "LifoMC"
@@ -655,11 +656,6 @@
   "Manhun": {
     "LT2": [
       "Possessed_YT"
-    ]
-  },
-  "LT2": {
-    "Dragonhide KB": [
-      "Dragonhide KB"
     ]
   }
 }

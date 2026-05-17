@@ -319,6 +319,11 @@
       "name": "Superboy",
       "region": "AF",
       "device": "MB"
+    },
+    {
+      "name": "jogg",
+      "region": "NA",
+      "device": "CT"
     }
   ],
   "Emerald": {

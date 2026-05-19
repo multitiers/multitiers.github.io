@@ -550,6 +550,9 @@
     ]
   },
   "Diamond": {
+    "LT1": [
+      "sample"
+    ],
     "RHT1": [
       "Game1K"
     ],
@@ -625,7 +628,8 @@
   },
   "Novelty Axe": {
     "LT1": [
-      "Game1K"
+      "Game1K",
+      "sample"
     ],
     "HT2": [
       "TimmyLoal",

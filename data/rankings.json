@@ -6,11 +6,6 @@
       "device": "MK"
     },
     {
-      "name": "sample",
-      "region": "AS",
-      "device": "TP"
-    },
-    {
       "name": "system1117",
       "region": "NA",
       "device": "MK"
@@ -331,7 +326,6 @@
       "Game1K"
     ],
     "LT1": [
-      "sample",
       "system1117",
       "TimmyLoal"
     ],
@@ -407,8 +401,7 @@
       "LifoMC"
     ],
     "HT3": [
-      "-_Hades_-",
-      "sample"
+      "-_Hades_-"
     ],
     "LT3": [
       "Bloody_Hell",
@@ -449,7 +442,6 @@
     "HT2": [
       "ChillPotato",
       "x9jm",
-      "sample",
       "ItzNoob_",
       "Ayush_maan234"
     ],
@@ -552,9 +544,6 @@
     ]
   },
   "Diamond": {
-    "LT1": [
-      "sample"
-    ],
     "RHT1": [
       "Game1K"
     ],
@@ -599,8 +588,7 @@
   "Dragonhide Anchor": {
     "HT2": [
       "Game1K",
-      "sample ",
-      "sample"
+      "sample "
     ],
     "LT2": [
       "x9jm",
@@ -631,8 +619,7 @@
   },
   "Novelty Axe": {
     "LT1": [
-      "Game1K",
-      "sample"
+      "Game1K"
     ],
     "HT2": [
       "TimmyLoal",

@@ -319,6 +319,11 @@
       "name": "jogg",
       "region": "NA",
       "device": "CT"
+    },
+    {
+      "name": "sample",
+      "region": "AS",
+      "device": "TP"
     }
   ],
   "Emerald": {
